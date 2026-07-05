@@ -1,0 +1,219 @@
+/* ══════════════════════════════════════════════════════
+   Premium Floating Photography Panels — v4
+   Unified perspective, shared Z-axis, tight overlap
+   ══════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+/* ── Section shell ── */
+.pfp-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+
+    /* Dark warm cinematic background */
+    background:
+        radial-gradient(ellipse 65% 50% at 68% 44%, rgba(175, 115, 45, 0.24) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 35% at 20% 72%, rgba(90, 55, 20, 0.13) 0%, transparent 55%),
+        linear-gradient(155deg, #1b1510 0%, #0f0c08 45%, #060403 100%);
+}
+
+/* Grain texture */
+.pfp-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.76' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.038;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ── Perspective host ── */
+.pfp-scene {
+    position: relative;
+    z-index: 5;
+
+    /* Single shared perspective for all panels */
+    perspective: 2200px;
+    perspective-origin: 50% 48%;
+}
+
+/* ── Shared 3D wrapper — this rotates as one unit ──
+   Framer Motion will add extra mouse-parallax tilt on top */
+.pfp-inner {
+    position: relative;
+    width: 1100px;
+    height: 780px;
+    transform-style: preserve-3d;
+
+    /* The "magic" rotation that creates the reference look:
+       Y-axis: look from upper-left angle
+       X-axis: slight downward tilt
+       Z-axis: near-zero keeps vertical edges straight        */
+    transform: rotateX(14deg) rotateY(-30deg) rotateZ(0deg);
+}
+
+/* ── Panel shared styles ── */
+.pfp-panel {
+    position: absolute;
+    /* Large wide landscape proportions — website-screenshot sized */
+    width: 820px;
+    height: 500px;
+    border-radius: 9px;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    will-change: transform;
+
+    /* Glass border — thin highlight on top & left */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-top:  1.5px solid rgba(255, 208, 115, 0.78);
+    border-left: 1px   solid rgba(255, 255, 255, 0.12);
+}
+
+/* ──────────────────────────────────────────────────────
+   Panel positions:
+   All three share the same top/left anchor (centered),
+   translateZ separates them on the depth axis.
+   The perspective transform on the wrapper naturally
+   shifts each Z-level to create the diagonal cascade.
+   ────────────────────────────────────────────────────── */
+
+/* Back panel — upper-left in the final composition */
+.pfp-panel-1 {
+    top:  -20px;
+    left: -80px;
+    z-index: 1;
+    transform: translateZ(-180px);
+    box-shadow:
+        0  4px 12px  rgba(0, 0, 0, 0.50),
+        0 18px 50px  rgba(0, 0, 0, 0.55),
+        0 55px 110px rgba(0, 0, 0, 0.42);
+}
+
+/* Middle panel — center, overlaps both */
+.pfp-panel-2 {
+    top:  90px;
+    left: 60px;
+    z-index: 2;
+    transform: translateZ(0px);
+    box-shadow:
+        0  6px 18px  rgba(0, 0, 0, 0.55),
+        0 24px 70px  rgba(0, 0, 0, 0.60),
+        0 70px 140px rgba(0, 0, 0, 0.48);
+}
+
+/* Front panel — lower-right, closest to viewer */
+.pfp-panel-3 {
+    top:  200px;
+    left: 200px;
+    z-index: 3;
+    transform: translateZ(180px);
+    box-shadow:
+        0  8px 24px  rgba(0, 0, 0, 0.60),
+        0 30px 90px  rgba(0, 0, 0, 0.65),
+        0 90px 180px rgba(0, 0, 0, 0.55);
+}
+
+/* ── Photography image fills panel completely ── */
+.pfp-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    background: #0c0906; /* Dark cinematic background to fill any letterboxing gaps */
+}
+
+/* ── Glass gloss reflection (top-left diagonal sweep) ── */
+.pfp-gloss {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10;
+    border-radius: 9px;
+    background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.16) 0%,
+        rgba(255, 255, 255, 0.06) 18%,
+        rgba(255, 255, 255, 0.00) 42%
+    );
+}
+
+/* ── Edge thickness illusion (right + bottom rim) ── */
+.pfp-panel::before {
+    content: '';
+    position: absolute;
+    right: -4px;
+    bottom: -4px;
+    width: 8px;
+    height: calc(100% + 4px);
+    background: linear-gradient(to right, rgba(0,0,0,0.5), rgba(0,0,0,0.2));
+    border-radius: 0 9px 9px 0;
+    z-index: -1;
+}
+
+/* ── Bottom gradient + text overlay ── */
+.pfp-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 20;
+    border-radius: 9px;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.72) 0%,
+        rgba(0, 0, 0, 0.28) 22%,
+        rgba(0, 0, 0, 0.00) 42%
+    );
+    display: flex;
+    align-items: flex-end;
+    padding: 34px 42px;
+}
+
+.pfp-text {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.pfp-title {
+    margin: 0;
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    text-shadow: 0 2px 18px rgba(0,0,0,0.90);
+}
+
+.pfp-subtitle {
+    margin: 0;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: #e8a045;
+    letter-spacing: 0.4px;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.92);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1400px) {
+    .pfp-inner { transform: rotateX(14deg) rotateY(-30deg) scale(0.82); }
+}
+@media (max-width: 1100px) {
+    .pfp-inner { transform: rotateX(14deg) rotateY(-30deg) scale(0.66); }
+}
+@media (max-width: 820px) {
+    .pfp-inner { transform: rotateX(12deg) rotateY(-28deg) scale(0.50); }
+    .pfp-section { min-height: 60vh; }
+}
+@media (max-width: 560px) {
+    .pfp-inner { transform: rotateX(10deg) rotateY(-24deg) scale(0.36); }
+    .pfp-section { min-height: 50vh; }
+}

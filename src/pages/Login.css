@@ -1,0 +1,435 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
+/* Apply border-box specifically to this component's scope */
+.login-body * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.login-body {
+    background-color: #f6f8fd; /* Slightly off-white background to make the box pop */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 80px);
+    min-height: calc(100dvh - 80px);
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.login-container {
+    background: #ffffff;
+    border-radius: 20px; /* Slightly softer corners */
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.1), 0 0 20px rgba(31, 117, 184, 0.05);
+    position: relative;
+    overflow: hidden;
+    width: clamp(300px, 90%, 900px);
+    max-width: 100%;
+    min-height: 550px; /* Increased to accommodate the 4 inputs perfectly */
+}
+
+.login-container form h1 {
+    color: #0A2440;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.login-container p {
+    font-size: 13px;
+    line-height: 20px;
+    letter-spacing: 0.3px;
+    margin: 15px 0;
+    color: #E6F0F9;
+    font-weight: 500;
+}
+
+.login-container span {
+    font-size: 11px;
+    color: #666;
+    margin: 12px 0 8px;
+    display: block;
+}
+
+.login-container a {
+    color: #1F75B8;
+    font-size: 12px;
+    text-decoration: none;
+    margin: 12px 0;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.login-container a:hover {
+    color: #0A2440;
+}
+
+.login-container button {
+    background-color: #1F75B8;
+    color: #fff;
+    font-size: 12px;
+    padding: 12px 40px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(31, 117, 184, 0.3);
+}
+
+.login-container button:hover {
+    background-color: #0A2440;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(10, 36, 64, 0.4);
+}
+
+.login-container button:disabled {
+    background-color: #90b8d8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.login-container button.ghost-btn {
+    background-color: transparent;
+    border-color: #fff;
+    box-shadow: none;
+}
+
+.login-container button.ghost-btn:hover {
+    background-color: #fff;
+    color: #0A2440;
+}
+
+.form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+}
+
+.form-container form {
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 50px; /* Increased horizontal padding for elegance */
+    height: 100%;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+    margin: 8px 0;
+}
+
+.input-wrapper input {
+    background-color: #F5F8FA;
+    border: 1px solid #E1E8ED;
+    padding: 14px 40px 14px 16px; /* Optimized padding for larger touch targets */
+    font-size: 13px;
+    border-radius: 8px;
+    width: 100%;
+    outline: none;
+    transition: all 0.3s;
+    font-family: 'Montserrat', sans-serif;
+    color: #0A2440;
+}
+
+.input-wrapper input:focus {
+    border-color: #1F75B8;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(31, 117, 184, 0.15);
+}
+
+.input-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #1F75B8;
+    font-size: 15px;
+    pointer-events: none;
+}
+
+.social-icons {
+    margin: 15px 0 10px;
+    display: flex;
+}
+
+.social-icons a {
+    border: 1px solid #E1E8ED;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 6px;
+    width: 36px;
+    height: 36px;
+    transition: all 0.3s;
+    color: #0A2440;
+    text-decoration: none;
+    background-color: #fff;
+    font-size: 14px;
+}
+
+.social-icons a:hover {
+    background-color: #1F75B8;
+    color: white;
+    border-color: #1F75B8;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(31, 117, 184, 0.3);
+}
+
+/* Animations & Positioning */
+.sign-in {
+    left: 0;
+    width: 50%;
+    z-index: 2;
+}
+
+.login-container.active .sign-in {
+    transform: translateX(100%);
+    opacity: 0;
+    z-index: 1;
+}
+
+.sign-up {
+    left: 0;
+    width: 50%;
+    opacity: 0;
+    z-index: 1;
+}
+
+.login-container.active .sign-up {
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: show 0.6s;
+}
+
+@keyframes show {
+    0%, 49.99% { opacity: 0; z-index: 1; }
+    50%, 100% { opacity: 1; z-index: 5; }
+}
+
+.toggle-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.6s ease-in-out;
+    border-radius: 150px 0 0 150px; /* Rounder curve on the edge */
+    z-index: 1000;
+}
+
+.login-container.active .toggle-container {
+    transform: translateX(-100%);
+    border-radius: 0 150px 150px 0;
+}
+
+.toggle {
+    background-color: rgba(31, 117, 184, 0.9);
+    background: linear-gradient(135deg, rgba(75, 168, 218, 0.9), rgba(10, 36, 64, 0.95));
+    color: #fff;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: all 0.6s ease-in-out;
+}
+
+.login-container.active .toggle {
+    transform: translateX(50%);
+}
+
+.toggle-panel {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    text-align: center;
+    top: 0;
+    transform: translateX(0);
+    transition: all 0.6s ease-in-out;
+}
+
+.toggle-left {
+    transform: translateX(-200%);
+}
+
+.login-container.active .toggle-left {
+    transform: translateX(0);
+}
+
+.toggle-right {
+    right: 0;
+    transform: translateX(0);
+}
+
+.login-container.active .toggle-right {
+    transform: translateX(200%);
+}
+
+/* Mobile Toggle Styles */
+.mobile-toggle {
+    display: none; /* Hidden by default on Desktop */
+    margin-top: 25px;
+    color: #666;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.mobile-toggle span {
+    display: inline;
+    color: #1F75B8;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+.mobile-toggle span:hover {
+    text-decoration: underline;
+    color: #0A2440;
+}
+
+/* RESPONSIVENESS */
+@media (max-width: 768px) {
+    .login-container {
+        min-height: 600px; /* Slight bump for mobile vertical space */
+        width: 100%;
+        max-width: 450px;
+    }
+
+    .form-container {
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+        z-index: 1;
+        transform: none !important;
+        animation: none;
+        transition: opacity 0.4s ease-in-out;
+    }
+
+    .sign-up,
+    .sign-in {
+        display: none;
+    }
+
+    .login-container.active .sign-up {
+        display: block;
+        opacity: 1;
+    }
+
+    .login-container:not(.active) .sign-in {
+        display: block;
+        opacity: 1;
+    }
+
+    .toggle-container {
+        display: none; /* Hide the sliding gradient panel entirely on mobile */
+    }
+
+    .login-container form {
+        padding: 40px 30px;
+    }
+
+    .login-container form h1 {
+        font-size: 24px;
+    }
+
+    /* Show the mobile toggle links since the toggle panels are hidden */
+    .mobile-toggle {
+        display: block; 
+    }
+}
+
+/* ==========================================================================
+   # DARK MODE — LOGIN PAGE
+   ========================================================================== */
+
+.dark .login-body {
+  background-color: #04101d;
+}
+
+.dark .login-container {
+  background: #081d35;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+}
+
+.dark .login-container form h1 {
+  color: #e8f4ff;
+}
+
+.dark .login-container span {
+  color: #7ca8c8;
+}
+
+.dark .login-container a {
+  color: #40c4ff;
+}
+
+.dark .login-container a:hover {
+  color: #e8f4ff;
+}
+
+.dark .input-wrapper input {
+  background-color: #04101d;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #e8f4ff;
+}
+
+.dark .input-wrapper input::placeholder {
+  color: #4a7a9b;
+}
+
+.dark .input-wrapper input:focus {
+  border-color: #1bbaeb;
+  background-color: #061626;
+  box-shadow: 0 0 0 3px rgba(27, 186, 235, 0.18);
+}
+
+.dark .input-icon {
+  color: #1bbaeb;
+}
+
+.dark .social-icons a {
+  background-color: #0b2238;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #7ca8c8;
+}
+
+.dark .social-icons a:hover {
+  background-color: #1bbaeb;
+  border-color: #1bbaeb;
+  color: #fff;
+}
+
+.dark .mobile-toggle {
+  color: #7ca8c8;
+}
+
+.dark .mobile-toggle span {
+  color: #40c4ff;
+}
+
+.dark .mobile-toggle span:hover {
+  color: #e8f4ff;
+}

@@ -1,0 +1,461 @@
+/* =========================================
+   BASE FOOTER & LAYOUT
+   ========================================= */
+.footer {
+    background-color: #121e31;
+    color: #e2e8f0;
+    padding-top: 60px;
+    font-family: inherit;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1.5fr 1.5fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-col h3.footer-heading {
+    color: #ffffff;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* =========================================
+   BRAND COLUMN & LOGO
+   ========================================= */
+.footer-logo {
+    margin-bottom: 20px;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+.footer-logo .logo-img {
+    width: 120px;
+    height: 100px;
+    border-radius: 8px;
+}
+
+.footer-about-text {
+    line-height: 1.6;
+    color: #a0aec0;
+    font-size: 0.95rem;
+}
+
+/* =========================================
+   QUICK LINKS & CONTACT INFO
+   ========================================= */
+.footer-list,
+.footer-contact-info {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-list li,
+.footer-contact-info li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.footer-list a {
+    color: #a0aec0;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-list a:hover {
+    color: #49a9ff;
+}
+
+.contact-icon {
+    color: #49a9ff;
+    margin-top: 4px;
+    flex-shrink: 0;
+}
+
+.mt-20 {
+    margin-top: 30px;
+}
+
+.footer-hours {
+    color: #a0aec0;
+    line-height: 1.6;
+}
+
+/* =========================================
+   CUSTOM SUBSCRIBE BOX
+   ========================================= */
+.subscribe {
+    position: relative;
+    height: 140px;
+    width: 240px;
+    padding: 20px;
+    background-color: #FFF;
+    border-radius: 4px;
+    color: #333;
+    box-shadow: 0px 0px 60px 5px rgba(0, 0, 0, 0.4);
+    /* Added margin-top so it aligns well with other columns */
+    margin-top: 15px;
+}
+
+.subscribe:after {
+    position: absolute;
+    content: "";
+    right: -10px;
+    bottom: 18px;
+    width: 0;
+    height: 0;
+    border-left: 0px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #1a044e;
+}
+
+.subscribe p {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    line-height: 28px;
+    margin: 0;
+    /* Reset margins for clean alignment inside the box */
+}
+
+.subscribe input {
+    position: absolute;
+    bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #d4d4d4;
+    padding: 10px;
+    width: 82%;
+    background: transparent;
+    transition: all .25s ease;
+}
+
+.subscribe input:focus {
+    outline: none;
+    border-bottom: 1px solid #0d095e;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', 'sans-serif';
+}
+
+.subscribe .submit-btn {
+    position: absolute;
+    border-radius: 30px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    background-color: #0f0092;
+    color: #FFF;
+    padding: 12px 25px;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 5px;
+    right: -10px;
+    bottom: -20px;
+    cursor: pointer;
+    transition: all .25s ease;
+    box-shadow: -5px 6px 20px 0px rgba(26, 26, 26, 0.4);
+}
+
+.subscribe .submit-btn:hover {
+    background-color: #07013d;
+    box-shadow: -5px 6px 20px 0px rgba(88, 88, 88, 0.569);
+}
+
+/* =========================================
+   FOOTER BOTTOM
+   ========================================= */
+.footer-bottom {
+    border-top: 1px solid #2d3748;
+    padding: 25px 0;
+    margin-top: 40px;
+    /* Added slight push to clear the subscribe button overlap */
+}
+
+.bottom-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.copyright-text {
+    margin: 0;
+    color: #a0aec0;
+    font-size: 0.9rem;
+}
+
+.bottom-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.bottom-links a {
+    color: #a0aec0;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.bottom-links a:hover {
+    color: #ffffff;
+}
+
+/* =========================================
+   MAGIC SOCIAL MENU (HORIZONTAL HOVER)
+   ========================================= */
+.magic-social-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 60px;
+    margin-top: 1.5rem;
+}
+
+.magic-menu {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    padding-right: 260px;
+}
+
+.magic-toggle {
+    position: absolute;
+    left: 0;
+    width: 55px;
+    height: 55px;
+    background: #ffffff;
+    color: #0c1f3f;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    transition: transform 0.6s ease, background 0.3s;
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+}
+
+.magic-menu:hover .magic-toggle {
+    transform: rotate(360deg);
+    background: #49a9ff;
+    color: #ffffff;
+}
+
+.magic-menu li {
+    position: absolute;
+    left: 5px;
+    list-style: none;
+    z-index: 1;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s;
+    transition-delay: calc(0.05s * var(--i));
+    transform: translateX(0px);
+    opacity: 0;
+    visibility: hidden;
+}
+
+.magic-menu:hover li {
+    transform: translateX(calc(60px * var(--i)));
+    opacity: 1;
+    visibility: visible;
+}
+
+.magic-menu li a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    background: #ffffff;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.magic-menu li a:hover {
+    transform: scale(1.15);
+}
+
+/* --- Social Hover Colors --- */
+.magic-menu li a.facebook {
+    color: #1877f2;
+}
+
+.magic-menu li a.instagram {
+    color: #e4405f;
+}
+
+.magic-menu li a.github {
+    color: #333333;
+}
+
+.magic-menu li a.twitter {
+    color: #1da1f2;
+}
+
+.magic-menu li a.facebook:hover {
+    background: #1877f2;
+    color: #ffffff;
+    box-shadow: 0 0 15px #1877f2;
+}
+
+.magic-menu li a.instagram:hover {
+    background: #e4405f;
+    color: #ffffff;
+    box-shadow: 0 0 15px #e4405f;
+}
+
+.magic-menu li a.github:hover {
+    background: #333333;
+    color: #ffffff;
+    box-shadow: 0 0 15px #333333;
+}
+
+.magic-menu li a.twitter:hover {
+    background: #1da1f2;
+    color: #ffffff;
+    box-shadow: 0 0 15px #1da1f2;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+   ========================================= */
+@media (max-width: 992px) {
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 576px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .bottom-wrapper {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .bottom-links {
+        justify-content: center;
+    }
+
+    .magic-menu {
+        padding-right: 0;
+    }
+
+    .subscribe {
+        margin: 0 auto;
+        /* Center the subscribe box on mobile */
+    }
+}
+
+/* ═══════════════════════════════════════════════════════
+   PREMIUM MOBILE FOOTER — iPhone / Android Optimization
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+    .footer {
+        padding-top: 40px;
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+    }
+
+    .footer-col h3.footer-heading { font-size: 1rem; margin-bottom: 14px; }
+    .footer-about-text { font-size: 0.88rem; }
+
+    .footer-list li, .footer-contact-info li {
+        margin-bottom: 12px;
+        min-height: 44px;
+        align-items: center;
+    }
+
+    .footer-list a { font-size: 0.9rem; }
+
+    /* Subscribe box: full-width for tablet */
+    .subscribe { width: 100%; max-width: 300px; }
+
+    /* Footer bottom */
+    .footer-bottom { padding: 20px 0; }
+    .copyright-text { font-size: 0.82rem; }
+}
+
+@media (max-width: 576px) {
+    .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+
+    .bottom-wrapper { flex-direction: column; text-align: center; gap: 16px; }
+    .bottom-links { justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .magic-menu { padding-right: 0; }
+    .subscribe { margin: 0 auto; }
+}
+
+@media (max-width: 480px) {
+    .footer { padding-top: 32px; }
+    .footer-container { padding: 0 16px; }
+    .footer-grid { gap: 20px; }
+    .footer-logo .logo-img { width: 90px; height: 75px; }
+
+    /* Enlarge magic social touch targets */
+    .magic-menu li a {
+        width: 48px;
+        height: 48px;
+        font-size: 1.3rem;
+    }
+    .magic-toggle { width: 48px; height: 48px; }
+    .magic-menu:hover li {
+        transform: translateX(calc(55px * var(--i)));
+    }
+
+    .footer-bottom {
+        padding: 16px 0;
+        padding-bottom: calc(16px + env(safe-area-inset-bottom));
+    }
+}
+
+@media (max-width: 390px) {
+    .footer-container { padding: 0 12px; }
+    .footer-col h3.footer-heading { font-size: 0.92rem; }
+    .footer-about-text { font-size: 0.82rem; }
+    .footer-list a { font-size: 0.82rem; }
+}
+
+@media (max-width: 360px) {
+    .footer { padding-top: 24px; }
+    .footer-grid { gap: 16px; }
+    .subscribe { width: 100%; }
+}
