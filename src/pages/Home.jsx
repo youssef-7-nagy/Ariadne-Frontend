@@ -224,7 +224,7 @@ const Home = () => {
                     <h2 className="section-title">Our Expertise</h2>
                     <p className="section-subtitle">Explore the diverse range of visual storytelling categories we offer.</p>
                     
-                    <div className="wrapper" style={{ height: '500px' }}>
+                    <div className="wrapper" style={{ height: '600px', marginTop: '20px' }}>
                         <button 
                             className="carousel-btn prev-btn" 
                             onClick={() => setActiveIndex(prev => prev - 1)}

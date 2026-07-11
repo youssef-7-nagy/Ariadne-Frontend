@@ -161,45 +161,135 @@
     transition: background-color 0.4s ease, border-color 0.4s ease;
 }
 
-.logo {
+/* ─── Animated ARIADNE Navbar Logo ──────────────────────────────────── */
+.nb-logo {
     display: flex;
     align-items: center;
     gap: 10px;
-    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    padding: 4px 6px;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+    user-select: none;
+}
+.nb-logo:hover {
+    background: rgba(189, 159, 103, 0.06);
+}
+
+/* ── Icon mark ── */
+.nb-logo-icon-wrap {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nb-logo:hover .nb-logo-icon-wrap {
+    transform: rotate(5deg) scale(1.08);
+}
+
+.nb-logo-mark {
+    width: 36px;
+    height: 36px;
+    filter: drop-shadow(0 0 6px rgba(189, 159, 103, 0.3));
+    transition: filter 0.4s ease;
+}
+.nb-logo:hover .nb-logo-mark {
+    filter: drop-shadow(0 0 12px rgba(189, 159, 103, 0.65));
+}
+
+/* Shimmer sweep on hover */
+.nb-logo-shimmer {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, transparent 30%, rgba(255, 215, 100, 0.4) 50%, transparent 70%);
+    opacity: 0;
+    transform: translateX(-100%) rotate(20deg);
+    pointer-events: none;
+    transition: none;
+}
+.nb-logo:hover .nb-logo-shimmer {
+    animation: nbShimmer 0.55s ease forwards;
+}
+@keyframes nbShimmer {
+    0%   { transform: translateX(-120%) rotate(20deg); opacity: 0; }
+    35%  { opacity: 1; }
+    100% { transform: translateX(130%) rotate(20deg); opacity: 0; }
+}
+
+/* ── Wordmark ── */
+.nb-logo-wordmark {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    overflow: hidden;
+    width: 36px;  /* collapsed — only "ARI" effectively visible */
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nb-logo:hover .nb-logo-wordmark {
+    width: 98px; /* expand to show full "ARIADNE" */
+}
+
+.nb-logo-word-main {
+    font-family: 'Cormorant Garamond', 'Palatino Linotype', 'Georgia', serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: 0.06em;
+    color: var(--text-primary, #1a202c);
+    white-space: nowrap;
+    transition: color 0.3s ease;
     flex-shrink: 0;
 }
-
-.logo-placeholder {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.nb-logo:hover .nb-logo-word-main {
+    color: #bd9f67;
 }
 
-.logo-text {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 800;
-    font-size: 26px;
-    color: var(--text-primary);
-    letter-spacing: 0.5px;
-    line-height: 1;
-    transition: color 0.4s ease;
+.nb-logo-word-accent {
+    font-family: 'Cormorant Garamond', 'Palatino Linotype', 'Georgia', serif;
+    font-weight: 300;
+    font-size: 1.25rem;
+    letter-spacing: 0.06em;
+    color: #bd9f67;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity 0.4s ease 0.15s, transform 0.4s cubic-bezier(0.16,1,0.3,1) 0.15s;
+}
+.nb-logo:hover .nb-logo-word-accent {
+    opacity: 1;
+    transform: translateX(0);
 }
 
-.logo-subtext {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
-    font-size: 11px;
-    color: var(--accent-strong);
-    letter-spacing: 1px;
-    text-transform: uppercase;
+/* Trail light that sweeps across the wordmark on hover */
+.nb-logo-trail {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    opacity: 0;
+}
+.nb-logo:hover .nb-logo-trail {
+    animation: nbTrail 0.65s ease;
+}
+@keyframes nbTrail {
+    0%   { background: linear-gradient(90deg, rgba(189,159,103,0) 90%, rgba(189,159,103,0.7) 100%); opacity: 0; }
+    25%  { background: linear-gradient(90deg, rgba(189,159,103,0) 65%, rgba(189,159,103,0.7) 100%); opacity: 1; }
+    75%  { background: linear-gradient(90deg, rgba(189,159,103,0) 65%, rgba(189,159,103,0.7) 100%); opacity: 1; }
+    100% { background: linear-gradient(90deg, rgba(189,159,103,0) 90%, rgba(189,159,103,0.7) 100%); opacity: 0; }
 }
 
-.logo-img {
-    height: 38px;
-    width: auto;
-    border-radius: 5px;
-    object-fit: contain;
-}
+/* Keep legacy classes in case anything still uses them */
+.logo { display: flex; align-items: center; gap: 10px; cursor: pointer; flex-shrink: 0; }
+.logo-img { height: 38px; width: auto; border-radius: 5px; object-fit: contain; }
+.logo-text { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 26px; color: var(--text-primary); letter-spacing: 0.5px; line-height: 1; }
+.logo-subtext { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 11px; color: var(--accent-strong); letter-spacing: 1px; text-transform: uppercase; }
+.logo-placeholder { display: flex; flex-direction: column; justify-content: center; }
+
+
 
 .nav-links {
     position: relative;

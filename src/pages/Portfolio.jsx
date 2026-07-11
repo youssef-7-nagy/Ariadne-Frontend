@@ -126,17 +126,27 @@ const Portfolio = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
+                // Fast path: Check session storage first
+                const cached = sessionStorage.getItem('portfolio_categories');
+                if (cached) {
+                    setCategories(JSON.parse(cached));
+                    setIsLoading(false);
+                }
+
                 const response = await axios.get(`${API_URL}/api/portfolio/categories`);
                 if (response.data.success && response.data.data.length > 0) {
                     setCategories(response.data.data);
-                } else {
+                    sessionStorage.setItem('portfolio_categories', JSON.stringify(response.data.data));
+                } else if (!cached) {
                     /* No categories in DB yet — use fallback data */
                     setCategories(FALLBACK_CATEGORIES);
                 }
             } catch (err) {
                 console.error("Failed to fetch categories", err);
                 /* On error, use fallback categories so the page still looks great */
-                setCategories(FALLBACK_CATEGORIES);
+                if (!sessionStorage.getItem('portfolio_categories')) {
+                    setCategories(FALLBACK_CATEGORIES);
+                }
                 setError(err);
             } finally {
                 setIsLoading(false);

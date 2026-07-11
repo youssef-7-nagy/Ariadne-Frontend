@@ -20,10 +20,24 @@ const CategoryProjects = () => {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
+                // Fast path: Check session storage first
+                const cacheKey = `portfolio_projects_${categorySlug}`;
+                const cached = sessionStorage.getItem(cacheKey);
+                if (cached) {
+                    const parsed = JSON.parse(cached);
+                    setProjects(parsed.projects);
+                    setCategory(parsed.category);
+                    setIsLoading(false);
+                }
+
                 const response = await axios.get(`${API_URL}/api/portfolio/projects/${categorySlug}`);
                 if (response.data.success) {
                     setProjects(response.data.data);
                     setCategory(response.data.category);
+                    sessionStorage.setItem(cacheKey, JSON.stringify({
+                        projects: response.data.data,
+                        category: response.data.category
+                    }));
                 }
             } catch (error) {
                 console.error("Failed to fetch projects", error);

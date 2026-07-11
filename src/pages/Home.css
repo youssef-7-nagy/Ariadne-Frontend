@@ -949,7 +949,7 @@
     font-size: 1.1rem;
     color: var(--text-secondary);
     max-width: 600px;
-    margin: 12px auto 15px; /* Reduced bottom margin to pull the carousel up */
+    margin: 12px auto 60px; /* Increased bottom margin to prevent overlap */
     line-height: 1.6;
 }
 
@@ -973,11 +973,11 @@
     position: absolute;
     width: var(--w);
     height: var(--h);
-    top: 8%;
+    top: 15%; /* Pushed down from 8% to prevent clipping */
     left: calc(50% - (var(--w) / 2));
     z-index: 2;
     transform-style: preserve-3d;
-    transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); /* Smoother, no bounce */
 }
 
 .card {
@@ -987,20 +987,25 @@
     overflow: hidden;
     inset: 0;
     transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(var(--translateZ));
-    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* Smoother, no bounce */
     cursor: pointer;
     background: #111;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     -webkit-box-reflect: below 15px linear-gradient(transparent, transparent 70%, rgba(255, 255, 255, 0.2));
     -webkit-font-smoothing: antialiased;
     transform-style: preserve-3d;
+    will-change: transform;
 }
 
 .card.active-front {
-    border-color: rgba(189, 159, 103, 0.8);
-    transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(calc(var(--translateZ) + 80px)) scale(1.1);
+    border-color: #bd9f67;
+    transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(calc(var(--translateZ) + 120px)) scale(1.25);
     z-index: 10;
-    box-shadow: 0 0 30px rgba(189, 159, 103, 0.5), 0 0 60px rgba(189, 159, 103, 0.2);
+    box-shadow: 0 0 40px rgba(189, 159, 103, 0.8), 0 0 80px rgba(189, 159, 103, 0.4);
+}
+
+.card:not(.active-front) {
+    filter: brightness(0.7) saturate(0.8); /* Dim inactive cards slightly, but not full black */
 }
 
 .card:hover {
@@ -1008,6 +1013,7 @@
     z-index: 10;
     border-color: rgba(189, 159, 103, 0.5);
     box-shadow: 0 0 20px rgba(189, 159, 103, 0.3);
+    filter: brightness(0.8) saturate(0.8);
 }
 
 .img {
@@ -1020,6 +1026,8 @@
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     transform: translateZ(0);
+    image-rendering: -webkit-optimize-contrast; /* Sharpens scaled images */
+    image-rendering: high-quality;
 }
 
 .card:hover .img {
@@ -1035,7 +1043,8 @@
     transition: opacity 0.4s ease;
 }
 
-.card:hover .img::after {
+.card:hover .img::after,
+.card.active-front .img::after {
     opacity: 1;
 }
 
@@ -1062,15 +1071,15 @@
 
 .card-title-overlay h3 {
     color: #fff;
-    font-size: clamp(0.68rem, 2.5vw, 0.75rem);
+    font-size: clamp(0.6rem, 2.2vw, 0.75rem); /* Slightly smaller to fit long words if needed */
     margin: 0 auto;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal; /* Allow text to wrap if it's too long */
+    overflow: visible;
+    text-overflow: clip;
     display: block;
     max-width: 100%;
     position: relative;

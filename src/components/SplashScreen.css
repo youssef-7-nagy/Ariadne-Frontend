@@ -1,24 +1,324 @@
-.splash-screen-container {
+/* =========================================================
+   ARIADNE – Splash Screen  (App-launch style)
+   ========================================================= */
+
+/* ── Wrapper ── */
+.sp-wrapper {
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background-color: #0b0c10;
+    background: #0e0f13;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+    overflow: hidden;
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                visibility 0.8s ease;
 }
 
-.splash-screen-container.fade-out {
+.sp-wrapper.sp-fadeout {
     opacity: 0;
     visibility: hidden;
 }
 
-.splash-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+/* ── Ambient orbs ── */
+.sp-orb {
     position: absolute;
-    top: 0;
-    left: 0;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+}
+.sp-orb-1 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(189, 159, 103, 0.18) 0%, transparent 70%);
+    top: -120px; left: -100px;
+    animation: spOrbFloat1 8s ease-in-out infinite;
+}
+.sp-orb-2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(189, 159, 103, 0.12) 0%, transparent 70%);
+    bottom: -80px; right: -80px;
+    animation: spOrbFloat2 10s ease-in-out infinite;
+}
+.sp-orb-3 {
+    width: 250px; height: 250px;
+    background: radial-gradient(circle, rgba(255, 230, 150, 0.07) 0%, transparent 70%);
+    top: 40%; left: 60%;
+    animation: spOrbFloat3 12s ease-in-out infinite;
+}
+@keyframes spOrbFloat1 {
+    0%, 100% { transform: translate(0, 0); }
+    50%       { transform: translate(40px, 30px); }
+}
+@keyframes spOrbFloat2 {
+    0%, 100% { transform: translate(0, 0); }
+    50%       { transform: translate(-30px, -25px); }
+}
+@keyframes spOrbFloat3 {
+    0%, 100% { transform: translate(0, 0); }
+    50%       { transform: translate(-20px, 20px); }
+}
+
+/* ── Scan line ── */
+.sp-scanline {
+    position: absolute;
+    top: -4px; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(189,159,103,0.6), transparent);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s;
+}
+.sp-scanline.sp-scanline-active {
+    opacity: 1;
+    animation: spScan 2.4s ease-in-out forwards;
+}
+@keyframes spScan {
+    0%   { top: 0%;   opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+
+/* ── Card ── */
+.sp-card {
+    position: relative;
+    width: 320px;
+    height: 220px;
+    background: #16181f;
+    border-radius: 16px;
+    display: grid;
+    place-content: center;
+    overflow: hidden;
+    transform: scale(0.82);
+    opacity: 0;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity  0.5s ease;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6),
+                0 0 0 1px rgba(189,159,103,0.08) inset;
+}
+.sp-card.sp-card-active {
+    transform: scale(1.05);
+    opacity: 1;
+}
+/* Slight settle after expand */
+.sp-card.sp-card-active {
+    animation: spCardSettle 0.9s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes spCardSettle {
+    0%   { transform: scale(1.1); }
+    60%  { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+/* ── Corner borders (draw-on) ── */
+.sp-border {
+    position: absolute;
+    background: #bd9f67;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 2px;
+}
+.sp-border-top    { top: 16px; left: 16px; right: 16px; height: 1.5px; transform: scaleX(0); transform-origin: left; }
+.sp-border-bottom { bottom: 16px; left: 16px; right: 16px; height: 1.5px; transform: scaleX(0); transform-origin: right; }
+.sp-border-left   { top: 16px; left: 16px; bottom: 16px; width: 1.5px;  transform: scaleY(0); transform-origin: top; }
+.sp-border-right  { top: 16px; right: 16px; bottom: 16px; width: 1.5px; transform: scaleY(0); transform-origin: bottom; }
+
+.sp-border.sp-border-visible {
+    opacity: 1;
+    animation: none;
+}
+.sp-border-top.sp-border-visible    { animation: spBorderH 0.5s 0.15s cubic-bezier(0.4,0,0.2,1) both; }
+.sp-border-bottom.sp-border-visible { animation: spBorderH 0.5s 0.35s cubic-bezier(0.4,0,0.2,1) both; }
+.sp-border-left.sp-border-visible   { animation: spBorderV 0.5s 0.25s cubic-bezier(0.4,0,0.2,1) both; }
+.sp-border-right.sp-border-visible  { animation: spBorderV 0.5s 0.45s cubic-bezier(0.4,0,0.2,1) both; }
+
+@keyframes spBorderH {
+    from { transform: scaleX(0); opacity: 0; }
+    to   { transform: scaleX(1); opacity: 1; }
+}
+@keyframes spBorderV {
+    from { transform: scaleY(0); opacity: 0; }
+    to   { transform: scaleY(1); opacity: 1; }
+}
+
+/* ── Logo area ── */
+.sp-logo-area {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: relative;
+}
+
+/* ── Icon / monogram ── */
+.sp-icon-wrap {
+    position: relative;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.sp-icon-wrap.sp-icon-expanded {
+    transform: scale(1) rotate(0deg);
+    animation: spIconBounce 0.9s 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes spIconBounce {
+    0%   { transform: scale(0.4) rotate(-15deg); opacity: 0; }
+    60%  { transform: scale(1.12) rotate(3deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.sp-monogram {
+    width: 52px;
+    height: 52px;
+    drop-shadow: 0 0 12px rgba(189,159,103,0.5);
+    filter: drop-shadow(0 0 10px rgba(189,159,103,0.45));
+}
+
+/* Shimmer sweep */
+.sp-shimmer {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 30%, rgba(255,215,100,0.35) 50%, transparent 70%);
+    opacity: 0;
+    transform: translateX(-100%) rotate(30deg);
+    border-radius: 50%;
+    pointer-events: none;
+}
+.sp-shimmer.sp-shimmer-active {
+    animation: spShimmer 0.7s 0.5s ease forwards;
+}
+@keyframes spShimmer {
+    0%   { transform: translateX(-100%) rotate(30deg); opacity: 0; }
+    40%  { opacity: 1; }
+    100% { transform: translateX(150%) rotate(30deg); opacity: 0; }
+}
+
+/* ── Wordmark ── */
+.sp-wordmark-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+    overflow: hidden;
+    max-width: 0;
+    opacity: 0;
+    transition: max-width 0.7s cubic-bezier(0.4,0,0.2,1) 0.1s,
+                opacity 0.4s ease 0.1s;
+}
+.sp-wordmark-wrap.sp-wordmark-visible {
+    max-width: 200px;
+    opacity: 1;
+}
+
+.sp-letter {
+    display: inline-block;
+    font-family: 'Cormorant Garamond', 'Palatino Linotype', 'Georgia', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #f0e0b5;
+    text-shadow: 0 0 18px rgba(189,159,103,0.6);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: none;
+}
+.sp-wordmark-wrap.sp-wordmark-visible .sp-letter {
+    animation: spLetterIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes spLetterIn {
+    from { opacity: 0; transform: translateY(16px) skewX(-4deg); }
+    to   { opacity: 1; transform: translateY(0)    skewX(0deg); }
+}
+
+.sp-cursor {
+    display: inline-block;
+    font-family: monospace;
+    font-size: 2.4rem;
+    color: #bd9f67;
+    margin-left: 1px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.sp-cursor.sp-cursor-blink {
+    opacity: 1;
+    animation: spCursorBlink 0.75s step-end 3;
+}
+.sp-cursor.sp-cursor-hide { opacity: 0; }
+@keyframes spCursorBlink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+}
+
+/* ── Tagline ── */
+.sp-tagline {
+    position: absolute;
+    top: calc(50% + 42px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(189,159,103,0.7);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.6s ease 0.8s;
+}
+.sp-tagline.sp-tagline-visible {
+    opacity: 1;
+}
+
+/* ── Bottom text ── */
+.sp-bottom-text {
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.52rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(189,159,103,0.5);
+    white-space: nowrap;
+    opacity: 0;
+    font-family: 'Montserrat', sans-serif;
+    transition: opacity 0.5s ease 1.1s, letter-spacing 0.5s ease 1.1s;
+}
+.sp-bottom-text.sp-bottom-visible {
+    opacity: 1;
+    letter-spacing: 0.28em;
+}
+
+/* ── Loader bar ── */
+.sp-loader-track {
+    position: absolute;
+    bottom: 0;
+    left: 16px;
+    right: 16px;
+    height: 2px;
+    background: rgba(189,159,103,0.12);
+    border-radius: 2px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.4s ease 0.3s;
+}
+.sp-loader-track.sp-loader-track-visible {
+    opacity: 1;
+}
+.sp-loader-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #8a6d35, #bd9f67, #f0d48a, #bd9f67);
+    background-size: 200% 100%;
+    border-radius: 2px;
+    transition: width 2.2s cubic-bezier(0.4, 0, 0.2, 1) 0.5s;
+    animation: spLoaderShimmer 1.5s linear infinite;
+}
+.sp-loader-fill.sp-loader-complete {
+    width: 100%;
+}
+@keyframes spLoaderShimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }
