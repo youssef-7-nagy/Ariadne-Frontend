@@ -100,7 +100,6 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
             </div>
 
             <nav className="navbar">
-                {/* ── Logo ── */}
                 <div
                     className="logo"
                     onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); navigate('/'); }}
@@ -110,8 +109,6 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
                 </div>
 
                 <div className={`hamburger ${isMobileMenuOpen ? 'active' : ''}`} onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-
-
                     {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
                 </div>
 

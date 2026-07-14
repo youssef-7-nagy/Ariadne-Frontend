@@ -907,3 +907,38 @@ textarea.form-control { height: auto; padding-top: 20px; resize: vertical; font-
 .dark .dropdown-info span {
   color: #9eb8ce;
 }
+
+@media (max-width: 430px) {
+  .cms-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  .cms-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .cms-form-card {
+    padding: 20px 16px;
+  }
+  .cms-form-grid {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 375px) {
+  .cms-dashboard-content {
+    padding: 16px 12px;
+  }
+  .cms-card {
+    padding: 16px;
+  }
+  .cms-card-actions {
+    flex-direction: column;
+  }
+  .cms-card-actions .btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}

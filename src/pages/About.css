@@ -584,4 +584,59 @@ html.dark .partner-card {
         grid-template-columns: 1fr;
     }
 }
+
+@media (max-width: 480px) {
+    .about-story, .about-values, .about-partners, .about-team {
+        padding: 60px 15px;
+    }
+    
+    .about-story-text h2 {
+        font-size: 1.6rem;
+    }
+    
+    .about-stat-num {
+        font-size: 1.6rem;
+    }
+    
+    .about-stat-row {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .about-value-card {
+        padding: 24px 20px;
+    }
+    
+    .partners-inner {
+        --w: 70px;
+        --h: 100px;
+        --translateZ: 110px;
+    }
+    
+    .partners-carousel-wrap {
+        height: 240px;
+    }
+}
+
+@media (max-width: 375px) {
+    .about-hero {
+        padding: 80px 15px 40px;
+    }
+    
+    .about-hero h1 {
+        font-size: 1.8rem;
+    }
+    
+    .about-hero-sub {
+        font-size: 0.95rem;
+    }
+    
+    .about-story-text h2 {
+        font-size: 1.4rem;
+    }
+    
+    .team-card-info h3 {
+        font-size: 1.2rem;
+    }
+}
 

@@ -433,3 +433,73 @@
 .dark .mobile-toggle span:hover {
   color: #e8f4ff;
 }
+
+/* ==========================================================================
+   # RESPONSIVE — SMALL PHONES (Login)
+   ========================================================================== */
+
+@media (max-width: 430px) {
+  .login-container {
+    width: 100%;
+    max-width: 100%;
+    min-height: auto;
+    border-radius: 16px;
+  }
+
+  .login-container form {
+    padding: 32px 20px;
+  }
+
+  .login-container form h1 {
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+
+  .login-container button {
+    padding: 14px 20px;
+    width: 100%;
+    min-height: 48px;
+    font-size: 12px;
+  }
+
+  .input-wrapper {
+    margin: 6px 0;
+  }
+
+  .input-wrapper input {
+    padding: 14px 40px 14px 16px;
+    min-height: 48px;
+  }
+
+  .social-icons a {
+    width: 40px;
+    height: 40px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 375px) {
+  .login-container form {
+    padding: 28px 16px;
+  }
+
+  .login-container form h1 {
+    font-size: 20px;
+  }
+
+  .login-container span {
+    font-size: 10px;
+    margin: 8px 0 6px;
+  }
+
+  .mobile-toggle {
+    font-size: 12px;
+    margin-top: 20px;
+  }
+
+  .social-icons a {
+    width: 36px;
+    height: 36px;
+    margin: 0 4px;
+  }
+}

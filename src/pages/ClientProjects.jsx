@@ -85,20 +85,11 @@ const ClientProjects = () => {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                // Fast path: Check session storage first
-                const cacheKey = `client_projects_${decodedName}`;
-                const cached = sessionStorage.getItem(cacheKey);
-                if (cached) {
-                    setProjects(JSON.parse(cached));
-                    setIsLoading(false);
-                }
-
                 const response = await axios.get(
                     `${API_URL}/api/portfolio/client/${encodeURIComponent(decodedName)}`
                 );
                 if (response.data.success) {
                     setProjects(response.data.data);
-                    sessionStorage.setItem(cacheKey, JSON.stringify(response.data.data));
                 }
             } catch (error) {
                 console.error('Failed to fetch client projects', error);

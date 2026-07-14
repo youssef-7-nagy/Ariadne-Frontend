@@ -1,11 +1,41 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { FiEdit2, FiTrash2, FiArrowUp, FiArrowDown, FiPlus, FiX, FiExternalLink, FiUploadCloud, FiImage, FiVideo } from 'react-icons/fi';
+import { FiEdit2, FiTrash2, FiArrowUp, FiArrowDown, FiArrowLeft, FiArrowRight, FiPlus, FiX, FiExternalLink, FiUploadCloud, FiImage, FiVideo } from 'react-icons/fi';
 import { notify } from '../utils/notify';
 import './AdminPanel.css';
 
+/* ─── Same local fallback images used on the Portfolio / Home pages ─────────── */
+import imgShortFilms    from '../assets/categories/short-films.png';
+import imgDocumentaries from '../assets/categories/documentaries.png';
+import imgCommercials   from '../assets/categories/commercials.png';
+import imgEvents        from '../assets/categories/events.png';
+import imgPodcasts      from '../assets/categories/podcasts.png';
+import imgStreaming     from '../assets/categories/streaming.png';
+import imgCorporate     from '../assets/categories/corporate.png';
+import imgMusicVideos   from '../assets/categories/music-videos.png';
+import imgPhotography   from '../assets/categories/photography.png';
+import imgBTS           from '../assets/categories/behind-the-scenes.png';
+
+const LOCAL_IMAGE_MAP = {
+  'short-films':       imgShortFilms,
+  'documentaries':     imgDocumentaries,
+  'commercials':       imgCommercials,
+  'events':            imgEvents,
+  'podcasts':          imgPodcasts,
+  'live-streaming':    imgStreaming,
+  'corporate-videos':  imgCorporate,
+  'music-videos':      imgMusicVideos,
+  'photography':       imgPhotography,
+  'behind-the-scenes': imgBTS,
+};
+
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
+const resolveUrl = (src) => {
+  if (!src) return '';
+  if (src.startsWith('http') || src.startsWith('blob:') || src.startsWith('data:')) return src;
+  return `${API_URL}${src}`;
+};
 
 const API = `${API_URL}/api/admin`;
 
@@ -176,11 +206,20 @@ const CategoriesTab = () => {
           {categories.map((cat, index) => (
             <div key={cat._id} className="cms-item-card">
               <div className="cms-card-cover">
-                {cat.coverImage ? (
-                  <MediaPreview src={cat.coverImage} type="image" />
-                ) : (
-                  <div className="cms-card-cover--empty"><FiImage size={28} /></div>
-                )}
+                {(() => {
+                  const src = cat.coverImage
+                    ? resolveUrl(cat.coverImage)
+                    : LOCAL_IMAGE_MAP[cat.slug];
+                  return src ? (
+                    <img
+                      src={src}
+                      alt={cat.name}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 8 }}
+                    />
+                  ) : (
+                    <div className="cms-card-cover--empty"><FiImage size={28} /></div>
+                  );
+                })()}
               </div>
               <div className="cms-card-body">
                 <h4>{cat.name}</h4>
@@ -191,8 +230,8 @@ const CategoriesTab = () => {
               </div>
               <div className="cms-card-actions">
                 <div className="cms-reorder-btns">
-                  <button className="btn-icon" onClick={() => handleReorder(index, -1)} title="Move up"><FiArrowUp /></button>
-                  <button className="btn-icon" onClick={() => handleReorder(index, 1)} title="Move down"><FiArrowDown /></button>
+                  <button className="btn-icon" onClick={() => handleReorder(index, -1)} title="Move left"><FiArrowLeft /></button>
+                  <button className="btn-icon" onClick={() => handleReorder(index, 1)} title="Move right"><FiArrowRight /></button>
                 </div>
                 <div style={{ display: 'flex', gap: 6 }}>
                   <button className="btn-icon" onClick={() => handleEdit(cat)} title="Edit"><FiEdit2 /></button>

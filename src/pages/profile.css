@@ -798,6 +798,350 @@
   .form-row { grid-template-columns: 1fr; }
 }
 
+@media (max-width: 768px) {
+  .dashboard-content {
+    padding: 16px;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom));
+    gap: 18px;
+  }
+
+  .dashboard-card {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .card-header h3 { font-size: 1.2rem; }
+  .card-header p { font-size: 0.82rem; }
+
+  .split-dashboard {
+    padding: 20px;
+    gap: 24px;
+  }
+
+  .digital-card-container {
+    max-width: 100%;
+  }
+
+  .digital-id-card {
+    padding: 20px;
+    min-height: 180px;
+  }
+
+  .card-middle-row h4 {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+  }
+
+  .qa-header h2 { font-size: 1.4rem; }
+
+  .stat-card {
+    padding: 18px;
+  }
+
+  .stat-card h3 { font-size: 1.6rem; }
+
+  .my-cars-banner {
+    padding: 22px 20px 20px;
+  }
+
+  .banner-title { font-size: 1.3rem; }
+
+  .cars-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .reward-tier {
+    padding: 16px;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .tier-icon {
+    width: 55px;
+    height: 55px;
+    font-size: 2rem;
+  }
+
+  .points-circle {
+    width: 120px;
+    height: 120px;
+  }
+
+  .points-circle h2 { font-size: 2.4rem; }
+  .points-circle span { font-size: 0.9rem; }
+
+  .modal-content {
+    padding: 24px 20px;
+    border-radius: 16px;
+    width: 94%;
+  }
+
+  .modal-header h3 { font-size: 1.3rem; }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    text-align: center;
+    min-height: 48px;
+  }
+
+  .toast {
+    min-width: auto;
+    width: calc(100vw - 40px);
+  }
+
+  .toast-container {
+    right: 10px;
+    left: 10px;
+  }
+
+  .wallet {
+    width: 240px;
+    height: 198px;
+  }
+
+  .wallet-back {
+    width: 240px;
+    height: 170px;
+  }
+
+  .dashboard-table {
+    min-width: 500px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-content {
+    padding: 12px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    gap: 14px;
+  }
+
+  .side-nav {
+    gap: 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .side-nav button {
+    padding: 8px 12px;
+    font-size: 0.82rem;
+    min-height: 40px;
+    border-radius: 10px;
+  }
+
+  .dashboard-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .card-header {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+  }
+
+  .card-header h3 { font-size: 1.05rem; }
+
+  .split-dashboard {
+    padding: 14px;
+    gap: 18px;
+  }
+
+  .digital-id-card {
+    padding: 16px;
+    min-height: 160px;
+    border-radius: 16px;
+  }
+
+  .card-middle-row h4 {
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+  }
+
+  .qa-header h2 { font-size: 1.2rem; }
+  .qa-header p { font-size: 0.82rem; }
+
+  .qa-btn {
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  .stat-card {
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .stat-card h3 { font-size: 1.4rem; }
+  .stat-card p { font-size: 0.78rem; }
+
+  .wallet {
+    width: 200px;
+    height: 165px;
+    margin: 0 auto;
+  }
+
+  .wallet-back {
+    width: 200px;
+    height: 142px;
+  }
+
+  .wallet::after {
+    font-size: 12px;
+  }
+
+  .my-cars-banner {
+    padding: 18px 16px;
+    border-radius: 16px;
+  }
+
+  .banner-title { font-size: 1.15rem; }
+  .banner-sub { font-size: 0.78rem; }
+  .banner-label { font-size: 0.65rem; }
+
+  .car-card-body {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .car-color-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+
+  .car-name { font-size: 0.9rem; }
+
+  .btn-add-car {
+    padding: 8px 16px;
+    font-size: 0.78rem;
+  }
+
+  .reward-tier {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .tier-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 1.6rem;
+    border-radius: 12px;
+  }
+
+  .tier-info h4 { font-size: 1rem; }
+  .tier-info p { font-size: 0.8rem; }
+
+  .tier-status {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .points-circle {
+    width: 100px;
+    height: 100px;
+  }
+
+  .points-circle h2 { font-size: 2rem; }
+  .points-circle span { font-size: 0.78rem; letter-spacing: 1px; }
+
+  .settings-form { max-width: 100%; }
+
+  .form-group input {
+    padding: 12px;
+    font-size: 0.92rem;
+  }
+
+  .modal-content {
+    padding: 20px 16px;
+    width: 96%;
+    border-radius: 14px;
+  }
+
+  .modal-header h3 { font-size: 1.15rem; }
+  .modal-close { width: 44px; height: 44px; }
+
+  .dashboard-table {
+    min-width: 420px;
+    font-size: 0.85rem;
+  }
+
+  .dashboard-table td {
+    padding: 12px 10px;
+  }
+}
+
+@media (max-width: 375px) {
+  .dashboard-content {
+    padding: 10px;
+    gap: 12px;
+  }
+
+  .side-nav button {
+    padding: 7px 10px;
+    font-size: 0.78rem;
+  }
+
+  .dashboard-card {
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .card-header h3 { font-size: 1rem; }
+
+  .split-dashboard {
+    padding: 12px;
+  }
+
+  .digital-id-card {
+    padding: 14px;
+    min-height: 140px;
+  }
+
+  .card-middle-row h4 {
+    font-size: 0.92rem;
+  }
+
+  .card-stat span { font-size: 0.62rem; }
+  .card-stat strong { font-size: 0.82rem; }
+
+  .qa-header h2 { font-size: 1.05rem; }
+
+  .wallet {
+    width: 180px;
+    height: 148px;
+  }
+
+  .wallet-back {
+    width: 180px;
+    height: 128px;
+  }
+
+  .my-cars-banner {
+    padding: 14px 12px;
+  }
+
+  .banner-title { font-size: 1.05rem; }
+
+  .car-card-body { padding: 12px; }
+
+  .points-circle {
+    width: 90px;
+    height: 90px;
+  }
+
+  .points-circle h2 { font-size: 1.7rem; }
+
+  .toast-container {
+    top: 10px;
+    right: 8px;
+    left: 8px;
+  }
+}
+
 /* ==========================================================================
    # WALLET SECTION
    ========================================================================== */
