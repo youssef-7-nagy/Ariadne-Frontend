@@ -1,47 +1,41 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import './SplashScreen.css';
-import splashVideo from '../assets/splash_screen/splash screen.mp4';
 
 const SplashScreen = ({ onFinish }) => {
     const [isFadingOut, setIsFadingOut] = useState(false);
-    const videoRef = useRef(null);
+    const [showElements, setShowElements] = useState(false);
 
     useEffect(() => {
-        // Fallback timeout in case video fails to load or play
-        const fallbackTimer = setTimeout(() => {
-            if (!videoRef.current || videoRef.current.readyState < 3) {
-                handleVideoEnded();
-            }
-        }, 8000); // Wait 8 seconds maximum
+        // Show loading bar slightly after logo starts revealing
+        const elementsTimer = setTimeout(() => {
+            setShowElements(true);
+        }, 500);
 
-        if (videoRef.current) {
-            videoRef.current.play().catch(e => {
-                console.error("Autoplay failed:", e);
-                handleVideoEnded();
-            });
-        }
+        const timer = setTimeout(() => {
+            setIsFadingOut(true);
+            setTimeout(() => {
+                if (onFinish) onFinish();
+            }, 800); // 800ms fade out matches CSS transition
+        }, 3000); // Appear for 3 seconds
 
-        return () => clearTimeout(fallbackTimer);
-    }, []);
-
-    const handleVideoEnded = () => {
-        setIsFadingOut(true);
-        setTimeout(() => {
-            if (onFinish) onFinish();
-        }, 800); // 800ms fade out matches CSS transition
-    };
+        return () => {
+            clearTimeout(timer);
+            clearTimeout(elementsTimer);
+        };
+    }, [onFinish]);
 
     return (
         <div className={`splash-screen-container ${isFadingOut ? 'fade-out' : ''}`}>
-            <video 
-                ref={videoRef}
-                className="splash-video"
-                src={splashVideo}
-                autoPlay 
-                muted 
-                playsInline
-                onEnded={handleVideoEnded}
-            />
+            <div className="splash-content">
+                <div className="logo-split-container">
+                    <img src="/mylogo.png" alt="Ariadne Logo Left" className="splash-logo-half left-half" />
+                    <img src="/mylogo.png" alt="Ariadne Logo Right" className="splash-logo-half right-half" />
+                    <div className="logo-glow"></div>
+                </div>
+                <div className={`loading-bar-container ${showElements ? 'show' : ''}`}>
+                    <div className="loading-bar"></div>
+                </div>
+            </div>
         </div>
     );
 };
