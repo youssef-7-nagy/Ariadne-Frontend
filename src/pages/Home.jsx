@@ -203,6 +203,94 @@ const Home = () => {
                 </div>
             </section>
 
+            {/* Section 3: 3D Diagonal Glass Showcase */}
+            <section className="diagonal-showcase-section">
+                <div className="diagonal-container">
+                    <div className="diagonal-cards-wrapper">
+
+                        {/* Card 1 */}
+                        <div className="diagonal-card card-1">
+                            <img src="https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?q=80&w=1200&auto=format&fit=crop" alt="Romantic Chipping" className="diagonal-img" />
+                            <div className="dc-gradient-overlay"></div>
+                            <div className="dc-glass-shimmer"></div>
+                            <div className="diagonal-content">
+                                <div className="dc-top-row">
+                                    <span className="dc-tag">Photography</span>
+                                </div>
+                                <div className="diagonal-bottom-area">
+                                    <h2 className="diagonal-title">ROMANTIC<br/>CHIPPING</h2>
+                                    <div className="dc-footer">
+                                        <span className="dc-line"></span>
+                                        <span className="dc-label">FEATURED PROJECT</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Card 2 */}
+                        <div className="diagonal-card card-2">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1200&auto=format&fit=crop" alt="The Power of Dreams" className="diagonal-img bw-filter" />
+                            <div className="dc-gradient-overlay"></div>
+                            <div className="dc-glass-shimmer"></div>
+                            <div className="diagonal-content">
+                                <div className="dc-top-row">
+                                    <span className="dc-tag">Cinematic</span>
+                                </div>
+                                <div className="diagonal-bottom-area">
+                                    <h2 className="diagonal-title">THE POWER<br/>OF DREAMS</h2>
+                                    <div className="dc-footer">
+                                        <span className="dc-line"></span>
+                                        <span className="dc-label">CINEMATIC VISION</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Card 3 */}
+                        <div className="diagonal-card card-3">
+                            <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1200&auto=format&fit=crop" alt="The Drive of Your Life" className="diagonal-img" />
+                            <div className="dc-gradient-overlay"></div>
+                            <div className="dc-glass-shimmer"></div>
+                            <div className="diagonal-content">
+                                <div className="dc-top-row">
+                                    <span className="dc-tag">Commercial</span>
+                                </div>
+                                <div className="diagonal-bottom-area">
+                                    <h2 className="diagonal-title">THE DRIVE<br/>OF YOUR LIFE</h2>
+                                    <div className="dc-footer">
+                                        <span className="dc-line"></span>
+                                        <span className="dc-label">COMMERCIAL WORK</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            {/* Section 3.5: Glass Panels Showcase */}
+            <section className="glass-panels-section">
+                <div className="glass-panels-stage">
+                    <div className="glass-panel glass-panel-1">
+                        <img src="https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?q=80&w=1200&auto=format&fit=crop" alt="Photography" className="glass-panel-img" />
+                        <div className="glass-panel-shine"></div>
+                        <div className="glass-panel-edge-light"></div>
+                    </div>
+                    <div className="glass-panel glass-panel-2">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1200&auto=format&fit=crop" alt="Cinematic" className="glass-panel-img" />
+                        <div className="glass-panel-shine"></div>
+                        <div className="glass-panel-edge-light"></div>
+                    </div>
+                    <div className="glass-panel glass-panel-3">
+                        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1200&auto=format&fit=crop" alt="Commercial" className="glass-panel-img" />
+                        <div className="glass-panel-shine"></div>
+                        <div className="glass-panel-edge-light"></div>
+                    </div>
+                    <div className="glass-floor-reflection"></div>
+                </div>
+            </section>
+
             {/* Section 4: Testimonials */}
             <section className="home-section testimonials-section">
                 <div className="container text-center">
