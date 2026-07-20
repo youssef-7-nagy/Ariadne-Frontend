@@ -172,11 +172,13 @@ const Login = () => {
                                 placeholder="Password" 
                                 ref={regPasswordRef} 
                                 required 
+                                className="password-input"
                             />
+                            <FaLock className="input-icon" />
                             {showRegPassword ? (
-                                <FaEyeSlash className="input-icon clickable-icon" onClick={() => setShowRegPassword(false)} />
+                                <FaEyeSlash className="input-icon-right clickable-icon" onClick={() => setShowRegPassword(false)} />
                             ) : (
-                                <FaEye className="input-icon clickable-icon" onClick={() => setShowRegPassword(true)} />
+                                <FaEye className="input-icon-right clickable-icon" onClick={() => setShowRegPassword(true)} />
                             )}
                         </div>
                         <button type="submit" disabled={isLoading}>{isLoading ? "Loading..." : "Sign Up"}</button>
@@ -208,11 +210,13 @@ const Login = () => {
                                 placeholder="Password" 
                                 ref={loginPasswordRef} 
                                 required 
+                                className="password-input"
                             />
+                            <FaLock className="input-icon" />
                             {showLoginPassword ? (
-                                <FaEyeSlash className="input-icon clickable-icon" onClick={() => setShowLoginPassword(false)} />
+                                <FaEyeSlash className="input-icon-right clickable-icon" onClick={() => setShowLoginPassword(false)} />
                             ) : (
-                                <FaEye className="input-icon clickable-icon" onClick={() => setShowLoginPassword(true)} />
+                                <FaEye className="input-icon-right clickable-icon" onClick={() => setShowLoginPassword(true)} />
                             )}
                         </div>
 

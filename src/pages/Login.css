@@ -135,7 +135,7 @@
 .input-wrapper input {
     background-color: #F5F8FA;
     border: 1px solid #E1E8ED;
-    padding: 14px 40px 14px 16px; /* Optimized padding for larger touch targets */
+    padding: 14px 16px 14px 40px; /* Space on left for icon */
     font-size: 13px;
     border-radius: 8px;
     width: 100%;
@@ -151,9 +151,13 @@
     box-shadow: 0 0 0 3px rgba(31, 117, 184, 0.15);
 }
 
+.input-wrapper input.password-input {
+    padding-right: 40px; /* Extra space on right for eye icon */
+}
+
 .input-icon {
     position: absolute;
-    right: 16px;
+    left: 16px;
     top: 50%;
     transform: translateY(-50%);
     color: #1F75B8;
@@ -161,13 +165,22 @@
     pointer-events: none;
 }
 
-.input-icon.clickable-icon {
+.input-icon-right {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #1F75B8;
+    font-size: 15px;
+}
+
+.input-icon-right.clickable-icon {
     pointer-events: auto;
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
-.input-icon.clickable-icon:hover {
+.input-icon-right.clickable-icon:hover {
     color: #0A2440;
 }
 
@@ -416,11 +429,11 @@
   box-shadow: 0 0 0 3px rgba(27, 186, 235, 0.18);
 }
 
-.dark .input-icon {
+.dark .input-icon, .dark .input-icon-right {
   color: #1bbaeb;
 }
 
-.dark .input-icon.clickable-icon:hover {
+.dark .input-icon-right.clickable-icon:hover {
   color: #e8f4ff;
 }
 
@@ -481,8 +494,11 @@
   }
 
   .input-wrapper input {
-    padding: 14px 40px 14px 16px;
+    padding: 14px 16px 14px 40px;
     min-height: 48px;
+  }
+  .input-wrapper input.password-input {
+    padding-right: 40px;
   }
 
   .social-icons a {
