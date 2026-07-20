@@ -2,9 +2,13 @@
   RewriteEngine On
   RewriteBase /
 
-  # ── Proxy all /api/* requests to the Node.js backend ──────────────────────
+  # ── Proxy /api/* requests to the Node.js backend ──────────────────────────
   RewriteCond %{REQUEST_URI} ^/api/ [NC]
   RewriteRule ^api/(.*)$ http://localhost:8080/api/$1 [P,L]
+
+  # ── Proxy /uploads/* (local uploaded files) to the Node.js backend ─────────
+  RewriteCond %{REQUEST_URI} ^/uploads/ [NC]
+  RewriteRule ^uploads/(.*)$ http://localhost:8080/uploads/$1 [P,L]
 
   # ── Serve React SPA for all other routes ──────────────────────────────────
   RewriteRule ^index\.html$ - [L]
@@ -15,4 +19,5 @@
 
 <IfModule mod_proxy.c>
   ProxyPassReverse /api/ http://localhost:8080/api/
+  ProxyPassReverse /uploads/ http://localhost:8080/uploads/
 </IfModule>
