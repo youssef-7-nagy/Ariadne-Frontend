@@ -6,7 +6,7 @@ import "./Login.css";
 
 import {
     FaGoogle, FaFacebookF, FaApple,
-    FaUser, FaEnvelope, FaLock, FaPhone
+    FaUser, FaEnvelope, FaLock, FaPhone, FaEye, FaEyeSlash
 } from "react-icons/fa";
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
@@ -16,6 +16,8 @@ const EMAIL_USED_MESSAGE = "This email is already used. Please sign in instead."
 const Login = () => {
     const [isActive, setIsActive] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [showRegPassword, setShowRegPassword] = useState(false);
+    const [showLoginPassword, setShowLoginPassword] = useState(false);
     const navigate = useNavigate();
 
     const regNameRef = useRef(null);
@@ -165,8 +167,17 @@ const Login = () => {
                             <FaEnvelope className="input-icon" />
                         </div>
                         <div className="input-wrapper">
-                            <input type="password" placeholder="Password" ref={regPasswordRef} required />
-                            <FaLock className="input-icon" />
+                            <input 
+                                type={showRegPassword ? "text" : "password"} 
+                                placeholder="Password" 
+                                ref={regPasswordRef} 
+                                required 
+                            />
+                            {showRegPassword ? (
+                                <FaEyeSlash className="input-icon clickable-icon" onClick={() => setShowRegPassword(false)} />
+                            ) : (
+                                <FaEye className="input-icon clickable-icon" onClick={() => setShowRegPassword(true)} />
+                            )}
                         </div>
                         <button type="submit" disabled={isLoading}>{isLoading ? "Loading..." : "Sign Up"}</button>
 
@@ -192,8 +203,17 @@ const Login = () => {
                             <FaEnvelope className="input-icon" />
                         </div>
                         <div className="input-wrapper">
-                            <input type="password" placeholder="Password" ref={loginPasswordRef} required />
-                            <FaLock className="input-icon" />
+                            <input 
+                                type={showLoginPassword ? "text" : "password"} 
+                                placeholder="Password" 
+                                ref={loginPasswordRef} 
+                                required 
+                            />
+                            {showLoginPassword ? (
+                                <FaEyeSlash className="input-icon clickable-icon" onClick={() => setShowLoginPassword(false)} />
+                            ) : (
+                                <FaEye className="input-icon clickable-icon" onClick={() => setShowLoginPassword(true)} />
+                            )}
                         </div>
 
                         <a href="/forgot-password" style={{ marginTop: "15px", marginBottom: "10px" }}>

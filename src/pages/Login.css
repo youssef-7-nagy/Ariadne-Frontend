@@ -161,6 +161,16 @@
     pointer-events: none;
 }
 
+.input-icon.clickable-icon {
+    pointer-events: auto;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.input-icon.clickable-icon:hover {
+    color: #0A2440;
+}
+
 .social-icons {
     margin: 15px 0 10px;
     display: flex;
@@ -408,6 +418,10 @@
 
 .dark .input-icon {
   color: #1bbaeb;
+}
+
+.dark .input-icon.clickable-icon:hover {
+  color: #e8f4ff;
 }
 
 .dark .social-icons a {
