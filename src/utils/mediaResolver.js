@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8080' : '');
 
 export const resolveMedia = (url) => {
     if (!url) return { type: 'unknown', src: '', isIframe: false, thumbnail: '' };

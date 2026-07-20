@@ -3,7 +3,7 @@ import { resolveMedia } from '../../utils/mediaResolver';
 import { ImageFallback } from '../media/ImageFallback';
 import { VideoFallback } from '../media/VideoFallback';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8080' : '');
 
 export const MediaPreview = ({ src, type, className, style }) => {
   if (!src) return null;

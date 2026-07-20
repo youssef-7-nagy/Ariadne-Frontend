@@ -9,7 +9,7 @@ import {
     FaUser, FaEnvelope, FaLock, FaPhone, FaEye, FaEyeSlash
 } from "react-icons/fa";
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8080' : '');
 
 const EMAIL_USED_MESSAGE = "This email is already used. Please sign in instead.";
 

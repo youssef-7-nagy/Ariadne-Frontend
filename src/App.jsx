@@ -96,7 +96,7 @@ const App = () => {
             const token = localStorage.getItem('token');
             if (token) {
                 try {
-                    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+                    const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8080' : '');
                     await fetch(`${API_URL}/api/auth/me`, {
                         headers: { Authorization: `Bearer ${token}` }
                     }).then(res => {
