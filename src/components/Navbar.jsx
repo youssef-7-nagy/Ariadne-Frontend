@@ -36,8 +36,12 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
     const handleLogout = () => {
         if (typeof onLogout === "function") {
             onLogout();
+        } else {
+            // Fallback just in case
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/login';
         }
-        navigate("/login");
     };
 
     useEffect(() => {

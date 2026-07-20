@@ -640,6 +640,7 @@ const AdminPanel = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    sessionStorage.clear();
     window.dispatchEvent(new Event('auth-changed'));
     window.location.href = '/login';
   };

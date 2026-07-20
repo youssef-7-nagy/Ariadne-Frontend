@@ -91,10 +91,37 @@ const App = () => {
         };
     }, []);
 
+    useEffect(() => {
+        const validateToken = async () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                try {
+                    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+                    await fetch(`${API_URL}/api/auth/me`, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    }).then(res => {
+                        if (!res.ok) throw new Error('Token invalid');
+                    });
+                } catch (err) {
+                    // Token invalid or expired, clear session
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('user');
+                    setUserData(null);
+                    setIsLoggedIn(false);
+                }
+            }
+        };
+        validateToken();
+    }, []);
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+        sessionStorage.clear();
+        setUserData(null);
+        setIsLoggedIn(false);
         window.dispatchEvent(new Event('auth-changed'));
+        window.location.href = '/login';
     };
 
     return (

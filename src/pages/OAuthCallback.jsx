@@ -55,7 +55,7 @@ const OAuthCallback = () => {
 
       // Small delay so the toast is visible before navigation
       setTimeout(() => {
-        navigate(isAdmin ? "/admin" : "/profile", { replace: true });
+        window.location.href = isAdmin ? "/admin" : "/profile";
       }, 100);
     } catch (parseErr) {
       console.error("OAuthCallback: failed to parse user payload", parseErr);

@@ -60,9 +60,9 @@ const Login = () => {
 
             setTimeout(() => {
                 if (user && user.role === 'admin') {
-                    navigate("/admin");
+                    window.location.href = "/admin";
                 } else {
-                    navigate("/profile");
+                    window.location.href = "/profile";
                 }
             }, 100);
         } catch (err) {
@@ -104,9 +104,9 @@ const Login = () => {
             notify.success("Success - Login successful!");
             setTimeout(() => {
                 if (user && user.role === 'admin') {
-                    navigate("/admin");
+                    window.location.href = "/admin";
                 } else {
-                    navigate("/profile");
+                    window.location.href = "/profile";
                 }
             }, 100);
         } catch (err) {
