@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 // Fallback placeholder to show when an image fails to load
 const PLACEHOLDER_IMG = 'https://placehold.co/800x450/111111/333333?text=Image+Unavailable';
 
-export const ImageFallback = ({ src, alt = "Media", className, style, crossOrigin = "anonymous" }) => {
+export const ImageFallback = ({ src, alt = "Media", className, style, crossOrigin }) => {
     const [hasError, setHasError] = useState(false);
 
     if (!src || hasError) {
@@ -23,7 +23,7 @@ export const ImageFallback = ({ src, alt = "Media", className, style, crossOrigi
             alt={alt}
             className={className}
             style={style}
-            crossOrigin={crossOrigin}
+            {...(crossOrigin ? { crossOrigin } : {})}
             onError={(e) => {
                 console.warn(`[ImageFallback] Failed to load image: ${src}`);
                 setHasError(true);
