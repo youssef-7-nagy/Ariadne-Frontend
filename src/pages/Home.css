@@ -1720,18 +1720,43 @@
         padding: 8px;
     }
 
+    .wrapper {
+        height: 380px !important;
+        margin-bottom: 75px !important;
+    }
+
     .inner {
-        --w: 140px;
-        --h: 200px;
-        --translateZ: 340px;
+        --w: 115px;
+        --h: 165px;
+        --translateZ: 250px;
     }
 
     .prev-btn {
-        left: 20px;
+        left: calc(50% - 55px) !important;
+        right: auto !important;
     }
 
     .next-btn {
-        right: 20px;
+        left: calc(50% + 10px) !important;
+        right: auto !important;
+    }
+
+    .carousel-btn {
+        top: auto !important;
+        bottom: -65px !important;
+        transform: none !important;
+        width: 44px;
+        height: 44px;
+        font-size: 1.2rem;
+        z-index: 50;
+    }
+
+    .carousel-btn:hover {
+        transform: scale(1.1) !important;
+    }
+
+    .carousel-btn:active {
+        transform: scale(0.95) !important;
     }
 }
 
@@ -1766,27 +1791,29 @@
 
     /* Adjust 3D carousel for mobile */
     .wrapper {
-        height: 400px !important;
+        height: 330px !important;
+        margin-bottom: 70px !important;
     }
 
     .inner {
-        --w: 110px;
-        --h: 160px;
-        --translateZ: 280px;
+        --w: 95px;
+        --h: 135px;
+        --translateZ: 200px;
     }
 
     .carousel-btn {
+        bottom: -60px !important;
         width: 40px;
         height: 40px;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 
     .prev-btn {
-        left: 10px;
+        left: calc(50% - 48px) !important;
     }
 
     .next-btn {
-        right: 10px;
+        left: calc(50% + 8px) !important;
     }
 
     .ariadne-brand-card {
@@ -1810,6 +1837,32 @@
         padding: 40px 12px calc(40px + env(safe-area-inset-bottom));
     }
 
+    .wrapper {
+        height: 290px !important;
+        margin-bottom: 65px !important;
+    }
+
+    .inner {
+        --w: 82px;
+        --h: 118px;
+        --translateZ: 170px;
+    }
+
+    .carousel-btn {
+        bottom: -55px !important;
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+
+    .prev-btn {
+        left: calc(50% - 42px) !important;
+    }
+
+    .next-btn {
+        left: calc(50% + 6px) !important;
+    }
+
     .testimonial-wrapper {
         padding: 24px 16px;
     }
@@ -1825,15 +1878,5 @@
     .cta-button {
         padding: 14px 20px;
         font-size: 1rem;
-    }
-
-    .wrapper {
-        height: 350px !important;
-    }
-
-    .inner {
-        --w: 90px;
-        --h: 130px;
-        --translateZ: 220px;
     }
 }
