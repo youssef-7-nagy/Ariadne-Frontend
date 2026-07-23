@@ -66,7 +66,7 @@ export const resolveMedia = (rawUrl) => {
         if (videoId) {
             return {
                 type: 'youtube',
-                src: `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&controls=1`,
+                src: `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&playsinline=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&controls=1`,
                 isIframe: true,
                 thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
             };
@@ -84,7 +84,7 @@ export const resolveMedia = (rawUrl) => {
         if (videoId) {
             return {
                 type: 'vimeo',
-                src: `https://player.vimeo.com/video/${videoId}?autoplay=1&title=0&byline=0&portrait=0&badge=0`,
+                src: `https://player.vimeo.com/video/${videoId}?autoplay=1&playsinline=1&title=0&byline=0&portrait=0&badge=0`,
                 isIframe: true
             };
         }
@@ -94,7 +94,7 @@ export const resolveMedia = (rawUrl) => {
     if (url.includes('mediadelivery.net') || url.includes('video.bunnycdn.com')) {
         return {
             type: 'bunny',
-            src: `${url}${url.includes('?') ? '&' : '?'}autoplay=true`,
+            src: `${url}${url.includes('?') ? '&' : '?'}autoplay=true&playsinline=true`,
             isIframe: true
         };
     }

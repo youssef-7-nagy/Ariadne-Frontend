@@ -44,6 +44,8 @@ export const VideoFallback = ({
             src={src}
             poster={poster}
             controls={controls}
+            playsInline={true}
+            webkit-playsinline="true"
             className={className}
             style={style}
             {...(crossOrigin ? { crossOrigin } : {})}

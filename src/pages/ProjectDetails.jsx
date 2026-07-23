@@ -24,14 +24,19 @@ const CustomVideoPlayer = ({ src, poster }) => {
     const isIframe = resolvedMedia.isIframe;
     const effectivePoster = poster || resolvedMedia.thumbnail;
 
-    const handlePlayClick = () => {
+    const handlePlayClick = (e) => {
+        if (e) e.stopPropagation();
         setIsPlaying(true);
     };
 
     return (
         <div className="pd-video-wrapper">
             {!isPlaying ? (
-                <div onClick={handlePlayClick} style={{ cursor: "pointer", position: "relative", width: "100%", height: "100%" }}>
+                <div 
+                    onClick={handlePlayClick} 
+                    onTouchEnd={handlePlayClick}
+                    style={{ cursor: "pointer", position: "relative", width: "100%", height: "100%" }}
+                >
                     {effectivePoster ? (
                         <ImageFallback 
                             src={effectivePoster} 
@@ -41,7 +46,7 @@ const CustomVideoPlayer = ({ src, poster }) => {
                     ) : (
                         <div style={{ width: "100%", height: "100%", backgroundColor: "#111", minHeight: "300px" }}></div>
                     )}
-                    <button className="pd-play-overlay-btn" aria-label="Play video">
+                    <button className="pd-play-overlay-btn" aria-label="Play video" onClick={handlePlayClick}>
                         <svg viewBox="0 0 24 24" fill="currentColor">
                             <path d="M8 5v14l11-7z" />
                         </svg>
@@ -57,8 +62,9 @@ const CustomVideoPlayer = ({ src, poster }) => {
                         border: "none",
                         display: "block"
                     }}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
+                    playsInline
                 />
             ) : (
                 <VideoFallback
