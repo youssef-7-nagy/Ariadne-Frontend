@@ -16,8 +16,8 @@
     min-height: calc(100vh - 80px);
     min-height: calc(100dvh - 80px);
     font-family: 'Montserrat', sans-serif;
-    overflow: hidden;
-    padding: 20px;
+    overflow-y: auto;
+    padding: 20px 15px;
 }
 
 .login-container {
@@ -26,9 +26,10 @@
     box-shadow: 0 14px 40px rgba(0, 0, 0, 0.1), 0 0 20px rgba(31, 117, 184, 0.05);
     position: relative;
     overflow: hidden;
-    width: clamp(300px, 90%, 900px);
+    width: clamp(300px, 94%, 900px);
     max-width: 100%;
-    min-height: 550px; /* Increased to accommodate the 4 inputs perfectly */
+    min-height: 520px;
+    box-sizing: border-box;
 }
 
 .login-container form h1 {
@@ -333,56 +334,7 @@
     color: #0A2440;
 }
 
-/* RESPONSIVENESS */
-@media (max-width: 768px) {
-    .login-container {
-        min-height: 600px; /* Slight bump for mobile vertical space */
-        width: 100%;
-        max-width: 450px;
-    }
-
-    .form-container {
-        width: 100%;
-        height: 100%;
-        opacity: 1;
-        z-index: 1;
-        transform: none !important;
-        animation: none;
-        transition: opacity 0.4s ease-in-out;
-    }
-
-    .sign-up,
-    .sign-in {
-        display: none;
-    }
-
-    .login-container.active .sign-up {
-        display: block;
-        opacity: 1;
-    }
-
-    .login-container:not(.active) .sign-in {
-        display: block;
-        opacity: 1;
-    }
-
-    .toggle-container {
-        display: none; /* Hide the sliding gradient panel entirely on mobile */
-    }
-
-    .login-container form {
-        padding: 40px 30px;
-    }
-
-    .login-container form h1 {
-        font-size: 24px;
-    }
-
-    /* Show the mobile toggle links since the toggle panels are hidden */
-    .mobile-toggle {
-        display: block; 
-    }
-}
+/* Desktop & All Screens Base Structure */
 
 /* ==========================================================================
    # DARK MODE — LOGIN PAGE
@@ -462,74 +414,196 @@
 }
 
 /* ==========================================================================
-   # RESPONSIVE — SMALL PHONES (Login)
+   # RESPONSIVE SCALING — SLEEK COMPACT RECTANGULAR CARD ON MOBILE
    ========================================================================== */
 
-@media (max-width: 430px) {
+@media (max-width: 900px) {
+  .login-body {
+    padding: 16px 12px;
+    align-items: center;
+    overflow-y: auto;
+  }
+
   .login-container {
     width: 100%;
-    max-width: 100%;
-    min-height: auto;
-    border-radius: 16px;
+    max-width: 750px;
+    min-height: 480px;
+    border-radius: 18px;
   }
 
-  .login-container form {
-    padding: 32px 20px;
+  .form-container form {
+    padding: 0 20px;
   }
 
-  .login-container form h1 {
-    font-size: 22px;
-    margin-bottom: 8px;
+  .toggle-panel {
+    padding: 0 20px;
   }
 
-  .login-container button {
-    padding: 14px 20px;
-    width: 100%;
-    min-height: 48px;
-    font-size: 12px;
+  .toggle-container {
+    border-radius: 100px 0 0 100px;
   }
 
-  .input-wrapper {
-    margin: 6px 0;
-  }
-
-  .input-wrapper input {
-    padding: 14px 16px 14px 40px;
-    min-height: 48px;
-  }
-  .input-wrapper input.password-input {
-    padding-right: 40px;
-  }
-
-  .social-icons a {
-    width: 40px;
-    height: 40px;
-    font-size: 15px;
+  .login-container.active .toggle-container {
+    border-radius: 0 100px 100px 0;
   }
 }
 
-@media (max-width: 375px) {
-  .login-container form {
-    padding: 28px 16px;
+@media (max-width: 650px) {
+  .login-container {
+    min-height: 420px;
+    border-radius: 16px;
+  }
+
+  .form-container form {
+    padding: 0 12px;
+  }
+
+  .toggle-panel {
+    padding: 0 12px;
   }
 
   .login-container form h1 {
-    font-size: 20px;
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+
+  .toggle-panel h1 {
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+
+  .login-container p, .toggle-panel p {
+    font-size: 10.5px;
+    line-height: 14px;
+    margin: 6px 0;
   }
 
   .login-container span {
-    font-size: 10px;
-    margin: 8px 0 6px;
+    font-size: 9.5px;
+    margin: 4px 0 2px;
   }
 
-  .mobile-toggle {
+  .input-wrapper {
+    margin: 3px 0;
+  }
+
+  .input-wrapper input {
+    padding: 8px 10px 8px 32px;
     font-size: 12px;
-    margin-top: 20px;
+    min-height: 36px;
+    border-radius: 6px;
+  }
+
+  .input-wrapper input.password-input {
+    padding-right: 32px;
+  }
+
+  .input-icon, .input-icon-right {
+    font-size: 12px;
+  }
+
+  .input-icon {
+    left: 10px;
+  }
+
+  .input-icon-right {
+    right: 10px;
+  }
+
+  .login-container button {
+    padding: 8px 18px;
+    font-size: 10px;
+    margin-top: 8px;
+    border-radius: 6px;
+  }
+
+  .social-icons {
+    margin: 6px 0;
   }
 
   .social-icons a {
-    width: 36px;
-    height: 36px;
-    margin: 0 4px;
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+    margin: 0 2px;
+  }
+
+  .toggle-container {
+    border-radius: 70px 0 0 70px;
+  }
+
+  .login-container.active .toggle-container {
+    border-radius: 0 70px 70px 0;
+  }
+}
+
+@media (max-width: 430px) {
+  .login-body {
+    padding: 12px 6px;
+  }
+
+  .login-container {
+    min-height: 380px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .form-container form {
+    padding: 0 6px;
+  }
+
+  .toggle-panel {
+    padding: 0 6px;
+  }
+
+  .login-container form h1, .toggle-panel h1 {
+    font-size: 15px;
+  }
+
+  .login-container p, .toggle-panel p {
+    font-size: 9px;
+    line-height: 12px;
+    margin: 4px 0;
+  }
+
+  .input-wrapper input {
+    padding: 7px 8px 7px 26px;
+    font-size: 11px;
+    min-height: 32px;
+  }
+
+  .input-wrapper input.password-input {
+    padding-right: 26px;
+  }
+
+  .input-icon {
+    left: 7px;
+    font-size: 10px;
+  }
+
+  .input-icon-right {
+    right: 7px;
+    font-size: 10px;
+  }
+
+  .login-container button {
+    padding: 6px 12px;
+    font-size: 9px;
+    margin-top: 6px;
+  }
+
+  .social-icons a {
+    width: 24px;
+    height: 24px;
+    font-size: 9.5px;
+    margin: 0 2px;
+  }
+
+  .toggle-container {
+    border-radius: 50px 0 0 50px;
+  }
+
+  .login-container.active .toggle-container {
+    border-radius: 0 50px 50px 0;
   }
 }
