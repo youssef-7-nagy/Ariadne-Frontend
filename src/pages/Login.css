@@ -199,6 +199,8 @@
     margin: 0 6px;
     width: 36px;
     height: 36px;
+    flex-shrink: 0;
+    aspect-ratio: 1 / 1;
     transition: all 0.3s;
     color: #0A2440;
     text-decoration: none;
@@ -419,7 +421,7 @@
 
 @media (max-width: 900px) {
   .login-body {
-    padding: 16px 12px;
+    padding: 16px 10px;
     align-items: center;
     overflow-y: auto;
   }
@@ -429,6 +431,10 @@
     max-width: 750px;
     min-height: 480px;
     border-radius: 18px;
+  }
+
+  .login-container.active {
+    min-height: 520px;
   }
 
   .form-container form {
@@ -450,16 +456,22 @@
 
 @media (max-width: 650px) {
   .login-container {
-    min-height: 420px;
+    min-height: 430px;
     border-radius: 16px;
+  }
+
+  .login-container.active {
+    min-height: 480px;
   }
 
   .form-container form {
     padding: 0 12px;
+    box-sizing: border-box;
   }
 
   .toggle-panel {
     padding: 0 12px;
+    box-sizing: border-box;
   }
 
   .login-container form h1 {
@@ -485,13 +497,17 @@
 
   .input-wrapper {
     margin: 3px 0;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .input-wrapper input {
     padding: 8px 10px 8px 32px;
-    font-size: 12px;
+    font-size: 11.5px;
     min-height: 36px;
     border-radius: 6px;
+    box-sizing: border-box;
+    width: 100%;
   }
 
   .input-wrapper input.password-input {
@@ -526,6 +542,8 @@
     height: 28px;
     font-size: 11px;
     margin: 0 2px;
+    flex-shrink: 0;
+    aspect-ratio: 1 / 1;
   }
 
   .toggle-container {
@@ -543,9 +561,13 @@
   }
 
   .login-container {
-    min-height: 380px;
+    min-height: 410px;
     border-radius: 14px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .login-container.active {
+    min-height: 460px;
   }
 
   .form-container form {
@@ -597,6 +619,8 @@
     height: 24px;
     font-size: 9.5px;
     margin: 0 2px;
+    flex-shrink: 0;
+    aspect-ratio: 1 / 1;
   }
 
   .toggle-container {

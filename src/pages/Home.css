@@ -933,13 +933,11 @@
     width: 420px;
     height: 300px;
     border-radius: 16px;
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.12) 0%,
-        rgba(255, 255, 255, 0.06) 30%,
-        rgba(255, 255, 255, 0.03) 70%,
-        rgba(255, 255, 255, 0.08) 100%
-    );
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.12) 0%,
+            rgba(255, 255, 255, 0.06) 30%,
+            rgba(255, 255, 255, 0.03) 70%,
+            rgba(255, 255, 255, 0.08) 100%);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1.5px solid rgba(255, 255, 255, 0.35);
@@ -951,7 +949,7 @@
         inset 1px 0 0 rgba(255, 255, 255, 0.3),
         inset -1px 0 0 rgba(255, 255, 255, 0.1);
     transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
-                box-shadow 0.6s ease;
+        box-shadow 0.6s ease;
     cursor: pointer;
     overflow: hidden;
 }
@@ -980,15 +978,13 @@
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background: linear-gradient(
-        115deg,
-        transparent 0%,
-        transparent 35%,
-        rgba(255, 255, 255, 0.12) 45%,
-        rgba(255, 255, 255, 0.04) 55%,
-        transparent 65%,
-        transparent 100%
-    );
+    background: linear-gradient(115deg,
+            transparent 0%,
+            transparent 35%,
+            rgba(255, 255, 255, 0.12) 45%,
+            rgba(255, 255, 255, 0.04) 55%,
+            transparent 65%,
+            transparent 100%);
     pointer-events: none;
 }
 
@@ -1000,12 +996,10 @@
     width: 120px;
     height: 120px;
     border-radius: 16px 0 0 0;
-    background: radial-gradient(
-        circle at 0% 0%,
-        rgba(255, 255, 255, 0.55) 0%,
-        rgba(255, 255, 255, 0.15) 30%,
-        transparent 70%
-    );
+    background: radial-gradient(circle at 0% 0%,
+            rgba(255, 255, 255, 0.55) 0%,
+            rgba(255, 255, 255, 0.15) 30%,
+            transparent 70%);
     pointer-events: none;
 }
 
@@ -1046,11 +1040,9 @@
     left: 5%;
     width: 90%;
     height: 70px;
-    background: linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0.06) 0%,
-        transparent 100%
-    );
+    background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0.06) 0%,
+            transparent 100%);
     border-radius: 50%;
     filter: blur(12px);
     pointer-events: none;
@@ -1720,34 +1712,33 @@
         padding: 8px;
     }
 
-    .wrapper {
-        height: 380px !important;
-        margin-bottom: 75px !important;
-    }
-
     .inner {
-        --w: 115px;
-        --h: 165px;
-        --translateZ: 250px;
+        --w: 140px;
+        --h: 200px;
+        --translateZ: 340px;
     }
 
     .prev-btn {
-        left: calc(50% - 55px) !important;
+        left: calc(50% - 65px) !important;
         right: auto !important;
     }
 
     .next-btn {
-        left: calc(50% + 10px) !important;
+        left: calc(50% + 15px) !important;
         right: auto !important;
+    }
+
+    .wrapper {
+        margin-bottom: 35px !important;
     }
 
     .carousel-btn {
         top: auto !important;
-        bottom: -65px !important;
+        bottom: -25px !important;
         transform: none !important;
-        width: 44px;
-        height: 44px;
-        font-size: 1.2rem;
+        width: 46px;
+        height: 46px;
+        font-size: 1.3rem;
         z-index: 50;
     }
 
@@ -1791,29 +1782,28 @@
 
     /* Adjust 3D carousel for mobile */
     .wrapper {
-        height: 330px !important;
-        margin-bottom: 70px !important;
+        height: 450px !important;
     }
 
     .inner {
-        --w: 95px;
-        --h: 135px;
-        --translateZ: 200px;
+        --w: 110px;
+        --h: 160px;
+        --translateZ: 280px;
     }
 
     .carousel-btn {
-        bottom: -60px !important;
-        width: 40px;
-        height: 40px;
-        font-size: 1.1rem;
+        bottom: -20px !important;
+        width: 42px;
+        height: 42px;
+        font-size: 1.2rem;
     }
 
     .prev-btn {
-        left: calc(50% - 48px) !important;
+        left: calc(50% - 55px) !important;
     }
 
     .next-btn {
-        left: calc(50% + 8px) !important;
+        left: calc(50% + 10px) !important;
     }
 
     .ariadne-brand-card {
@@ -1837,32 +1827,6 @@
         padding: 40px 12px calc(40px + env(safe-area-inset-bottom));
     }
 
-    .wrapper {
-        height: 290px !important;
-        margin-bottom: 65px !important;
-    }
-
-    .inner {
-        --w: 82px;
-        --h: 118px;
-        --translateZ: 170px;
-    }
-
-    .carousel-btn {
-        bottom: -55px !important;
-        width: 36px;
-        height: 36px;
-        font-size: 1rem;
-    }
-
-    .prev-btn {
-        left: calc(50% - 42px) !important;
-    }
-
-    .next-btn {
-        left: calc(50% + 6px) !important;
-    }
-
     .testimonial-wrapper {
         padding: 24px 16px;
     }
@@ -1878,5 +1842,15 @@
     .cta-button {
         padding: 14px 20px;
         font-size: 1rem;
+    }
+
+    .wrapper {
+        height: 350px !important;
+    }
+
+    .inner {
+        --w: 90px;
+        --h: 130px;
+        --translateZ: 220px;
     }
 }
