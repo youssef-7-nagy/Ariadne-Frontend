@@ -1510,7 +1510,6 @@
     cursor: pointer;
     background: #111;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    -webkit-box-reflect: below 15px linear-gradient(transparent, transparent 70%, rgba(255, 255, 255, 0.2));
     -webkit-font-smoothing: antialiased;
     transform-style: preserve-3d;
     will-change: transform;

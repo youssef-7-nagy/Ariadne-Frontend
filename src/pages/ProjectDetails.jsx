@@ -196,20 +196,6 @@ const ProjectDetails = () => {
         }
         return null;
     };
-        if (imageMedia) {
-            return (
-                <div className="pd-media-block">
-                    <span className="pd-media-badge">🖼️ Photo</span>
-                    <ImageFallback
-                        src={resolveUrl(imageMedia.url)}
-                        alt={imageMedia.altText || project.title}
-                        className="pd-image"
-                    />
-                </div>
-            );
-        }
-        return null;
-    };
 
     const remainingMedia = project.media?.filter(m => m !== videoMedia && m !== embedMedia && m !== imageMedia) || [];
 
