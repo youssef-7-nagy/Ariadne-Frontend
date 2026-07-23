@@ -360,6 +360,11 @@ const ProjectsTab = () => {
       return notify.error('At least one media source (Video, Image, Embed, or External Link) is required.');
     }
 
+    // Cover image is mandatory for new projects
+    if (!editingId && !coverFile) {
+      return notify.error('Cover image is required. Every project needs a thumbnail.');
+    }
+
     setLoading(true);
     try {
       const fd = new FormData();
@@ -529,7 +534,7 @@ const ProjectsTab = () => {
                 onChange={e => setForm(f => ({ ...f, externalLink: e.target.value }))} />
             </div>
             <div className="cms-field" style={{ gridColumn: 'span 1' }}>
-              <label><FiImage style={{ verticalAlign: 'middle', marginRight: 4 }} />Coverage Photo (Thumbnail)</label>
+              <label><FiImage style={{ verticalAlign: 'middle', marginRight: 4 }} />Coverage Photo (Thumbnail) <span style={{ color: '#ef4444' }}>*</span></label>
               <UploadZone
                 accept="image/*"
                 label="Upload a cover photo for this project"
