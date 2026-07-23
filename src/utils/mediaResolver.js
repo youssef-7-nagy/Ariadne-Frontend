@@ -1,7 +1,17 @@
 const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8080' : '');
 
-export const resolveMedia = (url) => {
-    if (!url) return { type: 'unknown', src: '', isIframe: false, thumbnail: '' };
+export const resolveMedia = (rawUrl) => {
+    if (!rawUrl) return { type: 'unknown', src: '', isIframe: false, thumbnail: '' };
+
+    let url = String(rawUrl).trim();
+
+    // Extract src from iframe HTML string if user pasted raw <iframe> tag
+    if (url.includes('<iframe') || url.includes('src=')) {
+        const srcMatch = url.match(/src=["']([^"']+)["']/i);
+        if (srcMatch) {
+            url = srcMatch[1];
+        }
+    }
 
     // 1. Local Uploads
     if (url.startsWith('/uploads/')) {
@@ -33,29 +43,32 @@ export const resolveMedia = (url) => {
         } catch (e) {
             console.error('Failed to parse Cloudinary Embed URL:', e);
         }
-        // Fallback if parsing fails
         return { type: 'cloudinary_embed', src: url, isIframe: true };
     }
 
     // 4. YouTube
     if (url.includes('youtube.com') || url.includes('youtu.be')) {
         let videoId = '';
-        if (url.includes('youtube.com/watch?v=')) {
-            videoId = url.split('v=')[1].split('&')[0];
+        if (url.includes('youtube.com/watch')) {
+            const match = url.match(/[?&]v=([^&]+)/);
+            if (match) videoId = match[1];
+            else videoId = url.split('v=')[1]?.split('&')[0] || '';
         } else if (url.includes('youtu.be/')) {
-            videoId = url.split('youtu.be/')[1].split('?')[0];
+            videoId = url.split('youtu.be/')[1]?.split('?')[0]?.split('/')[0] || '';
         } else if (url.includes('youtube.com/embed/')) {
-            videoId = url.split('embed/')[1].split('?')[0];
+            videoId = url.split('embed/')[1]?.split('?')[0]?.split('/')[0] || '';
         } else if (url.includes('youtube.com/shorts/')) {
-            videoId = url.split('shorts/')[1].split('?')[0];
+            videoId = url.split('shorts/')[1]?.split('?')[0]?.split('/')[0] || '';
+        } else if (url.includes('youtube.com/live/')) {
+            videoId = url.split('live/')[1]?.split('?')[0]?.split('/')[0] || '';
         }
 
         if (videoId) {
             return {
                 type: 'youtube',
-                src: `https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&controls=1&disablekb=1&vq=hd2160`,
+                src: `https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&controls=1`,
                 isIframe: true,
-                thumbnail: `https://img.youtube.com/vi/${videoId}/0.jpg`
+                thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
             };
         }
     }
@@ -64,9 +77,9 @@ export const resolveMedia = (url) => {
     if (url.includes('vimeo.com')) {
         let videoId = '';
         if (url.includes('player.vimeo.com/video/')) {
-            videoId = url.split('video/')[1].split('?')[0];
+            videoId = url.split('video/')[1]?.split('?')[0]?.split('/')[0] || '';
         } else {
-            videoId = url.split('vimeo.com/')[1].split('?')[0];
+            videoId = url.split('vimeo.com/')[1]?.split('?')[0]?.split('/')[0] || '';
         }
         if (videoId) {
             return {
@@ -91,6 +104,5 @@ export const resolveMedia = (url) => {
         return { type: 'external_video', src: url, isIframe: false };
     }
     
-    // Default fallback
     return { type: 'external_image', src: url, isIframe: false };
 };

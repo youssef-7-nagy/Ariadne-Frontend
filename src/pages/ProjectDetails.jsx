@@ -22,6 +22,7 @@ const CustomVideoPlayer = ({ src, poster }) => {
     const resolvedMedia = resolveMedia(src);
     const finalSrc = resolvedMedia.src;
     const isIframe = resolvedMedia.isIframe;
+    const effectivePoster = poster || resolvedMedia.thumbnail;
 
     const handlePlayClick = () => {
         setIsPlaying(true);
@@ -31,9 +32,9 @@ const CustomVideoPlayer = ({ src, poster }) => {
         <div className="pd-video-wrapper">
             {!isPlaying ? (
                 <div onClick={handlePlayClick} style={{ cursor: "pointer", position: "relative", width: "100%", height: "100%" }}>
-                    {poster ? (
+                    {effectivePoster ? (
                         <ImageFallback 
-                            src={poster} 
+                            src={effectivePoster} 
                             style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} 
                             alt="Video thumbnail"
                         />
@@ -62,7 +63,7 @@ const CustomVideoPlayer = ({ src, poster }) => {
             ) : (
                 <VideoFallback
                     src={finalSrc}
-                    poster={poster}
+                    poster={effectivePoster}
                     controls={isPlaying}
                     autoPlay={true}
                     onPlay={() => setIsPlaying(true)}
@@ -122,13 +123,15 @@ const ProjectDetails = () => {
     const imageMedia = project.media?.find(m => m.type === 'image');
 
     const renderMainMedia = () => {
+        const coverPoster = project.coverImage ? resolveUrl(project.coverImage) : undefined;
+
         if (videoMedia) {
             return (
                 <div className="pd-media-block">
                     <span className="pd-media-badge">🎬 Video</span>
                     <CustomVideoPlayer
                         src={resolveUrl(videoMedia.url)}
-                        poster={videoMedia.thumbnailUrl ? resolveUrl(videoMedia.thumbnailUrl) : undefined}
+                        poster={videoMedia.thumbnailUrl ? resolveUrl(videoMedia.thumbnailUrl) : coverPoster}
                     />
                 </div>
             );
@@ -139,15 +142,30 @@ const ProjectDetails = () => {
                     <span className="pd-media-badge">🎬 Video</span>
                     <CustomVideoPlayer
                         src={resolveUrl(embedMedia.url)}
-                        poster={embedMedia.thumbnailUrl ? resolveUrl(embedMedia.thumbnailUrl) : undefined}
+                        poster={embedMedia.thumbnailUrl ? resolveUrl(embedMedia.thumbnailUrl) : coverPoster}
                     />
                 </div>
             );
         }
         if (project.externalLink) {
+            const resolved = resolveMedia(project.externalLink);
+            const isEmbeddableVideo = resolved.isIframe || ['youtube', 'vimeo', 'bunny', 'cloudinary_video', 'local_video', 'external_video'].includes(resolved.type);
+
+            if (isEmbeddableVideo) {
+                return (
+                    <div className="pd-media-block">
+                        <span className="pd-media-badge">🎬 Video</span>
+                        <CustomVideoPlayer
+                            src={project.externalLink}
+                            poster={coverPoster}
+                        />
+                    </div>
+                );
+            }
+
             return (
                 <div className="pd-media-block" style={{ textAlign: 'center', padding: '4rem 2rem', background: '#0a0a0a', borderRadius: '12px' }}>
-                    <span className="pd-media-badge">🔗 External Video</span>
+                    <span className="pd-media-badge">🔗 External Link</span>
                     <h3 style={{ color: '#fff', marginBottom: '1.5rem' }}>Watch on External Platform</h3>
                     <a href={project.externalLink} target="_blank" rel="noopener noreferrer" className="pd-external-link-btn" style={{ display: 'inline-flex', margin: '0 auto' }}>
                         <span className="pd-btn-text">Open Full Video</span>
@@ -161,6 +179,20 @@ const ProjectDetails = () => {
                 </div>
             );
         }
+        if (imageMedia) {
+            return (
+                <div className="pd-media-block">
+                    <span className="pd-media-badge">🖼️ Photo</span>
+                    <ImageFallback
+                        src={resolveUrl(imageMedia.url)}
+                        alt={imageMedia.altText || project.title}
+                        className="pd-image"
+                    />
+                </div>
+            );
+        }
+        return null;
+    };
         if (imageMedia) {
             return (
                 <div className="pd-media-block">

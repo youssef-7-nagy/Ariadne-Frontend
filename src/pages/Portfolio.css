@@ -78,8 +78,13 @@ html.dark .project-details-container {
 }
 
 @keyframes pfAmbientFloat {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(30px, -20px) scale(1.1); }
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate(30px, -20px) scale(1.1);
+    }
 }
 
 /* ─── Inner Wrapper ─── */
@@ -100,8 +105,15 @@ html.dark .project-details-container {
 }
 
 @keyframes pfReveal {
-    from { opacity: 0; transform: translateY(40px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Badge */
@@ -126,8 +138,17 @@ html.dark .project-details-container {
 }
 
 @keyframes pfPulse {
-    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(189, 159, 103, 0.4); }
-    50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(189, 159, 103, 0); }
+
+    0%,
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(189, 159, 103, 0.4);
+    }
+
+    50% {
+        opacity: 0.7;
+        box-shadow: 0 0 0 6px rgba(189, 159, 103, 0);
+    }
 }
 
 .pf-badge-text {
@@ -293,6 +314,7 @@ html.dark .pf-stat-divider {
         opacity: 0;
         transform: translateY(40px) scale(0.95);
     }
+
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -310,30 +332,30 @@ html.dark .pf-stat-divider {
     cursor: pointer;
     border: 1px solid rgba(0, 0, 0, 0.08);
     transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                border-color 0.5s ease;
+        box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        border-color 0.5s ease;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05),
-                0 1px 3px rgba(0, 0, 0, 0.02);
+        0 1px 3px rgba(0, 0, 0, 0.02);
     will-change: transform, box-shadow;
 }
 
 html.dark .pf-card {
     border: 1px solid rgba(255, 255, 255, 0.06);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3),
-                0 0 0 1px rgba(255, 255, 255, 0.02);
+        0 0 0 1px rgba(255, 255, 255, 0.02);
 }
 
 .pf-card:hover {
     transform: translateY(-10px) scale(1.02);
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12),
-                0 0 40px rgba(189, 159, 103, 0.05);
+        0 0 40px rgba(189, 159, 103, 0.05);
     border-color: rgba(189, 159, 103, 0.3);
 }
 
 html.dark .pf-card:hover {
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5),
-                0 0 80px rgba(189, 159, 103, 0.08),
-                0 0 0 1px rgba(189, 159, 103, 0.15);
+        0 0 80px rgba(189, 159, 103, 0.08),
+        0 0 0 1px rgba(189, 159, 103, 0.15);
     border-color: rgba(189, 159, 103, 0.25);
 }
 
@@ -345,7 +367,7 @@ html.dark .pf-card:hover {
     background-position: center;
     background-repeat: no-repeat;
     transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                opacity 0.6s ease;
+        opacity 0.6s ease;
     z-index: 0;
     opacity: 0;
 }
@@ -363,25 +385,21 @@ html.dark .pf-card:hover {
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: linear-gradient(
-        to top,
-        rgba(4, 5, 10, 0.97) 0%,
-        rgba(4, 5, 10, 0.85) 25%,
-        rgba(4, 5, 10, 0.4) 50%,
-        rgba(4, 5, 10, 0.1) 70%,
-        rgba(4, 5, 10, 0.05) 100%
-    );
+    background: linear-gradient(to top,
+            rgba(4, 5, 10, 0.97) 0%,
+            rgba(4, 5, 10, 0.85) 25%,
+            rgba(4, 5, 10, 0.4) 50%,
+            rgba(4, 5, 10, 0.1) 70%,
+            rgba(4, 5, 10, 0.05) 100%);
     transition: background 0.5s ease;
 }
 
 .pf-card:hover .pf-card-gradient {
-    background: linear-gradient(
-        to top,
-        rgba(4, 5, 10, 0.95) 0%,
-        rgba(4, 5, 10, 0.6) 30%,
-        rgba(4, 5, 10, 0.15) 55%,
-        rgba(4, 5, 10, 0) 80%
-    );
+    background: linear-gradient(to top,
+            rgba(4, 5, 10, 0.95) 0%,
+            rgba(4, 5, 10, 0.6) 30%,
+            rgba(4, 5, 10, 0.15) 55%,
+            rgba(4, 5, 10, 0) 80%);
 }
 
 /* ─── Hover Glow ─── */
@@ -390,12 +408,10 @@ html.dark .pf-card:hover {
     inset: 0;
     z-index: 2;
     opacity: 0;
-    background: radial-gradient(
-        ellipse at 50% 100%,
-        rgba(189, 159, 103, 0.12) 0%,
-        rgba(189, 159, 103, 0.03) 40%,
-        transparent 70%
-    );
+    background: radial-gradient(ellipse at 50% 100%,
+            rgba(189, 159, 103, 0.12) 0%,
+            rgba(189, 159, 103, 0.03) 40%,
+            transparent 70%);
     transition: opacity 0.6s ease;
     pointer-events: none;
 }
@@ -559,23 +575,19 @@ html.dark .pf-skeleton-card {
 .pf-skeleton-shimmer {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        110deg,
-        transparent 25%,
-        rgba(0, 0, 0, 0.02) 37%,
-        transparent 50%
-    );
+    background: linear-gradient(110deg,
+            transparent 25%,
+            rgba(0, 0, 0, 0.02) 37%,
+            transparent 50%);
     background-size: 250% 100%;
     animation: pfShimmer 2s ease-in-out infinite;
 }
 
 html.dark .pf-skeleton-shimmer {
-    background: linear-gradient(
-        110deg,
-        transparent 25%,
-        rgba(255, 255, 255, 0.03) 37%,
-        transparent 50%
-    );
+    background: linear-gradient(110deg,
+            transparent 25%,
+            rgba(255, 255, 255, 0.03) 37%,
+            transparent 50%);
 }
 
 .pf-skeleton-content {
@@ -616,8 +628,13 @@ html.dark .pf-skeleton-desc {
 }
 
 @keyframes pfShimmer {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
 }
 
 /* ═════════════════════════════════════
@@ -917,7 +934,7 @@ html.dark .portfolio-subtitle {
 /* Expanding Gallery Styles for Portfolio */
 .expanding-gallery {
     display: flex;
-    height: 450px; 
+    height: 450px;
     gap: 1rem;
     width: 100%;
     max-width: 1100px;
@@ -930,14 +947,14 @@ html.dark .portfolio-subtitle {
     border-radius: 1rem;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover; 
+    background-size: cover;
     position: relative;
     overflow: hidden;
     cursor: pointer;
     transition: all 0.8s cubic-bezier(0.25, 0.4, 0.45, 1.4);
 }
 
-.expanding-gallery > .gallery-panel:hover {
+.expanding-gallery>.gallery-panel:hover {
     flex: 5;
 }
 
@@ -966,7 +983,7 @@ html.dark .portfolio-subtitle {
     font-weight: 700;
     margin: 0;
     white-space: nowrap;
-    text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     transform: translateY(20px);
     transition: transform 0.6s cubic-bezier(0.25, 0.4, 0.45, 1.4) 0.1s;
 }
@@ -980,320 +997,18 @@ html.dark .portfolio-subtitle {
         flex-direction: column;
         height: 600px;
     }
+
     .panel-content {
         opacity: 1;
         padding: 15px;
     }
+
     .panel-content h3 {
         font-size: 1.2rem;
         transform: translateY(0);
     }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   PROJECT CARD GRID — Professional Portfolio Cards
-   ═══════════════════════════════════════════════════════════════ */
-
-/* ─── Grid Layout ─── */
-.project-card-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.8rem;
-    max-width: 1200px;
-    margin: 2rem auto 0;
-}
-
-/* ─── Card ─── */
-.project-card {
-    position: relative;
-    border-radius: 16px;
-    overflow: hidden;
-    background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                border-color 0.4s ease;
-    will-change: transform, box-shadow;
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-}
-
-html.dark .project-card {
-    background: #111318;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.02);
-}
-
-.project-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.10), 0 0 30px rgba(189, 159, 103, 0.06);
-    border-color: rgba(189, 159, 103, 0.25);
-}
-
-html.dark .project-card:hover {
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 60px rgba(189, 159, 103, 0.08);
-    border-color: rgba(189, 159, 103, 0.2);
-}
-
-/* ─── Image Wrapper (16:9 aspect ratio) ─── */
-.project-card-img-wrapper {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 10;
-    overflow: hidden;
-    background: #f0f0f0;
-}
-
-html.dark .project-card-img-wrapper {
-    background: #1a1d25;
-}
-
-/* ─── Image ─── */
-.project-card-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    opacity: 0;
-    transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.project-card-img.loaded {
-    opacity: 1;
-}
-
-.project-card:hover .project-card-img {
-    transform: scale(1.08);
-}
-
-/* ─── Placeholder (shown when image fails/is missing) ─── */
-.project-card-placeholder {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6rem;
-    background: linear-gradient(135deg, #1a1d25 0%, #2a2d35 50%, #1a1d25 100%);
-    color: rgba(255, 255, 255, 0.2);
-}
-
-.project-card-placeholder svg {
-    width: 36px;
-    height: 36px;
-    opacity: 0.3;
-}
-
-.project-card-placeholder span {
-    font-size: 0.7rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    opacity: 0.25;
-}
-
-/* ─── Gradient overlay on image ─── */
-.project-card-img-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 60%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 100%);
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-
-.project-card:hover .project-card-img-overlay {
-    opacity: 1;
-}
-
-/* ─── Card Body ─── */
-.project-card-body {
-    padding: 1.2rem 1.3rem 1.4rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-    flex: 1;
-}
-
-/* ─── Category Badge ─── */
-.project-card-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.25rem 0.7rem;
-    border-radius: 100px;
-    background: rgba(189, 159, 103, 0.08);
-    border: 1px solid rgba(189, 159, 103, 0.15);
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: #bd9f67;
-    width: fit-content;
-}
-
-html.dark .project-card-badge {
-    background: rgba(189, 159, 103, 0.1);
-    border: 1px solid rgba(189, 159, 103, 0.18);
-}
-
-/* ─── Title ─── */
-.project-card-title {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: #08090d;
-    margin: 0;
-    line-height: 1.3;
-    letter-spacing: -0.3px;
-    transition: color 0.3s ease;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-html.dark .project-card-title {
-    color: #f0f0f0;
-}
-
-.project-card:hover .project-card-title {
-    color: #bd9f67;
-}
-
-/* ─── Client Name ─── */
-.project-card-client {
-    font-size: 0.8rem;
-    color: #64748b;
-    margin: 0;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
-
-html.dark .project-card-client {
-    color: #7b8ca1;
-}
-
-/* ─── Description ─── */
-.project-card-desc {
-    font-size: 0.82rem;
-    color: #4a5568;
-    margin: 0;
-    line-height: 1.55;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    font-weight: 400;
-    transition: color 0.3s ease;
-}
-
-html.dark .project-card-desc {
-    color: #6b7a8d;
-}
-
-/* ─── Gold accent line at bottom of card on hover ─── */
-.project-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #bd9f67, transparent);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-
-.project-card:hover::after {
-    opacity: 1;
-}
-
-/* ─── Skeleton loading for project cards ─── */
-.project-card-skeleton {
-    border-radius: 16px;
-    overflow: hidden;
-    background: rgba(0, 0, 0, 0.03);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    animation: pfCardIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-html.dark .project-card-skeleton {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-.project-card-skeleton .skel-img {
-    width: 100%;
-    aspect-ratio: 16 / 10;
-    background: rgba(0, 0, 0, 0.05);
-}
-
-html.dark .project-card-skeleton .skel-img {
-    background: rgba(255, 255, 255, 0.04);
-}
-
-.project-card-skeleton .skel-body {
-    padding: 1.2rem 1.3rem;
-}
-
-.project-card-skeleton .skel-line {
-    height: 12px;
-    border-radius: 4px;
-    background: rgba(0, 0, 0, 0.06);
-    margin-bottom: 0.6rem;
-}
-
-html.dark .project-card-skeleton .skel-line {
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.project-card-skeleton .skel-line.short { width: 45%; }
-.project-card-skeleton .skel-line.medium { width: 70%; }
-.project-card-skeleton .skel-line.long { width: 90%; }
-
-.project-card-skeleton .skel-shimmer {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(110deg, transparent 25%, rgba(0, 0, 0, 0.02) 37%, transparent 50%);
-    background-size: 250% 100%;
-    animation: pfShimmer 2s ease-in-out infinite;
-}
-
-/* ─── RESPONSIVE ─── */
-@media (max-width: 1100px) {
-    .project-card-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.4rem;
-    }
-}
-
-@media (max-width: 640px) {
-    .project-card-grid {
-        grid-template-columns: 1fr;
-        gap: 1.2rem;
-        max-width: 480px;
-    }
-
-    .project-card-body {
-        padding: 1rem 1.1rem 1.2rem;
-    }
-
-    .project-card-title {
-        font-size: 0.95rem;
-    }
-
-    .project-card-desc {
-        -webkit-line-clamp: 1;
-    }
-}
 
 /* ═══════════════════════════════════════════════════════════════
    Project Details Page — Premium Cinematic Design
@@ -1324,7 +1039,7 @@ html.dark .project-details-container {
     transform: translateX(-50%);
     width: 800px;
     height: 800px;
-    background: radial-gradient(circle, rgba(189,159,103,0.06) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(189, 159, 103, 0.06) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
 }
@@ -1345,9 +1060,11 @@ html.dark .project-details-container {
 .pd-wrapper {
     display: flex;
     flex-direction: column;
-    max-width: 1700px; /* Expanded heavily to push the header to the far left of large screens */
+    max-width: 1700px;
+    /* Expanded heavily to push the header to the far left of large screens */
     margin: 0 auto;
-    padding: 0.5rem 0.5rem 2rem; /* Reduced top padding to move content up */
+    padding: 0.5rem 0.5rem 2rem;
+    /* Reduced top padding to move content up */
     position: relative;
     z-index: 1;
     min-height: calc(100vh - 4rem);
@@ -1374,21 +1091,22 @@ html.dark .project-details-container {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     /* On smaller screens, the video should probably be below the title but above the description.
        Or just keep it below the whole header. We'll let flex-direction column handle it. */
     .pd-info-column {
-        padding-top: 0 !important; /* Remove the dynamic padding used for desktop alignment */
+        padding-top: 0 !important;
+        /* Remove the dynamic padding used for desktop alignment */
         order: 1;
     }
-    
+
     .pd-media-column {
         order: 2;
         width: 100%;
     }
-    
+
     /* Also reset the YouTube button position on mobile so it doesn't float into space */
-    .pd-media-column > div[style*="position: 'absolute'"] {
+    .pd-media-column>div[style*="position: 'absolute'"] {
         position: relative !important;
         top: 0 !important;
         margin-bottom: 1rem !important;
@@ -1400,12 +1118,14 @@ html.dark .project-details-container {
 .pd-back {
     display: flex;
     align-items: center;
-    background-color: white; /* Uiverse white bg */
+    background-color: white;
+    /* Uiverse white bg */
     width: fit-content;
     height: 3.5rem;
     border-radius: 1rem;
     position: relative;
-    color: black; /* Uiverse black text */
+    color: black;
+    /* Uiverse black text */
     font-size: 1.1rem;
     font-weight: 600;
     text-decoration: none;
@@ -1425,7 +1145,8 @@ html.dark .project-details-container {
 }
 
 .pd-back-icon {
-    background-color: #4ade80; /* Uiverse bright green */
+    background-color: #4ade80;
+    /* Uiverse bright green */
     border-radius: 0.75rem;
     height: 3rem;
     width: 3rem;
@@ -1440,11 +1161,13 @@ html.dark .project-details-container {
 }
 
 .pd-back-icon svg {
-    fill: #000000; /* Uiverse dark icon */
+    fill: #000000;
+    /* Uiverse dark icon */
 }
 
 .pd-back:hover .pd-back-icon {
-    width: calc(100% - 8px); /* Expands the green background */
+    width: calc(100% - 8px);
+    /* Expands the green background */
 }
 
 .pd-back-text {
@@ -1452,11 +1175,13 @@ html.dark .project-details-container {
     position: relative;
     margin: 0;
     white-space: nowrap;
-    transition: opacity 0.3s ease; /* Add transition for fading out */
+    transition: opacity 0.3s ease;
+    /* Add transition for fading out */
 }
 
 .pd-back:hover .pd-back-text {
-    opacity: 0; /* Hide text on hover */
+    opacity: 0;
+    /* Hide text on hover */
 }
 
 /* Cleared old back button styles */
@@ -1469,13 +1194,27 @@ html.dark .project-details-container {
 }
 
 @keyframes pdSlideIn {
-    from { opacity: 0; transform: translateY(32px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(32px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes pdFadeUp {
-    from { opacity: 0; transform: translateY(28px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .pd-title {
@@ -1535,16 +1274,16 @@ html.dark .pd-title {
 }
 
 html.dark .pd-pill {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     color: var(--text-secondary, #94a3b8);
 }
 
 .pd-pill:hover {
-    background: rgba(189,159,103,0.1);
-    border-color: rgba(189,159,103,0.4);
+    background: rgba(189, 159, 103, 0.1);
+    border-color: rgba(189, 159, 103, 0.4);
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(189,159,103,0.1);
+    box-shadow: 0 4px 16px rgba(189, 159, 103, 0.1);
 }
 
 .pd-pill-label {
@@ -1575,7 +1314,8 @@ html.dark .pd-pill-link {
 /* ─── Client Link Interactive Pill ─── */
 .pd-client-pill {
     cursor: pointer;
-    border-color: rgba(189, 159, 103, 0.25); /* Subtle gold border by default to hint it's interactive */
+    border-color: rgba(189, 159, 103, 0.25);
+    /* Subtle gold border by default to hint it's interactive */
     padding-right: 0.8rem;
 }
 
@@ -1593,15 +1333,16 @@ html.dark .pd-pill-link {
 }
 
 .pd-client-pill:hover {
-    background: linear-gradient(135deg, rgba(189,159,103,0.15), rgba(212,180,131,0.05));
+    background: linear-gradient(135deg, rgba(189, 159, 103, 0.15), rgba(212, 180, 131, 0.05));
     border-color: rgba(189, 159, 103, 0.6);
-    box-shadow: 0 6px 20px rgba(189,159,103,0.2);
+    box-shadow: 0 6px 20px rgba(189, 159, 103, 0.2);
 }
 
 .pd-client-pill:hover .pd-client-icon {
     opacity: 1;
     color: #d4b483;
-    transform: translateX(4px) scale(1.1); /* Jumps right and slightly enlarges */
+    transform: translateX(4px) scale(1.1);
+    /* Jumps right and slightly enlarges */
 }
 
 /* ─── Tags ─── */
@@ -1616,8 +1357,8 @@ html.dark .pd-pill-link {
 
 .pd-tag {
     padding: 0.3rem 0.85rem;
-    background: linear-gradient(135deg, rgba(189,159,103,0.15) 0%, rgba(189,159,103,0.05) 100%);
-    border: 1px solid rgba(189,159,103,0.25);
+    background: linear-gradient(135deg, rgba(189, 159, 103, 0.15) 0%, rgba(189, 159, 103, 0.05) 100%);
+    border: 1px solid rgba(189, 159, 103, 0.25);
     border-radius: 100px;
     font-size: 0.75rem;
     font-weight: 700;
@@ -1628,8 +1369,8 @@ html.dark .pd-pill-link {
 }
 
 .pd-tag:hover {
-    background: rgba(189,159,103,0.2);
-    border-color: rgba(189,159,103,0.5);
+    background: rgba(189, 159, 103, 0.2);
+    border-color: rgba(189, 159, 103, 0.5);
     transform: translateY(-1px);
 }
 
@@ -1637,7 +1378,7 @@ html.dark .pd-pill-link {
 .pd-context {
     margin-top: 2rem;
     padding-top: 1.5rem;
-    border-top: 1px solid rgba(189,159,103,0.1);
+    border-top: 1px solid rgba(189, 159, 103, 0.1);
     animation: pdSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
 }
 
@@ -1650,7 +1391,7 @@ html.dark .pd-pill-link {
     font-weight: 300;
     margin-bottom: 1px;
     padding-left: 1.5rem;
-    border-left: 2px solid rgba(189,159,103,0.4);
+    border-left: 2px solid rgba(189, 159, 103, 0.4);
     position: relative;
     transition: color 0.3s ease;
 }
@@ -1665,7 +1406,7 @@ html.dark .pd-description {
 .pd-divider {
     border: none;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(189,159,103,0.2), rgba(189,159,103,0.3), rgba(189,159,103,0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(189, 159, 103, 0.2), rgba(189, 159, 103, 0.3), rgba(189, 159, 103, 0.2), transparent);
     margin: 4rem 0;
     width: 100%;
 }
@@ -1679,7 +1420,7 @@ html.dark .pd-description {
 }
 
 /* ─── Featured Media Block ─── */
-.pd-wrapper > .pd-media-block {
+.pd-wrapper>.pd-media-block {
     width: 100%;
     animation: pdMediaReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
 }
@@ -1689,6 +1430,7 @@ html.dark .pd-description {
         opacity: 0;
         transform: translateY(40px) scale(0.97);
     }
+
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -1711,19 +1453,19 @@ html.dark .pd-description {
 
 html.dark .pd-media-block {
     box-shadow:
-        0 4px 6px rgba(0,0,0,0.2),
-        0 12px 24px rgba(0,0,0,0.3),
-        0 32px 64px rgba(0,0,0,0.4),
-        0 0 0 1px rgba(255,255,255,0.04);
+        0 4px 6px rgba(0, 0, 0, 0.2),
+        0 12px 24px rgba(0, 0, 0, 0.3),
+        0 32px 64px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
 .pd-media-block:hover {
     box-shadow:
-        0 4px 6px rgba(0,0,0,0.2),
-        0 16px 32px rgba(0,0,0,0.35),
-        0 40px 80px rgba(0,0,0,0.45),
-        0 0 0 1px rgba(189,159,103,0.12),
-        0 0 80px rgba(189,159,103,0.04);
+        0 4px 6px rgba(0, 0, 0, 0.2),
+        0 16px 32px rgba(0, 0, 0, 0.35),
+        0 40px 80px rgba(0, 0, 0, 0.45),
+        0 0 0 1px rgba(189, 159, 103, 0.12),
+        0 0 80px rgba(189, 159, 103, 0.04);
     transform: translateY(-4px);
 }
 
@@ -1802,7 +1544,7 @@ html.dark .pd-media-block {
     position: absolute;
     top: 16px;
     right: 16px;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
     color: #fff;
     font-size: 0.68rem;
     font-weight: 700;
@@ -1810,7 +1552,7 @@ html.dark .pd-media-block {
     text-transform: uppercase;
     padding: 0.3rem 0.8rem;
     border-radius: 100px;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(12px);
     pointer-events: none;
     z-index: 10;
@@ -1821,51 +1563,63 @@ html.dark .pd-media-block {
     .pd-wrapper {
         padding: 1rem 1rem 3rem;
     }
+
     .pd-grid-layout {
         gap: 2rem;
     }
+
     .pd-title {
         font-size: 2.2rem;
         letter-spacing: -0.5px;
         margin-bottom: 1rem;
     }
+
     .pd-title::after {
         width: 100%;
         height: 2px;
         margin-top: 0.5rem;
     }
+
     .pd-description {
         font-size: 1rem;
         line-height: 1.6;
         padding-left: 1rem;
     }
+
     .pd-meta {
         gap: 0.5rem;
         margin-bottom: 1rem;
     }
+
     .pd-pill {
         font-size: 0.8rem;
         padding: 0.4rem 0.8rem;
     }
+
     .pd-tags {
         gap: 0.4rem;
     }
+
     .pd-tag {
         font-size: 0.7rem;
         padding: 0.25rem 0.6rem;
     }
+
     .pd-gallery {
         gap: 2rem;
     }
+
     .pd-media-block {
         border-radius: 16px;
     }
+
     .pd-back {
         height: 3rem;
         font-size: 1rem;
         padding-left: 3.5rem;
         margin-bottom: 1.5rem;
     }
+
     .pd-back-icon {
         height: 2.5rem;
         width: 2.5rem;
@@ -1876,50 +1630,63 @@ html.dark .pd-media-block {
     .pd-wrapper {
         padding: 0.8rem 0.5rem 2rem;
     }
+
     .pd-grid-layout {
         gap: 1.5rem;
     }
+
     .pd-title {
         font-size: 1.8rem;
         line-height: 1.1;
     }
+
     .pd-meta {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
     }
+
     .pd-pill {
         width: 100%;
         justify-content: flex-start;
     }
+
     .pd-client-link {
         width: 100%;
         justify-content: space-between;
     }
+
     .pd-tags {
         margin-top: 1.5rem !important;
     }
+
     .pd-description {
         font-size: 0.95rem;
         border-left-width: 1px;
         padding-left: 0.8rem;
     }
+
     .pd-media-block {
         border-radius: 12px;
     }
+
     .pd-yt-btn {
         width: 100%;
         justify-content: center;
     }
+
     .pd-back {
         width: 100%;
         justify-content: center;
         padding-left: 0;
         text-align: center;
     }
+
     .pd-back-icon {
-        display: none; /* Hide icon on extremely small screens to save space, or just keep it small */
+        display: none;
+        /* Hide icon on extremely small screens to save space, or just keep it small */
     }
+
     .pd-back-text {
         transform: translateX(0);
     }
@@ -1947,7 +1714,8 @@ html.dark .pd-media-block {
     position: relative;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
-    min-width: 280px; /* Keep consistent width so it doesn't jump */
+    min-width: 280px;
+    /* Keep consistent width so it doesn't jump */
 }
 
 .pd-external-link-btn::before {
@@ -1965,10 +1733,10 @@ html.dark .pd-media-block {
     display: inline-block;
     opacity: 1;
     max-width: 250px;
-    transition: max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
-                opacity 0.3s ease, 
-                transform 0.3s ease,
-                margin 0.4s ease;
+    transition: max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+        opacity 0.3s ease,
+        transform 0.3s ease,
+        margin 0.4s ease;
     white-space: nowrap;
     position: relative;
     z-index: 1;
@@ -1979,10 +1747,10 @@ html.dark .pd-media-block {
     align-items: center;
     opacity: 0.8;
     max-width: 40px;
-    transition: max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
-                opacity 0.3s ease, 
-                transform 0.3s ease,
-                margin 0.4s ease;
+    transition: max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+        opacity 0.3s ease,
+        transform 0.3s ease,
+        margin 0.4s ease;
     position: relative;
     z-index: 1;
 }
@@ -2003,7 +1771,8 @@ html.dark .pd-media-block {
     box-shadow: 0 8px 30px rgba(255, 0, 0, 0.5);
     color: #fff;
     text-decoration: none;
-    gap: 0; /* collapse gap so icon is centered */
+    gap: 0;
+    /* collapse gap so icon is centered */
 }
 
 .pd-external-link-btn:hover::before {
@@ -2027,7 +1796,8 @@ html.dark .pd-media-block {
 }
 
 .pd-external-link-btn:hover .pd-external-icon {
-    transform: scale(1.3); /* Grow logo slightly when centered */
+    transform: scale(1.3);
+    /* Grow logo slightly when centered */
 }
 
 @media (max-width: 480px) {
@@ -2066,11 +1836,10 @@ html.dark .pd-back {
 }
 
 html.dark .pd-back-icon {
-    background-color: #bd9f67; /* Elegant gold icon background in dark mode */
+    background-color: #bd9f67;
+    /* Elegant gold icon background in dark mode */
 }
 
 html.dark .pd-back-icon svg {
     fill: #ffffff;
 }
-
-

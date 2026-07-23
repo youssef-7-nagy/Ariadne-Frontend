@@ -5,27 +5,27 @@ import { notify } from '../utils/notify';
 import './AdminPanel.css';
 
 /* ─── Same local fallback images used on the Portfolio / Home pages ─────────── */
-import imgShortFilms    from '../assets/categories/short-films.png';
+import imgShortFilms from '../assets/categories/short-films.png';
 import imgDocumentaries from '../assets/categories/documentaries.png';
-import imgCommercials   from '../assets/categories/commercials.png';
-import imgEvents        from '../assets/categories/events.png';
-import imgPodcasts      from '../assets/categories/podcasts.png';
-import imgStreaming     from '../assets/categories/streaming.png';
-import imgCorporate     from '../assets/categories/corporate.png';
-import imgMusicVideos   from '../assets/categories/music-videos.png';
-import imgPhotography   from '../assets/categories/photography.png';
-import imgBTS           from '../assets/categories/behind-the-scenes.png';
+import imgCommercials from '../assets/categories/commercials.png';
+import imgEvents from '../assets/categories/events.png';
+import imgPodcasts from '../assets/categories/podcasts.png';
+import imgStreaming from '../assets/categories/streaming.png';
+import imgCorporate from '../assets/categories/corporate.png';
+import imgMusicVideos from '../assets/categories/music-videos.png';
+import imgPhotography from '../assets/categories/photography.png';
+import imgBTS from '../assets/categories/behind-the-scenes.png';
 
 const LOCAL_IMAGE_MAP = {
-  'short-films':       imgShortFilms,
-  'documentaries':     imgDocumentaries,
-  'commercials':       imgCommercials,
-  'events':            imgEvents,
-  'podcasts':          imgPodcasts,
-  'live-streaming':    imgStreaming,
-  'corporate-videos':  imgCorporate,
-  'music-videos':      imgMusicVideos,
-  'photography':       imgPhotography,
+  'short-films': imgShortFilms,
+  'documentaries': imgDocumentaries,
+  'commercials': imgCommercials,
+  'events': imgEvents,
+  'podcasts': imgPodcasts,
+  'live-streaming': imgStreaming,
+  'corporate-videos': imgCorporate,
+  'music-videos': imgMusicVideos,
+  'photography': imgPhotography,
   'behind-the-scenes': imgBTS,
 };
 
@@ -360,11 +360,6 @@ const ProjectsTab = () => {
       return notify.error('At least one media source (Video, Image, Embed, or External Link) is required.');
     }
 
-    // Cover image is mandatory for new projects
-    if (!editingId && !coverFile) {
-      return notify.error('Cover image is required. Every project needs a thumbnail.');
-    }
-
     setLoading(true);
     try {
       const fd = new FormData();
@@ -534,7 +529,7 @@ const ProjectsTab = () => {
                 onChange={e => setForm(f => ({ ...f, externalLink: e.target.value }))} />
             </div>
             <div className="cms-field" style={{ gridColumn: 'span 1' }}>
-              <label><FiImage style={{ verticalAlign: 'middle', marginRight: 4 }} />Coverage Photo (Thumbnail) <span style={{ color: '#ef4444' }}>*</span></label>
+              <label><FiImage style={{ verticalAlign: 'middle', marginRight: 4 }} />Coverage Photo (Thumbnail)</label>
               <UploadZone
                 accept="image/*"
                 label="Upload a cover photo for this project"
@@ -618,7 +613,7 @@ const ProjectsTab = () => {
             const featured = p.media?.[0];
             const thumbSrc = p.coverImage || featured?.thumbnailUrl || featured?.url;
             const thumbType = (p.coverImage || featured?.thumbnailUrl) ? 'image' : featured?.type;
-            
+
             return (
               <div key={p._id} className="cms-project-row">
                 <div className="cms-project-thumb">
