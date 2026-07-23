@@ -123,26 +123,29 @@ const ProjectDetails = () => {
     const imageMedia = project.media?.find(m => m.type === 'image');
 
     const renderMainMedia = () => {
+        const mainImagePoster = imageMedia ? resolveUrl(imageMedia.url) : undefined;
         const coverPoster = project.coverImage ? resolveUrl(project.coverImage) : undefined;
 
         if (videoMedia) {
+            const posterToUse = videoMedia.thumbnailUrl ? resolveUrl(videoMedia.thumbnailUrl) : (mainImagePoster || coverPoster);
             return (
                 <div className="pd-media-block">
                     <span className="pd-media-badge">🎬 Video</span>
                     <CustomVideoPlayer
                         src={resolveUrl(videoMedia.url)}
-                        poster={videoMedia.thumbnailUrl ? resolveUrl(videoMedia.thumbnailUrl) : coverPoster}
+                        poster={posterToUse}
                     />
                 </div>
             );
         }
         if (embedMedia) {
+            const posterToUse = embedMedia.thumbnailUrl ? resolveUrl(embedMedia.thumbnailUrl) : (mainImagePoster || coverPoster);
             return (
                 <div className="pd-media-block">
                     <span className="pd-media-badge">🎬 Video</span>
                     <CustomVideoPlayer
                         src={resolveUrl(embedMedia.url)}
-                        poster={embedMedia.thumbnailUrl ? resolveUrl(embedMedia.thumbnailUrl) : coverPoster}
+                        poster={posterToUse}
                     />
                 </div>
             );
@@ -157,7 +160,7 @@ const ProjectDetails = () => {
                         <span className="pd-media-badge">🎬 Video</span>
                         <CustomVideoPlayer
                             src={project.externalLink}
-                            poster={coverPoster}
+                            poster={mainImagePoster || coverPoster}
                         />
                     </div>
                 );
