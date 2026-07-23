@@ -16,6 +16,13 @@ const CategoryProjects = () => {
     const [projects, setProjects] = useState([]);
     const [category, setCategory] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [activePanelId, setActivePanelId] = useState(null);
+
+    useEffect(() => {
+        if (projects.length > 0 && !activePanelId) {
+            setActivePanelId(projects[0]._id);
+        }
+    }, [projects, activePanelId]);
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -71,9 +78,21 @@ const CategoryProjects = () => {
                             const coverMedia = project.media.find(m => m.isFeatured) || project.media[0];
                             const fallbackUrl = resolveUrl(coverMedia?.thumbnailUrl || coverMedia?.url);
                             const coverUrl = project.coverImage ? resolveUrl(project.coverImage) : fallbackUrl;
+                            const isActive = activePanelId === project._id;
 
                             return (
-                                <Link to={`/portfolio/project/${project.slug}`} key={project._id} className="gallery-panel" style={{ backgroundImage: `url(${coverUrl})`, textDecoration: 'none' }}>
+                                <Link 
+                                    to={`/portfolio/project/${project.slug}`} 
+                                    key={project._id} 
+                                    className={`gallery-panel ${isActive ? 'active' : ''}`}
+                                    onClick={(e) => {
+                                        if (window.innerWidth <= 768 && activePanelId !== project._id) {
+                                            e.preventDefault();
+                                            setActivePanelId(project._id);
+                                        }
+                                    }}
+                                    style={{ backgroundImage: `url(${coverUrl})`, textDecoration: 'none' }}
+                                >
                                     <div className="panel-content">
                                         <h3>{project.title}</h3>
                                         {project.clientName && <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem', margin: '5px 0 0 0' }}>{project.clientName}</p>}

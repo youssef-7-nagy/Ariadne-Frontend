@@ -934,16 +934,19 @@ html.dark .portfolio-subtitle {
 /* Expanding Gallery Styles for Portfolio */
 .expanding-gallery {
     display: flex;
+    flex-direction: row;
     height: 450px;
     gap: 1rem;
     width: 100%;
     max-width: 1100px;
     margin: 0 auto;
     padding: 10px;
+    box-sizing: border-box;
 }
 
 .gallery-panel {
     flex: 1;
+    min-width: 0;
     border-radius: 1rem;
     background-position: center;
     background-repeat: no-repeat;
@@ -952,10 +955,14 @@ html.dark .portfolio-subtitle {
     overflow: hidden;
     cursor: pointer;
     transition: all 0.8s cubic-bezier(0.25, 0.4, 0.45, 1.4);
+    -webkit-tap-highlight-color: transparent;
 }
 
-.expanding-gallery>.gallery-panel:hover {
-    flex: 5;
+.expanding-gallery > .gallery-panel:hover,
+.expanding-gallery > .gallery-panel:active,
+.expanding-gallery > .gallery-panel:focus,
+.expanding-gallery > .gallery-panel.active {
+    flex: 4;
 }
 
 .panel-content {
@@ -968,12 +975,15 @@ html.dark .portfolio-subtitle {
     flex-direction: column;
     justify-content: flex-end;
     padding: 30px;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 50%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0) 100%);
     opacity: 0;
     transition: opacity 0.4s ease-in-out;
 }
 
-.gallery-panel:hover .panel-content {
+.gallery-panel:hover .panel-content,
+.gallery-panel:active .panel-content,
+.gallery-panel:focus .panel-content,
+.gallery-panel.active .panel-content {
     opacity: 1;
 }
 
@@ -983,29 +993,74 @@ html.dark .portfolio-subtitle {
     font-weight: 700;
     margin: 0;
     white-space: nowrap;
-    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
     transform: translateY(20px);
     transition: transform 0.6s cubic-bezier(0.25, 0.4, 0.45, 1.4) 0.1s;
 }
 
-.gallery-panel:hover .panel-content h3 {
+.gallery-panel:hover .panel-content h3,
+.gallery-panel:active .panel-content h3,
+.gallery-panel:focus .panel-content h3,
+.gallery-panel.active .panel-content h3 {
     transform: translateY(0);
 }
 
 @media (max-width: 768px) {
     .expanding-gallery {
-        flex-direction: column;
-        height: 600px;
+        flex-direction: row !important;
+        height: 360px;
+        gap: 6px;
+        padding: 5px;
+    }
+
+    .gallery-panel {
+        border-radius: 12px;
     }
 
     .panel-content {
-        opacity: 1;
-        padding: 15px;
+        padding: 14px 10px;
     }
 
     .panel-content h3 {
-        font-size: 1.2rem;
+        font-size: 1rem;
         transform: translateY(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .expanding-gallery {
+        height: 310px;
+        gap: 5px;
+        padding: 4px;
+    }
+
+    .gallery-panel {
+        border-radius: 10px;
+    }
+
+    .panel-content {
+        padding: 10px 8px;
+    }
+
+    .panel-content h3 {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 375px) {
+    .expanding-gallery {
+        height: 270px;
+        gap: 4px;
+    }
+
+    .gallery-panel {
+        border-radius: 8px;
+    }
+
+    .panel-content h3 {
+        font-size: 0.78rem;
     }
 }
 

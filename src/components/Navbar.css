@@ -598,6 +598,7 @@
         opacity: 0;
         transform: translateY(-10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -834,7 +835,7 @@
     .nav-link-mobile-only {
         display: block !important;
     }
-    
+
     .mobile-logout-btn {
         padding: 15px;
         font-size: 18px;
@@ -855,6 +856,7 @@
 
 /* --- 768px and below: refine the mobile dropdown experience --- */
 @media (max-width: 768px) {
+
     /* Collapse top bar gracefully */
     .top-bar__content {
         grid-template-columns: 1fr;
@@ -912,7 +914,7 @@
         -webkit-backdrop-filter: blur(20px);
         padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
         transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                    opacity 0.25s ease;
+            opacity 0.25s ease;
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
     }
 
@@ -948,32 +950,86 @@
 
 /* --- 480px: small phones --- */
 @media (max-width: 480px) {
-    .top-bar__group--center { display: none; } /* hide decorative center text on tiny screens */
-    .top-bar__content { padding: 0.5rem 12px; }
-    .navbar { padding: 6px 12px; }
-    .logo-text { font-size: 18px; }
-    .logo-subtext { font-size: 9px; letter-spacing: 0.5px; }
-    .social-icon { width: 28px; height: 28px; }
+    .top-bar__group--center {
+        display: none;
+    }
+
+    /* hide decorative center text on tiny screens */
+    .top-bar__content {
+        padding: 0.5rem 12px;
+    }
+
+    .navbar {
+        padding: 6px 12px;
+    }
+
+    .logo-text {
+        font-size: 18px;
+    }
+
+    .logo-subtext {
+        font-size: 9px;
+        letter-spacing: 0.5px;
+    }
+
+    .social-icon {
+        width: 28px;
+        height: 28px;
+    }
 }
 
 /* --- 390px: iPhone 14 Pro --- */
 @media (max-width: 390px) {
-    .navbar { padding: 6px 10px; }
-    .logo-text { font-size: 17px; }
-    .hamburger { font-size: 22px; }
+    .navbar {
+        padding: 6px 10px;
+    }
+
+    .logo-text {
+        font-size: 17px;
+    }
+
+    .hamburger {
+        font-size: 22px;
+    }
 }
 
 /* --- 360px: Android mid-range --- */
 @media (max-width: 360px) {
-    .top-bar { display: none; } /* Remove top bar entirely on very small phones */
-    .navbar { padding: 6px 10px; }
-    .logo-text { font-size: 16px; }
-    .nav-links a, .mobile-logout-btn { font-size: 15px; padding: 12px 16px; }
+    .top-bar {
+        display: none;
+    }
+
+    /* Remove top bar entirely on very small phones */
+    .navbar {
+        padding: 6px 10px;
+    }
+
+    .logo-text {
+        font-size: 16px;
+    }
+
+    .nav-links a,
+    .mobile-logout-btn {
+        font-size: 15px;
+        padding: 12px 16px;
+    }
 }
 
 /* --- 320px: iPhone SE --- */
 @media (max-width: 320px) {
-    .logo-text { font-size: 15px; }
-    .hamburger { width: 40px; height: 40px; font-size: 20px; }
-    .nav-links a, .mobile-logout-btn { font-size: 14px; padding: 11px 14px; }
-}
+    .logo-text {
+        font-size: 15px;
+    }
+
+    .hamburger {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+
+    .nav-links a,
+    .mobile-logout-btn {
+        font-size: 14px;
+        padding: 11px 14px;
+    }
+}
