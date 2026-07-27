@@ -190,33 +190,40 @@
   color: #0A2440;
 }
 
-.social-icons {
-  margin: 15px 0 10px;
+.google-btn {
+  width: 100%;
+  max-width: 320px;
   display: flex;
-}
-
-.social-icons a {
-  border: 1px solid #E1E8ED;
-  border-radius: 50%;
-  display: inline-flex;
-  justify-content: center;
+  padding: 0.5rem 1.4rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  vertical-align: middle;
   align-items: center;
-  margin: 0 6px;
-  width: 36px;
-  height: 36px;
-  transition: all 0.3s;
-  color: #0A2440;
-  text-decoration: none;
+  justify-content: center;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  gap: 0.75rem;
+  color: rgb(65, 63, 63);
   background-color: #fff;
-  font-size: 14px;
+  cursor: pointer;
+  transition: all .6s ease;
+  margin: 12px 0 8px;
+  box-shadow: none;
 }
 
-.social-icons a:hover {
-  background-color: #1F75B8;
-  color: white;
-  border-color: #1F75B8;
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(31, 117, 184, 0.3);
+.google-btn svg {
+  height: 24px;
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.google-btn:hover {
+  transform: scale(1.02);
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* Animations & Positioning */
@@ -407,16 +414,15 @@
   color: #e8f4ff;
 }
 
-.dark .social-icons a {
+.dark .google-btn {
   background-color: #0b2238;
-  border-color: rgba(255, 255, 255, 0.1);
-  color: #7ca8c8;
+  color: #e8f4ff;
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
-.dark .social-icons a:hover {
-  background-color: #1bbaeb;
-  border-color: #1bbaeb;
-  color: #fff;
+.dark .google-btn:hover {
+  background-color: #102e4c;
+  color: #ffffff;
 }
 
 .dark .mobile-toggle {
@@ -537,15 +543,17 @@
     border-radius: 6px;
   }
 
-  .social-icons {
-    margin: 6px 0;
+  .google-btn {
+    padding: 0.35rem 0.8rem;
+    font-size: 0.75rem;
+    gap: 0.5rem;
+    max-width: 100%;
+    margin: 6px 0 4px;
   }
 
-  .social-icons a {
-    width: 28px;
-    height: 28px;
-    font-size: 11px;
-    margin: 0 2px;
+  .google-btn svg {
+    height: 18px;
+    width: 18px;
   }
 
   .toggle-container {
@@ -614,11 +622,15 @@
     margin-top: 6px;
   }
 
-  .social-icons a {
-    width: 24px;
-    height: 24px;
-    font-size: 9.5px;
-    margin: 0 2px;
+  .google-btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.65rem;
+    gap: 0.35rem;
+  }
+
+  .google-btn svg {
+    height: 15px;
+    width: 15px;
   }
 
   .toggle-container {
