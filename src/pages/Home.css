@@ -742,14 +742,30 @@
     padding: 24px 28px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: space-between;
     pointer-events: none;
     z-index: 3;
 }
 
-/* ─── TOP ROW: hidden to match reference image ─── */
+/* ─── TOP ROW: tag badge at top left ─── */
 .dc-top-row {
-    display: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dc-tag {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    padding: 5px 12px;
+    border-radius: 3px;
+    backdrop-filter: blur(8px);
 }
 
 /* ─── TITLE (ROMANTIC CHIPPING / THE POWER OF DREAMS / THE DRIVE OF YOUR LIFE) ─── */
