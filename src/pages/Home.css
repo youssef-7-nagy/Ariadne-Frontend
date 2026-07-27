@@ -610,8 +610,8 @@
 
 .diagonal-cards-wrapper {
     position: relative;
-    width: 1550px;
-    height: 880px;
+    width: 1720px;
+    height: 860px;
     transform-style: preserve-3d;
     transform: rotateX(14deg) rotateY(-28deg) rotateZ(8deg);
 }
@@ -619,9 +619,9 @@
 /* ─── BASE CARD ─── */
 .diagonal-card {
     position: absolute;
-    width: 720px;
-    height: 430px;
-    border-radius: 4px;
+    width: 880px;
+    height: 460px;
+    border-radius: 6px;
     overflow: hidden;
     transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
         box-shadow 0.7s ease,
@@ -658,15 +658,15 @@
 }
 
 .card-2 {
-    top: 200px;
-    left: 500px;
+    top: 180px;
+    left: 420px;
     transform: translateZ(0px);
     z-index: 2;
 }
 
 .card-3 {
-    top: 400px;
-    left: 1000px;
+    top: 360px;
+    left: 840px;
     transform: translateZ(300px);
     z-index: 3;
 }
