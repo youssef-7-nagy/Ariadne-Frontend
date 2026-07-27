@@ -610,21 +610,21 @@
 
 .diagonal-cards-wrapper {
     position: relative;
-    width: 1120px;
-    height: 560px;
+    width: 1450px;
+    height: 840px;
     transform-style: preserve-3d;
-    transform: rotateX(10deg) rotateY(-18deg) rotateZ(3deg);
+    transform: rotateX(14deg) rotateY(-28deg) rotateZ(8deg);
 }
 
 /* ─── BASE CARD ─── */
 .diagonal-card {
     position: absolute;
-    width: 620px;
-    height: 360px;
-    border-radius: 6px;
+    width: 720px;
+    height: 430px;
+    border-radius: 4px;
     overflow: hidden;
-    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
-        box-shadow 0.6s ease,
+    transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 0.7s ease,
         background 0.4s ease;
     transform-style: preserve-3d;
     cursor: pointer;
@@ -642,35 +642,32 @@
 
     /* Multi-layered shadow: cast + inner highlight */
     box-shadow:
-        -25px 35px 55px rgba(0, 0, 0, 0.48),
-        0 8px 20px rgba(0, 0, 0, 0.3),
+        -30px 40px 60px rgba(0, 0, 0, 0.55),
+        0 8px 20px rgba(0, 0, 0, 0.35),
         inset 0 1px 0 rgba(255, 255, 255, 0.6),
         inset 1px 0 0 rgba(255, 255, 255, 0.3),
         inset 0 0 40px rgba(255, 255, 255, 0.04);
 }
 
-/* ─── CASCADING CARD POSITIONS ─── */
-/* Card 1: ROMANTIC CHIPPING (top-left back) */
+/* ─── CARD POSITIONS ─── */
 .card-1 {
     top: 0;
     left: 0;
-    transform: translateZ(-80px);
+    transform: translateZ(-300px);
     z-index: 1;
 }
 
-/* Card 2: THE POWER OF DREAMS (middle - shifted down 75px & right 230px) */
 .card-2 {
-    top: 75px;
-    left: 230px;
+    top: 170px;
+    left: 440px;
     transform: translateZ(0px);
     z-index: 2;
 }
 
-/* Card 3: THE DRIVE OF YOUR LIFE (front - shifted down 150px & right 460px) */
 .card-3 {
-    top: 150px;
-    left: 460px;
-    transform: translateZ(80px);
+    top: 380px;
+    left: 940px;
+    transform: translateZ(300px);
     z-index: 3;
 }
 
@@ -742,29 +739,54 @@
 .diagonal-content {
     position: absolute;
     inset: 0;
-    padding: 24px 28px;
+    padding: 28px 32px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-start;
+    justify-content: space-between;
     pointer-events: none;
     z-index: 3;
 }
 
+/* ─── TOP ROW: tag + index ─── */
+.dc-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dc-tag {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 5px 12px;
+    backdrop-filter: blur(8px);
+}
+
+.dc-index {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.45);
+}
+
 /* ─── TITLE ─── */
 .diagonal-title {
-    font-family: 'Montserrat', 'Inter', sans-serif;
-    font-size: clamp(1.2rem, 2.2vw, 1.85rem);
-    font-weight: 800;
-    line-height: 1.15;
-    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(2rem, 3.2vw, 3rem);
+    font-weight: 900;
+    line-height: 1.05;
+    color: #fff;
     margin: 0;
-    letter-spacing: 0.5px;
-    text-align: left;
-    text-transform: uppercase;
+    letter-spacing: -0.5px;
     text-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.7),
-        0 4px 16px rgba(0, 0, 0, 0.4);
+        0 2px 8px rgba(0, 0, 0, 0.6),
+        0 8px 30px rgba(0, 0, 0, 0.3);
 }
 
 /* ─── FOOTER ROW ─── */
