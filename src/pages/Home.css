@@ -610,8 +610,8 @@
 
 .diagonal-cards-wrapper {
     position: relative;
-    width: 1500px;
-    height: 900px;
+    width: 1550px;
+    height: 880px;
     transform-style: preserve-3d;
     transform: rotateX(14deg) rotateY(-28deg) rotateZ(8deg);
 }
@@ -658,15 +658,15 @@
 }
 
 .card-2 {
-    top: 180px;
-    left: 450px;
+    top: 200px;
+    left: 500px;
     transform: translateZ(0px);
     z-index: 2;
 }
 
 .card-3 {
-    top: 440px;
-    left: 980px;
+    top: 400px;
+    left: 1000px;
     transform: translateZ(300px);
     z-index: 3;
 }
