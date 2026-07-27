@@ -577,15 +577,15 @@
    Section 3: 3D Diagonal Glass Showcase
    ========================================= */
 .diagonal-showcase-section {
-    padding: 160px 0;
+    padding: 120px 0;
     background: #ffffff;
     overflow: hidden;
     position: relative;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    perspective: 2800px;
-    min-height: 800px;
+    perspective: 2400px;
+    min-height: 750px;
 }
 
 /* Subtle noise texture on the background */
@@ -600,31 +600,31 @@
 
 .diagonal-container {
     width: 100%;
+    max-width: 1200px;
     position: relative;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    padding-left: 5%;
     z-index: 1;
 }
 
 .diagonal-cards-wrapper {
     position: relative;
-    width: 1300px;
-    height: 760px;
+    width: 940px;
+    height: 560px;
     transform-style: preserve-3d;
-    transform: rotateX(14deg) rotateY(-28deg) rotateZ(8deg);
+    transform: rotateX(12deg) rotateY(-20deg) rotateZ(3deg);
 }
 
 /* ─── BASE CARD ─── */
 .diagonal-card {
     position: absolute;
-    width: 720px;
-    height: 430px;
-    border-radius: 4px;
+    width: 780px;
+    height: 440px;
+    border-radius: 6px;
     overflow: hidden;
-    transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1),
-        box-shadow 0.7s ease,
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 0.6s ease,
         background 0.4s ease;
     transform-style: preserve-3d;
     cursor: pointer;
@@ -642,46 +642,48 @@
 
     /* Multi-layered shadow: cast + inner highlight */
     box-shadow:
-        -30px 40px 60px rgba(0, 0, 0, 0.55),
-        0 8px 20px rgba(0, 0, 0, 0.35),
+        -25px 35px 50px rgba(0, 0, 0, 0.45),
+        0 8px 20px rgba(0, 0, 0, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.6),
         inset 1px 0 0 rgba(255, 255, 255, 0.3),
         inset 0 0 40px rgba(255, 255, 255, 0.04);
 }
 
-/* ─── CARD POSITIONS ─── */
+/* ─── CASCADING CARD POSITIONS ─── */
+/* Card 1 (top-left, back) */
 .card-1 {
     top: 0;
     left: 0;
-    transform: translateZ(-300px);
+    transform: translateZ(-60px);
     z-index: 1;
 }
 
+/* Card 2 (middle, down 50px, right 65px) */
 .card-2 {
-    top: 160px;
-    left: 420px;
+    top: 50px;
+    left: 65px;
     transform: translateZ(0px);
     z-index: 2;
 }
 
+/* Card 3 (front, down another 50px = 100px total, right another 65px = 130px total) */
 .card-3 {
-    top: 320px;
-    left: 840px;
-    transform: translateZ(300px);
+    top: 100px;
+    left: 130px;
+    transform: translateZ(60px);
     z-index: 3;
 }
 
 /* ─── HOVER STATE ─── */
 .diagonal-card:hover {
-    transform: translateZ(320px) scale(1.04) translateY(-18px) !important;
+    transform: translateZ(120px) translateY(-12px) !important;
     z-index: 10;
     background: rgba(255, 255, 255, 0.1);
     box-shadow:
-        -50px 60px 90px rgba(0, 0, 0, 0.7),
-        0 12px 30px rgba(0, 0, 0, 0.4),
+        -35px 45px 70px rgba(0, 0, 0, 0.6),
+        0 12px 30px rgba(0, 0, 0, 0.35),
         inset 0 1px 0 rgba(255, 255, 255, 0.8),
-        inset 1px 0 0 rgba(255, 255, 255, 0.5),
-        inset 0 0 60px rgba(255, 255, 255, 0.1);
+        inset 1px 0 0 rgba(255, 255, 255, 0.5);
 }
 
 /* ─── PHOTO ─── */
