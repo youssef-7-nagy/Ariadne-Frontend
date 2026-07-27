@@ -232,7 +232,7 @@ const Home = () => {
 
                         {/* Card 2 */}
                         <div className="diagonal-card card-2">
-                            <img src={section302} alt="The Power of Dreams" className="diagonal-img" />
+                            <img src={section303} alt="The Power of Dreams" className="diagonal-img" />
                             <div className="dc-gradient-overlay"></div>
                             <div className="dc-glass-shimmer"></div>
                             <div className="diagonal-content">
@@ -251,7 +251,7 @@ const Home = () => {
 
                         {/* Card 3 */}
                         <div className="diagonal-card card-3">
-                            <img src={section303} alt="The Drive of Your Life" className="diagonal-img" />
+                            <img src={section302} alt="The Drive of Your Life" className="diagonal-img" />
                             <div className="dc-gradient-overlay"></div>
                             <div className="dc-glass-shimmer"></div>
                             <div className="diagonal-content">
