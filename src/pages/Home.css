@@ -739,72 +739,50 @@
 .diagonal-content {
     position: absolute;
     inset: 0;
-    padding: 28px 32px;
+    padding: 24px 28px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-end;
     pointer-events: none;
     z-index: 3;
 }
 
-/* ─── TOP ROW: tag + index ─── */
+/* ─── TOP ROW: hidden to match reference image ─── */
 .dc-top-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: none;
 }
 
-.dc-tag {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.95);
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 5px 12px;
-    backdrop-filter: blur(8px);
-}
-
-.dc-index {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-    color: rgba(255, 255, 255, 0.45);
-}
-
-/* ─── TITLE ─── */
+/* ─── TITLE (ROMANTIC CHIPPING / THE POWER OF DREAMS / THE DRIVE OF YOUR LIFE) ─── */
 .diagonal-title {
     font-family: 'Montserrat', sans-serif;
-    font-size: clamp(2rem, 3.2vw, 3rem);
-    font-weight: 900;
-    line-height: 1.05;
-    color: #fff;
+    font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+    font-weight: 800;
+    line-height: 1.12;
+    color: #ffffff;
     margin: 0;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.3px;
+    text-transform: uppercase;
     text-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.6),
-        0 8px 30px rgba(0, 0, 0, 0.3);
+        0 2px 6px rgba(0, 0, 0, 0.7),
+        0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 /* ─── FOOTER ROW ─── */
 .diagonal-bottom-area {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 8px;
 }
 
 .dc-footer {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
 }
 
 .dc-line {
     display: block;
-    width: 28px;
+    width: 20px;
     height: 2px;
     background: #ff4e00;
     flex-shrink: 0;
@@ -812,12 +790,12 @@
 
 .dc-label {
     font-family: 'Inter', sans-serif;
-    font-size: 0.6rem;
+    font-size: 0.52rem;
     font-weight: 800;
-    letter-spacing: 3.5px;
+    letter-spacing: 2.5px;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.75);
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    color: rgba(255, 255, 255, 0.65);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* ─── OLD CLASSES (keep empty to not break anything) ─── */
