@@ -14,16 +14,16 @@ import imgPhotography from '../assets/categories/photography.png';
 import imgBTS from '../assets/categories/behind-the-scenes.png';
 
 const LOCAL_IMAGE_MAP = {
-  'short-films': imgShortFilms,
-  'documentaries': imgDocumentaries,
-  'commercials': imgCommercials,
-  'events': imgEvents,
-  'podcasts': imgPodcasts,
-  'live-streaming': imgStreaming,
-  'corporate-videos': imgCorporate,
-  'music-videos': imgMusicVideos,
-  'photography': imgPhotography,
-  'behind-the-scenes': imgBTS,
+    'short-films': imgShortFilms,
+    'documentaries': imgDocumentaries,
+    'commercials': imgCommercials,
+    'events': imgEvents,
+    'podcasts': imgPodcasts,
+    'live-streaming': imgStreaming,
+    'corporate-videos': imgCorporate,
+    'music-videos': imgMusicVideos,
+    'photography': imgPhotography,
+    'behind-the-scenes': imgBTS,
 };
 
 const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8080' : '');
@@ -86,13 +86,13 @@ const Home = () => {
 
                 <div className="floating-gallery">
                     {getHeroImages().map((img, idx) => (
-                        <div 
-                            key={idx} 
+                        <div
+                            key={idx}
                             className="float-img"
-                            style={{ 
-                                top: img.top, 
-                                left: img.left, 
-                                right: img.right, 
+                            style={{
+                                top: img.top,
+                                left: img.left,
+                                right: img.right,
                                 bottom: img.bottom,
                                 width: img.size,
                                 animationDelay: img.delay,
@@ -107,7 +107,7 @@ const Home = () => {
 
                 <div className="cinematic-content">
                     <div className="center-text-block">
-                        <h1>Cinematic Visual<br/>Storytelling</h1>
+                        <h1>Cinematic Visual<br />Storytelling</h1>
                         <p>A premium photography and documentation agency. We capture beautiful moments and create stunning visual assets your audience will love.</p>
                         <Link to="/packages" className="btn-book-session">Discover Our Work</Link>
                     </div>
@@ -115,17 +115,17 @@ const Home = () => {
                     <div className="cinematic-features">
                         <div className="feat-item">
                             <h4>Unmatched Quality</h4>
-                            <p>Premium aesthetics<br/>in every frame</p>
+                            <p>Premium aesthetics<br />in every frame</p>
                         </div>
                         <div className="feat-divider"></div>
                         <div className="feat-item">
                             <h4>Artistic Vision</h4>
-                            <p>Every shoot is tailored<br/>to your story</p>
+                            <p>Every shoot is tailored<br />to your story</p>
                         </div>
                         <div className="feat-divider"></div>
                         <div className="feat-item">
                             <h4>Fast Delivery</h4>
-                            <p>Professional results<br/>when you need them</p>
+                            <p>Professional results<br />when you need them</p>
                         </div>
                     </div>
                 </div>
@@ -134,14 +134,14 @@ const Home = () => {
             {/* Section 2: Exact Overlapping Cascade */}
             <section className="overlap-cascade-section">
                 <div className="cascade-container">
-                    
+
                     {/* Card 1: Beige */}
                     <div className="cascade-card card-beige">
                         <div className="cascade-top text-dark">
                             <span>ARIADNE 2026</span>
                             <span>AGENCY</span>
                         </div>
-                        <h2 className="cascade-title text-dark">ARIADNE<br/>AGENCY</h2>
+                        <h2 className="cascade-title text-dark">ARIADNE<br />AGENCY</h2>
                         <div className="cascade-subtext text-dark">
                             <p>A PREMIUM SHOWCASE OF CINEMATIC PHOTOGRAPHY AND VISUAL DESIGN FOR BRANDS WORLDWIDE. WE TELL YOUR STORY.</p>
                         </div>
@@ -153,7 +153,7 @@ const Home = () => {
                             <span className="text-yellow">ARIADNE 2026</span>
                             <span className="text-yellow">VISION =</span>
                         </div>
-                        <h2 className="cascade-title text-yellow">WE ARE<br/>VISUAL<br/>ARTISTS</h2>
+                        <h2 className="cascade-title text-yellow">WE ARE<br />VISUAL<br />ARTISTS</h2>
                         <div className="cascade-footer text-yellow">
                             <p>GLOBAL — 24/7</p>
                         </div>
@@ -166,7 +166,7 @@ const Home = () => {
                             <span className="text-dark">FOCUS X</span>
                         </div>
                         <div className="cascade-middle">
-                            <h2 className="cascade-title-small text-dark">CINEMATIC<br/>VISUALS<br/>2026</h2>
+                            <h2 className="cascade-title-small text-dark">CINEMATIC<br />VISUALS<br />2026</h2>
                             <div className="cascade-img-inset">
                                 <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=400&auto=format&fit=crop" alt="Cinematic Camera" />
                             </div>
@@ -180,7 +180,7 @@ const Home = () => {
                     <div className="cascade-card card-brown">
                         <div className="cascade-flex-row">
                             <div className="cascade-left-col">
-                                <h2 className="cascade-title text-yellow">LET'S<br/>WORK</h2>
+                                <h2 className="cascade-title text-yellow">LET'S<br />WORK</h2>
                                 <ul className="cascade-menu text-yellow">
                                     <li>HOME</li>
                                     <li>ABOUT US</li>
@@ -191,11 +191,11 @@ const Home = () => {
                                 </ul>
                             </div>
                             <div className="cascade-center-img">
-                                <img src="https://images.unsplash.com/photo-1554046920-90dcac9a7c36?q=80&w=600&auto=format&fit=crop" alt="Photographer" style={{borderRadius: '50%'}} />
+                                <img src="https://images.unsplash.com/photo-1554046920-90dcac9a7c36?q=80&w=600&auto=format&fit=crop" alt="Photographer" style={{ borderRadius: '50%' }} />
                             </div>
                             <div className="cascade-right-col">
-                                <p className="text-yellow text-right-align">AVAILABLE FOR BRAND<br/>CAMPAIGNS, COMMERCIAL<br/>SHOOTS, AND CINEMATIC<br/>PROJECTS GLOBALLY.</p>
-                                <h2 className="cascade-title text-yellow text-right-align">WITH<br/>US</h2>
+                                <p className="text-yellow text-right-align">AVAILABLE FOR BRAND<br />CAMPAIGNS, COMMERCIAL<br />SHOOTS, AND CINEMATIC<br />PROJECTS GLOBALLY.</p>
+                                <h2 className="cascade-title text-yellow text-right-align">WITH<br />US</h2>
                             </div>
                         </div>
                     </div>
@@ -218,7 +218,7 @@ const Home = () => {
                                     <span className="dc-tag">Photography</span>
                                 </div>
                                 <div className="diagonal-bottom-area">
-                                    <h2 className="diagonal-title">ROMANTIC<br/>CHIPPING</h2>
+                                    <h2 className="diagonal-title">ROMANTIC<br />CHIPPING</h2>
                                     <div className="dc-footer">
                                         <span className="dc-line"></span>
                                         <span className="dc-label">FEATURED PROJECT</span>
@@ -237,7 +237,7 @@ const Home = () => {
                                     <span className="dc-tag">Cinematic</span>
                                 </div>
                                 <div className="diagonal-bottom-area">
-                                    <h2 className="diagonal-title">THE POWER<br/>OF DREAMS</h2>
+                                    <h2 className="diagonal-title">THE POWER<br />OF DREAMS</h2>
                                     <div className="dc-footer">
                                         <span className="dc-line"></span>
                                         <span className="dc-label">CINEMATIC VISION</span>
@@ -256,7 +256,7 @@ const Home = () => {
                                     <span className="dc-tag">Commercial</span>
                                 </div>
                                 <div className="diagonal-bottom-area">
-                                    <h2 className="diagonal-title">THE DRIVE<br/>OF YOUR LIFE</h2>
+                                    <h2 className="diagonal-title">THE DRIVE<br />OF YOUR LIFE</h2>
                                     <div className="dc-footer">
                                         <span className="dc-line"></span>
                                         <span className="dc-label">COMMERCIAL WORK</span>
@@ -311,16 +311,16 @@ const Home = () => {
                 <div className="container text-center">
                     <h2 className="section-title">Our Expertise</h2>
                     <p className="section-subtitle">Explore the diverse range of visual storytelling categories we offer.</p>
-                    
+
                     <div className="wrapper" style={{ height: '600px', marginTop: '20px' }}>
-                        <button 
-                            className="carousel-btn prev-btn" 
+                        <button
+                            className="carousel-btn prev-btn"
                             onClick={() => setActiveIndex(prev => prev - 1)}
                         >
                             &#10094;
                         </button>
 
-                        <div className="inner" style={{ 
+                        <div className="inner" style={{
                             '--quantity': categories.length || 10,
                             transform: `perspective(1800px) rotateX(-15deg) rotateY(${-(360 / (categories.length || 1)) * activeIndex}deg)`
                         }}>
@@ -330,7 +330,7 @@ const Home = () => {
                                 const isActive = normalizedActiveIndex === index;
 
                                 return (
-                                    <Link 
+                                    <Link
                                         to={`/portfolio/${category.slug}`}
                                         className={`card ${isActive ? 'active-front' : ''}`}
                                         key={category._id}
@@ -343,7 +343,7 @@ const Home = () => {
                                                 const half = categories.length / 2;
                                                 if (diff > half) diff -= categories.length;
                                                 if (diff < -half) diff += categories.length;
-                                                
+
                                                 setActiveIndex(prev => prev + diff);
                                             }
                                         }}
@@ -359,8 +359,8 @@ const Home = () => {
                             )}
                         </div>
 
-                        <button 
-                            className="carousel-btn next-btn" 
+                        <button
+                            className="carousel-btn next-btn"
                             onClick={() => setActiveIndex(prev => prev + 1)}
                         >
                             &#10095;
