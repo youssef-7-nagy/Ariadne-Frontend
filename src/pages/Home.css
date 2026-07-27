@@ -577,15 +577,15 @@
    Section 3: 3D Diagonal Glass Showcase
    ========================================= */
 .diagonal-showcase-section {
-    padding: 120px 0;
+    padding: 160px 0;
     background: #ffffff;
     overflow: hidden;
     position: relative;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    perspective: 2400px;
-    min-height: 750px;
+    perspective: 2800px;
+    min-height: 800px;
 }
 
 /* Subtle noise texture on the background */
@@ -600,27 +600,27 @@
 
 .diagonal-container {
     width: 100%;
-    max-width: 1200px;
     position: relative;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    padding-left: 5%;
     z-index: 1;
 }
 
 .diagonal-cards-wrapper {
     position: relative;
-    width: 940px;
-    height: 560px;
+    width: 1040px;
+    height: 540px;
     transform-style: preserve-3d;
-    transform: rotateX(12deg) rotateY(-20deg) rotateZ(3deg);
+    transform: rotateX(10deg) rotateY(-18deg) rotateZ(3deg);
 }
 
 /* ─── BASE CARD ─── */
 .diagonal-card {
     position: absolute;
-    width: 780px;
-    height: 440px;
+    width: 620px;
+    height: 360px;
     border-radius: 6px;
     overflow: hidden;
     transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
@@ -642,7 +642,7 @@
 
     /* Multi-layered shadow: cast + inner highlight */
     box-shadow:
-        -25px 35px 50px rgba(0, 0, 0, 0.45),
+        -25px 35px 55px rgba(0, 0, 0, 0.48),
         0 8px 20px rgba(0, 0, 0, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.6),
         inset 1px 0 0 rgba(255, 255, 255, 0.3),
@@ -650,37 +650,37 @@
 }
 
 /* ─── CASCADING CARD POSITIONS ─── */
-/* Card 1 (top-left, back) */
+/* Card 1: ROMANTIC CHIPPING (top-left back) */
 .card-1 {
     top: 0;
     left: 0;
-    transform: translateZ(-60px);
+    transform: translateZ(-80px);
     z-index: 1;
 }
 
-/* Card 2 (middle, down 50px, right 65px) */
+/* Card 2: THE POWER OF DREAMS (middle - shifted down 60px & right 210px) */
 .card-2 {
-    top: 50px;
-    left: 65px;
+    top: 60px;
+    left: 210px;
     transform: translateZ(0px);
     z-index: 2;
 }
 
-/* Card 3 (front, down another 50px = 100px total, right another 65px = 130px total) */
+/* Card 3: THE DRIVE OF YOUR LIFE (front - shifted down another 60px = 120px & right another 210px = 420px) */
 .card-3 {
-    top: 100px;
-    left: 130px;
-    transform: translateZ(60px);
+    top: 120px;
+    left: 420px;
+    transform: translateZ(80px);
     z-index: 3;
 }
 
 /* ─── HOVER STATE ─── */
 .diagonal-card:hover {
-    transform: translateZ(120px) translateY(-12px) !important;
+    transform: translateZ(140px) translateY(-14px) !important;
     z-index: 10;
     background: rgba(255, 255, 255, 0.1);
     box-shadow:
-        -35px 45px 70px rgba(0, 0, 0, 0.6),
+        -35px 45px 75px rgba(0, 0, 0, 0.65),
         0 12px 30px rgba(0, 0, 0, 0.35),
         inset 0 1px 0 rgba(255, 255, 255, 0.8),
         inset 1px 0 0 rgba(255, 255, 255, 0.5);
