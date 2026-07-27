@@ -602,16 +602,16 @@
     width: 100%;
     position: relative;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    padding-left: 5%;
     z-index: 1;
 }
 
 .diagonal-cards-wrapper {
     position: relative;
-    width: 1720px;
+    width: 1600px;
     height: 860px;
+    margin-left: -120px;
     transform-style: preserve-3d;
     transform: rotateX(14deg) rotateY(-28deg) rotateZ(8deg);
 }
@@ -659,14 +659,14 @@
 
 .card-2 {
     top: 180px;
-    left: 420px;
+    left: 380px;
     transform: translateZ(0px);
     z-index: 2;
 }
 
 .card-3 {
     top: 360px;
-    left: 840px;
+    left: 760px;
     transform: translateZ(300px);
     z-index: 3;
 }
