@@ -739,54 +739,29 @@
 .diagonal-content {
     position: absolute;
     inset: 0;
-    padding: 28px 32px;
+    padding: 24px 28px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-end;
+    align-items: flex-start;
     pointer-events: none;
     z-index: 3;
 }
 
-/* ─── TOP ROW: tag + index ─── */
-.dc-top-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.dc-tag {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.95);
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 5px 12px;
-    backdrop-filter: blur(8px);
-}
-
-.dc-index {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-    color: rgba(255, 255, 255, 0.45);
-}
-
 /* ─── TITLE ─── */
 .diagonal-title {
-    font-family: 'Montserrat', sans-serif;
-    font-size: clamp(2rem, 3.2vw, 3rem);
-    font-weight: 900;
-    line-height: 1.05;
-    color: #fff;
+    font-family: 'Montserrat', 'Inter', sans-serif;
+    font-size: clamp(1.2rem, 2.2vw, 1.85rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: #ffffff;
     margin: 0;
-    letter-spacing: -0.5px;
+    letter-spacing: 0.5px;
+    text-align: left;
+    text-transform: uppercase;
     text-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.6),
-        0 8px 30px rgba(0, 0, 0, 0.3);
+        0 2px 8px rgba(0, 0, 0, 0.7),
+        0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 /* ─── FOOTER ROW ─── */

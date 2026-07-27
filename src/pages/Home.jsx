@@ -214,16 +214,7 @@ const Home = () => {
                             <div className="dc-gradient-overlay"></div>
                             <div className="dc-glass-shimmer"></div>
                             <div className="diagonal-content">
-                                <div className="dc-top-row">
-                                    <span className="dc-tag">Photography</span>
-                                </div>
-                                <div className="diagonal-bottom-area">
-                                    <h2 className="diagonal-title">ROMANTIC<br />CHIPPING</h2>
-                                    <div className="dc-footer">
-                                        <span className="dc-line"></span>
-                                        <span className="dc-label">FEATURED PROJECT</span>
-                                    </div>
-                                </div>
+                                <h2 className="diagonal-title">ROMANTIC<br />CHIPPING</h2>
                             </div>
                         </div>
 
@@ -233,16 +224,7 @@ const Home = () => {
                             <div className="dc-gradient-overlay"></div>
                             <div className="dc-glass-shimmer"></div>
                             <div className="diagonal-content">
-                                <div className="dc-top-row">
-                                    <span className="dc-tag">Cinematic</span>
-                                </div>
-                                <div className="diagonal-bottom-area">
-                                    <h2 className="diagonal-title">THE POWER<br />OF DREAMS</h2>
-                                    <div className="dc-footer">
-                                        <span className="dc-line"></span>
-                                        <span className="dc-label">CINEMATIC VISION</span>
-                                    </div>
-                                </div>
+                                <h2 className="diagonal-title">THE POWER<br />OF DREAMS</h2>
                             </div>
                         </div>
 
@@ -252,16 +234,7 @@ const Home = () => {
                             <div className="dc-gradient-overlay"></div>
                             <div className="dc-glass-shimmer"></div>
                             <div className="diagonal-content">
-                                <div className="dc-top-row">
-                                    <span className="dc-tag">Commercial</span>
-                                </div>
-                                <div className="diagonal-bottom-area">
-                                    <h2 className="diagonal-title">THE DRIVE<br />OF YOUR LIFE</h2>
-                                    <div className="dc-footer">
-                                        <span className="dc-line"></span>
-                                        <span className="dc-label">COMMERCIAL WORK</span>
-                                    </div>
-                                </div>
+                                <h2 className="diagonal-title">THE DRIVE<br />OF YOUR LIFE</h2>
                             </div>
                         </div>
 
