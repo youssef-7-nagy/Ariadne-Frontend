@@ -12,6 +12,9 @@ import imgCorporate from '../assets/categories/corporate.png';
 import imgMusicVideos from '../assets/categories/music-videos.png';
 import imgPhotography from '../assets/categories/photography.png';
 import imgBTS from '../assets/categories/behind-the-scenes.png';
+import section301 from '../assets/home/section301.jpg';
+import section302 from '../assets/home/section302.jpg';
+import section303 from '../assets/home/section303.jpg';
 
 const LOCAL_IMAGE_MAP = {
     'short-films': imgShortFilms,
@@ -210,7 +213,7 @@ const Home = () => {
 
                         {/* Card 1 */}
                         <div className="diagonal-card card-1">
-                            <img src="https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?q=80&w=1200&auto=format&fit=crop" alt="Romantic Chipping" className="diagonal-img" />
+                            <img src={section301} alt="Romantic Chipping" className="diagonal-img" />
                             <div className="dc-gradient-overlay"></div>
                             <div className="dc-glass-shimmer"></div>
                             <div className="diagonal-content">
@@ -229,7 +232,7 @@ const Home = () => {
 
                         {/* Card 2 */}
                         <div className="diagonal-card card-2">
-                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1200&auto=format&fit=crop" alt="The Power of Dreams" className="diagonal-img bw-filter" />
+                            <img src={section302} alt="The Power of Dreams" className="diagonal-img" />
                             <div className="dc-gradient-overlay"></div>
                             <div className="dc-glass-shimmer"></div>
                             <div className="diagonal-content">
@@ -248,7 +251,7 @@ const Home = () => {
 
                         {/* Card 3 */}
                         <div className="diagonal-card card-3">
-                            <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1200&auto=format&fit=crop" alt="The Drive of Your Life" className="diagonal-img" />
+                            <img src={section303} alt="The Drive of Your Life" className="diagonal-img" />
                             <div className="dc-gradient-overlay"></div>
                             <div className="dc-glass-shimmer"></div>
                             <div className="diagonal-content">
