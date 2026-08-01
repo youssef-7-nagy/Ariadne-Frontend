@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Home.css';
+import StaggeredStoryShowcase from '../components/StaggeredStoryShowcase';
+import PhotographyShowcase from '../components/PhotographyShowcase';
+import Section3Showcase from '../components/Section3Showcase';
 import imgShortFilms from '../assets/categories/short-films.png';
 import imgDocumentaries from '../assets/categories/documentaries.png';
 import imgCommercials from '../assets/categories/commercials.png';
@@ -12,9 +15,7 @@ import imgCorporate from '../assets/categories/corporate.png';
 import imgMusicVideos from '../assets/categories/music-videos.png';
 import imgPhotography from '../assets/categories/photography.png';
 import imgBTS from '../assets/categories/behind-the-scenes.png';
-import section301 from '../assets/home/section301.jpg';
-import section302 from '../assets/home/section302.jpg';
-import section303 from '../assets/home/section303.jpg';
+
 
 const LOCAL_IMAGE_MAP = {
     'short-films': imgShortFilms,
@@ -134,165 +135,15 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Section 2: Exact Overlapping Cascade */}
-            <section className="overlap-cascade-section">
-                <div className="cascade-container">
+            {/* Section 2: Staggered Mobile Story Showcase */}
+            <StaggeredStoryShowcase />
 
-                    {/* Card 1: Beige */}
-                    <div className="cascade-card card-beige">
-                        <div className="cascade-top text-dark">
-                            <span>ARIADNE 2026</span>
-                            <span>AGENCY</span>
-                        </div>
-                        <h2 className="cascade-title text-dark">ARIADNE<br />AGENCY</h2>
-                        <div className="cascade-subtext text-dark">
-                            <p>A PREMIUM SHOWCASE OF CINEMATIC PHOTOGRAPHY AND VISUAL DESIGN FOR BRANDS WORLDWIDE. WE TELL YOUR STORY.</p>
-                        </div>
-                    </div>
 
-                    {/* Card 2: Purple */}
-                    <div className="cascade-card card-purple">
-                        <div className="cascade-top">
-                            <span className="text-yellow">ARIADNE 2026</span>
-                            <span className="text-yellow">VISION =</span>
-                        </div>
-                        <h2 className="cascade-title text-yellow">WE ARE<br />VISUAL<br />ARTISTS</h2>
-                        <div className="cascade-footer text-yellow">
-                            <p>GLOBAL — 24/7</p>
-                        </div>
-                    </div>
 
-                    {/* Card 3: Yellow */}
-                    <div className="cascade-card card-yellow">
-                        <div className="cascade-top">
-                            <span className="text-dark"></span>
-                            <span className="text-dark">FOCUS X</span>
-                        </div>
-                        <div className="cascade-middle">
-                            <h2 className="cascade-title-small text-dark">CINEMATIC<br />VISUALS<br />2026</h2>
-                            <div className="cascade-img-inset">
-                                <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=400&auto=format&fit=crop" alt="Cinematic Camera" />
-                            </div>
-                        </div>
-                        <div className="cascade-footer text-dark">
-                            <p>DUBAI — 10:20 AM</p>
-                        </div>
-                    </div>
 
-                    {/* Card 4: Brown */}
-                    <div className="cascade-card card-brown">
-                        <div className="cascade-flex-row">
-                            <div className="cascade-left-col">
-                                <h2 className="cascade-title text-yellow">LET'S<br />WORK</h2>
-                                <ul className="cascade-menu text-yellow">
-                                    <li>HOME</li>
-                                    <li>ABOUT US</li>
-                                    <li>PORTFOLIO</li>
-                                    <li>SERVICES</li>
-                                    <li>PACKAGES</li>
-                                    <li>CONTACT</li>
-                                </ul>
-                            </div>
-                            <div className="cascade-center-img">
-                                <img src="https://images.unsplash.com/photo-1554046920-90dcac9a7c36?q=80&w=600&auto=format&fit=crop" alt="Photographer" style={{ borderRadius: '50%' }} />
-                            </div>
-                            <div className="cascade-right-col">
-                                <p className="text-yellow text-right-align">AVAILABLE FOR BRAND<br />CAMPAIGNS, COMMERCIAL<br />SHOOTS, AND CINEMATIC<br />PROJECTS GLOBALLY.</p>
-                                <h2 className="cascade-title text-yellow text-right-align">WITH<br />US</h2>
-                            </div>
-                        </div>
-                    </div>
 
-                </div>
-            </section>
-
-            {/* Section 3: 3D Diagonal Glass Showcase */}
-            <section className="diagonal-showcase-section">
-                <div className="diagonal-container">
-                    <div className="diagonal-cards-wrapper">
-
-                        {/* Card 1 */}
-                        <div className="diagonal-card card-1">
-                            <img src={section301} alt="Romantic Chipping" className="diagonal-img" />
-                            <div className="dc-gradient-overlay"></div>
-                            <div className="dc-glass-shimmer"></div>
-                            <div className="diagonal-content">
-                                <div className="dc-top-row">
-                                    <span className="dc-tag">Photography</span>
-                                </div>
-                                <div className="diagonal-bottom-area">
-                                    <h2 className="diagonal-title">ROMANTIC<br />CHIPPING</h2>
-                                    <div className="dc-footer">
-                                        <span className="dc-line"></span>
-                                        <span className="dc-label">FEATURED PROJECT</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Card 2 */}
-                        <div className="diagonal-card card-2">
-                            <img src={section303} alt="The Power of Dreams" className="diagonal-img" />
-                            <div className="dc-gradient-overlay"></div>
-                            <div className="dc-glass-shimmer"></div>
-                            <div className="diagonal-content">
-                                <div className="dc-top-row">
-                                    <span className="dc-tag">Cinematic</span>
-                                </div>
-                                <div className="diagonal-bottom-area">
-                                    <h2 className="diagonal-title">THE POWER<br />OF DREAMS</h2>
-                                    <div className="dc-footer">
-                                        <span className="dc-line"></span>
-                                        <span className="dc-label">CINEMATIC VISION</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Card 3 */}
-                        <div className="diagonal-card card-3">
-                            <img src={section302} alt="The Drive of Your Life" className="diagonal-img" />
-                            <div className="dc-gradient-overlay"></div>
-                            <div className="dc-glass-shimmer"></div>
-                            <div className="diagonal-content">
-                                <div className="dc-top-row">
-                                    <span className="dc-tag">Commercial</span>
-                                </div>
-                                <div className="diagonal-bottom-area">
-                                    <h2 className="diagonal-title">THE DRIVE<br />OF YOUR LIFE</h2>
-                                    <div className="dc-footer">
-                                        <span className="dc-line"></span>
-                                        <span className="dc-label">COMMERCIAL WORK</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </section>
-
-            {/* Section 3.5: Glass Panels Showcase */}
-            <section className="glass-panels-section">
-                <div className="glass-panels-stage">
-                    <div className="glass-panel glass-panel-1">
-                        <img src="https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?q=80&w=1200&auto=format&fit=crop" alt="Photography" className="glass-panel-img" />
-                        <div className="glass-panel-shine"></div>
-                        <div className="glass-panel-edge-light"></div>
-                    </div>
-                    <div className="glass-panel glass-panel-2">
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1200&auto=format&fit=crop" alt="Cinematic" className="glass-panel-img" />
-                        <div className="glass-panel-shine"></div>
-                        <div className="glass-panel-edge-light"></div>
-                    </div>
-                    <div className="glass-panel glass-panel-3">
-                        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1200&auto=format&fit=crop" alt="Commercial" className="glass-panel-img" />
-                        <div className="glass-panel-shine"></div>
-                        <div className="glass-panel-edge-light"></div>
-                    </div>
-                    <div className="glass-floor-reflection"></div>
-                </div>
-            </section>
+            {/* Section 3: Interactive 3D Showcase */}
+            <Section3Showcase />
 
             {/* Section 4: Testimonials */}
             <section className="home-section testimonials-section">
@@ -371,6 +222,9 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+
+            {/* Section 5.5: Photography 3D Overlapping Showcase */}
+            <PhotographyShowcase />
 
             {/* Section 6: Call to Action */}
             <section className="home-section cta-section">

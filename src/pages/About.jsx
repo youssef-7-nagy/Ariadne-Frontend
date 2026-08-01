@@ -1,6 +1,8 @@
 import React from 'react';
 import './About.css';
-import aboutStory from '../assets/about-story.jpg';
+import aboutStory from '../assets/meet-the-minds/all.jpg';
+import InteractiveGrid from '../components/InteractiveGrid';
+import MeetTheMinds from '../components/MeetTheMinds';
 
 // Import logos from assets/trusted leaders
 import logoBasha from '../assets/trusted leaders/Basha.png';
@@ -26,23 +28,9 @@ const PARTNERS = [
     { name: 'Lo2ta', color: '204, 142, 252', letter: 'L', logo: logoClient4, contain: true },
 ];
 
-const TEAM = [
-    {
-        name: 'Youssef',
-        role: 'Creative Director',
-        photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    },
-    {
-        name: 'Sarah',
-        role: 'Lead Photographer',
-        photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    },
-    {
-        name: 'Ahmed',
-        role: 'Creative Producer',
-        photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    }
-];
+
+
+
 
 const VALUES = [
     {
@@ -127,34 +115,10 @@ const About = () => {
                 </div>
             </section>
 
-            {/* ── Team ── */}
-            <section className="about-team">
-                <div className="about-team-inner">
-                    <div className="about-section-header">
-                        <h2>Meet The <span>Minds</span></h2>
-                        <p>The core visionaries behind the lens, driving our passion for visual storytelling.</p>
-                    </div>
-                    <div className="about-team-grid">
-                        {TEAM.map((member, i) => (
-                            <div className="team-card" key={i}>
-                                <div className="team-card-img">
-                                    <img src={member.photo} alt={member.name} />
-                                    <div className="team-card-overlay">
-                                        <div className="team-socials">
-                                            <span>📷</span>
-                                            <span>🔗</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="team-card-info">
-                                    <h3>{member.name}</h3>
-                                    <p>{member.role}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+
+
+            {/* ── Meet The Minds Section ── */}
+            <MeetTheMinds />
 
             {/* ── Values ── */}
             <section className="about-values">
@@ -175,7 +139,7 @@ const About = () => {
                 </div>
             </section>
 
-            {/* ── 3D Glassmorphic Partners Carousel ── */}
+            {/* ── Interactive Grid Partners (White Background) ── */}
             <section className="about-partners">
                 <div className="about-partners-inner">
                     <div className="about-section-header">
@@ -186,37 +150,21 @@ const About = () => {
                         </p>
                     </div>
 
-                    <div className="partners-carousel-wrap">
-                        <div
-                            className="partners-inner"
-                            style={{ '--quantity': PARTNERS.length }}
-                        >
-                            {PARTNERS.map((partner, i) => (
-                                <div
-                                    key={i}
-                                    className="partner-card glass-card"
-                                    style={{
-                                        '--index': i,
-                                        '--color-card': partner.color,
-                                    }}
-                                >
-                                    <div className="partner-img">
-                                        {partner.logo ? (
-                                            <img 
-                                                src={partner.logo} 
-                                                alt={partner.name} 
-                                                style={partner.contain ? { objectFit: 'contain', padding: partner.padding || '15px' } : {}}
-                                            />
-                                        ) : (
-                                            <span className="text-logo">
-                                                {partner.letter}
-                                            </span>
-                                        )}
-                                        <div className="partner-glow"></div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                    <div className="interactive-partners-stage">
+                        <InteractiveGrid
+                            images={PARTNERS.map(p => p.logo).filter(Boolean)}
+                            columns={5}
+                            rows={3}
+                            gap={14}
+                            rounded={14}
+                            cardFill="#ffffff"
+                            cardBorder="rgba(0, 0, 0, 0.08)"
+                            shadow={true}
+                            glow={true}
+                            glowStart="rgba(255, 78, 0, 0.25)"
+                            glowEnd="#ff4e00"
+                            glowIntensity={40}
+                        />
                     </div>
                 </div>
             </section>

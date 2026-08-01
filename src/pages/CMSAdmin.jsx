@@ -259,6 +259,7 @@ const ProjectsTab = () => {
     title: '', slug: '', categoryId: '', description: '',
     date: '', clientName: '', tags: '', externalLink: '', embedUrl: ''
   });
+  const [projectMediaLayout, setProjectMediaLayout] = useState('video'); // 'video' | 'gallery'
   const [mediaFile, setMediaFile] = useState(null);
   const [mediaPreview, setMediaPreview] = useState('');
   const [mediaType, setMediaType] = useState('image');
@@ -266,10 +267,13 @@ const ProjectsTab = () => {
   const [coverPreview, setCoverPreview] = useState('');
   const [videoThumbnailFile, setVideoThumbnailFile] = useState(null);
   const [videoThumbnailPreview, setVideoThumbnailPreview] = useState('');
+  const [galleryFiles, setGalleryFiles] = useState([]);
+  const [galleryPreviews, setGalleryPreviews] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showClientDropdown, setShowClientDropdown] = useState(false);
   const clientDropdownRef = useRef(null);
+  const galleryInputRef = useRef(null);
 
   const load = async () => {
     const [pRes, cRes] = await Promise.all([
@@ -309,6 +313,7 @@ const ProjectsTab = () => {
 
   const resetForm = () => {
     setForm({ title: '', slug: '', categoryId: '', description: '', date: '', clientName: '', tags: '', externalLink: '', embedUrl: '' });
+    setProjectMediaLayout('video');
     setMediaFile(null);
     setMediaPreview('');
     setMediaType('image');
@@ -316,6 +321,8 @@ const ProjectsTab = () => {
     setCoverPreview('');
     setVideoThumbnailFile(null);
     setVideoThumbnailPreview('');
+    setGalleryFiles([]);
+    setGalleryPreviews([]);
     setEditingId(null);
   };
 
@@ -355,19 +362,27 @@ const ProjectsTab = () => {
       return notify.error('Invalid Embed URL. Only Bunny.net, Cloudinary, and YouTube embeds are supported.');
     }
 
-    const hasMedia = mediaFile || form.embedUrl || form.externalLink || coverFile || (editingId && mediaPreview);
-    if (!hasMedia) {
-      return notify.error('At least one media source (Video, Image, Embed, or External Link) is required.');
+    let hasMedia;
+    if (projectMediaLayout === 'gallery') {
+      hasMedia = galleryFiles.length > 0 || (editingId && galleryPreviews.length > 0);
+      if (!hasMedia) return notify.error('Please upload at least one photo for the gallery.');
+    } else {
+      hasMedia = mediaFile || form.embedUrl || form.externalLink || coverFile || (editingId && mediaPreview);
+      if (!hasMedia) return notify.error('At least one media source (Video, Image, Embed, or External Link) is required.');
     }
 
     setLoading(true);
     try {
       const fd = new FormData();
       Object.entries(form).forEach(([k, v]) => fd.append(k, v));
-      fd.append('mediaType', mediaType);
-      if (mediaFile) fd.append('media', mediaFile);
+      fd.append('mediaType', projectMediaLayout);
+      if (projectMediaLayout === 'gallery') {
+        galleryFiles.forEach(f => fd.append('media', f));
+      } else {
+        if (mediaFile) fd.append('media', mediaFile);
+        if (videoThumbnailFile) fd.append('videoThumbnail', videoThumbnailFile);
+      }
       if (coverFile) fd.append('coverImage', coverFile);
-      if (videoThumbnailFile) fd.append('videoThumbnail', videoThumbnailFile);
 
       if (editingId) {
         await axios.put(`${API}/projects/${editingId}`, fd, getAuthConfig());
@@ -387,6 +402,8 @@ const ProjectsTab = () => {
 
   const handleEdit = (p) => {
     setEditingId(p._id);
+    const layout = p.mediaType || 'video';
+    setProjectMediaLayout(layout);
     setForm({
       title: p.title,
       slug: p.slug,
@@ -400,7 +417,17 @@ const ProjectsTab = () => {
     });
     const featured = p.media?.[0];
     setMediaFile(null);
-    setMediaPreview(featured?.url || '');
+    if (layout === 'gallery') {
+      // Load existing gallery previews (resolved URLs)
+      const existingPreviews = (p.media || []).map(m => resolveUrl(m.url));
+      setGalleryFiles([]);
+      setGalleryPreviews(existingPreviews);
+      setMediaPreview('');
+    } else {
+      setMediaPreview(featured?.url || '');
+      setGalleryFiles([]);
+      setGalleryPreviews([]);
+    }
     setMediaType(featured?.type || 'image');
     setCoverFile(null);
     setCoverPreview(p.coverImage || '');
@@ -539,35 +566,129 @@ const ProjectsTab = () => {
                 onClear={() => { setCoverFile(null); setCoverPreview(''); }}
               />
             </div>
-            <div className="cms-field" style={{ gridColumn: 'span 1' }}>
-              <label>
-                {mediaType === 'video'
-                  ? <><FiVideo style={{ verticalAlign: 'middle', marginRight: 4 }} />Trailer Video / Main Media</>
-                  : <><FiImage style={{ verticalAlign: 'middle', marginRight: 4 }} />Main Image / Trailer Video</>}
-              </label>
-              <UploadZone
-                accept="image/*,video/*"
-                label="Click or drag an image or video here (trailer, photo, etc.)"
-                preview={mediaPreview && !form.embedUrl ? mediaPreview : ''}
-                previewType={mediaType}
-                onChange={handleMediaSelect}
-                onClear={() => { setMediaFile(null); setMediaPreview(''); setMediaType('image'); setVideoThumbnailFile(null); setVideoThumbnailPreview(''); setForm(f => ({ ...f, embedUrl: '' })); }}
-              />
-              <div style={{ marginTop: 8, fontSize: '0.85rem' }}>
-                <label style={{ display: 'block', marginBottom: 4 }}>Or provide an Embed URL (Bunny.net/YouTube):</label>
-                <input className="form-control" placeholder="https://iframe.mediadelivery.net/embed/..." value={form.embedUrl}
-                  onChange={e => {
-                    setForm(f => ({ ...f, embedUrl: e.target.value }));
-                    if (e.target.value) setMediaType('video');
-                  }} />
+            <div className="cms-field" style={{ gridColumn: 'span 2' }}>
+              {/* ── Media Layout Toggle ── */}
+              <label style={{ marginBottom: 10, display: 'block' }}>Media Layout *</label>
+              <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
+                <button
+                  type="button"
+                  onClick={() => setProjectMediaLayout('video')}
+                  style={{
+                    padding: '8px 20px', borderRadius: 8, border: '2px solid',
+                    borderColor: projectMediaLayout === 'video' ? '#6366f1' : '#334155',
+                    background: projectMediaLayout === 'video' ? 'rgba(99,102,241,0.15)' : 'transparent',
+                    color: projectMediaLayout === 'video' ? '#6366f1' : '#94a3b8',
+                    fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: 6
+                  }}
+                >
+                  <FiVideo /> Video / Trailer
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setProjectMediaLayout('gallery')}
+                  style={{
+                    padding: '8px 20px', borderRadius: 8, border: '2px solid',
+                    borderColor: projectMediaLayout === 'gallery' ? '#6366f1' : '#334155',
+                    background: projectMediaLayout === 'gallery' ? 'rgba(99,102,241,0.15)' : 'transparent',
+                    color: projectMediaLayout === 'gallery' ? '#6366f1' : '#94a3b8',
+                    fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: 6
+                  }}
+                >
+                  <FiImage /> Photos Gallery
+                </button>
               </div>
-              {mediaFile && !form.embedUrl && (
-                <div style={{ marginTop: 4, fontSize: '0.78rem', color: '#94a3b8' }}>
-                  Detected: <strong>{mediaType === 'video' ? '🎬 Video' : '🖼️ Image'}</strong> — {mediaFile.name}
+
+              {/* ── Gallery Upload Zone ── */}
+              {projectMediaLayout === 'gallery' ? (
+                <div>
+                  <input
+                    ref={galleryInputRef}
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    style={{ display: 'none' }}
+                    onChange={e => {
+                      const files = Array.from(e.target.files);
+                      if (!files.length) return;
+                      setGalleryFiles(prev => [...prev, ...files]);
+                      setGalleryPreviews(prev => [...prev, ...files.map(f => URL.createObjectURL(f))]);
+                      e.target.value = '';
+                    }}
+                  />
+                  <div
+                    onClick={() => galleryInputRef.current?.click()}
+                    style={{
+                      border: '2px dashed #334155', borderRadius: 10, padding: '28px 20px',
+                      textAlign: 'center', cursor: 'pointer', color: '#94a3b8', marginBottom: 14,
+                      transition: 'border-color 0.2s'
+                    }}
+                    onMouseOver={e => e.currentTarget.style.borderColor = '#6366f1'}
+                    onMouseOut={e => e.currentTarget.style.borderColor = '#334155'}
+                  >
+                    <FiImage style={{ fontSize: 28, marginBottom: 8, display: 'block', margin: '0 auto 8px' }} />
+                    <strong>Click to add photos</strong>
+                    <span style={{ display: 'block', fontSize: '0.8rem', marginTop: 4 }}>You can add multiple photos — they will appear as a navigable gallery</span>
+                  </div>
+                  {galleryPreviews.length > 0 && (
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(90px, 1fr))', gap: 8 }}>
+                      {galleryPreviews.map((src, i) => (
+                        <div key={i} style={{ position: 'relative', borderRadius: 6, overflow: 'hidden', aspectRatio: '1', background: '#0d1117' }}>
+                          <img src={src} alt={`Gallery ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setGalleryPreviews(p => p.filter((_, j) => j !== i));
+                              setGalleryFiles(p => p.filter((_, j) => j !== i));
+                            }}
+                            style={{
+                              position: 'absolute', top: 3, right: 3,
+                              background: 'rgba(0,0,0,0.7)', border: 'none', borderRadius: '50%',
+                              color: '#fff', width: 20, height: 20, display: 'flex', alignItems: 'center',
+                              justifyContent: 'center', cursor: 'pointer', padding: 0, fontSize: 11
+                            }}
+                            aria-label="Remove photo"
+                          >
+                            <FiX />
+                          </button>
+                          {i === 0 && <span style={{ position: 'absolute', bottom: 3, left: 3, background: '#6366f1', color: '#fff', fontSize: '0.6rem', padding: '1px 5px', borderRadius: 3 }}>Cover</span>}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                /* ── Video / Trailer zone (original) ── */
+                <div>
+                  <label style={{ marginBottom: 6, display: 'block' }}>
+                    {mediaType === 'video'
+                      ? <><FiVideo style={{ verticalAlign: 'middle', marginRight: 4 }} />Trailer Video / Main Media</>
+                      : <><FiImage style={{ verticalAlign: 'middle', marginRight: 4 }} />Main Image / Trailer Video</>}
+                  </label>
+                  <UploadZone
+                    accept="image/*,video/*"
+                    label="Click or drag an image or video here (trailer, photo, etc.)"
+                    preview={mediaPreview && !form.embedUrl ? mediaPreview : ''}
+                    previewType={mediaType}
+                    onChange={handleMediaSelect}
+                    onClear={() => { setMediaFile(null); setMediaPreview(''); setMediaType('image'); setVideoThumbnailFile(null); setVideoThumbnailPreview(''); setForm(f => ({ ...f, embedUrl: '' })); }}
+                  />
+                  <div style={{ marginTop: 8, fontSize: '0.85rem' }}>
+                    <label style={{ display: 'block', marginBottom: 4 }}>Or provide an Embed URL (Bunny.net/YouTube):</label>
+                    <input className="form-control" placeholder="https://iframe.mediadelivery.net/embed/..." value={form.embedUrl}
+                      onChange={e => {
+                        setForm(f => ({ ...f, embedUrl: e.target.value }));
+                        if (e.target.value) setMediaType('video');
+                      }} />
+                  </div>
+                  {mediaFile && !form.embedUrl && (
+                    <div style={{ marginTop: 4, fontSize: '0.78rem', color: '#94a3b8' }}>
+                      Detected: <strong>{mediaType === 'video' ? '🎬 Video' : '🖼️ Image'}</strong> — {mediaFile.name}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
-            {mediaType === 'video' && (
+            {projectMediaLayout === 'video' && mediaType === 'video' && (
               <div className="cms-field" style={{ gridColumn: 'span 1' }}>
                 <label><FiImage style={{ verticalAlign: 'middle', marginRight: 4 }} />Video Thumbnail (Poster Image)</label>
                 <UploadZone
