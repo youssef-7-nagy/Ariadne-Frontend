@@ -3,84 +3,84 @@ import { motion } from 'framer-motion';
 import { FaCamera, FaFilm, FaWandMagicSparkles, FaInstagram, FaLinkedin, FaEnvelope } from 'react-icons/fa6';
 import './MeetTheMinds.css';
 
-import imgLeo from '../assets/meet-the-minds/leo.jpg';
-import imgPierre from '../assets/meet-the-minds/pierre.jpg';
-import imgRamsis from '../assets/meet-the-minds/ramsis.jpg';
-import imgTante from '../assets/meet-the-minds/tante.jpg';
-import imgGirl1 from '../assets/meet-the-minds/girl1.jpg';
-import imgBoy from '../assets/meet-the-minds/boy.jpg';
-import imgBoy1 from '../assets/meet-the-minds/boy1.jpg';
+import imgLeo from '../assets/meet-the-minds/Léonardo HANNA.jpg';
+import imgPierre from '../assets/meet-the-minds/Pierre TOMA.jpg';
+import imgFady from '../assets/meet-the-minds/Fady BARSSOUM.jpg';
+import imgRamsis from '../assets/meet-the-minds/Ramsis HANNA.jpg';
+import imgSamah from '../assets/meet-the-minds/Samah TADROS.jpg';
+import imgJohn from '../assets/meet-the-minds/John ZAKI.jpg';
+import imgMaria from '../assets/meet-the-minds/Maria ARTINE.jpg';
 
 const TEAM_MEMBERS = [
     {
         id: 'leo',
-        name: 'Leonarda Hanna',
-        role: 'Lead Photographer & Founder',
+        name: 'Léonardo HANNA',
+        role: 'Founder & Principal Photographer',
         badge: 'PHOTOGRAPHY',
-        bio: 'Leonarda Hanna brings raw artistic passion, cinematic composition, and a relentless eye for detail to every shoot. Specializing in high-end fashion, editorial portraits, and visual storytelling, he turns split seconds into timeless visual art.',
+        bio: 'Founder of Ariadne. Léonardo brings raw artistic passion, precise composition, and a relentless eye for detail to every shoot. Specializing in high-end editorial portraits, commercial campaigns, and visual storytelling, he turns brief moments into timeless visual art.',
         img: imgLeo,
         accentColor: '#7c3aed',
         icon: FaCamera,
     },
     {
         id: 'pierre',
-        name: 'Pierre',
-        role: 'Senior Cinematographer & Director',
+        name: 'Pierre TOMA',
+        role: 'Director of Cinematography',
         badge: 'CINEMATOGRAPHY',
-        bio: 'Pierre oversees Ariadne’s motion productions and cinematic film direction. With deep expertise in mood lighting, camera choreography, and narrative grading, he creates compelling visual stories for world-class brands.',
+        bio: 'Pierre directs Ariadne’s high-end commercial films and cinematic narratives. With deep expertise in camera choreography, lighting design, and creative grading, he translates brand visions into premium, moving visual experiences.',
         img: imgPierre,
         accentColor: '#1392d6',
         icon: FaFilm,
     },
     {
+        id: 'fady',
+        name: 'Fady BARSSOUM',
+        role: 'Lead Editor & Post Director',
+        badge: 'POST-PRODUCTION',
+        bio: 'Fady leads the post-production department, managing Ariadne’s film editing and coloring pipeline. His technical expertise in sound design, pacing, and color science ensures every film is a polished, cinema-grade masterpiece.',
+        img: imgFady,
+        accentColor: '#10b981',
+        icon: FaWandMagicSparkles,
+    },
+    {
         id: 'ramsis',
-        name: 'Ramsis',
+        name: 'Ramsis HANNA',
         role: 'Creative Producer & Operations Head',
         badge: 'PRODUCTION',
-        bio: 'Ramsis bridges creative ambition with flawless execution. Managing large-scale commercial sets and logistics, he ensures every project operates seamlessly from pre-production to final delivery.',
+        bio: 'Ramsis bridges creative vision with seamless execution. Overseeing logistics, budgeting, and set operations for all commercial shoots, he keeps Ariadne\'s productions organized and running on schedule.',
         img: imgRamsis,
         accentColor: '#ff6b35',
         icon: FaWandMagicSparkles,
     },
     {
-        id: 'tante',
-        name: 'Madame Tante',
-        role: 'Executive Partner & Strategy Director',
-        badge: 'STRATEGY',
-        bio: 'Guiding high-level client partnerships and agency vision, Tante ensures Ariadne continues pushing creative boundaries while cultivating long-term relationships with industry leaders.',
-        img: imgTante,
-        accentColor: '#e0a96d',
-        icon: FaWandMagicSparkles,
-    },
-    {
-        id: 'sara',
-        name: 'Sara Khalil',
+        id: 'samah',
+        name: 'Samah TADROS',
         role: 'Art Director & Stylist',
         badge: 'ART DIRECTION',
-        bio: 'Sara shapes the visual harmony of every concept. From color palettes to set design, her aesthetic direction elevates brand identities into unforgettable visual experiences.',
-        img: imgGirl1,
+        bio: 'Samah orchestrates the visual styling and aesthetic theme of every project. By coordinating set designs, fashion elements, and color palettes, she elevates brand imagery into cohesive, high-fashion storytelling.',
+        img: imgSamah,
         accentColor: '#ec4899',
         icon: FaCamera,
     },
     {
-        id: 'mark',
-        name: 'Mark',
-        role: 'Lighting & Aerial Director',
+        id: 'john',
+        name: 'John ZAKI',
+        role: 'Lighting & Technical Lead',
         badge: 'TECHNICAL',
-        bio: 'Mastering high-tech camera rigs, complex studio lighting, and drone aerial cinematography to capture impossible angles and dynamic environments.',
-        img: imgBoy,
-        accentColor: '#10b981',
+        bio: 'John commands the complex setups behind Ariadne’s signature lighting and technical operations. Specializing in drone aerials and high-speed camera rigs, he captures dynamic perspectives on set.',
+        img: imgJohn,
+        accentColor: '#e0a96d',
         icon: FaFilm,
     },
     {
-        id: 'david',
-        name: 'David',
-        role: 'Lead Colorist & Post Director',
-        badge: 'POST PRODUCTION',
-        bio: 'Transforming raw footage into polished, cinema-grade masterpieces with meticulous color science, sound design, and visual effects.',
-        img: imgBoy1,
+        id: 'maria',
+        name: 'Maria ARTINE',
+        role: 'Production Coordinator & Client Lead',
+        badge: 'COORDINATION',
+        bio: 'Maria manages client communications and ensures production plans align perfectly with client expectations. Her focus on detail guarantees that every project deliverable meets Ariadne\'s premium standards.',
+        img: imgMaria,
         accentColor: '#8b5cf6',
-        icon: FaFilm,
+        icon: FaWandMagicSparkles,
     }
 ];
 
