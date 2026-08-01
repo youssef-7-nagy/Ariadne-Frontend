@@ -33,7 +33,7 @@ const ForgotPassword = () => {
 
       setFeedback({
         type: "success",
-        message: response.data?.message || "Reset link sent! Check your inbox.",
+        message: response.data?.message || "Reset link sent! Check your gmail.",
       });
 
       emailRef.current.value = "";
