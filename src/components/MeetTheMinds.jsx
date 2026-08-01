@@ -27,7 +27,7 @@ const TEAM_MEMBERS = [
         name: 'Pierre TOMA',
         role: 'Director of Cinematography',
         badge: 'CINEMATOGRAPHY',
-        bio: 'Pierre directs Ariadne\u2019s high-end commercial films and cinematic narratives. With deep expertise in camera choreography, lighting design, and creative grading, he translates brand visions into premium, moving visual experiences.',
+        bio: 'Pierre directs Ariadne’s high-end commercial films and cinematic narratives. With deep expertise in camera choreography, lighting design, and creative grading, he translates brand visions into premium, moving visual experiences.',
         img: imgPierre,
         accentColor: '#1392d6',
         icon: FaFilm,
@@ -37,7 +37,7 @@ const TEAM_MEMBERS = [
         name: 'Fady BARSSOUM',
         role: 'Lead Editor & Post Director',
         badge: 'POST-PRODUCTION',
-        bio: 'Fady leads the post-production department, managing Ariadne\u2019s film editing and coloring pipeline. His technical expertise in sound design, pacing, and color science ensures every film is a polished, cinema-grade masterpiece.',
+        bio: 'Fady leads the post-production department, managing Ariadne’s film editing and coloring pipeline. His technical expertise in sound design, pacing, and color science ensures every film is a polished, cinema-grade masterpiece.',
         img: imgFady,
         accentColor: '#10b981',
         icon: FaWandMagicSparkles,
@@ -67,7 +67,7 @@ const TEAM_MEMBERS = [
         name: 'John ZAKI',
         role: 'Lighting & Technical Lead',
         badge: 'TECHNICAL',
-        bio: 'John commands the complex setups behind Ariadne\u2019s signature lighting and technical operations. Specializing in drone aerials and high-speed camera rigs, he captures dynamic perspectives on set.',
+        bio: 'John commands the complex setups behind Ariadne’s signature lighting and technical operations. Specializing in drone aerials and high-speed camera rigs, he captures dynamic perspectives on set.',
         img: imgJohn,
         accentColor: '#e0a96d',
         icon: FaFilm,
@@ -84,42 +84,27 @@ const TEAM_MEMBERS = [
     }
 ];
 
-/* ── Spring easing curve ── */
-const springTransition = { duration: 0.9, ease: [0.16, 1, 0.3, 1] };
-
 export default function MeetTheMinds() {
     return (
         <section className="mtm-section">
-            {/* Decorative background elements */}
-            <div className="mtm-bg-orb mtm-bg-orb--1" />
-            <div className="mtm-bg-orb mtm-bg-orb--2" />
-            <div className="mtm-bg-line" />
-
             <div className="mtm-container">
                 {/* Header */}
-                <motion.div
-                    className="mtm-header"
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: '-60px' }}
-                    transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                >
+                <div className="mtm-header">
                     <span className="mtm-eyebrow">
                         <FaWandMagicSparkles size={14} />
                         OUR CREATIVE FORCE
                     </span>
                     <h2 className="mtm-title">Meet The <span>Minds</span></h2>
                     <p className="mtm-subtitle">
-                        The visionaries, directors, and artists behind the lens — shaping Ariadne's visual truth.
+                        The visionaries, directors, and artists behind the lens — shaping Ariadne’s visual truth.
                     </p>
-                </motion.div>
+                </div>
 
                 {/* Team Rows - Alternating Left / Right */}
                 <div className="mtm-rows">
                     {TEAM_MEMBERS.map((member, index) => {
-                        const isEven = index % 2 === 0;
+                        const isEven = index % 2 === 0; // Even = Image Left, Bio Right. Odd = Bio Left, Image Right.
                         const IconComponent = member.icon;
-                        const memberNum = String(index + 1).padStart(2, '0');
 
                         return (
                             <div
@@ -129,96 +114,49 @@ export default function MeetTheMinds() {
                                 {/* Image Box */}
                                 <motion.div
                                     className="mtm-img-col"
-                                    initial={{ opacity: 0, x: isEven ? -120 : 120, rotate: isEven ? -3 : 3 }}
-                                    whileInView={{ opacity: 1, x: 0, rotate: 0 }}
-                                    viewport={{ once: true, margin: '-100px' }}
-                                    transition={{ ...springTransition }}
+                                    initial={{ opacity: 0, x: isEven ? -90 : 90 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true, margin: '-80px' }}
+                                    transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1] }}
                                 >
-                                    <div className="mtm-img-card" style={{ '--accent': member.accentColor }}>
+                                    <div className="mtm-img-card">
                                         <img src={member.img} alt={member.name} className="mtm-img" />
                                         <div className="mtm-img-glass" />
                                         <div className="mtm-img-glow" style={{ backgroundColor: member.accentColor }} />
                                         <span className="mtm-badge" style={{ backgroundColor: member.accentColor }}>
                                             {member.badge}
                                         </span>
-                                        {/* Large number watermark */}
-                                        <span className="mtm-num">{memberNum}</span>
                                     </div>
                                 </motion.div>
 
                                 {/* Content Box */}
                                 <motion.div
                                     className="mtm-content-col"
-                                    initial={{ opacity: 0, x: isEven ? 120 : -120 }}
+                                    initial={{ opacity: 0, x: isEven ? 90 : -90 }}
                                     whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true, margin: '-100px' }}
-                                    transition={{ ...springTransition, delay: 0.2 }}
+                                    viewport={{ once: true, margin: '-80px' }}
+                                    transition={{ duration: 1.3, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
                                 >
                                     <div className="mtm-content-inner">
-                                        {/* Accent line + icon */}
-                                        <motion.div
-                                            className="mtm-accent-bar"
-                                            style={{ backgroundColor: member.accentColor }}
-                                            initial={{ scaleX: 0 }}
-                                            whileInView={{ scaleX: 1 }}
-                                            viewport={{ once: true }}
-                                            transition={{ duration: 0.6, delay: 0.5 }}
-                                        />
-
-                                        <div className="mtm-icon-tag" style={{ color: member.accentColor, borderColor: `${member.accentColor}33`, background: `${member.accentColor}12` }}>
+                                        <div className="mtm-icon-tag" style={{ color: member.accentColor }}>
                                             <IconComponent size={20} />
                                         </div>
-
-                                        <motion.h3
-                                            className="mtm-name"
-                                            initial={{ opacity: 0, y: 20 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ duration: 0.5, delay: 0.35 }}
-                                        >
-                                            {member.name}
-                                        </motion.h3>
-
-                                        <motion.h4
-                                            className="mtm-role"
-                                            style={{ color: member.accentColor }}
-                                            initial={{ opacity: 0, y: 15 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ duration: 0.5, delay: 0.45 }}
-                                        >
-                                            {member.role}
-                                        </motion.h4>
-
+                                        <h3 className="mtm-name">{member.name}</h3>
+                                        <h4 className="mtm-role" style={{ color: member.accentColor }}>{member.role}</h4>
                                         <div className="mtm-divider" style={{ backgroundColor: member.accentColor }} />
+                                        <p className="mtm-bio">{member.bio}</p>
 
-                                        <motion.p
-                                            className="mtm-bio"
-                                            initial={{ opacity: 0, y: 15 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ duration: 0.5, delay: 0.55 }}
-                                        >
-                                            {member.bio}
-                                        </motion.p>
-
-                                        <motion.div
-                                            className="mtm-socials"
-                                            initial={{ opacity: 0, y: 10 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ duration: 0.4, delay: 0.65 }}
-                                        >
-                                            <a href="#instagram" className="mtm-social-link" title="Instagram" style={{ '--hover-color': member.accentColor }}>
+                                        <div className="mtm-socials">
+                                            <a href="#instagram" className="mtm-social-link" title="Instagram">
                                                 <FaInstagram size={17} />
                                             </a>
-                                            <a href="#linkedin" className="mtm-social-link" title="LinkedIn" style={{ '--hover-color': member.accentColor }}>
+                                            <a href="#linkedin" className="mtm-social-link" title="LinkedIn">
                                                 <FaLinkedin size={17} />
                                             </a>
-                                            <a href="#contact" className="mtm-social-link" title="Email" style={{ '--hover-color': member.accentColor }}>
+                                            <a href="#contact" className="mtm-social-link" title="Email">
                                                 <FaEnvelope size={17} />
                                             </a>
-                                        </motion.div>
+                                        </div>
                                     </div>
                                 </motion.div>
                             </div>
