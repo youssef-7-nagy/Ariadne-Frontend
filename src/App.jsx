@@ -37,8 +37,8 @@ const ProtectedRoute = ({ children, allowedRoles, userData, isLoggedIn }) => {
     if (allowedRoles) {
         const role = userData?.role || 'user'; // Default to 'user' if undefined
         if (!allowedRoles.includes(role)) {
-            // If an admin tries to access a restricted page, send them to the admin panel
-            if (role === 'admin') {
+            // If an admin or superadmin tries to access a restricted page, send them to the admin panel
+            if (role === 'admin' || role === 'superadmin') {
                 return <Navigate to="/admin" replace />;
             }
             return <Navigate to="/" replace />;
@@ -168,7 +168,7 @@ const App = () => {
                         <Route 
                             path="/admin" 
                             element={
-                                <ProtectedRoute isLoggedIn={isLoggedIn} userData={userData} allowedRoles={['admin']}>
+                                <ProtectedRoute isLoggedIn={isLoggedIn} userData={userData} allowedRoles={['admin', 'superadmin']}>
                                     <AdminPanel />
                                 </ProtectedRoute>
                             } 
