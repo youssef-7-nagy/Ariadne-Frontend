@@ -1042,3 +1042,29 @@ textarea.form-control { height: auto; padding-top: 20px; resize: vertical; font-
   border-color: #ef4444;
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
+
+/* Super Admin Badge & Theme */
+.badge.superadmin-badge {
+  background: linear-gradient(135deg, #8b5cf6, #d946ef);
+  color: #ffffff;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.4);
+}
+
+.sidebar-role-badge.superadmin {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(217, 70, 239, 0.2));
+  color: #c084fc;
+  border: 1px solid rgba(192, 132, 252, 0.4);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.digital-id-card.superadmin-theme {
+  background: linear-gradient(135deg, #1e1b4b, #31104b, #4c1d95);
+  border: 1px solid rgba(192, 132, 252, 0.4);
+  box-shadow: 0 12px 30px rgba(124, 58, 237, 0.25);
+}
