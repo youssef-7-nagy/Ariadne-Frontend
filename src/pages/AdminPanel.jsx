@@ -303,10 +303,19 @@ const AdminPanel = () => {
   const normalizedSearch = useMemo(() => normalize(searchTerm).trim(), [searchTerm]);
 
   const filteredUsers = useMemo(() => {
-    if (!normalizedSearch) return users;
-    return users.filter((user) =>
-      `${user._id} ${user.name} ${user.email} ${user.role}`.toLowerCase().includes(normalizedSearch)
-    );
+    let list = users;
+    if (normalizedSearch) {
+      list = users.filter((user) =>
+        `${user._id} ${user.name} ${user.email} ${user.role}`.toLowerCase().includes(normalizedSearch)
+      );
+    }
+    const rolePriority = { superadmin: 1, admin: 2, user: 3 };
+    return [...list].sort((a, b) => {
+      const pA = rolePriority[a.role?.toLowerCase()] || 4;
+      const pB = rolePriority[b.role?.toLowerCase()] || 4;
+      if (pA !== pB) return pA - pB;
+      return (a.name || '').localeCompare(b.name || '');
+    });
   }, [users, normalizedSearch]);
 
   const filteredBookings = useMemo(() => {
