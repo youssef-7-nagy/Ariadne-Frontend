@@ -404,3 +404,82 @@
         height: 360px;
     }
 }
+
+/* Soundwave animations for Pierre */
+.mtm-soundwave-active {
+    width: auto !important;
+    padding: 0 12px;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.mtm-soundwave-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 18px;
+    padding-bottom: 2px;
+}
+
+.mtm-soundwave-bars .bar {
+    display: block;
+    width: 2px;
+    height: 100%;
+    background-color: currentColor;
+    border-radius: 1px;
+    animation: mtmSoundWave 1.2s ease-in-out infinite alternate;
+}
+
+.mtm-soundwave-bars .bar:nth-child(1) {
+    animation-delay: 0.1s;
+    height: 30%;
+}
+
+.mtm-soundwave-bars .bar:nth-child(2) {
+    animation-delay: 0.4s;
+    height: 75%;
+}
+
+.mtm-soundwave-bars .bar:nth-child(3) {
+    animation-delay: 0.2s;
+    height: 50%;
+}
+
+.mtm-soundwave-bars .bar:nth-child(4) {
+    animation-delay: 0.6s;
+    height: 90%;
+}
+
+@keyframes mtmSoundWave {
+    0% {
+        transform: scaleY(0.25);
+        transform-origin: bottom;
+    }
+    100% {
+        transform: scaleY(1);
+        transform-origin: bottom;
+    }
+}
+
+/* Clapperboard Slating Action Animation for Léonardo */
+.mtm-row:hover .mtm-clapper-active svg {
+    animation: mtmClapperSnap 0.55s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes mtmClapperSnap {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    25% {
+        transform: rotate(-14deg) translateY(-2px) scale(1.1);
+    }
+    50% {
+        transform: rotate(0deg) translateY(1px) scale(0.92);
+    }
+    75% {
+        transform: translateY(-0.5px) scale(1.02);
+    }
+    100% {
+        transform: rotate(0deg) translateY(0) scale(1);
+    }
+}

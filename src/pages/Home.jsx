@@ -13,6 +13,13 @@ import imgCorporate from '../assets/categories/corporate.png';
 import imgMusicVideos from '../assets/categories/music-videos.png';
 import imgPhotography from '../assets/categories/photography.png';
 import imgBTS from '../assets/categories/behind-the-scenes.png';
+import imgAboutStory from '../assets/about-story.jpg';
+import imgHome6257 from '../assets/home/IMG_6257.jpg';
+import imgHome6270 from '../assets/home/IMG_6270.jpg';
+import imgHome6342 from '../assets/home/IMG_6342.jpg';
+import imgHome301 from '../assets/home/section301.jpg';
+import imgHome302 from '../assets/home/section302.jpg';
+import imgHome303 from '../assets/home/section303.jpg';
 
 
 const LOCAL_IMAGE_MAP = {
@@ -37,16 +44,19 @@ const resolveUrl = (src) => {
     return `${API_URL}${src}`;
 };
 
-const HERO_IMAGES = [
-    { src: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=400&auto=format&fit=crop', top: '8%', left: '15%', rotate: '-12deg', size: 'clamp(140px, 15vw, 280px)', delay: '0s' },
-    { src: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=400&auto=format&fit=crop', top: '2%', left: '50%', rotate: '4deg', size: 'clamp(160px, 18vw, 340px)', transform: 'translateX(-50%)', delay: '1s' },
-    { src: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop', top: '10%', right: '15%', rotate: '15deg', size: 'clamp(130px, 14vw, 260px)', delay: '2s' },
-    { src: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=400&auto=format&fit=crop', top: '35%', left: '4%', rotate: '-22deg', size: 'clamp(110px, 12vw, 220px)', delay: '0.5s' },
-    { src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop', top: '32%', right: '3%', rotate: '25deg', size: 'clamp(120px, 13vw, 240px)', delay: '1.5s' },
-    { src: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&auto=format&fit=crop', bottom: '20%', left: '12%', rotate: '-8deg', size: 'clamp(150px, 16vw, 290px)', delay: '2.5s' },
-    { src: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=400&auto=format&fit=crop', bottom: '22%', right: '10%', rotate: '-10deg', size: 'clamp(140px, 15vw, 270px)', delay: '0.8s' },
-    { src: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop', top: '70%', left: '-2%', rotate: '-35deg', size: 'clamp(90px, 10vw, 190px)', delay: '1.2s' },
-    { src: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop', top: '65%', right: '0%', rotate: '32deg', size: 'clamp(100px, 11vw, 210px)', delay: '2.2s' },
+
+
+const curvedGalleryImages = [
+    { src: imgHome6257, left: '5.5%', top: '80%', rotate: -75 },
+    { src: imgHome6270, left: '6%', top: '52%', rotate: -58 },
+    { src: imgHome6342, left: '11.5%', top: '29%', rotate: -40 },
+    { src: imgHome301, left: '22.5%', top: '13.5%', rotate: -22 },
+    { src: imgHome302, left: '37.8%', top: '6%', rotate: -6 },
+    { src: imgHome303, left: '52.2%', top: '6%', rotate: 6 },
+    { src: imgAboutStory, left: '67.5%', top: '13.5%', rotate: 22 },
+    { src: imgHome6257, left: '78.5%', top: '29%', rotate: 40 },
+    { src: imgHome6270, left: '83.8%', top: '52%', rotate: 58 },
+    { src: imgHome6342, left: '84.5%', top: '80%', rotate: 75 },
 ];
 
 const Home = () => {
@@ -72,108 +82,137 @@ const Home = () => {
         fetchCategories();
     }, []);
 
-    const testimonials = [
-        {
-            quote: "Ariadne has completely redefined our visual presence. Their photography doesn't just showcase our products; it captures the very soul of our brand. The attention to lighting and premium composition is simply unmatched.",
-            author: "Sarah Jenkins",
-            role: "Creative Director",
-            company: "Horizon Brands",
-            rating: 5,
-            initials: "SJ"
-        },
-        {
-            quote: "The video production and event documentation Ariadne delivered for our annual summit was phenomenal. From start to finish, the crew behaved with ultimate professionalism, and the final cut left our stakeholders in awe.",
-            author: "Marcus Vance",
-            role: "Founder",
-            company: "Veloce Media",
-            rating: 5,
-            initials: "MV"
-        },
-        {
-            quote: "Working with Ariadne has been a game-changer for our digital campaigns. They delivered gorgeous, editorial-grade photography with an incredibly fast turnaround. We will definitely be partnering on all future projects.",
-            author: "Elena Rostova",
-            role: "Marketing Lead",
-            company: "Solas Cosmetics",
-            rating: 5,
-            initials: "ER"
-        }
-    ];
 
-    const [activeTestimonial, setActiveTestimonial] = useState(0);
-    const [fadeState, setFadeState] = useState('fade-in');
-
-    const handleTestimonialChange = (newIndex) => {
-        setFadeState('fade-out');
-        setTimeout(() => {
-            setActiveTestimonial(newIndex);
-            setFadeState('fade-in');
-        }, 250);
-    };
-
-    const nextTestimonial = () => {
-        handleTestimonialChange((activeTestimonial + 1) % testimonials.length);
-    };
-
-    const prevTestimonial = () => {
-        handleTestimonialChange((activeTestimonial - 1 + testimonials.length) % testimonials.length);
-    };
-
-    const getHeroImages = () => {
-        return HERO_IMAGES;
-    };
 
     return (
         <div className="home-container">
             {/* Section 1: Hero Cinematic */}
             <section className="home-hero-cinematic">
-                <div className="hero-cinematic-bg">
-                    <div className="hero-glow hero-glow-left"></div>
-                    <div className="hero-glow hero-glow-right"></div>
-                    <div className="hero-rainbow"></div>
-                </div>
-
-                <div className="floating-gallery">
-                    {getHeroImages().map((img, idx) => (
-                        <div
-                            key={idx}
-                            className="hero-media-wrapper"
-                            style={{
-                                top: img.top,
-                                left: img.left,
-                                right: img.right,
-                                bottom: img.bottom,
-                                transform: `${img.transform || ''} rotate(${img.rotate})`,
-                                width: img.size,
-                                height: img.size,
-                                animationDelay: img.delay
-                            }}
-                        >
-                            <img src={img.src} alt="Cinematic moment" className="hero-gallery-img" />
-                        </div>
-                    ))}
+                <div className="hero-bg-container">
+                    <img 
+                        src={imgAboutStory} 
+                        alt="Ariadne Cinematic Story" 
+                        className="hero-bg-image" 
+                    />
+                    <div className="hero-overlay-dark"></div>
                 </div>
 
                 <div className="cinematic-content">
-                    <div className="center-text-block">
-                        <h1>Cinematic Visual<br />Storytelling</h1>
-                        <p>A premium photography and documentation agency. We capture beautiful moments and create stunning visual assets your audience will love.</p>
-                        <Link to="/packages" className="btn-book-session">Discover Our Work</Link>
+                    <div className="hero-top-info">
+                        <span className="hero-tagline">ARIADNE CREATIVE STUDIO</span>
+                        <span className="hero-gold-dot">•</span>
+                        <span className="hero-location">EST. 2026</span>
                     </div>
 
-                    <div className="cinematic-features">
-                        <div className="feat-item">
-                            <h4>Unmatched Quality</h4>
-                            <p>Premium aesthetics<br />in every frame</p>
+                    <div className="center-text-block animate-fade-in">
+                        <h1 className="hero-headline">
+                            <span className="text-light">WE DOCUMENT</span>
+                            <br />
+                            <span className="text-serif-gold">CINEMATIC TRUTH</span>
+                        </h1>
+                        <p className="hero-subtext">
+                            A premium photography and documentation agency. We craft luxurious visual assets, high-end commercial imagery, and cinematic stories for distinguished brands worldwide.
+                        </p>
+                        
+                        <div className="hero-cta-wrapper">
+                            <Link to="/portfolio" className="btn-explore-portfolio">
+                                <span className="btn-text">EXPLORE PORTFOLIO</span>
+                                <span className="btn-arrow-icon">
+                                    <svg viewBox="0 0 24 24" fill="none">
+                                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                    </svg>
+                                </span>
+                            </Link>
                         </div>
-                        <div className="feat-divider"></div>
-                        <div className="feat-item">
-                            <h4>Artistic Vision</h4>
-                            <p>Every shoot is tailored<br />to your story</p>
+                    </div>
+
+                    {/* Subtle Scroll Indicator */}
+                    <div className="hero-scroll-indicator">
+                        <div className="scroll-mouse">
+                            <div className="scroll-wheel"></div>
                         </div>
-                        <div className="feat-divider"></div>
-                        <div className="feat-item">
-                            <h4>Fast Delivery</h4>
-                            <p>Professional results<br />when you need them</p>
+                        <span className="scroll-label">SCROLL TO DISCOVER</span>
+                    </div>
+                </div>
+            </section>
+
+            {/* Section 2: Curved Gallery Showcase */}
+            <section className="curved-gallery-section">
+                <div className="curved-bg-glows">
+                    <div className="curved-glow-left-amber"></div>
+                    <div className="curved-glow-right-amber"></div>
+                    <div className="curved-rainbow-leak"></div>
+                    <div className="curved-noise-overlay"></div>
+                </div>
+
+                {/* Technical Viewfinder Camera Overlay */}
+                <div className="curved-viewfinder-overlay">
+                    <div className="vf-bracket vf-top-left"></div>
+                    <div className="vf-bracket vf-top-right"></div>
+                    <div className="vf-bracket vf-bottom-left"></div>
+                    <div className="vf-bracket vf-bottom-right"></div>
+                    
+                    <div className="vf-grid-line vf-grid-v1"></div>
+                    <div className="vf-grid-line vf-grid-v2"></div>
+                    <div className="vf-grid-line vf-grid-h1"></div>
+                    <div className="vf-grid-line vf-grid-h2"></div>
+                    
+                    <div className="vf-status vf-status-tl">
+                        <span className="vf-rec-dot"></span>
+                        <span className="vf-status-text">REC</span>
+                    </div>
+                    <div className="vf-status vf-status-tr">
+                        <span className="vf-status-text">TC 09:12:45:22</span>
+                    </div>
+                    <div className="vf-status vf-status-bl">
+                        <span className="vf-status-text">F2.8  |  1/250s  |  ISO 400</span>
+                    </div>
+                    <div className="vf-status vf-status-br">
+                        <span className="vf-status-text">RAW 8K  |  24fps  |  [+]</span>
+                    </div>
+                    <div className="vf-focus-ring"></div>
+                </div>
+
+                <div className="curved-gallery-container">
+                    {/* The arch of curved photos */}
+                    <div className="curved-arch-photos">
+                        {curvedGalleryImages.map((img, idx) => (
+                            <div 
+                                key={idx} 
+                                className={`arch-photo-card arch-card-${idx}`}
+                                style={{
+                                    left: img.left,
+                                    top: img.top,
+                                    transform: `rotate(${img.rotate}deg)`,
+                                }}
+                            >
+                                <img src={img.src} alt={`Showcase visual ${idx + 1}`} />
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Center Content block */}
+                    <div className="curved-center-content">
+                        <h2>Create Timeless Photos<br />That Tell Your Story</h2>
+                        <p>Professional photography for personal moments, brands, and unforgettable memories.</p>
+                        <Link to="/packages" className="btn-book-session-curved">Book a Session</Link>
+                    </div>
+
+                    {/* Footer features */}
+                    <div className="curved-footer-features">
+                        <div className="curved-feat-col">
+                            <h5>Fast Delivery</h5>
+                            <p>Get your edited gallery in a short time</p>
+                        </div>
+                        <div className="curved-feat-divider"></div>
+                        <div className="curved-feat-col">
+                            <h5>Personal Approach</h5>
+                            <p>Every shoot is tailored to your vision</p>
+                        </div>
+                        <div className="curved-feat-divider"></div>
+                        <div className="curved-feat-col">
+                            <h5>Natural Style</h5>
+                            <p>Authentic photos with emotion and elegance</p>
                         </div>
                     </div>
                 </div>
@@ -184,66 +223,13 @@ const Home = () => {
 
             {/* Section 4: Testimonials */}
             <section className="home-section testimonials-section">
-                <div className="container">
-                    <div className="section-header text-center">
-                        <span className="section-badge">TESTIMONIALS</span>
-                        <h2 className="section-title">What Our Clients Say</h2>
-                        <div className="section-line"></div>
-                    </div>
-                    
+                <div className="container text-center">
+                    <h2 className="section-title">What Our Clients Say</h2>
                     <div className="row mt-5">
                         <div className="col-md-10 col-lg-8 mx-auto">
-                            <div className="testimonial-card-container">
-                                <div className={`testimonial-wrapper ${fadeState}`}>
-                                    <div className="testimonial-header">
-                                        <div className="stars">
-                                            {[...Array(testimonials[activeTestimonial].rating)].map((_, i) => (
-                                                <span key={i} className="star">★</span>
-                                            ))}
-                                        </div>
-                                        <div className="quote-mark">“</div>
-                                    </div>
-                                    <p className="testimonial-quote">
-                                        {testimonials[activeTestimonial].quote}
-                                    </p>
-                                    <div className="testimonial-footer">
-                                        <div className="author-avatar-circle">
-                                            {testimonials[activeTestimonial].initials}
-                                        </div>
-                                        <div className="author-info">
-                                            <h4 className="author-name">{testimonials[activeTestimonial].author}</h4>
-                                            <span className="author-meta">
-                                                {testimonials[activeTestimonial].role} at <span className="author-company">{testimonials[activeTestimonial].company}</span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div className="testimonial-controls">
-                                    <button 
-                                        className="t-control-btn t-prev-btn" 
-                                        onClick={prevTestimonial}
-                                        aria-label="Previous testimonial"
-                                    >
-                                        &#8592;
-                                    </button>
-                                    <div className="testimonial-dots">
-                                        {testimonials.map((_, index) => (
-                                            <span 
-                                                key={index} 
-                                                className={`t-dot ${index === activeTestimonial ? 'active' : ''}`}
-                                                onClick={() => handleTestimonialChange(index)}
-                                            ></span>
-                                        ))}
-                                    </div>
-                                    <button 
-                                        className="t-control-btn t-next-btn" 
-                                        onClick={nextTestimonial}
-                                        aria-label="Next testimonial"
-                                    >
-                                        &#8594;
-                                    </button>
-                                </div>
+                            <div className="testimonial-wrapper">
+                                <p className="testimonial-quote">"Ariadne has completely transformed the way we operate. Highly recommended for anyone looking to scale effortlessly and achieve professional results!"</p>
+                                <footer className="testimonial-author">Jane Doe, <cite title="Source Title">CEO at TechCorp</cite></footer>
                             </div>
                         </div>
                     </div>
