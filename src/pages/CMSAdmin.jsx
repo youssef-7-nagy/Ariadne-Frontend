@@ -100,7 +100,12 @@ const CategoriesTab = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.name || !form.slug) return notify.error('Name and slug are required');
+    if (!form.name?.trim()) {
+      return notify.error('Category Name is required');
+    }
+    if (!form.slug?.trim()) {
+      return notify.error('Category Slug is required');
+    }
     setLoading(true);
     try {
       const fd = new FormData();
@@ -142,11 +147,12 @@ const CategoriesTab = () => {
   };
 
   const handleReorder = async (index, direction) => {
-    if (direction === -1 && index === 0) return;
-    if (direction === 1 && index === categories.length - 1) return;
     const list = [...categories];
-    [list[index], list[index + direction]] = [list[index + direction], list[index]];
-    list.forEach((item, i) => { item.order = i; });
+    if (direction === -1 && index === 0) return;
+    if (direction === 1 && index === list.length - 1) return;
+    const targetIndex = index + direction;
+    const [moved] = list.splice(index, 1);
+    list.splice(targetIndex, 0, moved);
     setCategories(list);
     try {
       await axios.put(`${API}/categories/reorder`, { reorderedItems: list.map(c => ({ id: c._id, order: c.order })) }, getAuthConfig());
@@ -158,7 +164,7 @@ const CategoriesTab = () => {
       {/* Form */}
       <div className="cms-form-card">
         <h3 className="cms-form-title">{editingId ? '✏️ Edit Category' : '➕ New Category'}</h3>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <div className="cms-form-grid">
             <div className="cms-field">
               <label>Category Name *</label>
@@ -567,7 +573,7 @@ const ProjectsTab = () => {
       {/* Form */}
       <div className="cms-form-card">
         <h3 className="cms-form-title">{editingId ? '✏️ Edit Project' : '➕ New Project'}</h3>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           <div className="cms-form-grid">
             <div className="cms-field">
               <label>Project Title *</label>
