@@ -1167,46 +1167,183 @@
 }
 
 .testimonials-section {
-    background: var(--bg-secondary);
+    position: relative;
+    padding: 120px 0;
+    background: #ffffff; /* Clean white backdrop */
+}
+
+.testimonial-card-container {
+    position: relative;
+    width: 100%;
 }
 
 .testimonial-wrapper {
-    background: var(--card-bg);
-    padding: 60px;
-    border-radius: 30px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.05);
+    background: #ffffff;
+    padding: 55px 60px 45px;
+    border-radius: 24px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 0 25px 60px rgba(15, 23, 42, 0.04);
+    position: relative;
+    overflow: hidden;
+    border-top: 4px solid #cda96a; /* Subtle premium gold top light */
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.testimonial-wrapper.fade-out {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.testimonial-wrapper.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.testimonial-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.stars {
+    display: flex;
+    gap: 3px;
+}
+
+.star {
+    color: #cda96a; /* Theme gold */
+    font-size: 1.3rem;
+}
+
+.quote-mark {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 6rem;
+    line-height: 1;
+    color: #cda96a;
+    opacity: 0.12;
+    position: absolute;
+    right: 45px;
+    top: 20px;
+    user-select: none;
 }
 
 .testimonial-quote {
-    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.2rem, 3.5vw, 1.45rem);
     font-style: italic;
-    color: var(--text-primary);
-    line-height: 1.6;
-    margin-bottom: 30px;
-    position: relative;
+    color: #1e293b;
+    line-height: 1.8;
+    margin: 25px 0 35px;
+    font-weight: 500;
 }
 
-.testimonial-quote::before {
-    content: '"';
-    position: absolute;
-    top: -20px;
-    left: -20px;
-    font-size: 5rem;
-    color: var(--accent-color);
-    opacity: 0.1;
-    font-family: serif;
+.testimonial-footer {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid rgba(226, 232, 240, 0.6);
+    padding-top: 25px;
 }
 
-.testimonial-author {
+.author-avatar-circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #cda96a 0%, #b08d51 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
     font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-primary);
+    letter-spacing: 0.5px;
+    margin-right: 18px;
+    box-shadow: 0 4px 12px rgba(200, 169, 106, 0.25);
+    flex-shrink: 0;
 }
 
-.testimonial-author cite {
-    font-weight: 400;
-    color: var(--text-secondary);
+.author-info {
+    text-align: left;
+}
+
+.author-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 4px 0;
+}
+
+.author-meta {
+    font-size: 0.9rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.author-company {
+    color: #cda96a;
+    font-weight: 600;
+}
+
+/* Controls & Indicators */
+.testimonial-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 35px;
+    gap: 25px;
+}
+
+.t-control-btn {
+    background: transparent;
+    border: 1.5px solid rgba(200, 169, 106, 0.35);
+    color: #cda96a;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.t-control-btn:hover {
+    background: #cda96a;
+    color: #ffffff;
+    border-color: #cda96a;
+    box-shadow: 0 4px 12px rgba(200, 169, 106, 0.2);
+    transform: translateY(-2px);
+}
+
+.t-control-btn:active {
+    transform: translateY(0);
+}
+
+.testimonial-dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.t-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(200, 169, 106, 0.2);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.t-dot:hover {
+    background: rgba(200, 169, 106, 0.5);
+}
+
+.t-dot.active {
+    width: 24px;
+    border-radius: 4px;
+    background: #cda96a;
 }
 
 .cta-section {

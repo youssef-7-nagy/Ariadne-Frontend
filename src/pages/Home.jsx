@@ -72,6 +72,52 @@ const Home = () => {
         fetchCategories();
     }, []);
 
+    const testimonials = [
+        {
+            quote: "Ariadne has completely redefined our visual presence. Their photography doesn't just showcase our products; it captures the very soul of our brand. The attention to lighting and premium composition is simply unmatched.",
+            author: "Sarah Jenkins",
+            role: "Creative Director",
+            company: "Horizon Brands",
+            rating: 5,
+            initials: "SJ"
+        },
+        {
+            quote: "The video production and event documentation Ariadne delivered for our annual summit was phenomenal. From start to finish, the crew behaved with ultimate professionalism, and the final cut left our stakeholders in awe.",
+            author: "Marcus Vance",
+            role: "Founder",
+            company: "Veloce Media",
+            rating: 5,
+            initials: "MV"
+        },
+        {
+            quote: "Working with Ariadne has been a game-changer for our digital campaigns. They delivered gorgeous, editorial-grade photography with an incredibly fast turnaround. We will definitely be partnering on all future projects.",
+            author: "Elena Rostova",
+            role: "Marketing Lead",
+            company: "Solas Cosmetics",
+            rating: 5,
+            initials: "ER"
+        }
+    ];
+
+    const [activeTestimonial, setActiveTestimonial] = useState(0);
+    const [fadeState, setFadeState] = useState('fade-in');
+
+    const handleTestimonialChange = (newIndex) => {
+        setFadeState('fade-out');
+        setTimeout(() => {
+            setActiveTestimonial(newIndex);
+            setFadeState('fade-in');
+        }, 250);
+    };
+
+    const nextTestimonial = () => {
+        handleTestimonialChange((activeTestimonial + 1) % testimonials.length);
+    };
+
+    const prevTestimonial = () => {
+        handleTestimonialChange((activeTestimonial - 1 + testimonials.length) % testimonials.length);
+    };
+
     const getHeroImages = () => {
         return HERO_IMAGES;
     };
@@ -90,19 +136,19 @@ const Home = () => {
                     {getHeroImages().map((img, idx) => (
                         <div
                             key={idx}
-                            className="float-img"
+                            className="hero-media-wrapper"
                             style={{
                                 top: img.top,
                                 left: img.left,
                                 right: img.right,
                                 bottom: img.bottom,
+                                transform: `${img.transform || ''} rotate(${img.rotate})`,
                                 width: img.size,
-                                animationDelay: img.delay,
-                                '--base-rot': img.rotate,
-                                '--base-trans': img.transform || 'translateX(0)',
+                                height: img.size,
+                                animationDelay: img.delay
                             }}
                         >
-                            <img src={img.src} alt={`Gallery item ${idx}`} />
+                            <img src={img.src} alt="Cinematic moment" className="hero-gallery-img" />
                         </div>
                     ))}
                 </div>
@@ -138,13 +184,66 @@ const Home = () => {
 
             {/* Section 4: Testimonials */}
             <section className="home-section testimonials-section">
-                <div className="container text-center">
-                    <h2 className="section-title">What Our Clients Say</h2>
+                <div className="container">
+                    <div className="section-header text-center">
+                        <span className="section-badge">TESTIMONIALS</span>
+                        <h2 className="section-title">What Our Clients Say</h2>
+                        <div className="section-line"></div>
+                    </div>
+                    
                     <div className="row mt-5">
                         <div className="col-md-10 col-lg-8 mx-auto">
-                            <div className="testimonial-wrapper">
-                                <p className="testimonial-quote">"Ariadne has completely transformed the way we operate. Highly recommended for anyone looking to scale effortlessly and achieve professional results!"</p>
-                                <footer className="testimonial-author">Jane Doe, <cite title="Source Title">CEO at TechCorp</cite></footer>
+                            <div className="testimonial-card-container">
+                                <div className={`testimonial-wrapper ${fadeState}`}>
+                                    <div className="testimonial-header">
+                                        <div className="stars">
+                                            {[...Array(testimonials[activeTestimonial].rating)].map((_, i) => (
+                                                <span key={i} className="star">★</span>
+                                            ))}
+                                        </div>
+                                        <div className="quote-mark">“</div>
+                                    </div>
+                                    <p className="testimonial-quote">
+                                        {testimonials[activeTestimonial].quote}
+                                    </p>
+                                    <div className="testimonial-footer">
+                                        <div className="author-avatar-circle">
+                                            {testimonials[activeTestimonial].initials}
+                                        </div>
+                                        <div className="author-info">
+                                            <h4 className="author-name">{testimonials[activeTestimonial].author}</h4>
+                                            <span className="author-meta">
+                                                {testimonials[activeTestimonial].role} at <span className="author-company">{testimonials[activeTestimonial].company}</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className="testimonial-controls">
+                                    <button 
+                                        className="t-control-btn t-prev-btn" 
+                                        onClick={prevTestimonial}
+                                        aria-label="Previous testimonial"
+                                    >
+                                        &#8592;
+                                    </button>
+                                    <div className="testimonial-dots">
+                                        {testimonials.map((_, index) => (
+                                            <span 
+                                                key={index} 
+                                                className={`t-dot ${index === activeTestimonial ? 'active' : ''}`}
+                                                onClick={() => handleTestimonialChange(index)}
+                                            ></span>
+                                        ))}
+                                    </div>
+                                    <button 
+                                        className="t-control-btn t-next-btn" 
+                                        onClick={nextTestimonial}
+                                        aria-label="Next testimonial"
+                                    >
+                                        &#8594;
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
