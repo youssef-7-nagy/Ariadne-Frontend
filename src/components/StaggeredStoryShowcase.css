@@ -122,27 +122,27 @@
 
 /* Vertical Stagger Offsets (Static - No Hover) */
 .phone-1 {
-    transform: translateY(24px);
+    transform: translateY(0);
 }
 
 .phone-2 {
-    transform: translateY(-42px);
+    transform: translateY(0);
 }
 
 .phone-3 {
-    transform: translateY(4px);
+    transform: translateY(0);
 }
 
 .phone-4 {
-    transform: translateY(46px);
+    transform: translateY(0);
 }
 
 .phone-5 {
-    transform: translateY(-46px);
+    transform: translateY(0);
 }
 
 .phone-6 {
-    transform: translateY(28px);
+    transform: translateY(0);
 }
 
 /* Phone Screen Base */

@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Home.css';
-import StaggeredStoryShowcase from '../components/StaggeredStoryShowcase';
-import PhotographyShowcase from '../components/PhotographyShowcase';
 import Section3Showcase from '../components/Section3Showcase';
 import imgShortFilms from '../assets/categories/short-films.png';
 import imgDocumentaries from '../assets/categories/documentaries.png';
@@ -135,13 +133,6 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Section 2: Staggered Mobile Story Showcase */}
-            <StaggeredStoryShowcase />
-
-
-
-
-
             {/* Section 3: Interactive 3D Showcase */}
             <Section3Showcase />
 
@@ -220,17 +211,6 @@ const Home = () => {
                             &#10095;
                         </button>
                     </div>
-                </div>
-            </section>
-
-            {/* Section 5.5: Photography 3D Overlapping Showcase */}
-            <PhotographyShowcase />
-
-            {/* Section 6: Call to Action */}
-            <section className="home-section cta-section">
-                <div className="container text-center px-3">
-                    <h2 className="cta-title">Ready to Get Started?</h2>
-                    <Link to="/login" className="cta-button shadow" style={{ textDecoration: 'none' }}>Join Us Today</Link>
                 </div>
             </section>
         </div>

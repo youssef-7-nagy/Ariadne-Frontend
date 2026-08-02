@@ -1,15 +1,14 @@
 /* ==========================================================================
-   Section 3 Showcase Component Styling
+   Section 3 Showcase Component Styling — Minimal Card Version (Light Mode)
    ========================================================================== */
 
 .s3-section {
     position: relative;
-    padding: 110px 0 140px;
-    background: linear-gradient(165deg, #09090d 0%, #15111e 40%, #1d1424 75%, #0c0a12 100%);
+    padding: 120px 0 140px;
+    background: #f9fafb; /* Soft premium studio light gray for glass contrast */
     overflow: hidden;
-    color: #ffffff;
+    color: #0f172a;
     font-family: 'Inter', sans-serif;
-    perspective: 2000px;
 }
 
 /* ─── Ambient Lighting & Noise Pattern ─── */
@@ -25,8 +24,8 @@
     position: absolute;
     border-radius: 50%;
     filter: blur(140px);
-    opacity: 0.28;
-    animation: pulseGlow 10s ease-in-out infinite alternate;
+    opacity: 0.08;
+    animation: pulseGlow 12s ease-in-out infinite alternate;
 }
 
 .s3-glow-orange {
@@ -34,7 +33,7 @@
     left: -10%;
     width: 60vw;
     height: 60vw;
-    background: radial-gradient(circle, #ff6b35 0%, rgba(247, 147, 30, 0.4) 60%, transparent 80%);
+    background: radial-gradient(circle, #ff6b35 0%, rgba(247, 147, 30, 0.3) 60%, transparent 80%);
 }
 
 .s3-glow-blue {
@@ -42,57 +41,54 @@
     right: -10%;
     width: 55vw;
     height: 55vw;
-    background: radial-gradient(circle, #4a90e2 0%, rgba(138, 43, 226, 0.4) 60%, transparent 80%);
+    background: radial-gradient(circle, #4a90e2 0%, rgba(138, 43, 226, 0.3) 60%, transparent 80%);
 }
 
 .s3-grid-pattern {
     position: absolute;
     inset: 0;
     background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        linear-gradient(to right, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
     background-size: 60px 60px;
     mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 80%);
     -webkit-mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 80%);
 }
 
 @keyframes pulseGlow {
-    0% { transform: scale(1) translateY(0); opacity: 0.25; }
-    100% { transform: scale(1.12) translateY(-30px); opacity: 0.35; }
+    0% { transform: scale(1) translateY(0); opacity: 0.06; }
+    100% { transform: scale(1.1) translateY(-20px); opacity: 0.12; }
 }
 
-/* ─── Main Container & Header ─── */
+/* ─── Centered Header Block ─── */
 .s3-container {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 30px;
+    padding: 0 24px;
     position: relative;
     z-index: 1;
 }
 
-.s3-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 70px;
-    flex-wrap: wrap;
-    gap: 30px;
+.s3-header-centered {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 65px auto;
 }
 
 .s3-eyebrow {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 800;
     letter-spacing: 3px;
     text-transform: uppercase;
     color: #ff6b35;
-    background: rgba(255, 107, 53, 0.1);
-    border: 1px solid rgba(255, 107, 53, 0.3);
+    background: rgba(255, 107, 53, 0.08);
+    border: 1px solid rgba(255, 107, 53, 0.2);
     padding: 6px 14px;
     border-radius: 20px;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 }
 
 .s3-sparkle-icon {
@@ -101,475 +97,197 @@
 
 .s3-main-title {
     font-family: 'Montserrat', sans-serif;
-    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-size: clamp(2.2rem, 3.8vw, 3.2rem);
     font-weight: 900;
     letter-spacing: -1px;
     line-height: 1.1;
-    margin: 0 0 12px 0;
-    background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.75) 100%);
+    margin: 0 0 16px 0;
+    background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .s3-subtitle {
-    font-size: 1rem;
-    color: rgba(255, 255, 255, 0.65);
-    max-width: 540px;
-    margin: 0;
+    font-size: 0.98rem;
+    color: #475569;
     line-height: 1.6;
+    margin: 0;
 }
 
-/* ─── Mode Switcher Controls ─── */
-.s3-mode-selector {
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    padding: 6px;
-    border-radius: 40px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+/* ─── Minimal Grid Layout ─── */
+.s3-minimal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 50px;
 }
 
-.s3-mode-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: transparent;
-    border: none;
-    color: rgba(255, 255, 255, 0.65);
-    font-size: 0.85rem;
-    font-weight: 700;
-    padding: 10px 20px;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.s3-mode-btn:hover {
-    color: #ffffff;
-}
-
-.s3-mode-btn.active {
-    background: linear-gradient(135deg, #ff6b35 0%, #e0541e 100%);
-    color: #ffffff;
-    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
-}
-
-/* ─── Stage & 3D Parallax ─── */
-.s3-stage {
+/* ─── Minimalist Premium Frosted Glass Card Styling ─── */
+.s3-minimal-card {
     position: relative;
-    width: 100%;
-    min-height: 600px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform-style: preserve-3d;
-    transition: transform 0.2s ease-out;
-}
-
-.s3-cards-wrapper {
-    position: relative;
-    width: 100%;
-    transform-style: preserve-3d;
-}
-
-/* ─── Base Glassmorphism Card ─── */
-.s3-card {
-    position: absolute;
-    width: 620px;
-    height: 380px;
-    border-radius: 18px;
-    overflow: hidden;
-    cursor: pointer;
-    transform-style: preserve-3d;
-    box-shadow:
-        0 30px 70px rgba(0, 0, 0, 0.6),
-        0 10px 25px rgba(0, 0, 0, 0.35),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
-}
-
-.s3-card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1.5px solid rgba(255, 255, 255, 0.18);
-    border-radius: inherit;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 30px;
+    padding: 45px 36px;
+    min-height: 310px;
+    background: rgba(255, 255, 255, 0.45); /* High transparency white base */
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border: 1.5px solid rgba(255, 255, 255, 0.6); /* Crystal light edge */
+    border-radius: 16px; /* Smooth rounded corners matching reference */
+    overflow: hidden;
+    transition: 
+        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+        background-color 0.4s ease, 
+        border-color 0.4s ease, 
+        box-shadow 0.4s ease;
+    box-sizing: border-box;
+    box-shadow: 
+        inset 0 1px 2px rgba(255, 255, 255, 0.9), /* Top light highlight edge */
+        inset 0 -1px 1px rgba(0, 0, 0, 0.03),      /* Subtle bottom shadow */
+        0 12px 36px rgba(15, 23, 42, 0.04),        /* Soft ambient drop shadow */
+        0 2px 6px rgba(15, 23, 42, 0.02);
 }
 
-.s3-card-img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.82;
-    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
-    z-index: 0;
-}
-
-.s3-card:hover .s3-card-img {
-    transform: scale(1.07);
-    opacity: 0.95;
-}
-
-.s3-card-gradient {
+/* Diagonal Glass Reflection Lines */
+.s3-glass-shine {
     position: absolute;
     inset: 0;
     background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.4) 0%,
-        rgba(0, 0, 0, 0.1) 40%,
-        rgba(0, 0, 0, 0.85) 100%
+        135deg, 
+        rgba(255, 255, 255, 0.28) 0%, 
+        rgba(255, 255, 255, 0.05) 50%, 
+        transparent 51%, 
+        rgba(255, 255, 255, 0.08) 100%
     );
+    pointer-events: none;
     z-index: 1;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.s3-glass-shimmer {
+.s3-minimal-card:hover {
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.65); /* Catch more light on hover */
+    border-color: rgba(255, 255, 255, 0.85);
+    box-shadow: 
+        inset 0 1px 3px rgba(255, 255, 255, 1),
+        0 24px 50px rgba(15, 23, 42, 0.08),
+        0 0 35px var(--accent-glow); /* Glowing aura reflecting accent colors */
+}
+
+.s3-minimal-card:hover .s3-glass-shine {
+    transform: scale(1.08) translate(3px, 3px);
+}
+
+/* Background Number Effect */
+.s3-card-number {
     position: absolute;
-    top: 0;
-    left: -100%;
-    width: 60%;
-    height: 100%;
-    background: linear-gradient(
-        115deg,
-        transparent 20%,
-        rgba(255, 255, 255, 0.25) 50%,
-        transparent 80%
-    );
-    z-index: 2;
+    top: 24px;
+    right: 28px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 5.5rem;
+    font-weight: 900;
+    line-height: 1;
+    color: rgba(15, 23, 42, 0.025);
     pointer-events: none;
-    transition: left 0.8s ease;
+    user-select: none;
+    transition: color 0.4s ease, transform 0.4s ease;
 }
 
-.s3-card:hover .s3-glass-shimmer {
-    left: 140%;
+.s3-minimal-card:hover .s3-card-number {
+    color: rgba(15, 23, 42, 0.055);
+    transform: translateY(-4px) scale(1.05);
 }
 
-.s3-edge-highlight {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100px;
-    height: 100px;
-    background: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 2;
-}
-
-/* Card Content Elements */
-.s3-card-header {
-    position: relative;
-    z-index: 3;
+/* Content Elements */
+.s3-card-content {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
 }
 
-.s3-card-tag {
+.s3-card-tag-pill {
+    align-self: flex-start;
     font-size: 0.65rem;
     font-weight: 800;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.95);
-    background: rgba(255, 255, 255, 0.14);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    letter-spacing: 2px;
+    color: var(--accent-solid);
+    background: var(--accent-glow);
     padding: 5px 12px;
     border-radius: 4px;
-}
-
-.s3-card-num {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 900;
-    letter-spacing: 2px;
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.s3-card-body {
-    position: relative;
-    z-index: 3;
-}
-
-.s3-accent-bar {
-    width: 30px;
-    height: 3px;
-    border-radius: 2px;
-    margin-bottom: 12px;
-}
-
-.s3-card-title {
-    font-family: 'Montserrat', sans-serif;
-    font-size: clamp(1.4rem, 2.2vw, 1.85rem);
-    font-weight: 800;
-    letter-spacing: -0.3px;
+    margin-bottom: 26px;
     text-transform: uppercase;
-    line-height: 1.15;
-    margin: 0 0 8px 0;
-    color: #ffffff;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
-.s3-card-desc {
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.75);
-    line-height: 1.5;
-    margin: 0 0 16px 0;
-    max-width: 440px;
+.s3-card-title-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+    color: #0f172a;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
 }
 
-.s3-card-link {
+.s3-card-desc-text {
+    font-size: 0.82rem;
+    color: #475569;
+    line-height: 1.55;
+    margin: 0;
+}
+
+/* Card Explore Link Button */
+.s3-card-explore-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #ffffff;
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #0f172a;
     text-decoration: none;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    padding: 8px 16px;
-    border-radius: 20px;
-    backdrop-filter: blur(8px);
-    transition: all 0.3s ease;
+    margin-top: 36px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+    align-self: flex-start;
 }
 
-.s3-card-link:hover {
-    background: #ff6b35;
-    border-color: #ff6b35;
-    gap: 12px;
-    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+.s3-explore-arrow {
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
-/* ==========================================================================
-   LAYOUT DISTRIBUTIONS
-   ========================================================================== */
-
-/* ─── 1. CASCADE MODE (3D Staggered Isometric Depth) ─── */
-.s3-layout-cascade {
-    height: 600px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform-style: preserve-3d;
-    transform: rotateX(12deg) rotateY(-26deg) rotateZ(6deg);
+.s3-minimal-card:hover .s3-card-explore-btn {
+    color: var(--accent-solid);
 }
 
-.s3-layout-cascade .s3-card-1 {
-    top: 30px;
-    left: calc(50% - 480px);
-    transform: translateZ(-200px);
-    z-index: 1;
+.s3-minimal-card:hover .s3-explore-arrow {
+    transform: translateX(5px);
+    color: var(--accent-solid);
 }
 
-.s3-layout-cascade .s3-card-2 {
-    top: 130px;
-    left: calc(50% - 240px);
-    transform: translateZ(0px);
-    z-index: 2;
-}
-
-.s3-layout-cascade .s3-card-3 {
-    top: 230px;
-    left: calc(50% - 0px);
-    transform: translateZ(200px);
-    z-index: 3;
-}
-
-.s3-layout-cascade .s3-card:hover {
-    transform: translateZ(300px) scale(1.04) translateY(-15px) !important;
-    z-index: 10 !important;
-    box-shadow: 0 40px 90px rgba(0, 0, 0, 0.8);
-}
-
-/* ─── 2. FLOATING FAN MODE (Curved Arch Spread) ─── */
-.s3-layout-fan {
-    height: 560px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform-style: preserve-3d;
-}
-
-.s3-layout-fan .s3-card-1 {
-    top: 100px;
-    left: calc(50% - 560px);
-    transform: rotateZ(-14deg) rotateY(16deg) translateZ(-60px);
-    z-index: 1;
-}
-
-.s3-layout-fan .s3-card-2 {
-    top: 40px;
-    left: calc(50% - 310px);
-    transform: rotateZ(0deg) translateZ(80px);
-    z-index: 3;
-}
-
-.s3-layout-fan .s3-card-3 {
-    top: 100px;
-    left: calc(50% - 60px);
-    transform: rotateZ(14deg) rotateY(-16deg) translateZ(-60px);
-    z-index: 2;
-}
-
-.s3-layout-fan .s3-card:hover {
-    transform: rotateZ(0deg) rotateY(0deg) translateZ(200px) scale(1.05) translateY(-20px) !important;
-    z-index: 10 !important;
-}
-
-/* ─── 3. EDITORIAL GRID MODE (Masonry Stack Layout) ─── */
-.s3-layout-grid {
-    position: relative;
-    width: 100%;
-    min-height: 540px;
-    display: grid;
-    grid-template-columns: 1.3fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 24px;
-}
-
-.s3-layout-grid .s3-card {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    width: 100% !important;
-    height: 100% !important;
-    min-height: 250px;
-    transform: none !important;
-}
-
-.s3-layout-grid .s3-card-1 {
-    grid-row: span 2;
-    min-height: 520px;
-}
-
-.s3-layout-grid .s3-card:hover {
-    transform: translateY(-8px) scale(1.02) !important;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
-}
-
-/* Floor Reflection */
-.s3-floor-reflection {
-    position: absolute;
-    bottom: -60px;
-    left: 10%;
-    width: 80%;
-    height: 60px;
-    background: radial-gradient(ellipse at center, rgba(255, 107, 53, 0.15) 0%, transparent 70%);
-    filter: blur(20px);
-    pointer-events: none;
-    z-index: 0;
-}
-
-/* ==========================================================================
-   RESPONSIVE DESIGN (Media Queries)
-   ========================================================================== */
-
-@media (max-width: 1280px) {
-    .s3-layout-cascade {
-        transform: rotateX(12deg) rotateY(-24deg) scale(0.85);
-    }
-
-    .s3-layout-fan {
-        transform: scale(0.85);
-    }
-}
-
+/* ─── Responsive Breakpoints ─── */
 @media (max-width: 1024px) {
-    .s3-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .s3-layout-cascade {
-        transform: rotateX(8deg) rotateY(-18deg) scale(0.72);
-        height: 500px;
-    }
-
-    .s3-layout-fan {
-        transform: scale(0.72);
-        height: 480px;
-    }
-
-    .s3-layout-grid {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-    }
-
-    .s3-layout-grid .s3-card-1 {
-        grid-row: auto;
-        min-height: 340px;
+    .s3-minimal-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
     }
 }
 
 @media (max-width: 768px) {
     .s3-section {
-        padding: 70px 0 90px;
-        perspective: none;
+        padding: 80px 0 100px;
     }
-
-    .s3-mode-selector {
-        width: 100%;
-        justify-content: space-between;
-        overflow-x: auto;
+    
+    .s3-header-centered {
+        margin-bottom: 45px;
     }
-
-    .s3-mode-btn {
-        padding: 8px 14px;
-        font-size: 0.78rem;
+    
+    .s3-minimal-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
-
-    .s3-stage {
-        min-height: auto;
-    }
-
-    /* Stack cards cleanly on mobile viewports */
-    .s3-cards-wrapper {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 20px !important;
-        height: auto !important;
-        transform: none !important;
-    }
-
-    .s3-card {
-        position: relative !important;
-        top: auto !important;
-        left: auto !important;
-        width: 100% !important;
-        height: 300px !important;
-        transform: none !important;
-    }
-
-    .s3-floor-reflection {
-        display: none;
-    }
-}
-
-@media (max-width: 480px) {
-    .s3-container {
-        padding: 0 16px;
-    }
-
-    .s3-card-inner {
-        padding: 20px;
-    }
-
-    .s3-card-title {
-        font-size: 1.3rem;
-    }
-
-    .s3-card-desc {
-        font-size: 0.8rem;
+    
+    .s3-minimal-card {
+        padding: 35px 30px;
+        min-height: 260px;
     }
 }

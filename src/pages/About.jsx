@@ -3,6 +3,7 @@ import './About.css';
 import aboutStory from '../assets/meet-the-minds/all.jpg';
 import InteractiveGrid from '../components/InteractiveGrid';
 import MeetTheMinds from '../components/MeetTheMinds';
+import ProductionGear from '../components/ProductionGear';
 
 // Import logos from assets/trusted leaders
 import logoBasha from '../assets/trusted leaders/Basha.png';
@@ -119,6 +120,9 @@ const About = () => {
 
             {/* ── Meet The Minds Section ── */}
             <MeetTheMinds />
+
+            {/* ── Production Gear Section (4th Section) ── */}
+            <ProductionGear />
 
             {/* ── Values ── */}
             <section className="about-values">
