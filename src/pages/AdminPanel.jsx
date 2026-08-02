@@ -39,7 +39,7 @@ const AdminPanel = () => {
     }
   });
   const token = localStorage.getItem("token");
-  const userRole = userData?.role || 'user';
+  const userRole = (userData?.role || 'user').toLowerCase();
   const isSuperAdmin = userRole === 'superadmin';
   
   // --- STATE ---
@@ -99,10 +99,6 @@ const AdminPanel = () => {
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const userRole = (userData?.role || 'admin').toLowerCase();
-
   // --- COLORS ---
   const COLORS = ['#4361ee', '#3a0ca3', '#f72585', '#4cc9f0', '#10b981', '#f59e0b'];
 
