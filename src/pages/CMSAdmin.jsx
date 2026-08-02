@@ -370,8 +370,23 @@ const ProjectsTab = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.title || !form.slug || !form.categoryId || !form.description || !form.date) {
-      return notify.error('Please fill all required fields');
+    if (!form.title?.trim()) {
+      return notify.error('Project Title is required');
+    }
+    if (!form.categoryId) {
+      return notify.error('Category is required');
+    }
+    if (!form.clientName?.trim()) {
+      return notify.error('Client Name is required');
+    }
+    if (!form.date) {
+      return notify.error('Date is required');
+    }
+    if (!form.description?.trim()) {
+      return notify.error('Description is required');
+    }
+    if (!coverFile && !coverPreview) {
+      return notify.error('Coverage Photo (Thumbnail) is required');
     }
 
     if (form.externalLink && !isValidYoutubeVimeo(form.externalLink)) {
@@ -573,12 +588,13 @@ const ProjectsTab = () => {
               </select>
             </div>
             <div className="cms-field" style={{ position: 'relative' }} ref={clientDropdownRef}>
-              <label>Client Name</label>
+              <label>Client Name *</label>
               <input
                 className="form-control"
                 placeholder="Search registered client…"
                 value={form.clientName}
                 autoComplete="off"
+                required
                 onChange={e => {
                   setForm(f => ({ ...f, clientName: e.target.value }));
                   setShowClientDropdown(true);
@@ -638,7 +654,7 @@ const ProjectsTab = () => {
                 onChange={e => setForm(f => ({ ...f, externalLink: e.target.value }))} />
             </div>
             <div className="cms-field" style={{ gridColumn: 'span 1' }}>
-              <label><FiImage style={{ verticalAlign: 'middle', marginRight: 4 }} />Coverage Photo (Thumbnail)</label>
+              <label><FiImage style={{ verticalAlign: 'middle', marginRight: 4 }} />Coverage Photo (Thumbnail) *</label>
               <UploadZone
                 accept="image/*"
                 label="Upload a cover photo for this project"
