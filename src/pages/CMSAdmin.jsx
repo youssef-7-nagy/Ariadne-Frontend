@@ -283,6 +283,17 @@ const ProjectsTab = () => {
   const [showClientDropdown, setShowClientDropdown] = useState(false);
   const clientDropdownRef = useRef(null);
   const galleryInputRef = useRef(null);
+  const abortControllerRef = useRef(null);
+
+  const handleCancelUpload = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort('Upload cancelled by user');
+      abortControllerRef.current = null;
+    }
+    setLoading(false);
+    setUploadProgress({ active: false, percentage: 0, loadedMB: '0.0', totalMB: '0.0', speedMB: '0.0', estimatedTime: '', statusText: '' });
+    notify.info('Upload cancelled');
+  };
 
   const load = async () => {
     const [pRes, cRes] = await Promise.all([
@@ -382,6 +393,7 @@ const ProjectsTab = () => {
 
     setLoading(true);
     const startTime = Date.now();
+    abortControllerRef.current = new AbortController();
 
     setUploadProgress({
       active: true,
@@ -395,6 +407,7 @@ const ProjectsTab = () => {
 
     const uploadConfig = {
       ...getAuthConfig(),
+      signal: abortControllerRef.current.signal,
       onUploadProgress: (progressEvent) => {
         const { loaded, total } = progressEvent;
         if (!total) return;
@@ -457,10 +470,15 @@ const ProjectsTab = () => {
       resetForm();
       load();
     } catch (err) {
-      notify.error(err.response?.data?.message || 'Failed to save project');
+      if (axios.isCancel(err) || err?.name === 'CanceledError' || err?.message?.includes('cancelled')) {
+        notify.info('Upload cancelled');
+      } else {
+        notify.error(err.response?.data?.message || 'Failed to save project');
+      }
     } finally {
       setLoading(false);
       setUploadProgress({ active: false, percentage: 0, loadedMB: '0.0', totalMB: '0.0', speedMB: '0.0', estimatedTime: '', statusText: '' });
+      abortControllerRef.current = null;
     }
   };
 
@@ -782,7 +800,17 @@ const ProjectsTab = () => {
                   <span className="spinner-border spinner-border-sm" role="status" style={{ width: 14, height: 14, borderWidth: 2, marginRight: 8, display: 'inline-block' }} />
                   {uploadProgress.statusText}
                 </span>
-                <span className="upload-progress-eta">{uploadProgress.estimatedTime}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <span className="upload-progress-eta">{uploadProgress.estimatedTime}</span>
+                  <button
+                    type="button"
+                    className="btn-cancel-upload"
+                    onClick={handleCancelUpload}
+                    title="Cancel upload"
+                  >
+                    ✕ Cancel
+                  </button>
+                </div>
               </div>
 
               <div className="upload-progress-bar-bg">
