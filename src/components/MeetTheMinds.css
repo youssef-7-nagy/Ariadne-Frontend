@@ -134,13 +134,13 @@
     border-radius: 14px;
     padding: 22px;
     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
     position: relative;
     overflow: hidden;
 }
 
 .mtm-member-card:hover {
-    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+    box-shadow: 0 24px 50px rgba(15, 23, 42, 0.12);
     border-color: rgba(15, 23, 42, 0.2);
 }
 
@@ -161,26 +161,26 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.9s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .mtm-member-card:hover .mtm-card-img {
-    transform: scale(1.06);
+    transform: scale(1.08);
 }
 
 /* Viewfinder Corner Overlays */
 .mtm-viewfinder {
     position: absolute;
-    inset: 12px;
+    inset: 14px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     pointer-events: none;
     z-index: 3;
-    transition: inset 0.4s ease, border-color 0.4s ease;
+    transition: inset 0.6s cubic-bezier(0.19, 1, 0.22, 1), border-color 0.6s ease;
 }
 
 .mtm-member-card:hover .mtm-viewfinder {
     inset: 8px;
-    border-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.35);
 }
 
 .mtm-viewfinder::before,

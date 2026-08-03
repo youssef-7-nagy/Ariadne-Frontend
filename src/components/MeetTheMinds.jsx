@@ -116,7 +116,13 @@ export default function MeetTheMinds() {
         <section className="mtm-section">
             <div className="mtm-container">
                 {/* Header */}
-                <div className="mtm-header">
+                <motion.div 
+                    className="mtm-header"
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-80px' }}
+                    transition={{ duration: 1.3, ease: [0.19, 1, 0.22, 1] }}
+                >
                     <span className="mtm-eyebrow">
                         <FaWandMagicSparkles size={14} />
                         OUR CREATIVE FORCE
@@ -125,7 +131,7 @@ export default function MeetTheMinds() {
                     <p className="mtm-subtitle">
                         The visionaries, directors, and artists behind the lens — shaping Ariadne’s visual truth.
                     </p>
-                </div>
+                </motion.div>
 
                 {/* Team Grid Rows (2 Owners Per Line) */}
                 <div className="mtm-grid-rows">
@@ -143,27 +149,31 @@ export default function MeetTheMinds() {
                                 const firstName = nameParts[0];
                                 const lastName = nameParts.slice(1).join(' ');
 
-                                // Animation variants:
-                                // First owner in line comes from the left (-90px)
-                                // Second owner in line comes from the right (+90px)
-                                // Single owner comes from the bottom (+60px)
+                                // Slower, ultra-cinematic 3D entrance animation:
+                                // Left owner slides from -130px with -3deg tilt
+                                // Right owner slides from +130px with +3deg tilt
+                                // Single owner glides from bottom (+80px)
                                 const initialPos = isSingle 
-                                    ? { opacity: 0, y: 60 }
-                                    : { opacity: 0, x: isLeft ? -90 : 90 };
+                                    ? { opacity: 0, y: 80, scale: 0.92 }
+                                    : { opacity: 0, x: isLeft ? -130 : 130, rotate: isLeft ? -3 : 3, scale: 0.93 };
 
                                 return (
                                     <motion.div
                                         key={member.id}
                                         className="mtm-card-wrap"
                                         initial={initialPos}
-                                        whileInView={{ opacity: 1, x: 0, y: 0 }}
-                                        viewport={{ once: true, margin: '-60px' }}
+                                        whileInView={{ opacity: 1, x: 0, y: 0, rotate: 0, scale: 1 }}
+                                        viewport={{ once: true, margin: '-80px' }}
                                         transition={{ 
-                                            duration: 0.95, 
-                                            delay: colIndex * 0.12, 
-                                            ease: [0.16, 1, 0.3, 1] 
+                                            duration: 1.45, 
+                                            delay: colIndex * 0.22, 
+                                            ease: [0.19, 1, 0.22, 1] 
                                         }}
-                                        whileHover={{ y: -8 }}
+                                        whileHover={{ 
+                                            y: -12, 
+                                            scale: 1.025,
+                                            transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } 
+                                        }}
                                     >
                                         <div className="mtm-member-card">
                                             {/* Image Box */}
