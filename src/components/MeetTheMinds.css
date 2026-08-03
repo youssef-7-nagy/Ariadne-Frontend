@@ -1,10 +1,10 @@
 /* ==========================================================================
-   Meet The Minds - Elite Photography Portfolio Theme
+   Meet The Minds - 2-Per-Line Ultra-Cinematic Layout
    ========================================================================== */
 
 .mtm-section {
-    padding: 140px 0 160px;
-    background: #ffffff; /* Default Light Mode: Pure White */
+    padding: 120px 0 140px;
+    background: #ffffff; /* Default Light Mode */
     color: #0f172a;
     font-family: 'Inter', sans-serif;
     position: relative;
@@ -37,7 +37,7 @@
 }
 
 .mtm-container {
-    max-width: 1200px;
+    max-width: 1240px;
     margin: 0 auto;
     padding: 0 30px;
     position: relative;
@@ -48,7 +48,7 @@
 .mtm-header {
     text-align: center;
     max-width: 650px;
-    margin: 0 auto 110px auto;
+    margin: 0 auto 70px auto;
 }
 
 .mtm-eyebrow {
@@ -63,13 +63,13 @@
     background: rgba(15, 23, 42, 0.04);
     border: 1px solid rgba(15, 23, 42, 0.1);
     padding: 6px 18px;
-    border-radius: 4px; /* Sharp technical border */
+    border-radius: 4px;
     margin-bottom: 24px;
 }
 
 .mtm-title {
     font-family: 'Montserrat', sans-serif;
-    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    font-size: clamp(2.6rem, 5vw, 4rem);
     font-weight: 900;
     color: #0f172a;
     line-height: 1.1;
@@ -93,78 +93,102 @@
     letter-spacing: 0.3px;
 }
 
-/* ── Alternating Rows Container ── */
-.mtm-rows {
+/* ── 2 Owners Per Line Grid ── */
+.mtm-grid-rows {
     display: flex;
     flex-direction: column;
-    gap: 150px;
+    gap: 40px;
 }
 
-.mtm-row {
+.mtm-pair-row {
     display: grid;
-    grid-template-columns: 1fr 1.05fr;
-    gap: 100px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px;
+    align-items: stretch;
+}
+
+.mtm-pair-row.mtm-pair-single {
+    display: flex;
+    justify-content: center;
+}
+
+.mtm-pair-row.mtm-pair-single .mtm-card-wrap {
+    max-width: 580px;
+    width: 100%;
+}
+
+.mtm-card-wrap {
+    width: 100%;
+    display: flex;
+}
+
+/* Individual Owner Card */
+.mtm-member-card {
+    display: flex;
+    flex-direction: row;
     align-items: center;
-}
-
-.mtm-row.row-right {
-    grid-template-columns: 1.05fr 1fr;
-}
-
-.mtm-row.row-right .mtm-img-col {
-    order: 2;
-}
-
-.mtm-row.row-right .mtm-content-col {
-    order: 1;
-}
-
-/* ── Image Column ── */
-.mtm-img-col {
+    gap: 24px;
     width: 100%;
-}
-
-.mtm-img-card {
-    position: relative;
-    width: 100%;
-    max-width: 450px;
-    margin: 0 auto;
-    border-radius: 8px; /* Sharp, modern photographic framing */
-    overflow: hidden;
-    box-shadow: 0 15px 40px rgba(15, 23, 42, 0.06);
+    background: #ffffff;
     border: 1px solid rgba(15, 23, 42, 0.08);
-    background: #f8fafc;
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
 }
 
-.mtm-img {
+.mtm-member-card:hover {
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+    border-color: rgba(15, 23, 42, 0.2);
+}
+
+/* Image Box */
+.mtm-card-img-box {
+    position: relative;
+    width: 180px;
+    height: 220px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f1f5f9;
+    border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.mtm-card-img {
     width: 100%;
-    height: 540px;
+    height: 100%;
     object-fit: cover;
     display: block;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mtm-member-card:hover .mtm-card-img {
+    transform: scale(1.06);
 }
 
 /* Viewfinder Corner Overlays */
 .mtm-viewfinder {
     position: absolute;
-    inset: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    inset: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     pointer-events: none;
     z-index: 3;
-    transition: inset 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s ease;
+    transition: inset 0.4s ease, border-color 0.4s ease;
 }
 
-.mtm-img-card:hover .mtm-viewfinder {
-    inset: 15px;
-    border-color: rgba(255, 255, 255, 0.25);
+.mtm-member-card:hover .mtm-viewfinder {
+    inset: 8px;
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Focus corner tick marks */
 .mtm-viewfinder::before,
 .mtm-viewfinder::after {
     content: '';
     position: absolute;
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     pointer-events: none;
 }
 
@@ -185,90 +209,98 @@
 /* Category Badge */
 .mtm-badge {
     position: absolute;
-    top: 24px;
-    left: 24px;
-    font-size: 0.6rem;
+    top: 12px;
+    left: 12px;
+    font-size: 0.55rem;
     font-weight: 900;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     color: #ffffff;
-    padding: 6px 14px;
-    border-radius: 2px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 4px 10px;
+    border-radius: 3px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     z-index: 3;
 }
 
-/* ── Content Column ── */
-.mtm-content-col {
-    width: 100%;
-}
-
-.mtm-content-inner {
-    max-width: 480px;
+/* Info Box */
+.mtm-card-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
 }
 
 .mtm-icon-tag {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 4px;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
     background: rgba(15, 23, 42, 0.03);
     border: 1px solid rgba(15, 23, 42, 0.08);
-    margin-bottom: 22px;
+    margin-bottom: 12px;
     transition: background 0.3s, border-color 0.3s;
 }
 
-.mtm-row:hover .mtm-icon-tag {
+.mtm-member-card:hover .mtm-icon-tag {
     background: rgba(15, 23, 42, 0.08);
-    border-color: rgba(15, 23, 42, 0.3);
+    border-color: rgba(15, 23, 42, 0.25);
 }
 
 .mtm-name {
     font-family: 'Montserrat', sans-serif;
-    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-size: clamp(1.4rem, 2.2vw, 1.8rem);
     font-weight: 900;
     color: #0f172a;
-    margin: 0 0 6px 0;
-    line-height: 1.1;
-    letter-spacing: -1px;
+    margin: 0 0 4px 0;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
 }
 
 .mtm-role {
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     font-weight: 800;
     letter-spacing: 2px;
     text-transform: uppercase;
-    margin: 0 0 24px 0;
+    margin: 0 0 12px 0;
 }
 
 .mtm-divider {
-    width: 30px;
+    width: 24px;
     height: 2px;
-    margin-bottom: 24px;
-    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    margin-bottom: 14px;
+    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.mtm-row:hover .mtm-divider {
-    width: 90px;
+.mtm-member-card:hover .mtm-divider {
+    width: 60px;
 }
 
-.mtm-bio {
-    font-size: 1rem;
+.mtm-spec-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.mtm-spec-tag {
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     color: #475569;
-    line-height: 1.85;
-    margin: 0;
-    font-weight: 400;
-    letter-spacing: 0.2px;
+    background: rgba(15, 23, 42, 0.04);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    padding: 3px 8px;
+    border-radius: 4px;
 }
 
 /* ==========================================================================
-   # DARK MODE — MEET THE MINDS SECTION
+   # DARK MODE — MEET THE MINDS
    ========================================================================== */
 
 .dark .mtm-section {
-    background: #09090b; /* Cinematic dark background */
+    background: #09090b;
     color: #f4f4f5;
 }
 
@@ -301,13 +333,20 @@
     color: #a1a1aa;
 }
 
-.dark .mtm-img-card {
-    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+.dark .mtm-member-card {
+    background: #121215;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
 }
 
-.dark .mtm-img-card:hover {
-    border-color: rgba(255, 255, 255, 0.25);
+.dark .mtm-member-card:hover {
+    border-color: rgba(255, 255, 255, 0.22);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+}
+
+.dark .mtm-card-img-box {
+    background: #18181b;
+    border-color: rgba(255, 255, 255, 0.08);
 }
 
 .dark .mtm-icon-tag {
@@ -315,7 +354,7 @@
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.dark .mtm-row:hover .mtm-icon-tag {
+.dark .mtm-member-card:hover .mtm-icon-tag {
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.3);
 }
@@ -324,92 +363,17 @@
     color: #ffffff;
 }
 
-.dark .mtm-bio {
-    color: #d4d4d8;
-}
-
-.mtm-socials {
-    display: flex;
-    gap: 12px;
-}
-
-.mtm-social-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    color: #374151;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-    transition: all 0.3s ease;
-}
-
-.mtm-social-link:hover {
-    background: #7c3aed;
-    border-color: #7c3aed;
-    color: #ffffff;
-    transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
-}
-
-/* ==========================================================================
-   RESPONSIVE DESIGN
-   ========================================================================== */
-
-@media (max-width: 1024px) {
-    .mtm-row,
-    .mtm-row.row-right {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-
-    .mtm-row.row-right .mtm-img-col {
-        order: 1;
-    }
-
-    .mtm-row.row-right .mtm-content-col {
-        order: 2;
-    }
-
-    .mtm-img-card {
-        max-width: 100%;
-    }
-
-    .mtm-img {
-        height: 420px;
-    }
-
-    .mtm-content-inner {
-        max-width: 100%;
-    }
-}
-
-@media (max-width: 600px) {
-    .mtm-section {
-        padding: 70px 0 90px;
-    }
-
-    .mtm-container {
-        padding: 0 16px;
-    }
-
-    .mtm-rows {
-        gap: 60px;
-    }
-
-    .mtm-img {
-        height: 360px;
-    }
+.dark .mtm-spec-tag {
+    color: #a1a1aa;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Soundwave animations for Pierre */
 .mtm-soundwave-active {
     width: auto !important;
-    padding: 0 12px;
-    gap: 8px;
+    padding: 0 10px;
+    gap: 6px;
     transition: all 0.3s ease;
 }
 
@@ -417,7 +381,7 @@
     display: flex;
     align-items: flex-end;
     gap: 3px;
-    height: 18px;
+    height: 16px;
     padding-bottom: 2px;
 }
 
@@ -430,56 +394,57 @@
     animation: mtmSoundWave 1.2s ease-in-out infinite alternate;
 }
 
-.mtm-soundwave-bars .bar:nth-child(1) {
-    animation-delay: 0.1s;
-    height: 30%;
-}
-
-.mtm-soundwave-bars .bar:nth-child(2) {
-    animation-delay: 0.4s;
-    height: 75%;
-}
-
-.mtm-soundwave-bars .bar:nth-child(3) {
-    animation-delay: 0.2s;
-    height: 50%;
-}
-
-.mtm-soundwave-bars .bar:nth-child(4) {
-    animation-delay: 0.6s;
-    height: 90%;
-}
+.mtm-soundwave-bars .bar:nth-child(1) { animation-delay: 0.1s; height: 30%; }
+.mtm-soundwave-bars .bar:nth-child(2) { animation-delay: 0.4s; height: 75%; }
+.mtm-soundwave-bars .bar:nth-child(3) { animation-delay: 0.2s; height: 50%; }
+.mtm-soundwave-bars .bar:nth-child(4) { animation-delay: 0.6s; height: 90%; }
 
 @keyframes mtmSoundWave {
-    0% {
-        transform: scaleY(0.25);
-        transform-origin: bottom;
-    }
-    100% {
-        transform: scaleY(1);
-        transform-origin: bottom;
-    }
+    0% { transform: scaleY(0.25); transform-origin: bottom; }
+    100% { transform: scaleY(1); transform-origin: bottom; }
 }
 
 /* Clapperboard Slating Action Animation for Léonardo */
-.mtm-row:hover .mtm-clapper-active svg {
+.mtm-member-card:hover .mtm-clapper-active svg {
     animation: mtmClapperSnap 0.55s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 @keyframes mtmClapperSnap {
-    0% {
-        transform: rotate(0deg) scale(1);
+    0% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(-14deg) translateY(-2px) scale(1.1); }
+    50% { transform: rotate(0deg) translateY(1px) scale(0.92); }
+    75% { transform: translateY(-0.5px) scale(1.02); }
+    100% { transform: rotate(0deg) translateY(0) scale(1); }
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+@media (max-width: 900px) {
+    .mtm-pair-row {
+        grid-template-columns: 1fr;
+        gap: 28px;
     }
-    25% {
-        transform: rotate(-14deg) translateY(-2px) scale(1.1);
+}
+
+@media (max-width: 580px) {
+    .mtm-section {
+        padding: 70px 0 90px;
     }
-    50% {
-        transform: rotate(0deg) translateY(1px) scale(0.92);
+
+    .mtm-container {
+        padding: 0 16px;
     }
-    75% {
-        transform: translateY(-0.5px) scale(1.02);
+
+    .mtm-member-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px;
     }
-    100% {
-        transform: rotate(0deg) translateY(0) scale(1);
+
+    .mtm-card-img-box {
+        width: 100%;
+        height: 240px;
     }
 }
