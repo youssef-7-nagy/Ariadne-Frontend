@@ -47,7 +47,6 @@ const resolveUrl = (src) => {
 
 
 const curvedGalleryImages = [
-    { src: imgHome6257, left: '-2%', top: '88%', rotate: -80 },
     { src: imgHome6270, left: '1.5%', top: '56%', rotate: -62 },
     { src: imgHome6342, left: '9%', top: '30%', rotate: -42 },
     { src: imgHome301, left: '21%', top: '13%', rotate: -23 },
@@ -56,7 +55,6 @@ const curvedGalleryImages = [
     { src: imgAboutStory, left: '68.5%', top: '13%', rotate: 23 },
     { src: imgHome6257, left: '80%', top: '30%', rotate: 42 },
     { src: imgHome6270, left: '87.5%', top: '56%', rotate: 62 },
-    { src: imgHome6342, left: '92%', top: '88%', rotate: 80 },
 ];
 
 const Home = () => {

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { notify } from '../utils/notify';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { FiCheck, FiChevronLeft, FiChevronRight, FiEdit2, FiImage, FiPlus, FiTrash2, FiUploadCloud, FiX } from "react-icons/fi";
-import { WalletIcon, CreditCardIcon } from '../components/TransactionIcons';
+import { WalletIcon, CreditCardIcon, InstaPayIcon, BankTransferIcon } from '../components/TransactionIcons';
 import './AdminPanel.css'; 
 import './profile.css';
 import { PortfolioCMS } from './CMSAdmin';
@@ -1469,6 +1469,8 @@ const AdminPanel = () => {
                     <label>Payment Method</label>
                     <select value={transactionForm.paymentMethod} onChange={(e) => setTransactionForm({ ...transactionForm, paymentMethod: e.target.value })}>
                       <option value="cash">Cash</option>
+                      <option value="instapay">InstaPay</option>
+                      <option value="bank transfer">Bank Transfer</option>
                       <option value="visa">Visa</option>
                     </select>
                   </div>
@@ -1508,10 +1510,18 @@ const AdminPanel = () => {
                                 <td><strong>{t.amount} EGP</strong></td>
                                 <td>
                                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                    <span className={`badge ${t.paymentMethod === 'visa' ? 'completed' : 'pending'}`}>
-                                      {t.paymentMethod.toUpperCase()}
+                                    <span className={`badge ${t.paymentMethod === 'visa' || t.paymentMethod === 'instapay' || t.paymentMethod === 'bank transfer' ? 'completed' : 'pending'}`}>
+                                      {t.paymentMethod ? t.paymentMethod.toUpperCase() : 'CASH'}
                                     </span>
-                                    {t.paymentMethod === 'visa' ? <CreditCardIcon clientName={t.clientName} /> : <WalletIcon />}
+                                    {t.paymentMethod === 'visa' ? (
+                                      <CreditCardIcon clientName={t.clientName} />
+                                    ) : t.paymentMethod === 'instapay' ? (
+                                      <InstaPayIcon />
+                                    ) : t.paymentMethod === 'bank transfer' ? (
+                                      <BankTransferIcon />
+                                    ) : (
+                                      <WalletIcon />
+                                    )}
                                   </div>
                                 </td>
                                 <td>

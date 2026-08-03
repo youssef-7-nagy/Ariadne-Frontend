@@ -1,5 +1,22 @@
 import React from 'react';
+import { FaMoneyBillTransfer } from 'react-icons/fa6';
+import { BsBank } from 'react-icons/bs';
 import '../pages/transactionIcons.css';
+import imgInstaPay from '../assets/trusted leaders/insta.png';
+
+export const InstaPayIcon = () => (
+  <div className="instapay-cool-card" title="InstaPay Payment">
+    <img src={imgInstaPay} alt="InstaPay" />
+  </div>
+);
+
+export const BankTransferIcon = () => (
+  <div className="bank-cool-card" title="Bank Transfer Payment">
+    <BsBank size={14} color="#ffffff" />
+    <FaMoneyBillTransfer size={14} color="#34d399" />
+  </div>
+);
+
 
 export const WalletIcon = () => (
   <div className="wallet-icon-wrapper" style={{ width: '44px', height: '32px', position: 'relative' }}>
