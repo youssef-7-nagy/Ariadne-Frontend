@@ -67,11 +67,15 @@ body {
 }
 
 img {
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: high-quality;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  max-width: 100%;
+  image-rendering: auto;
+  image-rendering: smooth;
+  backface-visibility: visible;
+  -webkit-backface-visibility: visible;
+  -webkit-transform-style: flat;
+  transform-style: flat;
 }
+
 
 .app-toast-wrap {
   padding: 0 8px;
