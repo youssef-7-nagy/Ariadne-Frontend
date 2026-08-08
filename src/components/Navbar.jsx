@@ -3,14 +3,6 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
     FaBars,
     FaTimes,
-    FaEnvelope,
-    FaLeaf,
-    FaMapMarkerAlt,
-    FaClock,
-    FaTwitter,
-    FaFacebookF,
-    FaInstagram,
-    FaWhatsapp,
     FaChevronDown,
     FaUser,
     FaCog,
@@ -61,48 +53,6 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
 
     return (
         <div className="nav-sticky-wrapper">
-            <div className="top-bar">
-                <div className="top-bar__content">
-                    <div className="top-bar__group top-bar__group--left">
-                        <span className="top-bar__item">
-                            <FaMapMarkerAlt />
-                            zamalek office
-                        </span>
-                        <span className="top-bar__item">
-                            <FaEnvelope />
-                            leonardor.hanna@gmail.com
-                        </span>
-                    </div>
-
-                    <div className="top-bar__group top-bar__group--center">
-                        <span className="top-bar__item">
-                            <FaClock />
-                            Daily 8:00 AM to 10:00 PM
-                        </span>
-                        <span className="top-bar__item top-bar__item--live">
-                            <FaLeaf />
-                            Premium cinematography and visual storytelling in every frame
-                        </span>
-                    </div>
-
-                    <div className="social-links">
-                        <a href="https://twitter.com" target="_blank" rel="noreferrer" className="social-icon twitter">
-                            <FaTwitter className="icon" /><span className="tooltip">Twitter</span>
-                        </a>
-                        <a href="https://facebook.com" target="_blank" rel="noreferrer" className="social-icon facebook">
-                            <FaFacebookF className="icon" /><span className="tooltip">Facebook</span>
-                        </a>
-                        <a href="https://instagram.com" target="_blank" rel="noreferrer" className="social-icon instagram">
-                            <FaInstagram className="icon" /><span className="tooltip">Instagram</span>
-                        </a>
-                        <a href="https://wa.me/1234567890" target="_blank" rel="noreferrer" className="social-icon whatsapp">
-                            <FaWhatsapp className="icon" />
-                            <span className="tooltip">WhatsApp</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
             <nav className="navbar">
                 <div
                     className="logo"

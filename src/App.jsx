@@ -33,7 +33,7 @@ const ProtectedRoute = ({ children, allowedRoles, userData, isLoggedIn }) => {
     if (!isLoggedIn) {
         return <Navigate to="/login" replace />;
     }
-    
+
     if (allowedRoles) {
         const role = userData?.role || 'user'; // Default to 'user' if undefined
         if (!allowedRoles.includes(role)) {
@@ -127,19 +127,19 @@ const App = () => {
     return (
         <Router>
             {showSplash && (
-                <SplashScreen 
+                <SplashScreen
                     onFinish={() => {
                         setShowSplash(false);
                         sessionStorage.setItem('hasSeenSplash', 'true');
-                    }} 
+                    }}
                 />
             )}
             <ScrollToTop />
             <AppToaster />
             <div className="d-flex flex-column min-vh-100">
-                <Navbar 
-                    isLoggedIn={isLoggedIn} 
-                    userData={userData} 
+                <Navbar
+                    isLoggedIn={isLoggedIn}
+                    userData={userData}
                     onLogout={handleLogout}
                     theme={theme}
                     toggleTheme={toggleTheme}
@@ -156,24 +156,24 @@ const App = () => {
                         <Route path="/forgot-password" element={<ForgotPassword />} />
                         <Route path="/reset-password" element={<ResetPassword />} />
                         <Route path="/oauth/callback" element={<OAuthCallback />} />
-                        
-                        <Route 
-                            path="/profile" 
+
+                        <Route
+                            path="/profile"
                             element={
                                 <ProtectedRoute isLoggedIn={isLoggedIn} userData={userData} allowedRoles={['user', 'customer']}>
                                     <Profile />
                                 </ProtectedRoute>
-                            } 
+                            }
                         />
-                        <Route 
-                            path="/admin" 
+                        <Route
+                            path="/admin"
                             element={
                                 <ProtectedRoute isLoggedIn={isLoggedIn} userData={userData} allowedRoles={['admin', 'superadmin']}>
                                     <AdminPanel />
                                 </ProtectedRoute>
-                            } 
+                            }
                         />
-                        
+
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </main>

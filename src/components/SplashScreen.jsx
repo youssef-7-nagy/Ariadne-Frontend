@@ -40,7 +40,7 @@ function ParticleCanvas({ phase }) {
         const ctx = canvas.getContext('2d');
 
         const resize = () => {
-            canvas.width  = window.innerWidth;
+            canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         };
         resize();
@@ -186,9 +186,9 @@ const SplashScreen = ({ onFinish }) => {
 
     useEffect(() => {
         const seq = [
-            [120,  () => setPhase(1)],   // scan line
-            [450,  () => setPhase(2)],   // bars open + particles visible
-            [900,  () => setPhase(3)],   // logo + aperture
+            [120, () => setPhase(1)],   // scan line
+            [450, () => setPhase(2)],   // bars open + particles visible
+            [900, () => setPhase(3)],   // logo + aperture
             [1350, () => setPhase(4)],   // scramble text
             [2500, () => setPhase(5)],   // settle
             [3800, () => setPhase(6)],   // exit begins
@@ -276,7 +276,7 @@ const SplashScreen = ({ onFinish }) => {
             </div>
 
             {/* Corner HUD brackets */}
-            {['tl','tr','bl','br'].map(pos => (
+            {['tl', 'tr', 'bl', 'br'].map(pos => (
                 <span key={pos} className={`spl-hud spl-hud-${pos} ${phase >= 2 ? 'visible' : ''}`} />
             ))}
 
