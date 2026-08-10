@@ -305,3 +305,28 @@
         min-height: 260px;
     }
 }
+
+@media (max-width: 480px) {
+    .s3-section {
+        padding: 60px 0 80px;
+    }
+
+    .s3-container {
+        padding: 0 16px;
+    }
+
+    .s3-minimal-card {
+        padding: 28px 22px;
+        min-height: auto;
+    }
+}
+
+@media (max-width: 375px) {
+    .s3-section {
+        padding: 50px 0 60px;
+    }
+
+    .s3-container {
+        padding: 0 12px;
+    }
+}

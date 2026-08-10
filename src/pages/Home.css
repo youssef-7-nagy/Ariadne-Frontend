@@ -682,6 +682,77 @@
     }
 }
 
+/* ── Small Mobile (≤ 480px) ── */
+@media (max-width: 480px) {
+    .home-hero-cinematic {
+        min-height: 100svh;
+        height: auto;
+    }
+
+    .hero-main-container {
+        padding-top: clamp(72px, 15vh, 100px);
+        padding-bottom: 48px;
+        gap: 28px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .hero-hud {
+        padding: 0 14px;
+        font-size: 0.5rem;
+    }
+
+    .hero-hud-c {
+        display: none;
+    }
+
+    .hero-right-showcase {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .hero-cta-row {
+        gap: 14px;
+    }
+
+    .hero-stats-row {
+        gap: 20px;
+    }
+
+    .hero-bar {
+        height: clamp(32px, 5vh, 48px);
+    }
+}
+
+/* ── Very Small Mobile (≤ 375px) ── */
+@media (max-width: 375px) {
+    .hero-main-container {
+        padding-left: 12px;
+        padding-right: 12px;
+        gap: 20px;
+    }
+
+    .hero-hud {
+        padding: 0 10px;
+    }
+
+    .hero-hud-l {
+        display: none;
+    }
+
+    .hero-stats-row {
+        gap: 14px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero-cta-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+}
+
 /* =========================================
    Rest of the Sections (Features, About, etc.)
    ========================================= */

@@ -559,3 +559,17 @@
         box-sizing: border-box;
     }
 }
+
+@media (max-width: 375px) {
+    .pg-container {
+        padding: 0 12px;
+    }
+
+    .pg-section {
+        padding: 55px 0;
+    }
+
+    .pg-title {
+        font-size: 1.6rem;
+    }
+}

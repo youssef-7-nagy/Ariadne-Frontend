@@ -480,3 +480,18 @@
         margin: 0 auto;
     }
 }
+
+@media (max-width: 375px) {
+    .staggered-showcase-section {
+        padding: 50px 0 60px;
+    }
+
+    .staggered-grid {
+        max-width: 100%;
+        padding: 0 12px;
+    }
+
+    .mobile-phone-frame {
+        height: 380px;
+    }
+}
