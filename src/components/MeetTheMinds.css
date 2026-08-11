@@ -156,16 +156,10 @@
 /* Viewfinder Corner Overlays */
 .mtm-viewfinder {
     position: absolute;
-    inset: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    inset: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
     pointer-events: none;
     z-index: 3;
-    transition: inset 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s ease;
-}
-
-.mtm-img-card:hover .mtm-viewfinder {
-    inset: 15px;
-    border-color: rgba(255, 255, 255, 0.25);
 }
 
 /* Focus corner tick marks */
