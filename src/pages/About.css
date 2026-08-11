@@ -428,7 +428,8 @@ html.dark .partner-card {
 
 @media (max-width: 600px) {
     .about-values-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
 
     .partners-inner {
@@ -582,11 +583,35 @@ html.dark .partner-card {
     .about-team-grid {
         grid-template-columns: 1fr;
     }
+
+    .about-section-header {
+        margin-bottom: 32px;
+    }
+
+    .about-value-card {
+        padding: 20px 14px;
+        border-radius: 16px;
+    }
+
+    .about-value-icon {
+        font-size: 1.6rem;
+        margin-bottom: 10px;
+    }
+
+    .about-value-card h3 {
+        font-size: 0.95rem;
+        margin-bottom: 6px;
+    }
+
+    .about-value-card p {
+        font-size: 0.78rem;
+        line-height: 1.55;
+    }
 }
 
 @media (max-width: 480px) {
     .about-story, .about-values, .about-partners, .about-team {
-        padding: 60px 15px;
+        padding: 60px 12px;
     }
     
     .about-story-text h2 {
@@ -602,8 +627,29 @@ html.dark .partner-card {
         gap: 15px;
     }
     
+    .about-values-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
     .about-value-card {
-        padding: 24px 20px;
+        padding: 16px 12px;
+        border-radius: 14px;
+    }
+
+    .about-value-icon {
+        font-size: 1.4rem;
+        margin-bottom: 8px;
+    }
+
+    .about-value-card h3 {
+        font-size: 0.88rem;
+        margin-bottom: 4px;
+    }
+
+    .about-value-card p {
+        font-size: 0.73rem;
+        line-height: 1.5;
     }
     
     .partners-inner {
