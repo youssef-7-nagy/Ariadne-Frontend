@@ -359,7 +359,11 @@
     box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
 }
 
-/* ── Tablet (≤ 1024px): keep side-by-side, tighten gap ── */
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* ── Tablet (≤ 1024px): side-by-side, tighter gap ── */
 @media (max-width: 1024px) {
 
     .mtm-rows {
@@ -372,158 +376,176 @@
         gap: 40px;
     }
 
-    .mtm-row.row-right .mtm-img-col {
-        order: 2;
-    }
+    .mtm-row.row-right .mtm-img-col { order: 2; }
+    .mtm-row.row-right .mtm-content-col { order: 1; }
 
-    .mtm-row.row-right .mtm-content-col {
-        order: 1;
-    }
-
-    .mtm-img {
-        height: 400px;
-    }
-
-    .mtm-content-inner {
-        max-width: 100%;
-    }
-
-    .mtm-name {
-        font-size: clamp(1.6rem, 3vw, 2.4rem);
-    }
+    .mtm-img { height: 400px; }
+    .mtm-content-inner { max-width: 100%; }
+    .mtm-name { font-size: clamp(1.6rem, 3vw, 2.4rem); }
 }
 
-/* ── Phone (≤ 700px): switch to vertical card layout ── */
-@media (max-width: 700px) {
+/* ── Mobile (≤ 768px): flexbox for precise photo/text proportions ── */
+@media (max-width: 768px) {
 
-    .mtm-section {
-        padding: 70px 0 90px;
-    }
+    .mtm-section { padding: 70px 0 90px; }
+    .mtm-container { padding: 0 16px; }
+    .mtm-header { margin: 0 auto 55px auto; }
 
-    .mtm-container {
-        padding: 0 20px;
-    }
+    .mtm-rows { gap: 48px; }
 
-    .mtm-header {
-        margin: 0 auto 50px auto;
-    }
-
-    .mtm-rows {
-        gap: 36px;
-    }
-
-    /* All rows become single-column vertical cards */
+    /* Override grid → use flex for fine-grained column control */
     .mtm-row,
     .mtm-row.row-right {
         display: flex;
-        flex-direction: column;
-        gap: 0;
-        background: #ffffff;
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 4px 24px rgba(15, 23, 42, 0.07);
-        border: 1px solid rgba(15, 23, 42, 0.07);
+        flex-direction: row;
+        gap: 18px;
+        align-items: stretch;
     }
 
-    /* Reset order for all */
-    .mtm-row .mtm-img-col,
-    .mtm-row.row-right .mtm-img-col {
-        order: 1;
-        width: 100%;
+    /* Photo column: fixed 42% */
+    .mtm-img-col {
+        flex: 0 0 42%;
+        max-width: 42%;
     }
 
-    .mtm-row .mtm-content-col,
-    .mtm-row.row-right .mtm-content-col {
-        order: 2;
-        width: 100%;
+    /* Text column: takes the remaining 58% */
+    .mtm-content-col {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        align-items: flex-start;
     }
 
-    /* Photo: full width, tall enough to look good */
+    /* Alternating: row-right moves image to right */
+    .mtm-row.row-right .mtm-img-col { order: 2; }
+    .mtm-row.row-right .mtm-content-col { order: 1; }
+
+    /* Photo fills the full height of its container */
     .mtm-img-card {
         max-width: 100%;
-        border-radius: 0;
-        border: none;
-        box-shadow: none;
+        height: 100%;
     }
 
     .mtm-img {
-        width: 100%;
-        height: 280px;
+        height: 100%;
+        min-height: 240px;
         object-fit: cover;
-        object-position: center top;
-        display: block;
     }
 
-    /* Content area: padded, clean */
-    .mtm-content-col {
-        padding: 24px 22px 28px;
-    }
-
-    .mtm-content-inner {
-        max-width: 100%;
-    }
-
-    .mtm-icon-tag {
-        width: 34px;
-        height: 34px;
-        margin-bottom: 14px;
-    }
+    .mtm-content-inner { max-width: 100%; width: 100%; }
 
     .mtm-name {
-        font-size: 1.55rem;
-        letter-spacing: -0.5px;
+        font-size: clamp(1.05rem, 3.8vw, 1.5rem);
+        letter-spacing: -0.4px;
         margin-bottom: 4px;
     }
 
     .mtm-role {
-        font-size: 0.7rem;
-        letter-spacing: 2px;
+        font-size: 0.6rem;
+        letter-spacing: 1.5px;
         margin-bottom: 16px;
     }
 
-    .mtm-divider {
-        width: 28px;
-        height: 2px;
-        margin-bottom: 14px;
-    }
+    .mtm-divider { margin-bottom: 14px; }
 
     .mtm-bio {
-        font-size: 0.9rem;
-        line-height: 1.7;
-        color: #475569;
+        font-size: 0.8rem;
+        line-height: 1.65;
     }
 
-    /* Badge stays top-left on the photo */
+    .mtm-icon-tag {
+        width: 30px;
+        height: 30px;
+        margin-bottom: 12px;
+    }
+
     .mtm-badge {
-        top: 14px;
-        left: 14px;
-        font-size: 0.55rem;
-        padding: 5px 10px;
+        font-size: 0.52rem;
+        padding: 4px 9px;
         letter-spacing: 2px;
     }
 }
 
-/* ── Very small phones (≤ 390px) ── */
-@media (max-width: 390px) {
+/* ── Small Mobile (≤ 480px — iPhone SE, iPhone 14) ── */
+@media (max-width: 480px) {
 
-    .mtm-container {
-        padding: 0 14px;
+    .mtm-section { padding: 50px 0 70px; }
+    .mtm-container { padding: 0 12px; }
+    .mtm-header { margin: 0 auto 40px auto; }
+
+    .mtm-rows { gap: 36px; }
+
+    .mtm-row,
+    .mtm-row.row-right {
+        display: flex;
+        flex-direction: row;
+        gap: 14px;
+        align-items: stretch;
     }
 
-    .mtm-img {
-        height: 240px;
+    /* Photo: slightly narrower so text breathes more */
+    .mtm-img-col {
+        flex: 0 0 38%;
+        max-width: 38%;
     }
 
     .mtm-content-col {
-        padding: 20px 18px 24px;
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        align-items: flex-start;
     }
 
+    .mtm-row.row-right .mtm-img-col { order: 2; }
+    .mtm-row.row-right .mtm-content-col { order: 1; }
+
+    .mtm-img-card {
+        max-width: 100%;
+        height: 100%;
+    }
+
+    .mtm-img {
+        height: 100%;
+        min-height: 190px;
+        object-fit: cover;
+    }
+
+    .mtm-content-inner { max-width: 100%; width: 100%; }
+
     .mtm-name {
-        font-size: 1.35rem;
+        font-size: clamp(0.88rem, 3.5vw, 1.15rem);
+        letter-spacing: -0.2px;
+        margin-bottom: 3px;
+    }
+
+    .mtm-role {
+        font-size: 0.55rem;
+        letter-spacing: 1.2px;
+        margin-bottom: 12px;
+    }
+
+    .mtm-divider {
+        width: 20px;
+        margin-bottom: 10px;
     }
 
     .mtm-bio {
-        font-size: 0.85rem;
+        font-size: 0.72rem;
+        line-height: 1.6;
+    }
+
+    .mtm-icon-tag {
+        width: 26px;
+        height: 26px;
+        margin-bottom: 8px;
+    }
+
+    .mtm-badge {
+        font-size: 0.45rem;
+        padding: 3px 7px;
+        top: 8px;
+        left: 8px;
+        letter-spacing: 1.5px;
     }
 }
 
