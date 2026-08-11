@@ -144,13 +144,13 @@ export default function MeetTheMinds() {
                                 key={member.id}
                                 className={`mtm-row ${isEven ? 'row-left' : 'row-right'}`}
                             >
-                                {/* Image Box */}
+                                {/* Image Box - Enters first */}
                                 <motion.div
                                     className="mtm-img-col"
-                                    initial={{ opacity: 0, y: 24, x: isEven ? -20 : 20 }}
-                                    whileInView={{ opacity: 1, y: 0, x: 0 }}
-                                    viewport={{ once: true, amount: 0.05 }}
-                                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                                    initial={{ opacity: 0, x: isEven ? -60 : 60 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true, amount: 0.1 }}
+                                    transition={{ duration: 0.85, delay: 0, ease: [0.22, 1, 0.36, 1] }}
                                 >
                                     <div className="mtm-img-card">
                                         <img src={member.img} alt={member.name} className="mtm-img" />
@@ -161,13 +161,13 @@ export default function MeetTheMinds() {
                                     </div>
                                 </motion.div>
 
-                                {/* Content Box */}
+                                {/* Content Box - Enters second from opposite side */}
                                 <motion.div
                                     className="mtm-content-col"
-                                    initial={{ opacity: 0, y: 24, x: isEven ? 20 : -20 }}
-                                    whileInView={{ opacity: 1, y: 0, x: 0 }}
-                                    viewport={{ once: true, amount: 0.05 }}
-                                    transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                                    initial={{ opacity: 0, x: isEven ? 60 : -60 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true, amount: 0.1 }}
+                                    transition={{ duration: 0.85, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
                                 >
                                     <div className="mtm-content-inner">
                                         <div
