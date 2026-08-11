@@ -189,8 +189,8 @@
 /* Category Badge */
 .mtm-badge {
     position: absolute;
-    top: 16px;
-    left: 16px;
+    top: 15px;
+    left: 15px;
     font-size: 0.52rem;
     font-weight: 800;
     letter-spacing: 1.8px;
@@ -469,9 +469,21 @@
     }
 
     .mtm-badge {
-        font-size: 0.52rem;
-        padding: 4px 9px;
-        letter-spacing: 2px;
+        font-size: 0.42rem;
+        padding: 2.5px 6px;
+        top: 8px;
+        left: 8px;
+        letter-spacing: 1.2px;
+    }
+
+    .mtm-viewfinder {
+        inset: 8px;
+    }
+
+    .mtm-viewfinder::before,
+    .mtm-viewfinder::after {
+        width: 8px;
+        height: 8px;
     }
 }
 
@@ -558,11 +570,22 @@
     }
 
     .mtm-badge {
-        font-size: 0.45rem;
-        padding: 3px 7px;
-        top: 8px;
-        left: 8px;
-        letter-spacing: 1.5px;
+        font-size: 0.36rem;
+        padding: 2px 4px;
+        top: 6px;
+        left: 6px;
+        letter-spacing: 0.8px;
+        border-radius: 1px;
+    }
+
+    .mtm-viewfinder {
+        inset: 6px;
+    }
+
+    .mtm-viewfinder::before,
+    .mtm-viewfinder::after {
+        width: 6px;
+        height: 6px;
     }
 }
 
