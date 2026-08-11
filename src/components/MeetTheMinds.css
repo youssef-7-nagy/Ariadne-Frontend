@@ -359,11 +359,7 @@
     box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
 }
 
-/* ==========================================================================
-   RESPONSIVE DESIGN
-   ========================================================================== */
-
-/* ── Tablet: keep side-by-side but tighten gap ── */
+/* ── Tablet (≤ 1024px): keep side-by-side, tighten gap ── */
 @media (max-width: 1024px) {
 
     .mtm-rows {
@@ -373,10 +369,9 @@
     .mtm-row,
     .mtm-row.row-right {
         grid-template-columns: 1fr 1.1fr;
-        gap: 36px;
+        gap: 40px;
     }
 
-    /* row-right: keep image on right, text on left */
     .mtm-row.row-right .mtm-img-col {
         order: 2;
     }
@@ -386,7 +381,7 @@
     }
 
     .mtm-img {
-        height: 380px;
+        height: 400px;
     }
 
     .mtm-content-inner {
@@ -394,145 +389,141 @@
     }
 
     .mtm-name {
-        font-size: clamp(1.5rem, 3vw, 2.2rem);
+        font-size: clamp(1.6rem, 3vw, 2.4rem);
     }
 }
 
-/* ── Mobile (≤ 768px): still side-by-side, just smaller ── */
-@media (max-width: 768px) {
+/* ── Phone (≤ 700px): switch to vertical card layout ── */
+@media (max-width: 700px) {
 
     .mtm-section {
-        padding: 80px 0 100px;
+        padding: 70px 0 90px;
     }
+
+    .mtm-container {
+        padding: 0 20px;
+    }
+
+    .mtm-header {
+        margin: 0 auto 50px auto;
+    }
+
+    .mtm-rows {
+        gap: 36px;
+    }
+
+    /* All rows become single-column vertical cards */
+    .mtm-row,
+    .mtm-row.row-right {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        background: #ffffff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 24px rgba(15, 23, 42, 0.07);
+        border: 1px solid rgba(15, 23, 42, 0.07);
+    }
+
+    /* Reset order for all */
+    .mtm-row .mtm-img-col,
+    .mtm-row.row-right .mtm-img-col {
+        order: 1;
+        width: 100%;
+    }
+
+    .mtm-row .mtm-content-col,
+    .mtm-row.row-right .mtm-content-col {
+        order: 2;
+        width: 100%;
+    }
+
+    /* Photo: full width, tall enough to look good */
+    .mtm-img-card {
+        max-width: 100%;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    .mtm-img {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+        object-position: center top;
+        display: block;
+    }
+
+    /* Content area: padded, clean */
+    .mtm-content-col {
+        padding: 24px 22px 28px;
+    }
+
+    .mtm-content-inner {
+        max-width: 100%;
+    }
+
+    .mtm-icon-tag {
+        width: 34px;
+        height: 34px;
+        margin-bottom: 14px;
+    }
+
+    .mtm-name {
+        font-size: 1.55rem;
+        letter-spacing: -0.5px;
+        margin-bottom: 4px;
+    }
+
+    .mtm-role {
+        font-size: 0.7rem;
+        letter-spacing: 2px;
+        margin-bottom: 16px;
+    }
+
+    .mtm-divider {
+        width: 28px;
+        height: 2px;
+        margin-bottom: 14px;
+    }
+
+    .mtm-bio {
+        font-size: 0.9rem;
+        line-height: 1.7;
+        color: #475569;
+    }
+
+    /* Badge stays top-left on the photo */
+    .mtm-badge {
+        top: 14px;
+        left: 14px;
+        font-size: 0.55rem;
+        padding: 5px 10px;
+        letter-spacing: 2px;
+    }
+}
+
+/* ── Very small phones (≤ 390px) ── */
+@media (max-width: 390px) {
 
     .mtm-container {
         padding: 0 14px;
     }
 
-    .mtm-rows {
-        gap: 60px;
-    }
-
-    .mtm-row,
-    .mtm-row.row-right {
-        grid-template-columns: 1fr 1.15fr;
-        gap: 20px;
-        align-items: start;
-    }
-
-    /* Preserve alternating order on mobile too */
-    .mtm-row.row-right .mtm-img-col {
-        order: 2;
-    }
-
-    .mtm-row.row-right .mtm-content-col {
-        order: 1;
-    }
-
     .mtm-img {
-        height: 260px;
+        height: 240px;
     }
 
-    .mtm-img-card {
-        max-width: 100%;
+    .mtm-content-col {
+        padding: 20px 18px 24px;
     }
 
     .mtm-name {
-        font-size: clamp(1.1rem, 4vw, 1.6rem);
-        letter-spacing: -0.5px;
-    }
-
-    .mtm-role {
-        font-size: 0.65rem;
-        letter-spacing: 1.5px;
+        font-size: 1.35rem;
     }
 
     .mtm-bio {
-        font-size: 0.82rem;
-        line-height: 1.65;
-    }
-
-    .mtm-icon-tag {
-        width: 32px;
-        height: 32px;
-        margin-bottom: 14px;
-    }
-
-    .mtm-header {
-        margin: 0 auto 60px auto;
-    }
-}
-
-/* ── Small Mobile (≤ 480px / iPhone SE, iPhone 14) ── */
-@media (max-width: 480px) {
-
-    .mtm-section {
-        padding: 60px 0 80px;
-    }
-
-    .mtm-container {
-        padding: 0 10px;
-    }
-
-    .mtm-rows {
-        gap: 40px;
-    }
-
-    .mtm-row,
-    .mtm-row.row-right {
-        grid-template-columns: 1fr 1.2fr;
-        gap: 12px;
-        align-items: start;
-    }
-
-    .mtm-row.row-right .mtm-img-col {
-        order: 2;
-    }
-
-    .mtm-row.row-right .mtm-content-col {
-        order: 1;
-    }
-
-    .mtm-img {
-        height: 200px;
-    }
-
-    .mtm-name {
-        font-size: clamp(0.9rem, 3.5vw, 1.2rem);
-        letter-spacing: -0.3px;
-    }
-
-    .mtm-role {
-        font-size: 0.58rem;
-        letter-spacing: 1px;
-        margin-bottom: 14px;
-    }
-
-    .mtm-bio {
-        font-size: 0.75rem;
-        line-height: 1.6;
-    }
-
-    .mtm-badge {
-        font-size: 0.5rem;
-        padding: 4px 8px;
-        top: 10px;
-        left: 10px;
-        letter-spacing: 1.5px;
-    }
-
-    .mtm-icon-tag {
-        width: 28px;
-        height: 28px;
-        margin-bottom: 10px;
-    }
-
-    .mtm-divider {
-        margin-bottom: 12px;
-    }
-
-    .mtm-header {
-        margin: 0 auto 40px auto;
+        font-size: 0.85rem;
     }
 }
 
