@@ -147,10 +147,10 @@ export default function MeetTheMinds() {
                                 {/* Image Box */}
                                 <motion.div
                                     className="mtm-img-col"
-                                    initial={{ opacity: 0, x: isEven ? -90 : 90 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true, margin: '-80px' }}
-                                    transition={{ duration: 1.3, ease: [0.22, 1, 0.36, 1] }}
+                                    initial={{ opacity: 0, y: 24, x: isEven ? -20 : 20 }}
+                                    whileInView={{ opacity: 1, y: 0, x: 0 }}
+                                    viewport={{ once: true, amount: 0.05 }}
+                                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                                 >
                                     <div className="mtm-img-card">
                                         <img src={member.img} alt={member.name} className="mtm-img" />
@@ -164,10 +164,10 @@ export default function MeetTheMinds() {
                                 {/* Content Box */}
                                 <motion.div
                                     className="mtm-content-col"
-                                    initial={{ opacity: 0, x: isEven ? 90 : -90 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true, margin: '-80px' }}
-                                    transition={{ duration: 1.3, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                                    initial={{ opacity: 0, y: 24, x: isEven ? 20 : -20 }}
+                                    whileInView={{ opacity: 1, y: 0, x: 0 }}
+                                    viewport={{ once: true, amount: 0.05 }}
+                                    transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
                                 >
                                     <div className="mtm-content-inner">
                                         <div

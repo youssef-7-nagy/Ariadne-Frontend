@@ -124,6 +124,8 @@
 /* ── Image Column ── */
 .mtm-img-col {
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .mtm-img-card {
@@ -137,11 +139,16 @@
     box-shadow: 0 15px 40px rgba(15, 23, 42, 0.06);
     border: 1px solid rgba(15, 23, 42, 0.08);
     background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .mtm-img {
     width: 100%;
-    height: 540px;
+    height: 100%;
+    min-height: 240px;
+    aspect-ratio: 4 / 5;
     object-fit: cover;
     display: block;
 }
@@ -406,6 +413,8 @@
     .mtm-img-col {
         flex: 0 0 42%;
         max-width: 42%;
+        display: flex;
+        flex-direction: column;
     }
 
     /* Text column: takes the remaining 58% */
@@ -424,12 +433,18 @@
     .mtm-img-card {
         max-width: 100%;
         height: 100%;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
     }
 
     .mtm-img {
+        width: 100%;
         height: 100%;
-        min-height: 240px;
+        min-height: 180px;
+        aspect-ratio: 4 / 5;
         object-fit: cover;
+        display: block;
     }
 
     .mtm-content-inner { max-width: 100%; width: 100%; }
@@ -487,6 +502,8 @@
     .mtm-img-col {
         flex: 0 0 38%;
         max-width: 38%;
+        display: flex;
+        flex-direction: column;
     }
 
     .mtm-content-col {
@@ -502,12 +519,18 @@
     .mtm-img-card {
         max-width: 100%;
         height: 100%;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
     }
 
     .mtm-img {
+        width: 100%;
         height: 100%;
-        min-height: 190px;
+        min-height: 160px;
+        aspect-ratio: 4 / 5;
         object-fit: cover;
+        display: block;
     }
 
     .mtm-content-inner { max-width: 100%; width: 100%; }
