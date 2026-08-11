@@ -2230,9 +2230,9 @@
     }
 
     .inner {
-        --w: 140px;
-        --h: 200px;
-        --translateZ: 340px;
+        --w: 130px;
+        --h: 185px;
+        --translateZ: 290px;
     }
 
     .prev-btn {
@@ -2297,15 +2297,15 @@
         font-size: 1.1rem;
     }
 
-    /* Adjust 3D carousel for mobile */
+    /* Adjust 3D carousel for small mobile (iPhone 14 = 390px) */
     .wrapper {
-        height: 450px !important;
+        height: 390px !important;
     }
 
     .inner {
-        --w: 110px;
-        --h: 160px;
-        --translateZ: 280px;
+        --w: 95px;
+        --h: 138px;
+        --translateZ: 200px;
     }
 
     .carousel-btn {
@@ -2362,13 +2362,13 @@
     }
 
     .wrapper {
-        height: 350px !important;
+        height: 320px !important;
     }
 
     .inner {
-        --w: 90px;
-        --h: 130px;
-        --translateZ: 220px;
+        --w: 80px;
+        --h: 115px;
+        --translateZ: 170px;
     }
 }
 

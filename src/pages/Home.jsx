@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Home.css';
@@ -60,6 +60,22 @@ const curvedGalleryImages = [
 const Home = () => {
     const [categories, setCategories] = useState([]);
     const [activeIndex, setActiveIndex] = useState(0);
+    const [carouselHeight, setCarouselHeight] = useState(600);
+
+    const updateCarouselHeight = useCallback(() => {
+        const w = window.innerWidth;
+        if (w <= 375) setCarouselHeight(320);
+        else if (w <= 480) setCarouselHeight(390);
+        else if (w <= 600) setCarouselHeight(450);
+        else if (w <= 768) setCarouselHeight(520);
+        else setCarouselHeight(600);
+    }, []);
+
+    useEffect(() => {
+        updateCarouselHeight();
+        window.addEventListener('resize', updateCarouselHeight);
+        return () => window.removeEventListener('resize', updateCarouselHeight);
+    }, [updateCarouselHeight]);
 
     const getCategoryBg = (category) => {
         return category.coverImage ? resolveUrl(category.coverImage) : LOCAL_IMAGE_MAP[category.slug];
@@ -314,7 +330,7 @@ const Home = () => {
                     <h2 className="section-title">Our Expertise</h2>
                     <p className="section-subtitle">Explore the diverse range of visual storytelling categories we offer.</p>
 
-                    <div className="wrapper" style={{ height: '600px', marginTop: '20px' }}>
+                    <div className="wrapper" style={{ height: `${carouselHeight}px`, marginTop: '20px' }}>
                         <button
                             className="carousel-btn prev-btn"
                             onClick={() => setActiveIndex(prev => prev - 1)}
