@@ -237,12 +237,12 @@
 
 .mtm-name {
     font-family: 'Montserrat', sans-serif;
-    font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
     font-weight: 900;
     color: #0f172a;
     margin: 0 0 6px 0;
     line-height: 1.1;
-    letter-spacing: -0.5px;
+    letter-spacing: -1px;
 }
 
 .mtm-role {
@@ -475,9 +475,9 @@
     }
 
     .mtm-badge {
-        font-size: 0.52rem;
-        padding: 4px 9px;
-        letter-spacing: 2px;
+        font-size: 0.45rem;
+        padding: 4px 7px;
+        letter-spacing: 1.5px;
     }
 }
 
@@ -564,11 +564,11 @@
     }
 
     .mtm-badge {
-        font-size: 0.45rem;
-        padding: 3px 7px;
-        top: 8px;
-        left: 8px;
-        letter-spacing: 1.5px;
+        font-size: 0.38rem;
+        padding: 3px 5px;
+        top: 6px;
+        left: 6px;
+        letter-spacing: 1px;
     }
 }
 
