@@ -2082,8 +2082,8 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 30px 10px 15px;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 50%, transparent 100%);
+    padding: 25px 4px 12px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.6) 60%, transparent 100%);
     text-align: center;
     z-index: 3;
     opacity: 0;
@@ -2100,29 +2100,27 @@
 
 .card-title-overlay h3 {
     color: #fff;
-    font-size: clamp(0.6rem, 2.2vw, 0.75rem);
-    /* Slightly smaller to fit long words if needed */
+    font-size: clamp(0.52rem, 1.6vw, 0.72rem);
     margin: 0 auto;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1.2px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-    white-space: normal;
-    /* Allow text to wrap if it's too long */
-    overflow: visible;
-    text-overflow: clip;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     display: block;
     max-width: 100%;
     position: relative;
     padding-bottom: 6px;
-    transition: color 0.4s ease, text-shadow 0.4s ease, letter-spacing 0.4s ease;
+    transition: color 0.4s ease, text-shadow 0.4s ease, letter-spacing 0.4s ease, font-size 0.4s ease;
 }
 
 .card:hover .card-title-overlay h3,
 .card.active-front .card-title-overlay h3 {
     color: #bd9f67;
     text-shadow: 0 0 10px rgba(189, 159, 103, 0.5), 0 2px 4px rgba(0, 0, 0, 0.8);
-    letter-spacing: 3px;
+    letter-spacing: 1.8px;
 }
 
 /* Expanding gold indicator line */
@@ -2141,7 +2139,66 @@
 
 .card:hover .card-title-overlay h3::after,
 .card.active-front .card-title-overlay h3::after {
-    width: 40px;
+    width: 36px;
+}
+
+/* --- Mobile Responsive 3D Carousel Card Title Overlays --- */
+@media (max-width: 768px) {
+    .card-title-overlay {
+        padding: 20px 3px 10px;
+    }
+
+    .card-title-overlay h3 {
+        font-size: clamp(0.44rem, 2vw, 0.58rem);
+        letter-spacing: 0.8px;
+    }
+
+    .card:hover .card-title-overlay h3,
+    .card.active-front .card-title-overlay h3 {
+        letter-spacing: 1.2px;
+    }
+
+    .card:hover .card-title-overlay h3::after,
+    .card.active-front .card-title-overlay h3::after {
+        width: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-title-overlay {
+        padding: 16px 2px 8px;
+    }
+
+    .card-title-overlay h3 {
+        font-size: clamp(0.36rem, 2.5vw, 0.48rem);
+        letter-spacing: 0.4px;
+    }
+
+    .card:hover .card-title-overlay h3,
+    .card.active-front .card-title-overlay h3 {
+        letter-spacing: 0.6px;
+    }
+
+    .card:hover .card-title-overlay h3::after,
+    .card.active-front .card-title-overlay h3::after {
+        width: 22px;
+    }
+}
+
+@media (max-width: 360px) {
+    .card-title-overlay {
+        padding: 12px 1px 6px;
+    }
+
+    .card-title-overlay h3 {
+        font-size: clamp(0.32rem, 2.8vw, 0.42rem);
+        letter-spacing: 0.2px;
+    }
+
+    .card:hover .card-title-overlay h3,
+    .card.active-front .card-title-overlay h3 {
+        letter-spacing: 0.3px;
+    }
 }
 
 /* --- Carousel Navigation Buttons --- */
