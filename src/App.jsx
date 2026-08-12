@@ -19,6 +19,7 @@ import Profile from './pages/Profile';
 import AdminPanel from './pages/AdminPanel';
 import NotFound from './pages/NotFound';
 import OAuthCallback from './pages/OAuthCallback';
+import { API_URL } from './utils/apiUrl';
 import { Navigate } from 'react-router-dom';
 
 const parseJson = (rawValue, fallback) => {
@@ -96,7 +97,6 @@ const App = () => {
             const token = localStorage.getItem('token');
             if (token) {
                 try {
-                    const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8080' : '');
                     await fetch(`${API_URL}/api/auth/me`, {
                         headers: { Authorization: `Bearer ${token}` }
                     }).then(res => {

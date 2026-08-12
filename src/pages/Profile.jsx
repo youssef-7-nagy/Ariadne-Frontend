@@ -5,7 +5,7 @@ import axios from 'axios';
 import './profile.css';
 import './AdminPanel.css';
 
-const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8080' : '');
+import { API_URL } from '../utils/apiUrl';
 
 
 const API_BASE_URL = `${API_URL}`;

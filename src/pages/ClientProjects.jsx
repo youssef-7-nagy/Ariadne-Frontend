@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import './Portfolio.css';
 
-const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8080' : '');
+import { API_URL } from '../utils/apiUrl';
 
 const resolveUrl = (src) => {
     if (!src) return '';
