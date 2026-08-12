@@ -48,7 +48,7 @@ const OAuthCallback = () => {
       // Notify App.jsx to re-read auth state from localStorage
       window.dispatchEvent(new Event("auth-changed"));
 
-      const isAdmin = user?.role === "admin";
+      const isAdmin = user?.role === "admin" || user?.role === "superadmin";
       notify.success(
         `Success - Welcome${user?.name ? `, ${user.name}` : ""}!`
       );

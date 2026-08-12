@@ -5,7 +5,7 @@ import { notify } from "../utils/notify";
 import "./Login.css";
 
 import {
-    FaUser, FaEnvelope, FaLock, FaPhone, FaEye, FaEyeSlash
+    FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash
 } from "react-icons/fa";
 
 const API_URL = import.meta.env.VITE_API_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8080' : '');
@@ -20,7 +20,6 @@ const Login = () => {
     const navigate = useNavigate();
 
     const regNameRef = useRef(null);
-    const regPhoneRef = useRef(null);
     const regEmailRef = useRef(null);
     const regPasswordRef = useRef(null);
     const loginEmailRef = useRef(null);
@@ -42,14 +41,12 @@ const Login = () => {
         setIsLoading(true);
 
         const name = regNameRef.current.value;
-        const phone = regPhoneRef.current.value;
         const email = regEmailRef.current.value;
         const password = regPasswordRef.current.value;
 
         try {
             const response = await axios.post(`${API_URL}/api/auth/register`, {
                 name,
-                phone,
                 email,
                 password
             });
@@ -60,7 +57,7 @@ const Login = () => {
             notify.success("Success - Registration successful!");
 
             setTimeout(() => {
-                if (user && user.role === 'admin') {
+                if (user && (user.role === 'admin' || user.role === 'superadmin')) {
                     window.location.href = "/admin";
                 } else {
                     window.location.href = "/profile";
@@ -104,7 +101,7 @@ const Login = () => {
             emitAuthChanged();
             notify.success("Success - Login successful!");
             setTimeout(() => {
-                if (user && user.role === 'admin') {
+                if (user && (user.role === 'admin' || user.role === 'superadmin')) {
                     window.location.href = "/admin";
                 } else {
                     window.location.href = "/profile";
@@ -150,10 +147,6 @@ const Login = () => {
                         <div className="input-wrapper">
                             <input type="text" placeholder="Name" ref={regNameRef} required />
                             <FaUser className="input-icon" />
-                        </div>
-                        <div className="input-wrapper">
-                            <input type="tel" placeholder="Phone" ref={regPhoneRef} required />
-                            <FaPhone className="input-icon" />
                         </div>
                         <div className="input-wrapper">
                             <input type="email" placeholder="Email" ref={regEmailRef} required />
