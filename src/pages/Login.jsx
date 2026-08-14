@@ -99,7 +99,7 @@ const Login = () => {
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(user));
             emitAuthChanged();
-            notify.success("Success - Login successful!");
+            notify.success("Login successfully");
             setTimeout(() => {
                 if (user && (user.role === 'admin' || user.role === 'superadmin')) {
                     window.location.href = "/admin";

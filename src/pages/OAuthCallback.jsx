@@ -49,9 +49,7 @@ const OAuthCallback = () => {
       window.dispatchEvent(new Event("auth-changed"));
 
       const isAdmin = user?.role === "admin" || user?.role === "superadmin";
-      notify.success(
-        `Success - Welcome${user?.name ? `, ${user.name}` : ""}!`
-      );
+      notify.success("Login successfully");
 
       // Small delay so the toast is visible before navigation
       setTimeout(() => {
