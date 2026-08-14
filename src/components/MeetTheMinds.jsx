@@ -55,7 +55,7 @@ const TEAM_MEMBERS = [
         name: 'Maria ARTINE',
         role: 'Marketing & PR',
         badge: 'BRAND & PR',
-        bio: 'Maria manages public relations, marketing outreach, and strategic campaigns for Ariadne. She builds brand value, promotes our visual works to global clients, and establishes premium partnerships across the industry.',
+        bio: 'Bringing together PR, communications, client relations, and account management to support the creative process from idea to execution. Working closely with clients and production teams to keep communication clear, relationships strong, and projects moving in the right direction. From understanding a client’s vision to shaping how the work is presented and communicated, the focus is always on creating a smooth experience and work that connects with the right audience.',
         img: imgMaria,
         accentColor: '#8b5cf6',
         icon: FaBullhorn,
