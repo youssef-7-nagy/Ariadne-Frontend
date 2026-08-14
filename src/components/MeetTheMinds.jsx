@@ -91,7 +91,7 @@ const TEAM_MEMBERS = [
         name: 'Pierre TOMA',
         role: 'Sound Engineer',
         badge: 'SOUND DEPT',
-        bio: 'Pierre commands the auditory dimension of Ariadne\'s films. From on-set boom and lavalier recording to complex multi-layered sound design, creative mixing, and clean mastering, he ensures every story is heard clearly.',
+        bio: 'Leads the audio engineering department, overseeing sound design, mixing, and mastering across all visual formats. His technical expertise in audio post-production ensures pristine clarity, immersive soundscapes, and a balanced final mix that seamlessly elevates the visual narrative.',
         img: imgPierre,
         accentColor: '#1392d6',
         icon: GiSoundWaves,
