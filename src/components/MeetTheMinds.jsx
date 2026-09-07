@@ -139,18 +139,46 @@ export default function MeetTheMinds() {
                         const firstName = nameParts[0];
                         const lastName = nameParts.slice(1).join(' ');
 
+                        const rowVariants = {
+                            hidden: {},
+                            visible: {
+                                transition: {
+                                    staggerChildren: 0.45
+                                }
+                            }
+                        };
+
+                        const imgVariants = {
+                            hidden: { opacity: 0, x: isEven ? -60 : 60 },
+                            visible: {
+                                opacity: 1,
+                                x: 0,
+                                transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1] }
+                            }
+                        };
+
+                        const contentVariants = {
+                            hidden: { opacity: 0, x: isEven ? 60 : -60 },
+                            visible: {
+                                opacity: 1,
+                                x: 0,
+                                transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1] }
+                            }
+                        };
+
                         return (
-                            <div
+                            <motion.div
                                 key={member.id}
                                 className={`mtm-row ${isEven ? 'row-left' : 'row-right'}`}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true, amount: 0.2 }}
+                                variants={rowVariants}
                             >
                                 {/* Image Box - Enters first */}
                                 <motion.div
                                     className="mtm-img-col"
-                                    initial={{ opacity: 0, x: isEven ? -60 : 60 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true, amount: 0.1 }}
-                                    transition={{ duration: 0.85, delay: 0, ease: [0.22, 1, 0.36, 1] }}
+                                    variants={imgVariants}
                                 >
                                     <div className="mtm-img-card">
                                         <img src={member.img} alt={member.name} className="mtm-img" />
@@ -164,10 +192,7 @@ export default function MeetTheMinds() {
                                 {/* Content Box - Enters second from opposite side */}
                                 <motion.div
                                     className="mtm-content-col"
-                                    initial={{ opacity: 0, x: isEven ? 60 : -60 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true, amount: 0.1 }}
-                                    transition={{ duration: 0.85, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                                    variants={contentVariants}
                                 >
                                     <div className="mtm-content-inner">
                                         <div
@@ -204,7 +229,7 @@ export default function MeetTheMinds() {
 
                                     </div>
                                 </motion.div>
-                            </div>
+                            </motion.div>
                         );
                     })}
                 </div>
