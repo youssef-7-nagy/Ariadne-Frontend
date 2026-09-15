@@ -19,12 +19,6 @@ const CategoryProjects = () => {
     const [activePanelId, setActivePanelId] = useState(null);
 
     useEffect(() => {
-        if (projects.length > 0 && !activePanelId) {
-            setActivePanelId(projects[0]._id);
-        }
-    }, [projects, activePanelId]);
-
-    useEffect(() => {
         const fetchProjects = async () => {
             try {
                 const response = await axios.get(`${API_URL}/api/portfolio/projects/${categorySlug}`);
