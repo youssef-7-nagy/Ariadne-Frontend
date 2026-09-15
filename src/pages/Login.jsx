@@ -123,7 +123,8 @@ const Login = () => {
      */
     const handleGoogleAuth = (e) => {
         e.preventDefault();
-        window.location.href = `${API_URL}/api/auth/google`;
+        const returnUrl = encodeURIComponent(window.location.origin);
+        window.location.href = `${API_URL}/api/auth/google?returnUrl=${returnUrl}`;
     };
 
     return (

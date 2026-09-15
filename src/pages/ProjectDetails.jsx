@@ -18,7 +18,7 @@ const resolveUrl = (src) => {
 
 const CustomVideoPlayer = ({ src, poster }) => {
     const [isPlaying, setIsPlaying] = React.useState(false);
-    
+
     // Use the smart media resolver
     const resolvedMedia = resolveMedia(src);
     const finalSrc = resolvedMedia.src;
@@ -33,15 +33,15 @@ const CustomVideoPlayer = ({ src, poster }) => {
     return (
         <div className="pd-video-wrapper">
             {!isPlaying ? (
-                <div 
-                    onClick={handlePlayClick} 
+                <div
+                    onClick={handlePlayClick}
                     onTouchEnd={handlePlayClick}
                     style={{ cursor: "pointer", position: "relative", width: "100%", height: "100%" }}
                 >
                     {effectivePoster ? (
-                        <ImageFallback 
-                            src={effectivePoster} 
-                            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} 
+                        <ImageFallback
+                            src={effectivePoster}
+                            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                             alt="Video thumbnail"
                         />
                     ) : (
@@ -181,8 +181,8 @@ const ProjectDetails = () => {
                         <span className="pd-btn-text">Open Full Video</span>
                         <span className="pd-btn-arrow">
                             <svg className="pd-external-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"/>
-                                <polyline points="12 5 19 12 12 19"/>
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
                             </svg>
                         </span>
                     </a>
@@ -245,7 +245,7 @@ const ProjectDetails = () => {
                         {/* Hero Header (Title & Meta) */}
                         <div className="pd-header">
                             <h1 className="pd-title">{project.title}</h1>
-                            
+
                             {/* Meta pills (Client, Date, Category) */}
                             <div className="pd-meta">
                                 {project.clientName && (
@@ -282,7 +282,7 @@ const ProjectDetails = () => {
                         {/* Project Context (Description & Tags) */}
                         <div className="pd-context">
                             <p className="pd-description">{project.description}</p>
-                            
+
                             {/* Tags moved under description */}
                             {project.tags && project.tags.length > 0 && (
                                 <div className="pd-tags" style={{ marginTop: '2rem' }}>
@@ -294,7 +294,7 @@ const ProjectDetails = () => {
                         </div>
                     </div>
 
-                                    {/* Right Column: Featured Media */}
+                    {/* Right Column: Featured Media */}
                     <div className="pd-media-column">
                         {project.mediaType === 'gallery' ? (
                             /* ── Gallery mode: CursorNav ── */
@@ -316,10 +316,10 @@ const ProjectDetails = () => {
                             <>
                                 {youtubeLink && (
                                     <div style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'flex-start' }}>
-                                        <a 
-                                            href={youtubeLink} 
-                                            target="_blank" 
-                                            rel="noopener noreferrer" 
+                                        <a
+                                            href={youtubeLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                             style={{
                                                 display: 'inline-flex',
                                                 alignItems: 'center',
@@ -344,7 +344,7 @@ const ProjectDetails = () => {
                                             }}
                                         >
                                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                                                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                                                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
                                             </svg>
                                             Watch the full video on YouTube
                                         </a>

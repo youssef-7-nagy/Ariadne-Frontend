@@ -38,9 +38,10 @@ input, select, textarea { font-size: 16px !important; }
 .stat-box.purple { border-bottom: 5px solid #7209b7; }
 .stat-box.orange { border-bottom: 5px solid #f72585; }
 .stat-box.slate.active-metric { border-color: #64748b; background: #f8fafc; }
-.stat-box.slate { border-bottom: 5px solid #64748b; }
 .stat-box.rose.active-metric { border-color: #e11d48; background: #fff1f2; }
 .stat-box.rose { border-bottom: 5px solid #e11d48; }
+.stat-box.amber.active-metric { border-color: #f59e0b; background: #fffbeb; }
+.stat-box.amber { border-bottom: 5px solid #f59e0b; }
 
 /* Dark Chart Layout */
 .sleek-dark-chart {

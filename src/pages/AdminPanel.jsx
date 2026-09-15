@@ -227,21 +227,62 @@ const AdminPanel = () => {
     fetchData(activeTab);
   }, [activeTab, fetchData]);
 
+  // --- PAYMENT METHOD STATISTICS ---
+  const transactionStats = useMemo(() => {
+    const normalizeMethod = (m) => String(m || '').toLowerCase().trim();
+    const stats = {
+      cash: { count: 0, totalAmount: 0 },
+      instapay: { count: 0, totalAmount: 0 },
+      bankTransfer: { count: 0, totalAmount: 0 },
+      visa: { count: 0, totalAmount: 0 },
+      totalCount: transactions.length,
+      totalAmount: 0,
+    };
+
+    transactions.forEach((t) => {
+      const amt = Number(t.amount) || 0;
+      stats.totalAmount += amt;
+      const m = normalizeMethod(t.paymentMethod);
+      if (m === 'cash') {
+        stats.cash.count += 1;
+        stats.cash.totalAmount += amt;
+      } else if (m === 'instapay') {
+        stats.instapay.count += 1;
+        stats.instapay.totalAmount += amt;
+      } else if (m === 'bank transfer' || m === 'bank_transfer' || m === 'bank') {
+        stats.bankTransfer.count += 1;
+        stats.bankTransfer.totalAmount += amt;
+      } else if (m === 'visa') {
+        stats.visa.count += 1;
+        stats.visa.totalAmount += amt;
+      } else {
+        stats.cash.count += 1;
+        stats.cash.totalAmount += amt;
+      }
+    });
+
+    return stats;
+  }, [transactions]);
+
   // --- CHART DATA GENERATOR ---
   const getChartData = () => {
     let data = [];
     if (selectedMetric === 'users') {
-        data = [
-            { name: 'Admins', value: users.filter(u => u.role === 'admin').length },
-            { name: 'Users', value: users.filter(u => u.role === 'user').length },
-        ];
+      const adminsCount = users.filter((u) => u.role === 'admin' || u.role === 'superadmin').length;
+      const regularUsersCount = users.filter((u) => u.role === 'user' || !u.role).length;
+      data = [
+        { name: 'Admins', value: adminsCount, color: '#4361ee' },
+        { name: 'Users', value: regularUsersCount, color: '#7209b7' },
+      ];
     } else if (selectedMetric === 'transactions') {
-        data = [
-            { name: 'Cash', value: transactions.filter(t => t.paymentMethod === 'cash').length },
-            { name: 'Visa', value: transactions.filter(t => t.paymentMethod === 'visa').length },
-        ];
+      data = [
+        { name: 'Cash', value: transactionStats.cash.count, amount: transactionStats.cash.totalAmount, color: '#10b981' },
+        { name: 'InstaPay', value: transactionStats.instapay.count, amount: transactionStats.instapay.totalAmount, color: '#8b5cf6' },
+        { name: 'Bank Transfer', value: transactionStats.bankTransfer.count, amount: transactionStats.bankTransfer.totalAmount, color: '#3b82f6' },
+        { name: 'Visa', value: transactionStats.visa.count, amount: transactionStats.visa.totalAmount, color: '#f59e0b' },
+      ];
     }
-    return data.filter(d => d.value > 0);
+    return data.filter((d) => d.value > 0);
   };
 
   const getChartTitle = () => {
@@ -767,6 +808,51 @@ const AdminPanel = () => {
                         </div>
                     </div>
                     
+                    {isSuperAdmin && selectedMetric === 'transactions' && (
+                      <div className="payment-methods-breakdown" style={{ marginTop: '24px' }}>
+                        <h4 style={{ margin: '0 0 16px 0', fontSize: '1rem', color: '#64748b', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                          Payment Methods Statistics
+                        </h4>
+                        <div className="stats-grid">
+                          <div className="stat-box green" style={{ cursor: 'default' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                              <WalletIcon />
+                              <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#10b981' }}>Cash</span>
+                            </div>
+                            <h3>{transactionStats.cash.count}</h3>
+                            <p>{transactionStats.cash.totalAmount.toLocaleString()} EGP</p>
+                          </div>
+
+                          <div className="stat-box purple" style={{ cursor: 'default' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                              <InstaPayIcon />
+                              <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#8b5cf6' }}>InstaPay</span>
+                            </div>
+                            <h3>{transactionStats.instapay.count}</h3>
+                            <p>{transactionStats.instapay.totalAmount.toLocaleString()} EGP</p>
+                          </div>
+
+                          <div className="stat-box blue" style={{ cursor: 'default' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                              <BankTransferIcon />
+                              <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#3b82f6' }}>Bank Transfer</span>
+                            </div>
+                            <h3>{transactionStats.bankTransfer.count}</h3>
+                            <p>{transactionStats.bankTransfer.totalAmount.toLocaleString()} EGP</p>
+                          </div>
+
+                          <div className="stat-box amber" style={{ cursor: 'default' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                              <CreditCardIcon clientName="Visa" />
+                              <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#f59e0b' }}>Visa</span>
+                            </div>
+                            <h3>{transactionStats.visa.count}</h3>
+                            <p>{transactionStats.visa.totalAmount.toLocaleString()} EGP</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
                     {getChartData().length > 0 && (
                         <div className="chart-section">
                             <h3>{getChartTitle()}</h3>
@@ -774,9 +860,14 @@ const AdminPanel = () => {
                                 <ResponsiveContainer width="100%" height={300}>
                                     <PieChart>
                                         <Pie data={getChartData()} cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#8884d8" paddingAngle={5} dataKey="value">
-                                            {getChartData().map((entry, index) => (<Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />))}
+                                            {getChartData().map((entry, index) => (<Cell key={`cell-${index}`} fill={entry.color || COLORS[index % COLORS.length]} />))}
                                         </Pie>
-                                        <Tooltip />
+                                        <Tooltip formatter={(value, name, item) => [
+                                          item?.payload?.amount !== undefined 
+                                            ? `${value} (${item.payload.amount.toLocaleString()} EGP)`
+                                            : `${value}`,
+                                          name
+                                        ]} />
                                         <Legend verticalAlign="bottom" height={36}/>
                                     </PieChart>
                                 </ResponsiveContainer>
@@ -1375,6 +1466,46 @@ const AdminPanel = () => {
               <div className="orders-title-row">
                 <h2>My Transactions</h2>
               </div>
+
+              {/* Payment Methods Statistics Cards */}
+              <div className="stats-grid" style={{ marginBottom: '30px' }}>
+                <div className="stat-box green" style={{ cursor: 'default' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                    <WalletIcon />
+                    <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#10b981' }}>Cash</span>
+                  </div>
+                  <h3>{transactionStats.cash.count}</h3>
+                  <p>{transactionStats.cash.totalAmount.toLocaleString()} EGP</p>
+                </div>
+
+                <div className="stat-box purple" style={{ cursor: 'default' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                    <InstaPayIcon />
+                    <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#8b5cf6' }}>InstaPay</span>
+                  </div>
+                  <h3>{transactionStats.instapay.count}</h3>
+                  <p>{transactionStats.instapay.totalAmount.toLocaleString()} EGP</p>
+                </div>
+
+                <div className="stat-box blue" style={{ cursor: 'default' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                    <BankTransferIcon />
+                    <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#3b82f6' }}>Bank Transfer</span>
+                  </div>
+                  <h3>{transactionStats.bankTransfer.count}</h3>
+                  <p>{transactionStats.bankTransfer.totalAmount.toLocaleString()} EGP</p>
+                </div>
+
+                <div className="stat-box amber" style={{ cursor: 'default' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                    <CreditCardIcon clientName="Visa" />
+                    <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#f59e0b' }}>Visa</span>
+                  </div>
+                  <h3>{transactionStats.visa.count}</h3>
+                  <p>{transactionStats.visa.totalAmount.toLocaleString()} EGP</p>
+                </div>
+              </div>
+
               <form className="admin-form" onSubmit={handleAddTransaction} style={{ marginBottom: '30px' }}>
                 <div className="form-group-row">
                   <div className="form-group" style={{ position: 'relative' }} ref={clientDropdownRef}>
