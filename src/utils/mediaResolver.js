@@ -67,6 +67,7 @@ export const resolveMedia = (rawUrl) => {
             return {
                 type: 'youtube',
                 src: `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&playsinline=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&controls=1`,
+                directUrl: `https://www.youtube.com/watch?v=${videoId}`,
                 isIframe: true,
                 thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
             };
@@ -85,6 +86,7 @@ export const resolveMedia = (rawUrl) => {
             return {
                 type: 'vimeo',
                 src: `https://player.vimeo.com/video/${videoId}?autoplay=1&playsinline=1&title=0&byline=0&portrait=0&badge=0`,
+                directUrl: `https://vimeo.com/${videoId}`,
                 isIframe: true
             };
         }
@@ -95,13 +97,14 @@ export const resolveMedia = (rawUrl) => {
         return {
             type: 'bunny',
             src: `${url}${url.includes('?') ? '&' : '?'}autoplay=true&playsinline=true`,
+            directUrl: url,
             isIframe: true
         };
     }
 
     // 7. General External Image/Video
     if (url.match(/\.(mp4|mov|avi|webm|mkv|m4v|hevc)$/i)) {
-        return { type: 'external_video', src: url, isIframe: false };
+        return { type: 'external_video', src: url, directUrl: url, isIframe: false };
     }
     
     return { type: 'external_image', src: url, isIframe: false };

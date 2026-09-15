@@ -16,19 +16,72 @@ const resolveUrl = (src) => {
     return `${API_URL}${src}`;
 };
 
+const isMobileOrTouchDevice = () => {
+    if (typeof window === 'undefined') return false;
+    const ua = navigator.userAgent || navigator.vendor || window.opera || '';
+    const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const isMobile = /Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(ua) || (typeof window.innerWidth !== 'undefined' && window.innerWidth <= 820);
+    return isIOS || isMobile;
+};
+
 const CustomVideoPlayer = ({ src, poster }) => {
     const [isPlaying, setIsPlaying] = React.useState(false);
+    const [isMobileDevice, setIsMobileDevice] = React.useState(false);
+
+    React.useEffect(() => {
+        setIsMobileDevice(isMobileOrTouchDevice());
+    }, []);
 
     // Use the smart media resolver
     const resolvedMedia = resolveMedia(src);
     const finalSrc = resolvedMedia.src;
     const isIframe = resolvedMedia.isIframe;
     const effectivePoster = poster || resolvedMedia.thumbnail;
+    const directWatchUrl = resolvedMedia.directUrl;
 
     const handlePlayClick = (e) => {
         if (e) e.stopPropagation();
         setIsPlaying(true);
     };
+
+    // On iPad / iPhone / mobile devices, if it's an external embed (YouTube / Vimeo):
+    // Tapping the uploaded thumbnail opens and plays the video directly with full audio in 1 tap!
+    if (isMobileDevice && isIframe && directWatchUrl) {
+        return (
+            <div className="pd-video-wrapper">
+                <a
+                    href={directWatchUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pd-video-link-wrapper"
+                    style={{
+                        cursor: "pointer",
+                        position: "relative",
+                        width: "100%",
+                        height: "100%",
+                        display: "block",
+                        textDecoration: "none"
+                    }}
+                    title="Watch Video"
+                >
+                    {effectivePoster ? (
+                        <ImageFallback
+                            src={effectivePoster}
+                            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                            alt="Video thumbnail"
+                        />
+                    ) : (
+                        <div style={{ width: "100%", height: "100%", backgroundColor: "#111", minHeight: "300px" }}></div>
+                    )}
+                    <div className="pd-play-overlay-btn" aria-label="Play video">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+        );
+    }
 
     return (
         <div className="pd-video-wrapper">
@@ -71,7 +124,7 @@ const CustomVideoPlayer = ({ src, poster }) => {
                 <VideoFallback
                     src={finalSrc}
                     poster={effectivePoster}
-                    controls={isPlaying}
+                    controls={true}
                     autoPlay={true}
                     onPlay={() => setIsPlaying(true)}
                     onPause={() => setIsPlaying(false)}

@@ -1564,7 +1564,9 @@ html.dark .pd-media-block {
     backdrop-filter: blur(4px);
 }
 
-.pd-play-overlay-btn:hover {
+.pd-play-overlay-btn:hover,
+.pd-video-link-wrapper:hover .pd-play-overlay-btn,
+.pd-video-wrapper:hover .pd-play-overlay-btn {
     background-color: #ff0000;
     transform: translate(-50%, -50%) scale(1.08);
 }
@@ -1576,8 +1578,32 @@ html.dark .pd-media-block {
     margin-left: 3px;
 }
 
-.pd-play-overlay-btn:hover svg {
+.pd-play-overlay-btn:hover svg,
+.pd-video-link-wrapper:hover .pd-play-overlay-btn svg,
+.pd-video-wrapper:hover .pd-play-overlay-btn svg {
     transform: none;
+}
+
+.pd-video-link-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.pd-video-link-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.pd-video-link-wrapper:hover img {
+    transform: scale(1.02);
 }
 
 /* ─── Image ─── */
