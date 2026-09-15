@@ -27,64 +27,51 @@ const isMobileOrTouchDevice = () => {
 const CustomVideoPlayer = ({ src, poster }) => {
     const [isPlaying, setIsPlaying] = React.useState(false);
     const [isMobileDevice, setIsMobileDevice] = React.useState(false);
+    const [isMuted, setIsMuted] = React.useState(false);
+    const iframeRef = React.useRef(null);
 
     React.useEffect(() => {
-        setIsMobileDevice(isMobileOrTouchDevice());
+        const mobile = isMobileOrTouchDevice();
+        setIsMobileDevice(mobile);
+        if (mobile) {
+            setIsMuted(true);
+        }
     }, []);
 
     // Use the smart media resolver
     const resolvedMedia = resolveMedia(src);
-    const finalSrc = resolvedMedia.src;
     const isIframe = resolvedMedia.isIframe;
     const effectivePoster = poster || resolvedMedia.thumbnail;
-    const directWatchUrl = resolvedMedia.directUrl;
+
+    // Build the iframe URL based on device
+    let finalSrc = resolvedMedia.src;
+    if (isIframe && resolvedMedia.type === 'youtube') {
+        if (isMobileDevice) {
+            // On mobile/iOS: autoplay=1&mute=1 guarantees instant 1-click inline playback without WebKit blocking
+            finalSrc = finalSrc.includes('mute=1') ? finalSrc : `${finalSrc}&mute=1`;
+        }
+    } else if (isIframe && resolvedMedia.type === 'vimeo') {
+        if (isMobileDevice) {
+            finalSrc = finalSrc.includes('muted=1') ? finalSrc : `${finalSrc}&muted=1`;
+        }
+    }
 
     const handlePlayClick = (e) => {
         if (e) e.stopPropagation();
         setIsPlaying(true);
     };
 
-    // On iPad / iPhone / mobile devices, if it's an external embed (YouTube / Vimeo):
-    // Tapping the uploaded thumbnail opens and plays the video directly with full audio in 1 tap!
-    if (isMobileDevice && isIframe && directWatchUrl) {
-        return (
-            <div className="pd-video-wrapper">
-                <a
-                    href={directWatchUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="pd-video-link-wrapper"
-                    style={{
-                        cursor: "pointer",
-                        position: "relative",
-                        width: "100%",
-                        height: "100%",
-                        display: "block",
-                        textDecoration: "none"
-                    }}
-                    title="Watch Video"
-                >
-                    {effectivePoster ? (
-                        <ImageFallback
-                            src={effectivePoster}
-                            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                            alt="Video thumbnail"
-                        />
-                    ) : (
-                        <div style={{ width: "100%", height: "100%", backgroundColor: "#111", minHeight: "300px" }}></div>
-                    )}
-                    <div className="pd-play-overlay-btn" aria-label="Play video">
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M8 5v14l11-7z" />
-                        </svg>
-                    </div>
-                </a>
-            </div>
-        );
-    }
+    const handleUnmute = (e) => {
+        if (e) e.stopPropagation();
+        if (iframeRef.current && iframeRef.current.contentWindow) {
+            iframeRef.current.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+            iframeRef.current.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[100]}', '*');
+        }
+        setIsMuted(false);
+    };
 
     return (
-        <div className="pd-video-wrapper">
+        <div className="pd-video-wrapper" style={{ position: 'relative' }}>
             {!isPlaying ? (
                 <div
                     onClick={handlePlayClick}
@@ -107,19 +94,37 @@ const CustomVideoPlayer = ({ src, poster }) => {
                     </button>
                 </div>
             ) : isIframe ? (
-                <iframe
-                    src={finalSrc}
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        minHeight: "450px",
-                        border: "none",
-                        display: "block"
-                    }}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    playsInline
-                />
+                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                    <iframe
+                        ref={iframeRef}
+                        src={finalSrc}
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            minHeight: "450px",
+                            border: "none",
+                            display: "block"
+                        }}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                        playsInline
+                    />
+                    {isMobileDevice && isMuted && (
+                        <button
+                            type="button"
+                            onClick={handleUnmute}
+                            className="pd-unmute-btn"
+                            aria-label="Unmute video"
+                        >
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                                <line x1="23" y1="9" x2="17" y2="15"></line>
+                                <line x1="17" y1="9" x2="23" y2="15"></line>
+                            </svg>
+                            <span>Tap for Sound</span>
+                        </button>
+                    )}
+                </div>
             ) : (
                 <VideoFallback
                     src={finalSrc}
