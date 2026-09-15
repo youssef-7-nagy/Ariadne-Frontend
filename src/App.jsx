@@ -97,17 +97,19 @@ const App = () => {
             const token = localStorage.getItem('token');
             if (token) {
                 try {
-                    await fetch(`${API_URL}/api/auth/me`, {
+                    const res = await fetch(`${API_URL}/api/auth/me`, {
                         headers: { Authorization: `Bearer ${token}` }
-                    }).then(res => {
-                        if (!res.ok) throw new Error('Token invalid');
                     });
+                    if (res.status === 401 || res.status === 403) {
+                        // Token explicitly rejected by backend
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('user');
+                        setUserData(null);
+                        setIsLoggedIn(false);
+                    }
                 } catch (err) {
-                    // Token invalid or expired, clear session
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
-                    setUserData(null);
-                    setIsLoggedIn(false);
+                    // Network or proxy issue, do not log the user out
+                    console.warn('Token validation skipped (network/server unreachable):', err);
                 }
             }
         };
