@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
     FaFacebookF,
@@ -11,8 +11,20 @@ import {
     FaGithub
 } from 'react-icons/fa';
 import './Footer.css';
+import { notify } from '../utils/notify';
 
 const Footer = () => {
+    const [newsletterEmail, setNewsletterEmail] = useState('');
+
+    const handleNewsletterSubmit = () => {
+        const email = newsletterEmail.trim();
+        if (!email || !/\S+@\S+\.\S+/.test(email)) {
+            notify.error('Please enter a valid email address.');
+            return;
+        }
+        notify.success('Thank you for subscribing to Ariadne updates!');
+        setNewsletterEmail('');
+    };
     return (
         <footer className="footer">
             <div className="footer-top">
@@ -62,7 +74,7 @@ const Footer = () => {
                             <ul className="footer-list">
                                 <li><Link to="/">Home</Link></li>
                                 <li><Link to="/about">About Us</Link></li>
-                                <li><Link to="/packages">Our Portfolio</Link></li>
+                                <li><Link to="/portfolio">Our Portfolio</Link></li>
                                 <li><Link to="/profile">My Account</Link></li>
                                 <li><Link to="/login">Join Us</Link></li>
                             </ul>
@@ -74,11 +86,11 @@ const Footer = () => {
                             <ul className="footer-contact-info">
                                 <li>
                                     <FaMapMarkerAlt className="contact-icon" />
-                                    <span>123 Sparkle Drive, Auto City, NY 10001</span>
+                                    <span>Zamalek, Cairo, Egypt</span>
                                 </li>
                                 <li>
                                     <FaPhoneAlt className="contact-icon" />
-                                    <span>(414) 857 - 0107</span>
+                                    <span>+20 109 609 6498</span>
                                 </li>
                                 <li>
                                     <FaEnvelope className="contact-icon" />
@@ -94,9 +106,17 @@ const Footer = () => {
                         <div className="footer-col newsletter-col">
                             <div className="subscribe">
                                 <p>SUBSCRIBE</p>
-                                <input placeholder="Your e-mail" className="subscribe-input" name="email" type="email" />
+                                <input
+                                    placeholder="Your e-mail"
+                                    className="subscribe-input"
+                                    name="email"
+                                    type="email"
+                                    value={newsletterEmail}
+                                    onChange={(e) => setNewsletterEmail(e.target.value)}
+                                    onKeyDown={(e) => { if (e.key === 'Enter') handleNewsletterSubmit(); }}
+                                />
                                 <br />
-                                <div className="submit-btn">SUBMIT</div>
+                                <div className="submit-btn" onClick={handleNewsletterSubmit}>SUBMIT</div>
                             </div>
                         </div>
 

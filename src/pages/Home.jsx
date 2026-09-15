@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Home.css';
-import Section3Showcase from '../components/Section3Showcase';
 import imgShortFilms from '../assets/categories/short-films.png';
 import imgDocumentaries from '../assets/categories/documentaries.png';
 import imgCommercials from '../assets/categories/commercials.png';
@@ -306,21 +305,87 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Section 3: Interactive 3D Showcase */}
-            <Section3Showcase />
+            {/* Section 3: Camera Blank Section */}
+            <section className="camera-blank-section section-3">
+                <div className="curved-bg-glows">
+                    <div className="curved-glow-left-amber"></div>
+                    <div className="curved-glow-right-amber"></div>
+                    <div className="curved-rainbow-leak"></div>
+                    <div className="curved-noise-overlay"></div>
+                </div>
 
-            {/* Section 4: Testimonials */}
-            <section className="home-section testimonials-section">
-                <div className="container text-center">
-                    <h2 className="section-title">What Our Clients Say</h2>
-                    <div className="row mt-5">
-                        <div className="col-md-10 col-lg-8 mx-auto">
-                            <div className="testimonial-wrapper">
-                                <p className="testimonial-quote">"Ariadne has completely transformed the way we operate. Highly recommended for anyone looking to scale effortlessly and achieve professional results!"</p>
-                                <footer className="testimonial-author">Jane Doe, <cite title="Source Title">CEO at TechCorp</cite></footer>
-                            </div>
-                        </div>
+                {/* Technical Viewfinder Camera Overlay */}
+                <div className="curved-viewfinder-overlay">
+                    <div className="vf-bracket vf-top-left"></div>
+                    <div className="vf-bracket vf-top-right"></div>
+                    <div className="vf-bracket vf-bottom-left"></div>
+                    <div className="vf-bracket vf-bottom-right"></div>
+                    
+                    <div className="vf-grid-line vf-grid-v1"></div>
+                    <div className="vf-grid-line vf-grid-v2"></div>
+                    <div className="vf-grid-line vf-grid-h1"></div>
+                    <div className="vf-grid-line vf-grid-h2"></div>
+                    
+                    <div className="vf-status vf-status-tl">
+                        <span className="vf-rec-dot"></span>
+                        <span className="vf-status-text">REC</span>
                     </div>
+                    <div className="vf-status vf-status-tr">
+                        <span className="vf-status-text">TC 09:14:18:02</span>
+                    </div>
+                    <div className="vf-status vf-status-bl">
+                        <span className="vf-status-text">F1.4  |  1/500s  |  ISO 200</span>
+                    </div>
+                    <div className="vf-status vf-status-br">
+                        <span className="vf-status-text">RAW 8K  |  60fps  |  [+]</span>
+                    </div>
+                    <div className="vf-focus-ring"></div>
+                </div>
+
+                <div className="camera-blank-container">
+                    {/* Blank Section 3 */}
+                </div>
+            </section>
+
+            {/* Section 4: Camera Blank Section */}
+            <section className="camera-blank-section section-4">
+                <div className="curved-bg-glows">
+                    <div className="curved-glow-left-amber"></div>
+                    <div className="curved-glow-right-amber"></div>
+                    <div className="curved-rainbow-leak"></div>
+                    <div className="curved-noise-overlay"></div>
+                </div>
+
+                {/* Technical Viewfinder Camera Overlay */}
+                <div className="curved-viewfinder-overlay">
+                    <div className="vf-bracket vf-top-left"></div>
+                    <div className="vf-bracket vf-top-right"></div>
+                    <div className="vf-bracket vf-bottom-left"></div>
+                    <div className="vf-bracket vf-bottom-right"></div>
+                    
+                    <div className="vf-grid-line vf-grid-v1"></div>
+                    <div className="vf-grid-line vf-grid-v2"></div>
+                    <div className="vf-grid-line vf-grid-h1"></div>
+                    <div className="vf-grid-line vf-grid-h2"></div>
+                    
+                    <div className="vf-status vf-status-tl">
+                        <span className="vf-rec-dot"></span>
+                        <span className="vf-status-text">REC</span>
+                    </div>
+                    <div className="vf-status vf-status-tr">
+                        <span className="vf-status-text">TC 09:15:52:14</span>
+                    </div>
+                    <div className="vf-status vf-status-bl">
+                        <span className="vf-status-text">F1.8  |  1/320s  |  ISO 640</span>
+                    </div>
+                    <div className="vf-status vf-status-br">
+                        <span className="vf-status-text">RAW 8K  |  24fps  |  [+]</span>
+                    </div>
+                    <div className="vf-focus-ring"></div>
+                </div>
+
+                <div className="camera-blank-container">
+                    {/* Blank Section 4 */}
                 </div>
             </section>
 

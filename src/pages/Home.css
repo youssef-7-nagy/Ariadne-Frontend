@@ -2879,3 +2879,48 @@
         height: 15px;
     }
 }
+
+/* =========================================
+   Camera Viewfinder Blank Sections (Section 3 & 4)
+   ========================================= */
+.camera-blank-section {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    min-height: 750px;
+    background-color: #0e0d0c;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 0 80px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.camera-blank-container {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    padding: 0 20px;
+}
+
+@media (max-width: 992px) {
+    .camera-blank-section {
+        min-height: 550px;
+        padding: 80px 0 60px;
+    }
+}
+
+@media (max-width: 768px) {
+    .camera-blank-section {
+        min-height: 450px;
+        padding: 60px 0 40px;
+    }
+}

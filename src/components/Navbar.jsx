@@ -69,7 +69,7 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
                 <ul className={`nav-links ${isMobileMenuOpen ? 'mobile-active' : ''}`} ref={navRef}>
                     <li><NavLink to="/">Home</NavLink></li>
                     <li><NavLink to="/about">About</NavLink></li>
-                    <li><NavLink to="/packages">Projects</NavLink></li>
+                    <li><NavLink to="/portfolio">Projects</NavLink></li>
                     {isLoggedIn && !isAdmin && (
                         <li><NavLink to="/profile">Profile</NavLink></li>
                     )}

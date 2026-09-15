@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { notify } from "../utils/notify";
 import "./Login.css";
@@ -210,9 +210,9 @@ const Login = () => {
                             )}
                         </div>
 
-                        <a href="/forgot-password" style={{ marginTop: "15px", marginBottom: "10px" }}>
+                        <Link to="/forgot-password" style={{ marginTop: "15px", marginBottom: "10px" }}>
                             Forget Your Password?
-                        </a>
+                        </Link>
 
                         <button type="submit" disabled={isLoading}>{isLoading ? "Loading..." : "Sign In"}</button>
 
