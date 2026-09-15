@@ -815,7 +815,7 @@ const AdminPanel = () => {
                         </h4>
                         <div className="stats-grid">
                           <div className="stat-box green" style={{ cursor: 'default' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px', width: '100%' }}>
                               <WalletIcon />
                               <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#10b981' }}>Cash</span>
                             </div>
@@ -824,7 +824,7 @@ const AdminPanel = () => {
                           </div>
 
                           <div className="stat-box purple" style={{ cursor: 'default' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px', width: '100%' }}>
                               <InstaPayIcon />
                               <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#8b5cf6' }}>InstaPay</span>
                             </div>
@@ -833,7 +833,7 @@ const AdminPanel = () => {
                           </div>
 
                           <div className="stat-box blue" style={{ cursor: 'default' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px', width: '100%' }}>
                               <BankTransferIcon />
                               <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#3b82f6' }}>Bank Transfer</span>
                             </div>
@@ -842,7 +842,7 @@ const AdminPanel = () => {
                           </div>
 
                           <div className="stat-box amber" style={{ cursor: 'default' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px', width: '100%' }}>
                               <CreditCardIcon clientName="Visa" />
                               <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#f59e0b' }}>Visa</span>
                             </div>
@@ -1470,7 +1470,7 @@ const AdminPanel = () => {
               {/* Payment Methods Statistics Cards */}
               <div className="stats-grid" style={{ marginBottom: '30px' }}>
                 <div className="stat-box green" style={{ cursor: 'default' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px', width: '100%' }}>
                     <WalletIcon />
                     <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#10b981' }}>Cash</span>
                   </div>
@@ -1479,7 +1479,7 @@ const AdminPanel = () => {
                 </div>
 
                 <div className="stat-box purple" style={{ cursor: 'default' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px', width: '100%' }}>
                     <InstaPayIcon />
                     <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#8b5cf6' }}>InstaPay</span>
                   </div>
@@ -1488,7 +1488,7 @@ const AdminPanel = () => {
                 </div>
 
                 <div className="stat-box blue" style={{ cursor: 'default' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px', width: '100%' }}>
                     <BankTransferIcon />
                     <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#3b82f6' }}>Bank Transfer</span>
                   </div>
@@ -1497,7 +1497,7 @@ const AdminPanel = () => {
                 </div>
 
                 <div className="stat-box amber" style={{ cursor: 'default' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px', width: '100%' }}>
                     <CreditCardIcon clientName="Visa" />
                     <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#f59e0b' }}>Visa</span>
                   </div>

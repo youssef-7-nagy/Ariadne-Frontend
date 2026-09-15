@@ -24,15 +24,15 @@ input, select, textarea { font-size: 16px !important; }
 .panel-section h2 { margin-bottom: 30px; color: #2b2d42; font-weight: 700; font-size: clamp(1.4rem, 3vw, 1.8rem); }
 
 .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
-.stat-box { background: white; padding: 25px 20px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.stat-box { background: white; padding: 22px 16px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: all 0.3s ease; border: 2px solid transparent; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; box-sizing: border-box; }
 .stat-box:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
 .stat-box.active-metric { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.15); }
 .stat-box.blue.active-metric { border-color: #4361ee; background: #eef2ff; }
 .stat-box.green.active-metric { border-color: #2ecc71; background: #ecfdf5; }
 .stat-box.purple.active-metric { border-color: #7209b7; background: #f3e8ff; }
 .stat-box.orange.active-metric { border-color: #f72585; background: #fdf2f8; }
-.stat-box h3 { font-size: 2.5rem; margin: 0; color: #2b2d42; font-weight: 700; }
-.stat-box p { margin: 5px 0 0; color: #8d99ae; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-box h3 { font-size: 2.2rem; margin: 4px 0 2px 0; color: #2b2d42; font-weight: 700; line-height: 1.1; text-align: center; width: 100%; }
+.stat-box p { margin: 0; color: #8d99ae; font-weight: 600; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; width: 100%; }
 .stat-box.blue { border-bottom: 5px solid #4361ee; }
 .stat-box.green { border-bottom: 5px solid #2ecc71; }
 .stat-box.purple { border-bottom: 5px solid #7209b7; }

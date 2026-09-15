@@ -188,36 +188,27 @@
   left: 12.4em;
 }
 
-.number {
+.card-number-mock {
   position: absolute;
   font-weight: bold;
-  font-size: .6em;
-  top: 8.3em;
+  font-size: 0.95em;
+  top: 6.8em;
   left: 1.6em;
+  letter-spacing: 2px;
+  color: #ffffff;
+  margin: 0;
 }
 
-.valid_thru {
+.card-client-mock {
   position: absolute;
-  font-weight: bold;
-  top: 635.8em;
-  font-size: .01em;
-  left: 140.3em;
-}
-
-.date_8264 {
-  position: absolute;
-  font-weight: bold;
-  font-size: 0.5em;
-  top: 13.6em;
-  left: 3.2em;
-}
-
-.name {
-  position: absolute;
-  font-weight: bold;
-  font-size: 0.5em;
-  top: 16.1em;
+  font-weight: 600;
+  font-size: 0.8em;
+  top: 9.6em;
   left: 2em;
+  letter-spacing: 1px;
+  color: #e2e8f0;
+  text-transform: uppercase;
+  margin: 0;
 }
 
 .strip {
