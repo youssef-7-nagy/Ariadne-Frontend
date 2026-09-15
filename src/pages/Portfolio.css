@@ -1584,39 +1584,6 @@ html.dark .pd-media-block {
     transform: none;
 }
 
-/* ─── Mobile Unmute Button Overlay ─── */
-.pd-unmute-btn {
-    position: absolute;
-    bottom: 24px;
-    right: 24px;
-    background: rgba(15, 15, 15, 0.88);
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 30px;
-    padding: 8px 16px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    z-index: 30;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(8px);
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background 0.2s ease;
-    animation: fadeIn 0.3s ease-in;
-}
-
-.pd-unmute-btn:hover,
-.pd-unmute-btn:active {
-    background: #ff0000;
-    border-color: #ff0000;
-    transform: scale(1.05);
-}
-
-.pd-unmute-btn svg {
-    flex-shrink: 0;
-}
 
 .pd-video-link-wrapper {
     position: relative;

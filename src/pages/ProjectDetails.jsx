@@ -26,48 +26,29 @@ const isMobileOrTouchDevice = () => {
 
 const CustomVideoPlayer = ({ src, poster }) => {
     const [isPlaying, setIsPlaying] = React.useState(false);
-    const [isMobileDevice, setIsMobileDevice] = React.useState(false);
-    const [isMuted, setIsMuted] = React.useState(false);
     const iframeRef = React.useRef(null);
-
-    React.useEffect(() => {
-        const mobile = isMobileOrTouchDevice();
-        setIsMobileDevice(mobile);
-        if (mobile) {
-            setIsMuted(true);
-        }
-    }, []);
 
     // Use the smart media resolver
     const resolvedMedia = resolveMedia(src);
+    const finalSrc = resolvedMedia.src;
     const isIframe = resolvedMedia.isIframe;
     const effectivePoster = poster || resolvedMedia.thumbnail;
-
-    // Build the iframe URL based on device
-    let finalSrc = resolvedMedia.src;
-    if (isIframe && resolvedMedia.type === 'youtube') {
-        if (isMobileDevice) {
-            // On mobile/iOS: autoplay=1&mute=1 guarantees instant 1-click inline playback without WebKit blocking
-            finalSrc = finalSrc.includes('mute=1') ? finalSrc : `${finalSrc}&mute=1`;
-        }
-    } else if (isIframe && resolvedMedia.type === 'vimeo') {
-        if (isMobileDevice) {
-            finalSrc = finalSrc.includes('muted=1') ? finalSrc : `${finalSrc}&muted=1`;
-        }
-    }
 
     const handlePlayClick = (e) => {
         if (e) e.stopPropagation();
         setIsPlaying(true);
     };
 
-    const handleUnmute = (e) => {
-        if (e) e.stopPropagation();
-        if (iframeRef.current && iframeRef.current.contentWindow) {
-            iframeRef.current.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-            iframeRef.current.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[100]}', '*');
+    const handleIframeLoad = () => {
+        try {
+            if (iframeRef.current && iframeRef.current.contentWindow) {
+                iframeRef.current.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+                iframeRef.current.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[100]}', '*');
+                iframeRef.current.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            }
+        } catch (e) {
+            // cross-origin fail-safe
         }
-        setIsMuted(false);
     };
 
     return (
@@ -98,6 +79,7 @@ const CustomVideoPlayer = ({ src, poster }) => {
                     <iframe
                         ref={iframeRef}
                         src={finalSrc}
+                        onLoad={handleIframeLoad}
                         style={{
                             width: "100%",
                             height: "100%",
@@ -109,21 +91,6 @@ const CustomVideoPlayer = ({ src, poster }) => {
                         allowFullScreen
                         playsInline
                     />
-                    {isMobileDevice && isMuted && (
-                        <button
-                            type="button"
-                            onClick={handleUnmute}
-                            className="pd-unmute-btn"
-                            aria-label="Unmute video"
-                        >
-                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                                <line x1="23" y1="9" x2="17" y2="15"></line>
-                                <line x1="17" y1="9" x2="23" y2="15"></line>
-                            </svg>
-                            <span>Tap for Sound</span>
-                        </button>
-                    )}
                 </div>
             ) : (
                 <VideoFallback
