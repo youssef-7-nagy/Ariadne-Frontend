@@ -1528,15 +1528,35 @@ html.dark .pd-media-block {
 .pd-video-wrapper {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 9;
-    max-height: 75vh;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
     background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    overflow: hidden;
+}
+
+.pd-video-wrapper > div,
+.pd-video-wrapper > a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.pd-video-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
 }
 
 .pd-video-wrapper video {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: contain;

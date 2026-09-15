@@ -75,23 +75,15 @@ const CustomVideoPlayer = ({ src, poster }) => {
                     </button>
                 </div>
             ) : isIframe ? (
-                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                    <iframe
-                        ref={iframeRef}
-                        src={finalSrc}
-                        onLoad={handleIframeLoad}
-                        style={{
-                            width: "100%",
-                            height: "100%",
-                            minHeight: "450px",
-                            border: "none",
-                            display: "block"
-                        }}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                        playsInline
-                    />
-                </div>
+                <iframe
+                    ref={iframeRef}
+                    src={finalSrc}
+                    onLoad={handleIframeLoad}
+                    className="pd-video-iframe"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    playsInline
+                />
             ) : (
                 <VideoFallback
                     src={finalSrc}
