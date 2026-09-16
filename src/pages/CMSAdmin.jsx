@@ -515,8 +515,8 @@ const ProjectsTab = () => {
       date: p.date ? new Date(p.date).toISOString().split('T')[0] : '',
       clientName: p.clientName || '',
       tags: p.tags?.join(', ') || '',
-      externalLink: p.externalLink || '',
-      youtubeUrl: p.youtubeUrl || '',
+      externalLink: p.externalLink || p.youtubeUrl || '',
+      youtubeUrl: p.externalLink || p.youtubeUrl || '',
       embedUrl: p.media?.[0]?.url?.includes('http') ? p.media[0].url : ''
     });
     const featured = p.media?.[0];
@@ -657,14 +657,9 @@ const ProjectsTab = () => {
             </div>
             <div className="cms-field" style={{ gridColumn: 'span 2' }}>
               <label><FiExternalLink style={{ verticalAlign: 'middle', marginRight: 4 }} />External Link (YouTube / Vimeo)</label>
-              <input className="form-control" placeholder="https://youtube.com/watch?v=..." value={form.externalLink}
-                onChange={e => setForm(f => ({ ...f, externalLink: e.target.value }))} />
-            </div>
-            <div className="cms-field" style={{ gridColumn: 'span 2' }}>
-              <label><FiVideo style={{ verticalAlign: 'middle', marginRight: 4 }} />YouTube Video URL (for "Watch on YouTube" button)</label>
-              <input className="form-control" placeholder="https://youtube.com/watch?v=... or https://youtu.be/..." value={form.youtubeUrl}
-                onChange={e => setForm(f => ({ ...f, youtubeUrl: e.target.value }))} />
-              <small style={{ color: '#888', marginTop: 4, display: 'block' }}>If set, a "Watch the full video on YouTube" button will appear on the project page. Video plays in a lightbox modal.</small>
+              <input className="form-control" placeholder="https://youtube.com/watch?v=... or https://youtu.be/..." value={form.externalLink}
+                onChange={e => setForm(f => ({ ...f, externalLink: e.target.value, youtubeUrl: e.target.value }))} />
+              <small style={{ color: '#888', marginTop: 4, display: 'block' }}>If provided, a "Watch the full video on YouTube" button will appear on the project page and open directly on YouTube in a new tab.</small>
             </div>
             <div className="cms-field" style={{ gridColumn: 'span 1' }}>
               <label><FiImage style={{ verticalAlign: 'middle', marginRight: 4 }} />Coverage Photo (Thumbnail) *</label>

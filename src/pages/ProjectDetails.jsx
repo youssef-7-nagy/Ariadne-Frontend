@@ -222,7 +222,6 @@ const ProjectDetails = () => {
     const { projectSlug } = useParams();
     const [project, setProject] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [showYoutubeModal, setShowYoutubeModal] = useState(false);
 
     useEffect(() => {
         const fetchProject = async () => {
@@ -240,10 +239,6 @@ const ProjectDetails = () => {
 
         fetchProject();
     }, [projectSlug]);
-
-    const closeYoutubeModal = useCallback(() => {
-        setShowYoutubeModal(false);
-    }, []);
 
     if (isLoading) {
         return (
@@ -365,28 +360,24 @@ const ProjectDetails = () => {
     const remainingMedia = project.media?.filter(m => m !== videoMedia && m !== embedMedia && m !== imageMedia) || [];
 
     /**
-     * Resolve the YouTube video ID from all possible sources.
-     * Priority: dedicated youtubeUrl → externalLink (if YouTube) → embedMedia (if YouTube)
+     * Resolve the external video URL for the "Watch the full video on YouTube" button.
+     * Directs client directly to YouTube in a new tab.
      */
-    const getYoutubeVideoId = () => {
-        // 1. Check dedicated youtubeUrl field
-        const fromDedicated = extractYoutubeVideoId(project.youtubeUrl);
-        if (fromDedicated) return fromDedicated;
-
-        // 2. Check externalLink field
-        const fromExternal = extractYoutubeVideoId(project.externalLink);
-        if (fromExternal) return fromExternal;
-
-        // 3. Check embed media URL
-        if (embedMedia?.url) {
-            const fromEmbed = extractYoutubeVideoId(embedMedia.url);
-            if (fromEmbed) return fromEmbed;
+    const getExternalVideoUrl = () => {
+        const raw = project.externalLink || project.youtubeUrl;
+        if (raw) {
+            const ytId = extractYoutubeVideoId(raw);
+            if (ytId) return `https://www.youtube.com/watch?v=${ytId}`;
+            return raw;
         }
-
+        if (embedMedia?.url) {
+            const ytId = extractYoutubeVideoId(embedMedia.url);
+            if (ytId) return `https://www.youtube.com/watch?v=${ytId}`;
+        }
         return null;
     };
 
-    const youtubeVideoId = getYoutubeVideoId();
+    const externalVideoUrl = getExternalVideoUrl();
 
     return (
         <div className="project-details-container">
@@ -478,18 +469,19 @@ const ProjectDetails = () => {
                         ) : (
                             /* ── Video/Trailer mode ── */
                             <>
-                                {youtubeVideoId && (
+                                {externalVideoUrl && (
                                     <div className="pd-yt-btn-wrapper">
-                                        <button
-                                            type="button"
+                                        <a
+                                            href={externalVideoUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                             className="pd-yt-btn"
-                                            onClick={() => setShowYoutubeModal(true)}
                                         >
                                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                                                 <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
                                             </svg>
                                             Watch the full video on YouTube
-                                        </button>
+                                        </a>
                                     </div>
                                 )}
                                 {renderMainMedia()}
@@ -530,11 +522,6 @@ const ProjectDetails = () => {
                 )}
 
             </div>
-
-            {/* YouTube Lightbox Modal */}
-            {showYoutubeModal && youtubeVideoId && (
-                <YouTubeModal videoId={youtubeVideoId} onClose={closeYoutubeModal} />
-            )}
         </div>
     );
 };
