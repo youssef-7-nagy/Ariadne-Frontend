@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { resolveMedia } from '../utils/mediaResolver';
@@ -23,6 +23,87 @@ const isMobileOrTouchDevice = () => {
     const isMobile = /Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(ua) || (typeof window.innerWidth !== 'undefined' && window.innerWidth <= 820);
     return isIOS || isMobile;
 };
+
+/**
+ * Extract a YouTube video ID from common YouTube URL formats.
+ * Returns the video ID string or null if not a YouTube URL.
+ */
+const extractYoutubeVideoId = (url) => {
+    if (!url) return null;
+    const str = String(url).trim();
+
+    // youtube.com/watch?v=VIDEO_ID
+    if (str.includes('youtube.com/watch')) {
+        const match = str.match(/[?&]v=([^&#]+)/);
+        return match ? match[1] : null;
+    }
+    // youtu.be/VIDEO_ID
+    if (str.includes('youtu.be/')) {
+        const id = str.split('youtu.be/')[1]?.split('?')[0]?.split('/')[0]?.split('#')[0];
+        return id || null;
+    }
+    // youtube.com/embed/VIDEO_ID
+    if (str.includes('youtube.com/embed/')) {
+        const id = str.split('embed/')[1]?.split('?')[0]?.split('/')[0]?.split('#')[0];
+        return id || null;
+    }
+    // youtube.com/shorts/VIDEO_ID
+    if (str.includes('youtube.com/shorts/')) {
+        const id = str.split('shorts/')[1]?.split('?')[0]?.split('/')[0]?.split('#')[0];
+        return id || null;
+    }
+    // youtube.com/live/VIDEO_ID
+    if (str.includes('youtube.com/live/')) {
+        const id = str.split('live/')[1]?.split('?')[0]?.split('/')[0]?.split('#')[0];
+        return id || null;
+    }
+    return null;
+};
+
+
+/* ─── YouTube Lightbox Modal ─── */
+const YouTubeModal = ({ videoId, onClose }) => {
+    // Close on ESC key
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') onClose();
+        };
+        document.addEventListener('keydown', handleKeyDown);
+        // Prevent body scroll while modal is open
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+            document.body.style.overflow = '';
+        };
+    }, [onClose]);
+
+    const handleBackdropClick = (e) => {
+        if (e.target === e.currentTarget) onClose();
+    };
+
+    return (
+        <div className="pd-yt-modal-overlay" onClick={handleBackdropClick}>
+            <div className="pd-yt-modal-content">
+                <button className="pd-yt-modal-close" onClick={onClose} aria-label="Close video">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+                <div className="pd-yt-modal-iframe-wrapper">
+                    <iframe
+                        src={`https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&controls=1&enablejsapi=1`}
+                        className="pd-yt-modal-iframe"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                        title="YouTube video player"
+                    />
+                </div>
+            </div>
+        </div>
+    );
+};
+
 
 const CustomVideoPlayer = ({ src, poster }) => {
     const [isPlaying, setIsPlaying] = React.useState(false);
@@ -103,6 +184,7 @@ const ProjectDetails = () => {
     const { projectSlug } = useParams();
     const [project, setProject] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [showYoutubeModal, setShowYoutubeModal] = useState(false);
 
     useEffect(() => {
         const fetchProject = async () => {
@@ -120,6 +202,10 @@ const ProjectDetails = () => {
 
         fetchProject();
     }, [projectSlug]);
+
+    const closeYoutubeModal = useCallback(() => {
+        setShowYoutubeModal(false);
+    }, []);
 
     if (isLoading) {
         return (
@@ -218,27 +304,47 @@ const ProjectDetails = () => {
                 </div>
             );
         }
+        /* Fallback: show cover image if no media exists */
+        if (project.coverImage) {
+            return (
+                <div className="pd-media-block">
+                    <span className="pd-media-badge">🖼️ Cover</span>
+                    <ImageFallback
+                        src={resolveUrl(project.coverImage)}
+                        alt={project.title}
+                        className="pd-image"
+                    />
+                </div>
+            );
+        }
         return null;
     };
 
     const remainingMedia = project.media?.filter(m => m !== videoMedia && m !== embedMedia && m !== imageMedia) || [];
 
-    const getYoutubeLink = () => {
-        if (project.externalLink && (project.externalLink.includes('youtube') || project.externalLink.includes('youtu.be'))) {
-            return project.externalLink;
+    /**
+     * Resolve the YouTube video ID from all possible sources.
+     * Priority: dedicated youtubeUrl → externalLink (if YouTube) → embedMedia (if YouTube)
+     */
+    const getYoutubeVideoId = () => {
+        // 1. Check dedicated youtubeUrl field
+        const fromDedicated = extractYoutubeVideoId(project.youtubeUrl);
+        if (fromDedicated) return fromDedicated;
+
+        // 2. Check externalLink field
+        const fromExternal = extractYoutubeVideoId(project.externalLink);
+        if (fromExternal) return fromExternal;
+
+        // 3. Check embed media URL
+        if (embedMedia?.url) {
+            const fromEmbed = extractYoutubeVideoId(embedMedia.url);
+            if (fromEmbed) return fromEmbed;
         }
-        if (embedMedia?.url && (embedMedia.url.includes('youtube') || embedMedia.url.includes('youtu.be'))) {
-            // Convert embed URLs back to normal watch URLs for the button
-            if (embedMedia.url.includes('/embed/')) {
-                const videoId = embedMedia.url.split('/embed/')[1].split('?')[0];
-                return `https://www.youtube.com/watch?v=${videoId}`;
-            }
-            return embedMedia.url;
-        }
+
         return null;
     };
 
-    const youtubeLink = getYoutubeLink();
+    const youtubeVideoId = getYoutubeVideoId();
 
     return (
         <div className="project-details-container">
@@ -257,7 +363,6 @@ const ProjectDetails = () => {
 
                 <div className="pd-grid-layout">
                     {/* Left Column: Text Information */}
-                    {/* The dynamic padding is handled by CSS to only apply on desktop (see .pd-info-column-desktop-padding) */}
                     <div className="pd-info-column">
                         {/* Hero Header (Title & Meta) */}
                         <div className="pd-header">
@@ -331,40 +436,18 @@ const ProjectDetails = () => {
                         ) : (
                             /* ── Video/Trailer mode ── */
                             <>
-                                {youtubeLink && (
-                                    <div style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'flex-start' }}>
-                                        <a
-                                            href={youtubeLink}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            style={{
-                                                display: 'inline-flex',
-                                                alignItems: 'center',
-                                                gap: '8px',
-                                                background: 'linear-gradient(135deg, #d21313 0%, #a00d0d 100%)',
-                                                color: '#fff',
-                                                padding: '12px 24px',
-                                                borderRadius: '30px',
-                                                fontWeight: 'bold',
-                                                textDecoration: 'none',
-                                                boxShadow: '0 4px 15px rgba(210, 19, 19, 0.4)',
-                                                transition: 'transform 0.2s, box-shadow 0.2s',
-                                                fontFamily: 'sans-serif'
-                                            }}
-                                            onMouseOver={(e) => {
-                                                e.currentTarget.style.transform = 'translateY(-2px)';
-                                                e.currentTarget.style.boxShadow = '0 6px 20px rgba(210, 19, 19, 0.6)';
-                                            }}
-                                            onMouseOut={(e) => {
-                                                e.currentTarget.style.transform = 'translateY(0)';
-                                                e.currentTarget.style.boxShadow = '0 4px 15px rgba(210, 19, 19, 0.4)';
-                                            }}
+                                {youtubeVideoId && (
+                                    <div className="pd-yt-btn-wrapper">
+                                        <button
+                                            type="button"
+                                            className="pd-yt-btn"
+                                            onClick={() => setShowYoutubeModal(true)}
                                         >
                                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                                                 <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
                                             </svg>
                                             Watch the full video on YouTube
-                                        </a>
+                                        </button>
                                     </div>
                                 )}
                                 {renderMainMedia()}
@@ -405,9 +488,13 @@ const ProjectDetails = () => {
                 )}
 
             </div>
+
+            {/* YouTube Lightbox Modal */}
+            {showYoutubeModal && youtubeVideoId && (
+                <YouTubeModal videoId={youtubeVideoId} onClose={closeYoutubeModal} />
+            )}
         </div>
     );
 };
 
 export default ProjectDetails;
-

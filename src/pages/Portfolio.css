@@ -1116,10 +1116,8 @@ html.dark .project-details-container {
     display: flex;
     flex-direction: column;
     max-width: 1700px;
-    /* Expanded heavily to push the header to the far left of large screens */
     margin: 0 auto;
-    padding: 0.5rem 0.5rem 2rem;
-    /* Reduced top padding to move content up */
+    padding: 0.5rem clamp(0.5rem, 2vw, 2rem) 2rem;
     position: relative;
     z-index: 1;
     min-height: calc(100vh - 4rem);
@@ -1129,58 +1127,22 @@ html.dark .project-details-container {
 .pd-grid-layout {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
-    gap: 3rem;
+    gap: clamp(1.5rem, 3vw, 3rem);
     align-items: start;
     width: 100%;
 }
 
-/* Conditionally align title with video only on desktop */
-@media (min-width: 1025px) {
-    .pd-info-column.pd-has-yt {
-        padding-top: 3.4rem;
-    }
-}
-
-@media (max-width: 1024px) {
-    .pd-grid-layout {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-
-    /* On smaller screens, the video should probably be below the title but above the description.
-       Or just keep it below the whole header. We'll let flex-direction column handle it. */
-    .pd-info-column {
-        padding-top: 0 !important;
-        /* Remove the dynamic padding used for desktop alignment */
-        order: 1;
-    }
-
-    .pd-media-column {
-        order: 2;
-        width: 100%;
-    }
-
-    /* Also reset the YouTube button position on mobile so it doesn't float into space */
-    .pd-media-column>div[style*="position: 'absolute'"] {
-        position: relative !important;
-        top: 0 !important;
-        margin-bottom: 1rem !important;
-    }
-}
-
-/* ─── Back Link ─── */
 /* ─── Back Link ─── */
 .pd-back {
     display: flex;
     align-items: center;
     background-color: white;
-    /* Uiverse white bg */
     width: fit-content;
+    max-width: 100%;
     height: 3.5rem;
     border-radius: 1rem;
     position: relative;
     color: black;
-    /* Uiverse black text */
     font-size: 1.1rem;
     font-weight: 600;
     text-decoration: none;
@@ -1201,7 +1163,6 @@ html.dark .project-details-container {
 
 .pd-back-icon {
     background-color: #4ade80;
-    /* Uiverse bright green */
     border-radius: 0.75rem;
     height: 3rem;
     width: 3rem;
@@ -1213,16 +1174,15 @@ html.dark .project-details-container {
     top: 4px;
     z-index: 10;
     transition: width 0.5s ease;
+    flex-shrink: 0;
 }
 
 .pd-back-icon svg {
     fill: #000000;
-    /* Uiverse dark icon */
 }
 
 .pd-back:hover .pd-back-icon {
     width: calc(100% - 8px);
-    /* Expands the green background */
 }
 
 .pd-back-text {
@@ -1231,15 +1191,13 @@ html.dark .project-details-container {
     margin: 0;
     white-space: nowrap;
     transition: opacity 0.3s ease;
-    /* Add transition for fading out */
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .pd-back:hover .pd-back-text {
     opacity: 0;
-    /* Hide text on hover */
 }
-
-/* Cleared old back button styles */
 
 /* ─── Hero Section (Text Content) ─── */
 .pd-header {
@@ -1273,7 +1231,7 @@ html.dark .project-details-container {
 }
 
 .pd-title {
-    font-size: clamp(2.5rem, 5vw, 5rem);
+    font-size: clamp(1.8rem, 5vw, 5rem);
     font-weight: 800;
     line-height: 1.05;
     letter-spacing: -2px;
@@ -1281,10 +1239,14 @@ html.dark .project-details-container {
     color: #08090d;
     position: relative;
     display: block;
-    width: fit-content;
+    width: 100%;
+    max-width: 100%;
     text-align: left;
     text-transform: uppercase;
     transition: color 0.3s ease;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 html.dark .pd-title {
@@ -1326,6 +1288,9 @@ html.dark .pd-title {
     backdrop-filter: blur(12px);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 html.dark .pd-pill {
@@ -1348,6 +1313,7 @@ html.dark .pd-pill {
     text-transform: uppercase;
     letter-spacing: 0.1em;
     margin-right: 2px;
+    flex-shrink: 0;
 }
 
 .pd-pill-link {
@@ -1356,6 +1322,8 @@ html.dark .pd-pill {
     font-weight: 600;
     transition: color 0.25s;
     text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 html.dark .pd-pill-link {
@@ -1370,7 +1338,6 @@ html.dark .pd-pill-link {
 .pd-client-pill {
     cursor: pointer;
     border-color: rgba(189, 159, 103, 0.25);
-    /* Subtle gold border by default to hint it's interactive */
     padding-right: 0.8rem;
 }
 
@@ -1385,6 +1352,7 @@ html.dark .pd-pill-link {
     height: 15px;
     opacity: 0.5;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
 }
 
 .pd-client-pill:hover {
@@ -1397,7 +1365,6 @@ html.dark .pd-pill-link {
     opacity: 1;
     color: #d4b483;
     transform: translateX(4px) scale(1.1);
-    /* Jumps right and slightly enlarges */
 }
 
 /* ─── Tags ─── */
@@ -1449,13 +1416,13 @@ html.dark .pd-pill-link {
     border-left: 2px solid rgba(189, 159, 103, 0.4);
     position: relative;
     transition: color 0.3s ease;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 html.dark .pd-description {
     color: var(--text-secondary, #8b9bb4);
 }
-
-/* ─── YouTube Button (Removed) ─── */
 
 /* ─── Divider ─── */
 .pd-divider {
@@ -1660,141 +1627,46 @@ html.dark .pd-media-block {
     z-index: 10;
 }
 
-/* ─── Responsive Adjustments ─── */
-@media (max-width: 768px) {
-    .pd-wrapper {
-        padding: 1rem 1rem 3rem;
-    }
-
-    .pd-grid-layout {
-        gap: 2rem;
-    }
-
-    .pd-title {
-        font-size: 2.2rem;
-        letter-spacing: -0.5px;
-        margin-bottom: 1rem;
-    }
-
-    .pd-title::after {
-        width: 100%;
-        height: 2px;
-        margin-top: 0.5rem;
-    }
-
-    .pd-description {
-        font-size: 1rem;
-        line-height: 1.6;
-        padding-left: 1rem;
-    }
-
-    .pd-meta {
-        gap: 0.5rem;
-        margin-bottom: 1rem;
-    }
-
-    .pd-pill {
-        font-size: 0.8rem;
-        padding: 0.4rem 0.8rem;
-    }
-
-    .pd-tags {
-        gap: 0.4rem;
-    }
-
-    .pd-tag {
-        font-size: 0.7rem;
-        padding: 0.25rem 0.6rem;
-    }
-
-    .pd-gallery {
-        gap: 2rem;
-    }
-
-    .pd-media-block {
-        border-radius: 16px;
-    }
-
-    .pd-back {
-        height: 3rem;
-        font-size: 1rem;
-        padding-left: 3.5rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .pd-back-icon {
-        height: 2.5rem;
-        width: 2.5rem;
-    }
+/* ─── YouTube "Watch Full Video" Button ─── */
+.pd-yt-btn-wrapper {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: flex-start;
 }
 
-@media (max-width: 480px) {
-    .pd-wrapper {
-        padding: 0.8rem 0.5rem 2rem;
-    }
-
-    .pd-grid-layout {
-        gap: 1.5rem;
-    }
-
-    .pd-title {
-        font-size: 1.8rem;
-        line-height: 1.1;
-    }
-
-    .pd-meta {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-
-    .pd-pill {
-        width: 100%;
-        justify-content: flex-start;
-    }
-
-    .pd-client-link {
-        width: 100%;
-        justify-content: space-between;
-    }
-
-    .pd-tags {
-        margin-top: 1.5rem !important;
-    }
-
-    .pd-description {
-        font-size: 0.95rem;
-        border-left-width: 1px;
-        padding-left: 0.8rem;
-    }
-
-    .pd-media-block {
-        border-radius: 12px;
-    }
-
-    .pd-yt-btn {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .pd-back {
-        width: 100%;
-        justify-content: center;
-        padding-left: 0;
-        text-align: center;
-    }
-
-    .pd-back-icon {
-        display: none;
-        /* Hide icon on extremely small screens to save space, or just keep it small */
-    }
-
-    .pd-back-text {
-        transform: translateX(0);
-    }
+.pd-yt-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #d21313 0%, #a00d0d 100%);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    font-family: inherit;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(210, 19, 19, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* ─── Watch Full Video Button ─── */
+.pd-yt-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(210, 19, 19, 0.6);
+}
+
+.pd-yt-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(210, 19, 19, 0.3);
+}
+
+/* ─── Watch Full Video Button (External) ─── */
 .pd-external-link-btn {
     display: inline-flex;
     align-items: center;
@@ -1816,8 +1688,7 @@ html.dark .pd-media-block {
     position: relative;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
-    min-width: 280px;
-    /* Keep consistent width so it doesn't jump */
+    max-width: 100%;
 }
 
 .pd-external-link-btn::before {
@@ -1874,7 +1745,6 @@ html.dark .pd-media-block {
     color: #fff;
     text-decoration: none;
     gap: 0;
-    /* collapse gap so icon is centered */
 }
 
 .pd-external-link-btn:hover::before {
@@ -1899,10 +1769,275 @@ html.dark .pd-media-block {
 
 .pd-external-link-btn:hover .pd-external-icon {
     transform: scale(1.3);
-    /* Grow logo slightly when centered */
 }
 
+
+/* ═══════════════════════════════════════════════════════════════
+   YouTube Lightbox Modal
+   ═══════════════════════════════════════════════════════════════ */
+
+.pd-yt-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1rem, 3vw, 3rem);
+    animation: pdModalFadeIn 0.3s ease both;
+}
+
+@keyframes pdModalFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.pd-yt-modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    animation: pdModalScaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes pdModalScaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.92) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.pd-yt-modal-close {
+    position: absolute;
+    top: -48px;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+}
+
+.pd-yt-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: scale(1.1) rotate(90deg);
+}
+
+.pd-yt-modal-iframe-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.pd-yt-modal-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   Responsive — Tablet (≤ 1024px): Stack to single column
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+    .pd-grid-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .pd-info-column {
+        padding-top: 0 !important;
+        order: 1;
+    }
+
+    .pd-media-column {
+        order: 2;
+        width: 100%;
+    }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   Responsive — Small Tablet / Large Mobile (≤ 768px)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+    .pd-wrapper {
+        padding: 1rem 1rem 3rem;
+    }
+
+    .pd-title {
+        letter-spacing: -0.5px;
+        margin-bottom: 1rem;
+    }
+
+    .pd-title::after {
+        height: 2px;
+        margin-top: 0.5rem;
+    }
+
+    .pd-description {
+        font-size: 1rem;
+        line-height: 1.6;
+        padding-left: 1rem;
+    }
+
+    .pd-meta {
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .pd-pill {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .pd-tags {
+        gap: 0.4rem;
+    }
+
+    .pd-tag {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.6rem;
+    }
+
+    .pd-gallery {
+        gap: 2rem;
+    }
+
+    .pd-media-block {
+        border-radius: 16px;
+    }
+
+    .pd-back {
+        height: 3rem;
+        font-size: 1rem;
+        padding-left: 3.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .pd-back-icon {
+        height: 2.5rem;
+        width: 2.5rem;
+    }
+
+    .pd-yt-btn {
+        font-size: 0.88rem;
+        padding: 10px 18px;
+    }
+
+    .pd-yt-modal-close {
+        top: -44px;
+        width: 36px;
+        height: 36px;
+    }
+
+    .pd-yt-modal-iframe-wrapper {
+        border-radius: 12px;
+    }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   Responsive — Mobile (≤ 480px)
+   ═══════════════════════════════════════════════════════════════ */
+
 @media (max-width: 480px) {
+    .pd-wrapper {
+        padding: 0.8rem 0.75rem 2rem;
+    }
+
+    .pd-grid-layout {
+        gap: 1.5rem;
+    }
+
+    .pd-title {
+        line-height: 1.1;
+        letter-spacing: -1px;
+    }
+
+    .pd-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .pd-pill {
+        max-width: 100%;
+    }
+
+    .pd-tags {
+        margin-top: 1.5rem !important;
+    }
+
+    .pd-description {
+        font-size: 0.95rem;
+        border-left-width: 1px;
+        padding-left: 0.8rem;
+    }
+
+    .pd-media-block {
+        border-radius: 12px;
+    }
+
+    .pd-back {
+        height: 2.8rem;
+        font-size: 0.9rem;
+        padding-left: 3rem;
+        padding-right: 1rem;
+        margin-bottom: 1.2rem;
+        border-radius: 0.75rem;
+    }
+
+    .pd-back-icon {
+        height: 2.2rem;
+        width: 2.2rem;
+        border-radius: 0.6rem;
+    }
+
+    .pd-back-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .pd-yt-btn-wrapper {
+        margin-bottom: 1rem;
+    }
+
+    .pd-yt-btn {
+        width: 100%;
+        justify-content: center;
+        font-size: 0.85rem;
+        padding: 10px 16px;
+        border-radius: 14px;
+    }
+
     .pd-external-link-btn {
         width: 100%;
         min-width: unset;
@@ -1910,9 +2045,37 @@ html.dark .pd-media-block {
         font-size: 0.85rem;
         padding: 0.75rem 1.2rem;
     }
+
+    .pd-divider {
+        margin: 2.5rem 0;
+    }
+
+    .pd-gallery {
+        gap: 1.5rem;
+    }
+
+    .pd-yt-modal-close {
+        top: -40px;
+        right: 4px;
+        width: 32px;
+        height: 32px;
+    }
+
+    .pd-yt-modal-close svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .pd-yt-modal-iframe-wrapper {
+        border-radius: 8px;
+    }
 }
 
-/* ─── Client Projects Page Styles ─── */
+
+/* ═══════════════════════════════════════════════════════════════
+   Client Projects Page Styles
+   ═══════════════════════════════════════════════════════════════ */
+
 .client-projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 380px));
@@ -1939,7 +2102,6 @@ html.dark .pd-back {
 
 html.dark .pd-back-icon {
     background-color: #bd9f67;
-    /* Elegant gold icon background in dark mode */
 }
 
 html.dark .pd-back-icon svg {
