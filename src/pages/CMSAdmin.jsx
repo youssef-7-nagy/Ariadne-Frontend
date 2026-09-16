@@ -66,6 +66,13 @@ const isValidEmbed = (input) => {
 // ─── Helpers ────────────────────────────────────────────────────────────────
 const slugify = (str) =>
   str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+const toTitleCase = (str) => {
+  if (!str) return '';
+  return str.replace(/(^|\s)([a-z\u00C0-\u024F])/g, (match, space, char) => {
+    return space + char.toUpperCase();
+  });
+};
 // ─── CATEGORIES CMS ──────────────────────────────────────────────────────────
 
 const CategoriesTab = () => {
@@ -90,8 +97,10 @@ const CategoriesTab = () => {
     setEditingId(null);
   };
 
-  const handleNameChange = (val) =>
-    setForm(f => ({ ...f, name: val, slug: editingId ? f.slug : slugify(val) }));
+  const handleNameChange = (val) => {
+    const formatted = toTitleCase(val);
+    setForm(f => ({ ...f, name: formatted, slug: slugify(formatted) }));
+  };
 
   const handleFileSelect = (file) => {
     setCoverFile(file);
@@ -103,14 +112,12 @@ const CategoriesTab = () => {
     if (!form.name?.trim()) {
       return notify.error('Category Name is required');
     }
-    if (!form.slug?.trim()) {
-      return notify.error('Category Slug is required');
-    }
+    const finalSlug = form.slug || slugify(form.name);
     setLoading(true);
     try {
       const fd = new FormData();
       fd.append('name', form.name);
-      fd.append('slug', form.slug);
+      fd.append('slug', finalSlug);
       fd.append('description', form.description);
       if (coverFile) fd.append('coverImage', coverFile);
 
@@ -166,15 +173,10 @@ const CategoriesTab = () => {
         <h3 className="cms-form-title">{editingId ? '✏️ Edit Category' : '➕ New Category'}</h3>
         <form onSubmit={handleSubmit} noValidate>
           <div className="cms-form-grid">
-            <div className="cms-field">
+            <div className="cms-field" style={{ gridColumn: 'span 2' }}>
               <label>Category Name *</label>
               <input className="form-control" placeholder="e.g. Photography" value={form.name}
                 onChange={e => handleNameChange(e.target.value)} required />
-            </div>
-            <div className="cms-field">
-              <label>Slug *</label>
-              <input className="form-control" placeholder="e.g. photography" value={form.slug}
-                onChange={e => setForm(f => ({ ...f, slug: e.target.value }))} required />
             </div>
             <div className="cms-field" style={{ gridColumn: 'span 2' }}>
               <label>Description</label>
@@ -352,8 +354,10 @@ const ProjectsTab = () => {
     setEditingId(null);
   };
 
-  const handleTitleChange = (val) =>
-    setForm(f => ({ ...f, title: val, slug: editingId ? f.slug : slugify(val) }));
+  const handleTitleChange = (val) => {
+    const formatted = toTitleCase(val);
+    setForm(f => ({ ...f, title: formatted, slug: slugify(formatted) }));
+  };
 
   const handleMediaSelect = (file) => {
     const isVideo = file.type.startsWith('video/');
@@ -470,8 +474,12 @@ const ProjectsTab = () => {
     };
 
     try {
+      const finalForm = {
+        ...form,
+        slug: form.slug || slugify(form.title || '')
+      };
       const fd = new FormData();
-      Object.entries(form).forEach(([k, v]) => fd.append(k, v));
+      Object.entries(finalForm).forEach(([k, v]) => fd.append(k, v));
       fd.append('mediaType', projectMediaLayout);
       if (projectMediaLayout === 'gallery') {
         galleryFiles.forEach(f => fd.append('media', f));
@@ -549,7 +557,7 @@ const ProjectsTab = () => {
   };
 
   const handleReorder = async (index, direction) => {
-    const list = [...filtered];
+    const list = [...filteredProjects];
     if (direction === -1 && index === 0) return;
     if (direction === 1 && index === list.length - 1) return;
     [list[index], list[index + direction]] = [list[index + direction], list[index]];
@@ -563,7 +571,7 @@ const ProjectsTab = () => {
     } catch { notify.error('Reorder failed'); load(); }
   };
 
-  const filtered = projects.filter(p => {
+  const filteredProjects = projects.filter(p => {
     if (filterCat && p.category?._id !== filterCat) return false;
     if (search && !`${p.title} ${p.clientName}`.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
@@ -580,11 +588,6 @@ const ProjectsTab = () => {
               <label>Project Title *</label>
               <input className="form-control" placeholder="e.g. TEDx Event Recap" value={form.title}
                 onChange={e => handleTitleChange(e.target.value)} required />
-            </div>
-            <div className="cms-field">
-              <label>Slug *</label>
-              <input className="form-control" placeholder="e.g. tedx-event-recap" value={form.slug}
-                onChange={e => setForm(f => ({ ...f, slug: e.target.value }))} required />
             </div>
             <div className="cms-field">
               <label>Category *</label>
@@ -644,11 +647,6 @@ const ProjectsTab = () => {
               <label>Date *</label>
               <input type="date" className="form-control" value={form.date}
                 onChange={e => setForm(f => ({ ...f, date: e.target.value }))} required />
-            </div>
-            <div className="cms-field">
-              <label>Tags (comma separated)</label>
-              <input className="form-control" placeholder="e.g. film, event, documentary" value={form.tags}
-                onChange={e => setForm(f => ({ ...f, tags: e.target.value }))} />
             </div>
             <div className="cms-field" style={{ gridColumn: 'span 2' }}>
               <label>Description *</label>
