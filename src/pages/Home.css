@@ -2061,9 +2061,14 @@
     box-shadow: 0 0 40px rgba(189, 159, 103, 0.8), 0 0 80px rgba(189, 159, 103, 0.4);
 }
 
-.card:not(.active-front) {
-    filter: brightness(0.7) saturate(0.8);
-    /* Dim inactive cards slightly, but not full black */
+.card:not(.active-front) .img::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.28);
+    transition: opacity 0.4s ease;
+    z-index: 1;
+    pointer-events: none;
 }
 
 .card:hover {
@@ -2071,7 +2076,10 @@
     z-index: 10;
     border-color: rgba(189, 159, 103, 0.5);
     box-shadow: 0 0 20px rgba(189, 159, 103, 0.3);
-    filter: brightness(0.8) saturate(0.8);
+}
+
+.card:hover .img::before {
+    opacity: 0.5;
 }
 
 .img {
@@ -2079,14 +2087,11 @@
     height: 100%;
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     position: relative;
     transition: transform 0.4s ease;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    transform: translateZ(0);
-    image-rendering: -webkit-optimize-contrast;
-    /* Sharpens scaled images */
-    image-rendering: high-quality;
 }
 
 .card:hover .img {
