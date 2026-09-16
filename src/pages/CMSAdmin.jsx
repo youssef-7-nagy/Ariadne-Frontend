@@ -557,7 +557,7 @@ const ProjectsTab = () => {
   };
 
   const handleReorder = async (index, direction) => {
-    const list = [...filteredProjects];
+    const list = [...filtered];
     if (direction === -1 && index === 0) return;
     if (direction === 1 && index === list.length - 1) return;
     [list[index], list[index + direction]] = [list[index + direction], list[index]];
@@ -571,7 +571,7 @@ const ProjectsTab = () => {
     } catch { notify.error('Reorder failed'); load(); }
   };
 
-  const filteredProjects = projects.filter(p => {
+  const filtered = projects.filter(p => {
     if (filterCat && p.category?._id !== filterCat) return false;
     if (search && !`${p.title} ${p.clientName}`.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
