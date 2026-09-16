@@ -2122,9 +2122,11 @@
     text-align: center;
     z-index: 3;
     opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.4s ease 0.1s;
+    transform: translateY(6px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
     pointer-events: none;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
 .card:hover .card-title-overlay,
