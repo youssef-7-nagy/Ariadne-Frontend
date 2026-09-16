@@ -1117,7 +1117,7 @@ html.dark .project-details-container {
     flex-direction: column;
     max-width: 1700px;
     margin: 0 auto;
-    padding: 0.5rem clamp(0.5rem, 2vw, 2rem) 2rem;
+    padding: 6rem clamp(1rem, 3vw, 2.5rem) 3rem;
     position: relative;
     z-index: 1;
     min-height: calc(100vh - 4rem);
@@ -1146,7 +1146,7 @@ html.dark .project-details-container {
     font-size: 1.1rem;
     font-weight: 600;
     text-decoration: none;
-    margin-top: -1rem;
+    margin-top: 0;
     margin-bottom: 2.5rem;
     border: none;
     cursor: pointer;
@@ -1491,23 +1491,53 @@ html.dark .pd-media-block {
     transform: translateY(-4px);
 }
 
-/* ─── Video Wrapper ─── */
+/* ─── Video Wrapper (16:9 Aspect Ratio) ─── */
 .pd-video-wrapper {
     position: relative;
     width: 100%;
     padding-bottom: 56.25%; /* 16:9 aspect ratio */
     height: 0;
-    background: #000;
+    background: #000000;
     overflow: hidden;
+    border-radius: inherit;
 }
 
-.pd-video-wrapper > div,
-.pd-video-wrapper > a {
+.pd-video-poster-container {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000000;
+}
+
+.pd-video-poster-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pd-video-poster-container:hover .pd-video-poster-img {
+    transform: scale(1.03);
+}
+
+.pd-video-poster-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #18181b 0%, #09090b 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #71717a;
+    font-size: 0.9rem;
+    font-weight: 500;
 }
 
 .pd-video-iframe {
@@ -1530,47 +1560,41 @@ html.dark .pd-media-block {
     display: block;
 }
 
-/* ─── Custom Play Button Overlay (YouTube Style) ─── */
+/* ─── Custom Play Button Overlay (Matches Reference Image) ─── */
 .pd-play-overlay-btn {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 72px;
-    height: 50px;
+    width: 68px;
+    height: 46px;
     border-radius: 14px;
-    background-color: rgba(20, 20, 20, 0.85);
+    background-color: rgba(18, 18, 18, 0.85);
     border: none;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     z-index: 20;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    color: white;
-    backdrop-filter: blur(4px);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #ffffff;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
-.pd-play-overlay-btn:hover,
-.pd-video-link-wrapper:hover .pd-play-overlay-btn,
-.pd-video-wrapper:hover .pd-play-overlay-btn {
-    background-color: #ff0000;
-    transform: translate(-50%, -50%) scale(1.08);
+.pd-video-poster-container:hover .pd-play-overlay-btn,
+.pd-play-overlay-btn:hover {
+    background-color: #e50914;
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 6px 25px rgba(229, 9, 20, 0.6);
 }
 
 .pd-play-overlay-btn svg {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     fill: currentColor;
     margin-left: 3px;
 }
-
-.pd-play-overlay-btn:hover svg,
-.pd-video-link-wrapper:hover .pd-play-overlay-btn svg,
-.pd-video-wrapper:hover .pd-play-overlay-btn svg {
-    transform: none;
-}
-
 
 .pd-video-link-wrapper {
     position: relative;
@@ -1611,59 +1635,67 @@ html.dark .pd-media-block {
 /* ─── Media Type Badge ─── */
 .pd-media-badge {
     position: absolute;
-    top: 16px;
-    right: 16px;
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    font-size: 0.68rem;
+    top: 14px;
+    right: 14px;
+    background: rgba(0, 0, 0, 0.65);
+    color: #ffffff;
+    font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    padding: 0.3rem 0.8rem;
-    border-radius: 100px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
+    padding: 0.3rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
     pointer-events: none;
     z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
-/* ─── YouTube "Watch Full Video" Button ─── */
+/* ─── YouTube "Watch Full Video" Button (Centered Directly Above Video) ─── */
 .pd-yt-btn-wrapper {
     margin-bottom: 1.5rem;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
+    width: 100%;
 }
 
 .pd-yt-btn {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    background: linear-gradient(135deg, #d21313 0%, #a00d0d 100%);
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 30px;
-    font-weight: bold;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #e50914 0%, #b81d24 100%);
+    color: #ffffff;
+    padding: 12px 28px;
+    border-radius: 9999px;
+    font-weight: 700;
     font-size: 0.95rem;
     font-family: inherit;
     text-decoration: none;
     border: none;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(210, 19, 19, 0.4);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 18px rgba(229, 9, 20, 0.45);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     white-space: nowrap;
     max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .pd-yt-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(210, 19, 19, 0.6);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.65);
+    color: #ffffff;
 }
 
 .pd-yt-btn:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 10px rgba(210, 19, 19, 0.3);
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 10px rgba(229, 9, 20, 0.35);
+}
+
+.pd-yt-btn svg {
+    flex-shrink: 0;
 }
 
 /* ─── Watch Full Video Button (External) ─── */
@@ -1889,7 +1921,7 @@ html.dark .pd-media-block {
 
 @media (max-width: 768px) {
     .pd-wrapper {
-        padding: 1rem 1rem 3rem;
+        padding: 5.5rem 1rem 3rem;
     }
 
     .pd-title {
@@ -1970,7 +2002,7 @@ html.dark .pd-media-block {
 
 @media (max-width: 480px) {
     .pd-wrapper {
-        padding: 0.8rem 0.75rem 2rem;
+        padding: 5rem 0.75rem 2rem;
     }
 
     .pd-grid-layout {

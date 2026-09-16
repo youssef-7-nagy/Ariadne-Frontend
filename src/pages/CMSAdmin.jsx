@@ -799,7 +799,7 @@ const ProjectsTab = () => {
                 </div>
               )}
             </div>
-            {projectMediaLayout === 'video' && mediaType === 'video' && (
+            {projectMediaLayout === 'video' && (
               <div className="cms-field" style={{ gridColumn: 'span 1' }}>
                 <label><FiImage style={{ verticalAlign: 'middle', marginRight: 4 }} />Video Thumbnail (Poster Image)</label>
                 <UploadZone

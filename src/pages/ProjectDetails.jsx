@@ -105,15 +105,50 @@ const YouTubeModal = ({ videoId, onClose }) => {
 };
 
 
-const CustomVideoPlayer = ({ src, poster }) => {
+const CustomVideoPlayer = ({ src, poster, fallbackPosters = [] }) => {
     const [isPlaying, setIsPlaying] = React.useState(false);
     const iframeRef = React.useRef(null);
 
     // Use the smart media resolver
-    const resolvedMedia = resolveMedia(src);
+    const resolvedMedia = React.useMemo(() => resolveMedia(src), [src]);
     const finalSrc = resolvedMedia.src;
     const isIframe = resolvedMedia.isIframe;
-    const effectivePoster = poster || resolvedMedia.thumbnail;
+
+    // Collect all candidate thumbnail URLs in priority order
+    const candidatePosters = React.useMemo(() => {
+        const list = [];
+        if (poster) list.push(poster);
+        if (fallbackPosters && fallbackPosters.length > 0) {
+            fallbackPosters.forEach(p => {
+                if (p && !list.includes(p)) list.push(p);
+            });
+        }
+        if (resolvedMedia?.thumbnail && !list.includes(resolvedMedia.thumbnail)) {
+            list.push(resolvedMedia.thumbnail);
+        }
+        if (resolvedMedia?.fallbackThumbnail && !list.includes(resolvedMedia.fallbackThumbnail)) {
+            list.push(resolvedMedia.fallbackThumbnail);
+        }
+        return list;
+    }, [poster, fallbackPosters, resolvedMedia]);
+
+    const [posterIndex, setPosterIndex] = React.useState(0);
+    const [hasAllPostersFailed, setHasAllPostersFailed] = React.useState(false);
+
+    React.useEffect(() => {
+        setPosterIndex(0);
+        setHasAllPostersFailed(candidatePosters.length === 0);
+    }, [candidatePosters]);
+
+    const handlePosterError = () => {
+        if (posterIndex + 1 < candidatePosters.length) {
+            setPosterIndex(prev => prev + 1);
+        } else {
+            setHasAllPostersFailed(true);
+        }
+    };
+
+    const currentPoster = candidatePosters[posterIndex];
 
     const handlePlayClick = (e) => {
         if (e) e.stopPropagation();
@@ -133,21 +168,24 @@ const CustomVideoPlayer = ({ src, poster }) => {
     };
 
     return (
-        <div className="pd-video-wrapper" style={{ position: 'relative' }}>
+        <div className="pd-video-wrapper">
             {!isPlaying ? (
                 <div
+                    className="pd-video-poster-container"
                     onClick={handlePlayClick}
                     onTouchEnd={handlePlayClick}
-                    style={{ cursor: "pointer", position: "relative", width: "100%", height: "100%" }}
                 >
-                    {effectivePoster ? (
-                        <ImageFallback
-                            src={effectivePoster}
-                            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                    {currentPoster && !hasAllPostersFailed ? (
+                        <img
+                            src={currentPoster}
+                            className="pd-video-poster-img"
                             alt="Video thumbnail"
+                            onError={handlePosterError}
                         />
                     ) : (
-                        <div style={{ width: "100%", height: "100%", backgroundColor: "#111", minHeight: "300px" }}></div>
+                        <div className="pd-video-poster-placeholder">
+                            <span className="pd-video-poster-fallback-text">Click to Play</span>
+                        </div>
                     )}
                     <button className="pd-play-overlay-btn" aria-label="Play video" onClick={handlePlayClick}>
                         <svg viewBox="0 0 24 24" fill="currentColor">
@@ -168,7 +206,7 @@ const CustomVideoPlayer = ({ src, poster }) => {
             ) : (
                 <VideoFallback
                     src={finalSrc}
-                    poster={effectivePoster}
+                    poster={currentPoster}
                     controls={true}
                     autoPlay={true}
                     onPlay={() => setIsPlaying(true)}
@@ -235,6 +273,7 @@ const ProjectDetails = () => {
     const renderMainMedia = () => {
         const mainImagePoster = imageMedia ? resolveUrl(imageMedia.url) : undefined;
         const coverPoster = project.coverImage ? resolveUrl(project.coverImage) : undefined;
+        const fallbacks = [mainImagePoster, coverPoster].filter(Boolean);
 
         if (videoMedia) {
             const posterToUse = videoMedia.thumbnailUrl ? resolveUrl(videoMedia.thumbnailUrl) : (mainImagePoster || coverPoster);
@@ -244,6 +283,7 @@ const ProjectDetails = () => {
                     <CustomVideoPlayer
                         src={resolveUrl(videoMedia.url)}
                         poster={posterToUse}
+                        fallbackPosters={fallbacks}
                     />
                 </div>
             );
@@ -256,6 +296,7 @@ const ProjectDetails = () => {
                     <CustomVideoPlayer
                         src={resolveUrl(embedMedia.url)}
                         poster={posterToUse}
+                        fallbackPosters={fallbacks}
                     />
                 </div>
             );
@@ -271,6 +312,7 @@ const ProjectDetails = () => {
                         <CustomVideoPlayer
                             src={project.externalLink}
                             poster={mainImagePoster || coverPoster}
+                            fallbackPosters={fallbacks}
                         />
                     </div>
                 );
