@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
     FaFacebookF,
-    FaTwitter,
     FaInstagram,
     FaPhoneAlt,
     FaEnvelope,
     FaMapMarkerAlt,
     FaShareAlt,
-    FaGithub
+    FaWhatsapp
 } from 'react-icons/fa';
 import './Footer.css';
 import { notify } from '../utils/notify';
@@ -26,7 +25,7 @@ const Footer = () => {
         setNewsletterEmail('');
     };
     return (
-        <footer className="footer">
+        <footer id="footer" className="footer">
             <div className="footer-top">
                 <div className="footer-container">
                     <div className="footer-grid">
@@ -53,16 +52,16 @@ const Footer = () => {
                                         <FaShareAlt />
                                     </div>
                                     <li style={{ '--i': 1 }}>
-                                        <a href="https://facebook.com" className="facebook" target="_blank" rel="noreferrer" aria-label="Facebook"><FaFacebookF /></a>
+                                        <a href="https://wa.me/20128247661" className="whatsapp" target="_blank" rel="noreferrer" aria-label="WhatsApp"><FaWhatsapp /></a>
                                     </li>
                                     <li style={{ '--i': 2 }}>
-                                        <a href="https://instagram.com" className="instagram" target="_blank" rel="noreferrer" aria-label="Instagram"><FaInstagram /></a>
+                                        <a href="https://instagram.com/ariadneprd" className="instagram" target="_blank" rel="noreferrer" aria-label="Instagram"><FaInstagram /></a>
                                     </li>
                                     <li style={{ '--i': 3 }}>
-                                        <a href="https://github.com" className="github" target="_blank" rel="noreferrer" aria-label="GitHub"><FaGithub /></a>
+                                        <a href="mailto:leronardo.hanna@ariadneg.com" className="gmail" target="_blank" rel="noreferrer" aria-label="Gmail"><FaEnvelope /></a>
                                     </li>
                                     <li style={{ '--i': 4 }}>
-                                        <a href="https://twitter.com" className="twitter" target="_blank" rel="noreferrer" aria-label="Twitter"><FaTwitter /></a>
+                                        <a href="https://facebook.com" className="facebook" target="_blank" rel="noreferrer" aria-label="Facebook"><FaFacebookF /></a>
                                     </li>
                                 </ul>
                             </div>

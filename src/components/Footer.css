@@ -264,7 +264,8 @@
     pointer-events: none;
 }
 
-.magic-menu:hover .magic-toggle {
+.magic-menu:hover .magic-toggle,
+.magic-menu.force-open .magic-toggle {
     transform: rotate(360deg);
     background: #49a9ff;
     color: #ffffff;
@@ -282,7 +283,8 @@
     visibility: hidden;
 }
 
-.magic-menu:hover li {
+.magic-menu:hover li,
+.magic-menu.force-open li {
     transform: translateX(calc(60px * var(--i)));
     opacity: 1;
     visibility: visible;
@@ -315,12 +317,12 @@
     color: #e4405f;
 }
 
-.magic-menu li a.github {
-    color: #333333;
+.magic-menu li a.whatsapp {
+    color: #25D366;
 }
 
-.magic-menu li a.twitter {
-    color: #1da1f2;
+.magic-menu li a.gmail {
+    color: #EA4335;
 }
 
 .magic-menu li a.facebook:hover {
@@ -335,16 +337,16 @@
     box-shadow: 0 0 15px #e4405f;
 }
 
-.magic-menu li a.github:hover {
-    background: #333333;
+.magic-menu li a.whatsapp:hover {
+    background: #25D366;
     color: #ffffff;
-    box-shadow: 0 0 15px #333333;
+    box-shadow: 0 0 15px #25D366;
 }
 
-.magic-menu li a.twitter:hover {
-    background: #1da1f2;
+.magic-menu li a.gmail:hover {
+    background: #EA4335;
     color: #ffffff;
-    box-shadow: 0 0 15px #1da1f2;
+    box-shadow: 0 0 15px #EA4335;
 }
 
 /* =========================================
