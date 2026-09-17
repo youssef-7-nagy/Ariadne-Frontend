@@ -704,8 +704,15 @@ const AdminPanel = () => {
       <aside className="admin-sidebar" style={{ justifyContent: 'space-between' }}>
         <div>
           <div className="user-profile-snap">
-            <div className="profile-avatar" style={{ padding: 0, overflow: 'hidden', width: '105px', height: '105px', borderRadius: '50%', margin: '0 auto 15px', border: '4px solid transparent', background: 'linear-gradient(#fff, #fff) padding-box, linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%) border-box', boxShadow: '0 10px 25px rgba(67, 97, 238, 0.25)' }}>
-                <img src={getAvatarUrl(userData?.gender)} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div className="profile-avatar" role="img" aria-label="Profile avatar">
+                <img
+                  src={userData?.avatar || userData?.photo || userData?.profilePicture || getAvatarUrl(userData?.gender)}
+                  alt="Profile"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23eef2ff'/%3E%3Ccircle cx='50' cy='38' r='20' fill='%234361ee'/%3E%3Cpath d='M18 84 c0 -18 14 -30 32 -30 s32 12 32 30' fill='%234361ee'/%3E%3C/svg%3E";
+                  }}
+                />
             </div>
             <h4>{userData?.name || 'Admin'}</h4>
             <span className={`sidebar-role-badge ${userRole === 'superadmin' ? 'superadmin' : (userRole === 'admin' ? 'admin' : 'user')}`}>
