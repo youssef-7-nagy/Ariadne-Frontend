@@ -219,19 +219,13 @@ const Home = () => {
 
                             <img src={imgAboutStory} alt="Ariadne Photographer" className="hero-framed-photo" />
 
-                            <div className="hero-frame-tag">
-                                <span className="tag-dot"></span>
-                                <span>BTS · BEHIND THE LENS</span>
-                            </div>
+
                         </div>
                     </div>
 
                 </div>
 
-                {/* === Vertical side label === */}
-                <div className="hero-side-label">
-                    <span>CAPTURING MOMENTS · CRAFTING MEMORIES</span>
-                </div>
+
 
                 {/* === Scroll indicator === */}
                 <div className="hero-scroll">
