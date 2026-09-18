@@ -21,6 +21,15 @@ const OriginImageGallery = ({
     const touchStartY = useRef(null);
     const containerRef = useRef(null);
 
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
     const total = images.length;
 
     const goTo = useCallback((targetIndex) => {
@@ -115,12 +124,28 @@ const OriginImageGallery = ({
                 </div>
             </div>
 
-            {/* Main Stage */}
-            <div
-                className="origingallery-stage"
-                onTouchStart={handleTouchStart}
-                onTouchEnd={handleTouchEnd}
-            >
+            {isMobile ? (
+                /* Mobile Grid Layout */
+                <div className="origingallery-mobile-grid">
+                    {images.map((img, idx) => (
+                        <div 
+                            key={idx} 
+                            className={`origingallery-mobile-item ${images.length === 1 ? 'single' : ''}`}
+                            onClick={() => openLightbox(idx)}
+                        >
+                            <img src={img} alt={`Gallery item ${idx + 1}`} loading="lazy" />
+                            <div className="origingallery-zoom-hint"><FiMaximize2 /></div>
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <>
+                {/* Main Stage (Desktop Slider) */}
+                <div
+                    className="origingallery-stage"
+                    onTouchStart={handleTouchStart}
+                    onTouchEnd={handleTouchEnd}
+                >
                 {/* Left Card (Previous) */}
                 {total > 1 && (
                     <div
@@ -223,6 +248,8 @@ const OriginImageGallery = ({
                         ))}
                     </div>
                 </div>
+            )}
+            </>
             )}
 
             {/* Lightbox Modal */}
