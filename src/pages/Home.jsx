@@ -59,21 +59,15 @@ const curvedGalleryImages = [
 const Home = () => {
     const [categories, setCategories] = useState([]);
     const [activeIndex, setActiveIndex] = useState(0);
-    const [carouselHeight, setCarouselHeight] = useState(580);
-
-    const touchStartX = React.useRef(null);
-    const touchStartY = React.useRef(null);
+    const [carouselHeight, setCarouselHeight] = useState(600);
 
     const updateCarouselHeight = useCallback(() => {
         const w = window.innerWidth;
-        if (w <= 330) setCarouselHeight(290);
-        else if (w <= 375) setCarouselHeight(320);
-        else if (w <= 430) setCarouselHeight(350);
-        else if (w <= 576) setCarouselHeight(380);
-        else if (w <= 768) setCarouselHeight(440);
-        else if (w <= 992) setCarouselHeight(500);
-        else if (w <= 1200) setCarouselHeight(540);
-        else setCarouselHeight(580);
+        if (w <= 375) setCarouselHeight(320);
+        else if (w <= 480) setCarouselHeight(390);
+        else if (w <= 600) setCarouselHeight(450);
+        else if (w <= 768) setCarouselHeight(520);
+        else setCarouselHeight(600);
     }, []);
 
     useEffect(() => {
@@ -81,31 +75,6 @@ const Home = () => {
         window.addEventListener('resize', updateCarouselHeight);
         return () => window.removeEventListener('resize', updateCarouselHeight);
     }, [updateCarouselHeight]);
-
-    const handleTouchStart = (e) => {
-        touchStartX.current = e.touches[0].clientX;
-        touchStartY.current = e.touches[0].clientY;
-    };
-
-    const handleTouchEnd = (e) => {
-        if (touchStartX.current === null || touchStartY.current === null) return;
-        const touchEndX = e.changedTouches[0].clientX;
-        const touchEndY = e.changedTouches[0].clientY;
-
-        const diffX = touchStartX.current - touchEndX;
-        const diffY = touchStartY.current - touchEndY;
-
-        if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
-            if (diffX > 0) {
-                setActiveIndex(prev => prev + 1);
-            } else {
-                setActiveIndex(prev => prev - 1);
-            }
-        }
-
-        touchStartX.current = null;
-        touchStartY.current = null;
-    };
 
     const getCategoryBg = (category) => {
         return category.coverImage ? resolveUrl(category.coverImage) : LOCAL_IMAGE_MAP[category.slug];
@@ -439,23 +408,17 @@ const Home = () => {
                     <h2 className="section-title">Our Expertise</h2>
                     <p className="section-subtitle">Explore the diverse range of visual storytelling categories we offer.</p>
 
-                    <div
-                        className="wrapper"
-                        style={{ height: `${carouselHeight}px`, marginTop: '20px' }}
-                        onTouchStart={handleTouchStart}
-                        onTouchEnd={handleTouchEnd}
-                    >
+                    <div className="wrapper" style={{ height: `${carouselHeight}px`, marginTop: '20px' }}>
                         <button
                             className="carousel-btn prev-btn"
                             onClick={() => setActiveIndex(prev => prev - 1)}
-                            aria-label="Previous Category"
                         >
                             &#10094;
                         </button>
 
                         <div className="inner" style={{
                             '--quantity': categories.length || 10,
-                            transform: `perspective(var(--perspective, 1400px)) rotateX(var(--rotateX, -15deg)) rotateY(${-(360 / (categories.length || 1)) * activeIndex}deg)`
+                            transform: `perspective(1800px) rotateX(-15deg) rotateY(${-(360 / (categories.length || 1)) * activeIndex}deg)`
                         }}>
                             {categories.length > 0 ? categories.map((category, index) => {
                                 const bgImage = getCategoryBg(category);
@@ -495,34 +458,10 @@ const Home = () => {
                         <button
                             className="carousel-btn next-btn"
                             onClick={() => setActiveIndex(prev => prev + 1)}
-                            aria-label="Next Category"
                         >
                             &#10095;
                         </button>
                     </div>
-
-                    {categories.length > 0 && (
-                        <div className="carousel-indicators" role="tablist" aria-label="Category Navigation">
-                            {categories.map((cat, index) => {
-                                const normalizedActiveIndex = ((activeIndex % categories.length) + categories.length) % categories.length;
-                                const isActive = normalizedActiveIndex === index;
-                                return (
-                                    <button
-                                        key={cat._id || index}
-                                        className={`indicator-dot ${isActive ? 'active' : ''}`}
-                                        onClick={() => {
-                                            let diff = index - normalizedActiveIndex;
-                                            const half = categories.length / 2;
-                                            if (diff > half) diff -= categories.length;
-                                            if (diff < -half) diff += categories.length;
-                                            setActiveIndex(prev => prev + diff);
-                                        }}
-                                        aria-label={`Go to category ${cat.name}`}
-                                    />
-                                );
-                            })}
-                        </div>
-                    )}
                 </div>
             </section>
         </div>

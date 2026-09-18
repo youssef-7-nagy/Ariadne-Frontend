@@ -2210,13 +2210,10 @@
 /* =========================================
    Expanding Categories Gallery Section 
    ========================================= */
-/* =========================================
-   Expanding Categories Gallery Section 
-   ========================================= */
 .categories-section {
     background: var(--bg-primary);
     padding-top: 60px;
-    overflow-x: hidden;
+    /* Shift content up */
 }
 
 /* Custom Styled Title */
@@ -2249,6 +2246,7 @@
     color: var(--text-secondary);
     max-width: 600px;
     margin: 12px auto 60px;
+    /* Increased bottom margin to prevent overlap */
     line-height: 1.6;
 }
 
@@ -2261,27 +2259,24 @@
     align-items: center;
     justify-content: center;
     overflow: visible;
-    touch-action: pan-y;
-    user-select: none;
-    -webkit-user-select: none;
 }
 
 .inner {
     --w: 180px;
     --h: 260px;
     --translateZ: 420px;
-    --rotateX: -15deg;
-    --perspective: 1400px;
-    --active-z-offset: 120px;
-    --active-scale: 1.25;
+    --rotateX: -10deg;
+    --perspective: 1200px;
     position: absolute;
     width: var(--w);
     height: var(--h);
     top: 15%;
+    /* Pushed down from 8% to prevent clipping */
     left: calc(50% - (var(--w) / 2));
     z-index: 2;
     transform-style: preserve-3d;
     transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    /* Smoother, no bounce */
 }
 
 .card {
@@ -2292,6 +2287,7 @@
     inset: 0;
     transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(var(--translateZ));
     transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    /* Smoother, no bounce */
     cursor: pointer;
     background: #111;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -2302,7 +2298,7 @@
 
 .card.active-front {
     border-color: #bd9f67;
-    transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(calc(var(--translateZ) + var(--active-z-offset, 120px))) scale(var(--active-scale, 1.25));
+    transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(calc(var(--translateZ) + 120px)) scale(1.25);
     z-index: 10;
     box-shadow: 0 0 40px rgba(189, 159, 103, 0.8), 0 0 80px rgba(189, 159, 103, 0.4);
 }
@@ -2425,58 +2421,6 @@
     width: 36px;
 }
 
-/* Category Indicators Dots */
-.carousel-indicators {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin: 24px auto 0;
-    z-index: 20;
-    position: relative;
-    padding: 6px 14px;
-    background: rgba(17, 17, 17, 0.4);
-    backdrop-filter: blur(8px);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    width: fit-content;
-    max-width: 90vw;
-    flex-wrap: wrap;
-}
-
-.indicator-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.25);
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-    position: relative;
-}
-
-.indicator-dot::before {
-    content: '';
-    position: absolute;
-    top: -8px;
-    bottom: -8px;
-    left: -4px;
-    right: -4px;
-}
-
-.indicator-dot:hover {
-    background: rgba(189, 159, 103, 0.7);
-    transform: scale(1.2);
-}
-
-.indicator-dot.active {
-    width: 22px;
-    border-radius: 11px;
-    background: linear-gradient(90deg, #1392d6, #bd9f67);
-    box-shadow: 0 0 12px rgba(189, 159, 103, 0.6);
-}
-
 /* --- Mobile Responsive 3D Carousel Card Title Overlays --- */
 @media (max-width: 768px) {
     .card-title-overlay {
@@ -2578,18 +2522,7 @@
     right: 40px;
 }
 
-/* Responsive Adjustments & Breakpoints for 3D Carousel */
-@media (max-width: 1200px) {
-    .inner {
-        --w: 160px;
-        --h: 235px;
-        --translateZ: 360px;
-        --perspective: 1250px;
-        --active-z-offset: 90px;
-        --active-scale: 1.2;
-    }
-}
-
+/* Responsive Adjustments */
 @media (max-width: 992px) {
     .hero-layout {
         flex-direction: column;
@@ -2610,15 +2543,6 @@
     .image-ring {
         max-width: 450px;
         padding: 12px;
-    }
-
-    .inner {
-        --w: 140px;
-        --h: 205px;
-        --translateZ: 300px;
-        --perspective: 1100px;
-        --active-z-offset: 70px;
-        --active-scale: 1.18;
     }
 }
 
@@ -2642,35 +2566,31 @@
     }
 
     .inner {
-        --w: 115px;
-        --h: 168px;
-        --translateZ: 220px;
-        --perspective: 850px;
-        --rotateX: -12deg;
-        --active-z-offset: 45px;
-        --active-scale: 1.15;
+        --w: 130px;
+        --h: 185px;
+        --translateZ: 290px;
     }
 
     .prev-btn {
-        left: calc(50% - 60px) !important;
+        left: calc(50% - 65px) !important;
         right: auto !important;
     }
 
     .next-btn {
-        left: calc(50% + 16px) !important;
+        left: calc(50% + 15px) !important;
         right: auto !important;
     }
 
     .wrapper {
-        margin-bottom: 25px !important;
+        margin-bottom: 35px !important;
     }
 
     .carousel-btn {
         top: auto !important;
         bottom: -25px !important;
         transform: none !important;
-        width: 44px;
-        height: 44px;
+        width: 46px;
+        height: 46px;
         font-size: 1.3rem;
         z-index: 50;
     }
@@ -2681,18 +2601,6 @@
 
     .carousel-btn:active {
         transform: scale(0.95) !important;
-    }
-}
-
-@media (max-width: 576px) {
-    .inner {
-        --w: 100px;
-        --h: 148px;
-        --translateZ: 175px;
-        --perspective: 720px;
-        --rotateX: -10deg;
-        --active-z-offset: 32px;
-        --active-scale: 1.12;
     }
 }
 
@@ -2725,44 +2633,30 @@
         font-size: 1.1rem;
     }
 
+    /* Adjust 3D carousel for small mobile (iPhone 14 = 390px) */
+    .wrapper {
+        height: 390px !important;
+    }
+
     .inner {
-        --w: 92px;
-        --h: 136px;
-        --translateZ: 155px;
-        --perspective: 650px;
-        --rotateX: -8deg;
-        --active-z-offset: 28px;
-        --active-scale: 1.1;
+        --w: 95px;
+        --h: 138px;
+        --translateZ: 200px;
     }
 
     .carousel-btn {
         bottom: -20px !important;
-        width: 40px;
-        height: 40px;
-        font-size: 1.1rem;
+        width: 42px;
+        height: 42px;
+        font-size: 1.2rem;
     }
 
     .prev-btn {
-        left: calc(50% - 50px) !important;
+        left: calc(50% - 55px) !important;
     }
 
     .next-btn {
         left: calc(50% + 10px) !important;
-    }
-
-    .carousel-indicators {
-        margin-top: 28px;
-        gap: 6px;
-        padding: 4px 10px;
-    }
-
-    .indicator-dot {
-        width: 7px;
-        height: 7px;
-    }
-
-    .indicator-dot.active {
-        width: 18px;
     }
 
     .ariadne-brand-card {
@@ -2803,40 +2697,14 @@
         font-size: 1rem;
     }
 
+    .wrapper {
+        height: 320px !important;
+    }
+
     .inner {
         --w: 80px;
-        --h: 118px;
-        --translateZ: 130px;
-        --perspective: 580px;
-        --rotateX: -8deg;
-        --active-z-offset: 22px;
-        --active-scale: 1.08;
-    }
-}
-
-@media (max-width: 330px) {
-    .inner {
-        --w: 72px;
-        --h: 106px;
-        --translateZ: 110px;
-        --perspective: 500px;
-        --rotateX: -6deg;
-        --active-z-offset: 18px;
-        --active-scale: 1.06;
-    }
-
-    .carousel-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 1rem;
-    }
-
-    .prev-btn {
-        left: calc(50% - 44px) !important;
-    }
-
-    .next-btn {
-        left: calc(50% + 8px) !important;
+        --h: 115px;
+        --translateZ: 170px;
     }
 }
 
