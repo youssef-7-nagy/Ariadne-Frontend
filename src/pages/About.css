@@ -673,22 +673,39 @@ html.dark .partner-card {
    Trusted Partners Interactive Grid (White Bg)
    ============================================= */
 .about-partners {
-    padding: 100px 0 120px;
+    padding: 110px 0 130px;
     background: #ffffff;
     position: relative;
     overflow: hidden;
     border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+.about-partners::before {
+    content: '';
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1000px;
+    height: 520px;
+    background: radial-gradient(ellipse, rgba(124, 58, 237, 0.07) 0%, rgba(19, 146, 214, 0.03) 45%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(50px);
+}
+
 .about-partners-inner {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 24px;
+    position: relative;
+    z-index: 1;
 }
 
 .interactive-partners-stage {
     margin-top: 48px;
     width: 100%;
+    position: relative;
 }
 
 @media (max-width: 375px) {

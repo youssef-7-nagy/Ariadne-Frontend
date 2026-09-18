@@ -516,6 +516,26 @@ const AdminPanel = () => {
     }
   };
 
+  const handleDeleteUser = async (id) => {
+    if (!isSuperAdmin) {
+      notify.error("Error - Only a Super Admin can delete users.");
+      return;
+    }
+    if (userData._id === id) {
+      notify.error("Error - You cannot delete yourself.");
+      return;
+    }
+    const confirmed = await notify.confirm("Warning - Are you sure you want to delete this user?");
+    if (!confirmed) return;
+    try {
+      await axios.delete(`${API_URL}/api/auth/users/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+      setUsers((prev) => prev.filter((user) => user._id !== id));
+      notify.success("Success - User deleted.");
+    } catch (err) {
+      notify.error(err?.response?.data?.message || "Error - Failed to delete user.");
+    }
+  };
+
   const handleMenuSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -1135,7 +1155,7 @@ const AdminPanel = () => {
                 ) : (
                   <div style={{overflowX: 'auto'}}>
                     <table className="admin-table">
-                        <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Change Role</th></tr></thead>
+                        <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Change Role</th><th>Action</th></tr></thead>
                         <tbody>
                             {filteredUsers.map(u => (
                                 <tr key={u._id}>
@@ -1155,6 +1175,19 @@ const AdminPanel = () => {
                                       </select>
                                     ) : (
                                       <span style={{ fontSize: '0.8rem', color: '#94a3b8', fontStyle: 'italic' }}>Super Admin Only</span>
+                                    )}
+                                  </td>
+                                  <td>
+                                    {isSuperAdmin && (
+                                      <button
+                                        className="btn-icon delete"
+                                        onClick={() => handleDeleteUser(u._id)}
+                                        title="Delete user"
+                                        aria-label="Delete user"
+                                        disabled={u._id === userData._id}
+                                      >
+                                        <FiTrash2 />
+                                      </button>
                                     )}
                                   </td>
                                 </tr>

@@ -167,9 +167,9 @@ const About = () => {
                             cardBorder="rgba(0, 0, 0, 0.08)"
                             shadow={true}
                             glow={true}
-                            glowStart="rgba(255, 78, 0, 0.25)"
-                            glowEnd="#ff4e00"
-                            glowIntensity={40}
+                            glowStart="rgba(124, 58, 237, 0.25)"
+                            glowEnd="#7c3aed"
+                            glowIntensity={45}
                         />
                     </div>
                 </div>

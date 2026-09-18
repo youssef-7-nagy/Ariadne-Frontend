@@ -408,12 +408,13 @@
     }
 
     .origingallery-card-center {
-        flex: 0 0 76%;
+        flex: 0 0 56%;
     }
 
     .origingallery-card-side {
-        flex: 0 0 10%;
-        opacity: 0.45;
+        flex: 0 0 20%;
+        opacity: 0.65;
+        height: 86%;
     }
 
     .origingallery-nav-btn {
@@ -452,31 +453,32 @@
     }
 
     .origingallery-stage {
-        height: 230px;
-        gap: 6px;
+        height: 200px;
+        gap: 8px;
     }
 
     .origingallery-card-center {
-        flex: 0 0 82%;
+        flex: 0 0 56%;
     }
 
     .origingallery-card-side {
-        flex: 0 0 7%;
-        opacity: 0.35;
+        flex: 0 0 20%;
+        opacity: 0.65;
+        height: 86%;
     }
 
     .origingallery-nav-btn {
-        width: 34px;
-        height: 34px;
+        width: 30px;
+        height: 30px;
         font-size: 1rem;
     }
 
     .origingallery-prev-btn {
-        left: 6px;
+        left: 4px;
     }
 
     .origingallery-next-btn {
-        right: 6px;
+        right: 4px;
     }
 
     .origingallery-counter {
@@ -485,7 +487,7 @@
     }
 
     .origingallery-badge {
-        font-size: 0.7rem;
+        font-size: 0.65rem;
         padding: 4px 10px;
     }
 }
