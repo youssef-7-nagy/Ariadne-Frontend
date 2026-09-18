@@ -172,7 +172,7 @@ export default function MeetTheMinds() {
                                 className={`mtm-row ${isEven ? 'row-left' : 'row-right'}`}
                                 initial="hidden"
                                 whileInView="visible"
-                                viewport={{ once: true, amount: 0.2 }}
+                                viewport={{ once: true, amount: 0.4, margin: "0px 0px -100px 0px" }}
                                 variants={rowVariants}
                             >
                                 {/* Image Box - Enters first */}
