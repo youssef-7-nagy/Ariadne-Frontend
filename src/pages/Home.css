@@ -12,6 +12,17 @@
     --card-bg: #ffffff;
 }
 
+html.dark, .dark {
+    --bg-primary: #04101d;
+    --bg-secondary: #081d35;
+    --text-primary: #f2f7ff;
+    --text-secondary: #a6c0d6;
+    --accent-color: #1bbaeb;
+    --accent-strong: #40c4ff;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --card-bg: #04101d;
+}
+
 .home-container {
     overflow-x: hidden;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
