@@ -5,6 +5,7 @@ import { resolveMedia } from '../utils/mediaResolver';
 import { ImageFallback } from '../components/media/ImageFallback';
 import { VideoFallback } from '../components/media/VideoFallback';
 import CursorNav from '../components/CursorNav';
+import OriginImageGallery from '../components/OriginImageGallery';
 import './Portfolio.css';
 
 import { API_URL } from '../utils/apiUrl';
@@ -452,14 +453,14 @@ const ProjectDetails = () => {
                     {/* Right Column: Featured Media */}
                     <div className="pd-media-column">
                         {project.mediaType === 'gallery' ? (
-                            /* ── Gallery mode: CursorNav ── */
+                            /* ── Gallery mode: Animated OriginImageGallery ── */
                             (() => {
                                 const galleryImages = (project.media || [])
                                     .filter(m => m.type === 'image')
                                     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
                                     .map(m => resolveUrl(m.url));
                                 return galleryImages.length > 0 ? (
-                                    <CursorNav images={galleryImages} imageFit="cover" />
+                                    <OriginImageGallery images={galleryImages} title={project.title} />
                                 ) : (
                                     <div className="pd-media-block" style={{ textAlign: 'center', padding: '4rem 2rem', background: '#0a0a0a', borderRadius: '12px' }}>
                                         <span style={{ color: '#64748b' }}>No gallery images yet.</span>

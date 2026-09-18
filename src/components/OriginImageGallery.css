@@ -1,0 +1,491 @@
+/* ==========================================================================
+   OriginImageGallery — Cinematic Animated Image Gallery (OriginKit inspired)
+   ========================================================================== */
+
+.origingallery-wrapper {
+    position: relative;
+    width: 100%;
+    border-radius: 22px;
+    overflow: hidden;
+    background: #0c0d11;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    padding: 22px 16px 18px;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: border-color 0.3s ease;
+}
+
+.origingallery-wrapper:hover {
+    border-color: rgba(189, 159, 103, 0.3);
+}
+
+/* ─── Header ─── */
+.origingallery-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    padding: 0 8px;
+}
+
+.origingallery-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 5px 14px;
+    border-radius: 30px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #cbd5e1;
+    text-transform: uppercase;
+}
+
+.origingallery-badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #bd9f67;
+    box-shadow: 0 0 8px #bd9f67;
+}
+
+.origingallery-counter {
+    font-family: 'Outfit', 'Inter', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #bd9f67;
+    background: rgba(189, 159, 103, 0.08);
+    border: 1px solid rgba(189, 159, 103, 0.25);
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    letter-spacing: 0.05em;
+}
+
+.origingallery-counter .separator {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.origingallery-counter .total-num {
+    color: #94a3b8;
+}
+
+/* ─── Stage & Cards ─── */
+.origingallery-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    height: 420px;
+    gap: 16px;
+    overflow: hidden;
+    touch-action: pan-y;
+}
+
+.origingallery-card {
+    position: relative;
+    height: 100%;
+    transition: all 0.52s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform, flex-basis, opacity;
+}
+
+.origingallery-card-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    background: #13151b;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.origingallery-card-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+    pointer-events: none;
+}
+
+/* ─── Center Active Card ─── */
+.origingallery-card-center {
+    flex: 0 0 56%;
+    max-width: 640px;
+    z-index: 5;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7);
+}
+
+.origingallery-card-center .origingallery-card-inner {
+    border-color: rgba(189, 159, 103, 0.4);
+    cursor: zoom-in;
+}
+
+.origingallery-card-center:hover .origingallery-card-inner img {
+    transform: scale(1.03);
+}
+
+.origingallery-active-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.45) 0%, transparent 40%);
+    pointer-events: none;
+}
+
+.origingallery-zoom-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 0.25s ease;
+    pointer-events: none;
+    z-index: 4;
+}
+
+.origingallery-card-center:hover .origingallery-zoom-btn {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ─── Flanking Side Cards ─── */
+.origingallery-card-side {
+    flex: 0 0 20%;
+    max-width: 220px;
+    height: 86%;
+    z-index: 2;
+    opacity: 0.65;
+    filter: brightness(0.85);
+    cursor: pointer;
+}
+
+.origingallery-card-side:hover {
+    opacity: 0.92;
+    filter: brightness(1);
+    transform: scale(1.025);
+}
+
+.origingallery-side-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+    transition: opacity 0.3s ease;
+}
+
+.origingallery-card-side:hover .origingallery-side-overlay {
+    opacity: 0;
+}
+
+/* ─── Center Card Navigation Arrows ─── */
+.origingallery-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(12, 14, 20, 0.75);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #fff;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+    outline: none;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+}
+
+.origingallery-nav-btn:hover {
+    background: #bd9f67;
+    color: #0c0d11;
+    border-color: #bd9f67;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 25px rgba(189, 159, 103, 0.6);
+}
+
+.origingallery-nav-btn:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.origingallery-prev-btn {
+    left: 14px;
+}
+
+.origingallery-next-btn {
+    right: 14px;
+}
+
+/* ─── Footer & Dots ─── */
+.origingallery-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 18px;
+}
+
+.origingallery-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+.origingallery-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.22);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    outline: none;
+}
+
+.origingallery-dot:hover {
+    background: rgba(189, 159, 103, 0.7);
+    transform: scale(1.25);
+}
+
+.origingallery-dot.active {
+    width: 24px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #1392d6, #bd9f67);
+    box-shadow: 0 0 10px rgba(189, 159, 103, 0.5);
+}
+
+/* ─── Fullscreen Lightbox Modal ─── */
+.origingallery-lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 5, 8, 0.95);
+    backdrop-filter: blur(12px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeInLightbox 0.25s ease;
+    padding: 20px;
+}
+
+@keyframes fadeInLightbox {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.origingallery-lightbox-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 100;
+}
+
+.origingallery-lightbox-close:hover {
+    background: #bd9f67;
+    color: #000;
+    transform: scale(1.1);
+}
+
+.origingallery-lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #fff;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    z-index: 100;
+}
+
+.origingallery-lightbox-nav:hover {
+    background: #bd9f67;
+    color: #000;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.origingallery-lightbox-prev {
+    left: 24px;
+}
+
+.origingallery-lightbox-next {
+    right: 24px;
+}
+
+.origingallery-lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.origingallery-lightbox-content img {
+    max-width: 100%;
+    max-height: 82vh;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+}
+
+.origingallery-lightbox-info {
+    margin-top: 12px;
+    color: #94a3b8;
+    font-size: 0.9rem;
+    font-family: 'Outfit', 'Inter', monospace;
+    letter-spacing: 0.05em;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Responsive Breakpoints
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+    .origingallery-stage {
+        height: 350px;
+        gap: 12px;
+    }
+
+    .origingallery-card-center {
+        flex: 0 0 64%;
+    }
+
+    .origingallery-card-side {
+        flex: 0 0 16%;
+    }
+}
+
+@media (max-width: 768px) {
+    .origingallery-stage {
+        height: 280px;
+        gap: 10px;
+    }
+
+    .origingallery-card-center {
+        flex: 0 0 76%;
+    }
+
+    .origingallery-card-side {
+        flex: 0 0 10%;
+        opacity: 0.45;
+    }
+
+    .origingallery-nav-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 1.15rem;
+    }
+
+    .origingallery-prev-btn {
+        left: 8px;
+    }
+
+    .origingallery-next-btn {
+        right: 8px;
+    }
+
+    .origingallery-lightbox-nav {
+        width: 42px;
+        height: 42px;
+        font-size: 1.3rem;
+    }
+
+    .origingallery-lightbox-prev {
+        left: 10px;
+    }
+
+    .origingallery-lightbox-next {
+        right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .origingallery-wrapper {
+        padding: 16px 8px 14px;
+        border-radius: 16px;
+    }
+
+    .origingallery-stage {
+        height: 230px;
+        gap: 6px;
+    }
+
+    .origingallery-card-center {
+        flex: 0 0 82%;
+    }
+
+    .origingallery-card-side {
+        flex: 0 0 7%;
+        opacity: 0.35;
+    }
+
+    .origingallery-nav-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+    }
+
+    .origingallery-prev-btn {
+        left: 6px;
+    }
+
+    .origingallery-next-btn {
+        right: 6px;
+    }
+
+    .origingallery-counter {
+        font-size: 0.78rem;
+        padding: 2px 8px;
+    }
+
+    .origingallery-badge {
+        font-size: 0.7rem;
+        padding: 4px 10px;
+    }
+}
