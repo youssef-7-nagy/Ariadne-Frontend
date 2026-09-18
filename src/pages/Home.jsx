@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Home.css';
@@ -61,6 +61,10 @@ const Home = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [carouselHeight, setCarouselHeight] = useState(600);
 
+    const touchStartX = useRef(null);
+    const touchStartY = useRef(null);
+    const isSwiping = useRef(false);
+
     const updateCarouselHeight = useCallback(() => {
         const w = window.innerWidth;
         if (w <= 375) setCarouselHeight(320);
@@ -69,6 +73,40 @@ const Home = () => {
         else if (w <= 768) setCarouselHeight(520);
         else setCarouselHeight(600);
     }, []);
+
+    const handleTouchStart = (e) => {
+        touchStartX.current = e.touches[0].clientX;
+        touchStartY.current = e.touches[0].clientY;
+        isSwiping.current = false;
+    };
+
+    const handleTouchMove = (e) => {
+        if (touchStartX.current === null) return;
+        const diffX = e.touches[0].clientX - touchStartX.current;
+        const diffY = e.touches[0].clientY - touchStartY.current;
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
+            isSwiping.current = true;
+        }
+    };
+
+    const handleTouchEnd = (e) => {
+        if (touchStartX.current === null) return;
+        const diffX = e.changedTouches[0].clientX - touchStartX.current;
+        const diffY = e.changedTouches[0].clientY - touchStartY.current;
+
+        if (Math.abs(diffX) > 30 && Math.abs(diffX) > Math.abs(diffY)) {
+            if (diffX > 0) {
+                setActiveIndex(prev => prev - 1);
+            } else {
+                setActiveIndex(prev => prev + 1);
+            }
+        }
+        touchStartX.current = null;
+        touchStartY.current = null;
+        setTimeout(() => {
+            isSwiping.current = false;
+        }, 80);
+    };
 
     useEffect(() => {
         updateCarouselHeight();
@@ -367,10 +405,17 @@ const Home = () => {
                     <h2 className="section-title">Our Expertise</h2>
                     <p className="section-subtitle">Explore the diverse range of visual storytelling categories we offer.</p>
 
-                    <div className="wrapper" style={{ height: `${carouselHeight}px`, marginTop: '20px' }}>
+                    <div 
+                        className="wrapper" 
+                        style={{ height: `${carouselHeight}px`, marginTop: '20px' }}
+                        onTouchStart={handleTouchStart}
+                        onTouchMove={handleTouchMove}
+                        onTouchEnd={handleTouchEnd}
+                    >
                         <button
                             className="carousel-btn prev-btn"
                             onClick={() => setActiveIndex(prev => prev - 1)}
+                            aria-label="Previous category"
                         >
                             &#10094;
                         </button>
@@ -391,6 +436,10 @@ const Home = () => {
                                         key={category._id}
                                         style={{ '--index': index }}
                                         onClick={(e) => {
+                                            if (isSwiping.current) {
+                                                e.preventDefault();
+                                                return;
+                                            }
                                             if (normalizedActiveIndex !== index) {
                                                 e.preventDefault();
                                                 // Calculate shortest path rotation

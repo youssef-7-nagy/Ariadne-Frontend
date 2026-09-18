@@ -143,26 +143,26 @@ export default function MeetTheMinds() {
                             hidden: {},
                             visible: {
                                 transition: {
-                                    staggerChildren: 0.45
+                                    staggerChildren: 0.15
                                 }
                             }
                         };
 
                         const imgVariants = {
-                            hidden: { opacity: 0, x: isEven ? -60 : 60 },
+                            hidden: { opacity: 0, x: isEven ? -28 : 28 },
                             visible: {
                                 opacity: 1,
                                 x: 0,
-                                transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1] }
+                                transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] }
                             }
                         };
 
                         const contentVariants = {
-                            hidden: { opacity: 0, x: isEven ? 60 : -60 },
+                            hidden: { opacity: 0, x: isEven ? 28 : -28 },
                             visible: {
                                 opacity: 1,
                                 x: 0,
-                                transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1] }
+                                transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] }
                             }
                         };
 
@@ -172,7 +172,7 @@ export default function MeetTheMinds() {
                                 className={`mtm-row ${isEven ? 'row-left' : 'row-right'}`}
                                 initial="hidden"
                                 whileInView="visible"
-                                viewport={{ once: true, amount: 0.4, margin: "0px 0px -100px 0px" }}
+                                viewport={{ once: true, amount: 0.15, margin: "0px 0px -40px 0px" }}
                                 variants={rowVariants}
                             >
                                 {/* Image Box - Enters first */}
@@ -181,7 +181,13 @@ export default function MeetTheMinds() {
                                     variants={imgVariants}
                                 >
                                     <div className="mtm-img-card">
-                                        <img src={member.img} alt={member.name} className="mtm-img" />
+                                        <img 
+                                            src={member.img} 
+                                            alt={member.name} 
+                                            className="mtm-img" 
+                                            loading="lazy"
+                                            decoding="async"
+                                        />
                                         <div className="mtm-viewfinder" />
                                         <span className="mtm-badge" style={{ backgroundColor: member.accentColor }}>
                                             {member.badge}
