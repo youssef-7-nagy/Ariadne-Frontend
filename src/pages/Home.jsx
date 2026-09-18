@@ -319,48 +319,6 @@ const Home = () => {
             </section>
 
 
-            {/* Section 4: Camera Blank Section */}
-            <section className="camera-blank-section section-4">
-                <div className="curved-bg-glows">
-                    <div className="curved-glow-left-amber"></div>
-                    <div className="curved-glow-right-amber"></div>
-                    <div className="curved-rainbow-leak"></div>
-                    <div className="curved-noise-overlay"></div>
-                </div>
-
-                {/* Technical Viewfinder Camera Overlay */}
-                <div className="curved-viewfinder-overlay">
-                    <div className="vf-bracket vf-top-left"></div>
-                    <div className="vf-bracket vf-top-right"></div>
-                    <div className="vf-bracket vf-bottom-left"></div>
-                    <div className="vf-bracket vf-bottom-right"></div>
-                    
-                    <div className="vf-grid-line vf-grid-v1"></div>
-                    <div className="vf-grid-line vf-grid-v2"></div>
-                    <div className="vf-grid-line vf-grid-h1"></div>
-                    <div className="vf-grid-line vf-grid-h2"></div>
-                    
-                    <div className="vf-status vf-status-tl">
-                        <span className="vf-rec-dot"></span>
-                        <span className="vf-status-text">REC</span>
-                    </div>
-                    <div className="vf-status vf-status-tr">
-                        <span className="vf-status-text">TC 09:15:52:14</span>
-                    </div>
-                    <div className="vf-status vf-status-bl">
-                        <span className="vf-status-text">F1.8  |  1/320s  |  ISO 640</span>
-                    </div>
-                    <div className="vf-status vf-status-br">
-                        <span className="vf-status-text">RAW 8K  |  24fps  |  [+]</span>
-                    </div>
-                    <div className="vf-focus-ring"></div>
-                </div>
-
-                <div className="camera-blank-container">
-                    {/* Blank Section 4 */}
-                </div>
-            </section>
-
             {/* Section 5: Expanding Categories Gallery */}
             <section className="home-section categories-section">
                 <div className="container text-center">
