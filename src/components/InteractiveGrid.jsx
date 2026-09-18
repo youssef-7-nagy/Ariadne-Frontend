@@ -215,7 +215,7 @@ export default function InteractiveGrid(props) {
                     margin: "0 auto",
                     userSelect: "none",
                     pointerEvents: "none",
-                    transform: logoSrc.includes('Kamena') ? 'scale(2.0)' : 'none',
+                    transform: logoSrc.includes('Kamena') ? 'scale(1.75)' : 'none',
                   }}
                 />
               )}
