@@ -66,7 +66,7 @@ export const resolveMedia = (rawUrl) => {
         if (videoId) {
             return {
                 type: 'youtube',
-                src: `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&controls=1&enablejsapi=1`,
+                src: `https://www.youtube.com/embed/${videoId}?autoplay=1&playsinline=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&controls=1&enablejsapi=1&cc_load_policy=0`,
                 directUrl: `https://www.youtube.com/watch?v=${videoId}`,
                 isIframe: true,
                 thumbnail: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
