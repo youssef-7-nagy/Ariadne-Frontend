@@ -182,12 +182,12 @@ const Portfolio = () => {
                     </div>
                     <div className="pf-stat-divider" />
                     <div className="pf-stat">
-                        <span className="pf-stat-number">4K</span>
+                        <span className="pf-stat-number">7K</span>
                         <span className="pf-stat-label">Resolution</span>
                     </div>
                     <div className="pf-stat-divider" />
                     <div className="pf-stat">
-                        <span className="pf-stat-number">HDR</span>
+                        <span className="pf-stat-number">RAW</span>
                         <span className="pf-stat-label">Color Grade</span>
                     </div>
                 </div>
