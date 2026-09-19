@@ -1504,7 +1504,7 @@ html.dark .pd-media-block {
 
 .pd-video-portrait {
     padding-bottom: 177.78%; /* 9:16 aspect ratio */
-    max-width: 450px;
+    max-width: 320px;
     margin: 0 auto;
 }
 
