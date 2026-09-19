@@ -54,7 +54,17 @@ const AdminPanel = () => {
   const [packages, setPackages] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [transactionForm, setTransactionForm] = useState({ clientName: '', serviceName: '', amount: '', paymentMethod: 'cash' });
+  const [projects, setProjects] = useState([]);
+  const [transactionForm, setTransactionForm] = useState({ 
+    clientName: '', 
+    categoryId: '', 
+    categoryName: '', 
+    projectId: '', 
+    projectName: '', 
+    serviceName: '', 
+    amount: '', 
+    paymentMethod: 'cash' 
+  });
   const [transactionEditingId, setTransactionEditingId] = useState(null);
   const [isSubmittingTransaction, setIsSubmittingTransaction] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -85,8 +95,10 @@ const AdminPanel = () => {
 
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
+  const [showProjectDropdown, setShowProjectDropdown] = useState(false);
   const clientDropdownRef = useRef(null);
   const categoryDropdownRef = useRef(null);
+  const projectDropdownRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -95,6 +107,9 @@ const AdminPanel = () => {
       }
       if (categoryDropdownRef.current && !categoryDropdownRef.current.contains(event.target)) {
         setShowCategoryDropdown(false);
+      }
+      if (projectDropdownRef.current && !projectDropdownRef.current.contains(event.target)) {
+        setShowProjectDropdown(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -196,24 +211,28 @@ const AdminPanel = () => {
 
     try {
       if (tabName === "overview") {
-        const [usersRes, transactionsRes, categoriesRes] = await Promise.all([
+        const [usersRes, transactionsRes, categoriesRes, projectsRes] = await Promise.all([
           axios.get(`${API_URL}/api/auth/users`, config).catch(() => ({ data: { data: [] }})),
           axios.get(`${API_URL}/transactions`, config).catch(() => ({ data: { data: [] }})),
           axios.get(`${API_URL}/api/admin/categories`, config).catch(() => ({ data: { data: [] }})),
+          axios.get(`${API_URL}/api/admin/projects?limit=500`, config).catch(() => ({ data: { data: [] }})),
         ]);
         setUsers(usersRes.data.data || []);
         setTransactions(transactionsRes.data.data || []);
         setCategories(categoriesRes.data.data || []);
+        setProjects(projectsRes.data.data || []);
       } else if (tabName === "users") {
         const usersRes = await axios.get(`${API_URL}/api/auth/users`, config);
         setUsers(usersRes.data.data || []);
       } else if (tabName === "transactions") {
-        const [transactionsRes, categoriesRes] = await Promise.all([
+        const [transactionsRes, categoriesRes, projectsRes] = await Promise.all([
           axios.get(`${API_URL}/transactions`, config),
           axios.get(`${API_URL}/api/admin/categories`, config),
+          axios.get(`${API_URL}/api/admin/projects?limit=500`, config),
         ]);
         setTransactions(transactionsRes.data.data || []);
         setCategories(categoriesRes.data.data || []);
+        setProjects(projectsRes.data.data || []);
       }
     } catch (error) {
       console.error("Error fetching data", error);
@@ -480,12 +499,14 @@ const AdminPanel = () => {
   };
 
   const downloadTransactionsCSV = () => {
-    const headers = "Transaction ID,Date,Client Name,Service,Amount,Payment Method\n";
+    const headers = "Transaction ID,Date,Client Name,Category,Project,Service,Amount,Payment Method\n";
     const rows = transactions
       .map((t) => [
         t._id,
         new Date(t.date || t.createdAt).toLocaleDateString(),
         t.clientName,
+        t.category?.name || t.categoryName || '',
+        t.project?.title || t.projectName || '',
         t.serviceName,
         t.amount,
         t.paymentMethod
@@ -654,26 +675,54 @@ const AdminPanel = () => {
     }
   };
 
+  const filteredCategoryProjects = useMemo(() => {
+    if (!transactionForm.categoryId) return projects;
+    return projects.filter(p => {
+      const catId = p.category?._id || p.category;
+      return String(catId) === String(transactionForm.categoryId);
+    });
+  }, [projects, transactionForm.categoryId]);
+
   const handleAddTransaction = async (e) => {
     e.preventDefault();
-    if (!transactionForm.clientName || !transactionForm.serviceName || !transactionForm.amount) {
+    if (!transactionForm.clientName || (!transactionForm.serviceName && !transactionForm.projectName) || !transactionForm.amount) {
       notify.error("Error - Please fill all required fields.");
       return;
     }
     setIsSubmittingTransaction(true);
     try {
+      const payload = {
+        clientName: transactionForm.clientName,
+        category: transactionForm.categoryId || null,
+        categoryName: transactionForm.categoryName || '',
+        project: transactionForm.projectId || null,
+        projectName: transactionForm.projectName || '',
+        serviceName: transactionForm.serviceName || transactionForm.projectName || transactionForm.categoryName || 'Service',
+        amount: transactionForm.amount,
+        paymentMethod: transactionForm.paymentMethod || 'cash'
+      };
+
       if (transactionEditingId) {
-        await axios.put(`${API_URL}/transactions/${transactionEditingId}`, transactionForm, {
+        await axios.put(`${API_URL}/transactions/${transactionEditingId}`, payload, {
           headers: { Authorization: `Bearer ${token}` }
         });
         notify.success("Success - Transaction updated successfully.");
       } else {
-        await axios.post(`${API_URL}/transactions`, transactionForm, {
+        await axios.post(`${API_URL}/transactions`, payload, {
           headers: { Authorization: `Bearer ${token}` }
         });
         notify.success("Success - Transaction recorded successfully.");
       }
-      setTransactionForm({ clientName: '', serviceName: '', amount: '', paymentMethod: 'cash' });
+      setTransactionForm({ 
+        clientName: '', 
+        categoryId: '', 
+        categoryName: '', 
+        projectId: '', 
+        projectName: '', 
+        serviceName: '', 
+        amount: '', 
+        paymentMethod: 'cash' 
+      });
       setTransactionEditingId(null);
       fetchData("transactions");
     } catch (err) {
@@ -700,9 +749,17 @@ const AdminPanel = () => {
   };
 
   const handleEditTransactionClick = (t) => {
+    const catId = t.category?._id || t.category || '';
+    const catName = t.category?.name || t.categoryName || '';
+    const projId = t.project?._id || t.project || '';
+    const projName = t.project?.title || t.projectName || '';
     setTransactionForm({
-      clientName: t.clientName,
-      serviceName: t.serviceName,
+      clientName: t.clientName || '',
+      categoryId: catId,
+      categoryName: catName,
+      projectId: projId,
+      projectName: projName,
+      serviceName: t.serviceName || projName || '',
       amount: t.amount,
       paymentMethod: t.paymentMethod || 'cash'
     });
@@ -1548,8 +1605,9 @@ const AdminPanel = () => {
 
               <form className="admin-form" onSubmit={handleAddTransaction} style={{ marginBottom: '30px' }}>
                 <div className="form-group-row">
+                  {/* Client Selector */}
                   <div className="form-group" style={{ position: 'relative' }} ref={clientDropdownRef}>
-                    <label>Client Name</label>
+                    <label>Client Name <span style={{ color: '#ef4444' }}>*</span></label>
                     <input 
                       type="text" 
                       required 
@@ -1559,7 +1617,7 @@ const AdminPanel = () => {
                         setShowUserDropdown(true);
                       }} 
                       onFocus={() => setShowUserDropdown(true)}
-                      placeholder="Search Client Name..." 
+                      placeholder="Search or enter Client Name..." 
                       autoComplete="off"
                     />
                     {showUserDropdown && (
@@ -1584,43 +1642,57 @@ const AdminPanel = () => {
                             </div>
                           ))
                         ) : (
-                          <div className="custom-dropdown-empty">No clients found</div>
+                          <div className="custom-dropdown-empty">No matching registered clients found</div>
                         )}
                       </div>
                     )}
                   </div>
+
+                  {/* 1. Category Selector */}
                   <div className="form-group" style={{ position: 'relative' }} ref={categoryDropdownRef}>
-                    <label>Service Provided</label>
+                    <label>1. Select Category</label>
                     <input 
                       type="text" 
-                      required 
-                      value={transactionForm.serviceName} 
+                      value={transactionForm.categoryName} 
                       onChange={(e) => {
-                        setTransactionForm({ ...transactionForm, serviceName: e.target.value });
+                        setTransactionForm({ 
+                          ...transactionForm, 
+                          categoryName: e.target.value,
+                          categoryId: '',
+                          projectId: '',
+                          projectName: ''
+                        });
                         setShowCategoryDropdown(true);
                       }} 
                       onFocus={() => setShowCategoryDropdown(true)}
-                      placeholder="Search Category..." 
+                      placeholder="Search Category (e.g. Commercials)..." 
                       autoComplete="off"
                     />
                     {showCategoryDropdown && (
                       <div className="custom-dropdown-menu">
-                        {categories.filter(c => c.name.toLowerCase().includes(transactionForm.serviceName.toLowerCase())).length > 0 ? (
-                          categories.filter(c => c.name.toLowerCase().includes(transactionForm.serviceName.toLowerCase())).map(c => (
+                        {categories.filter(c => c.name.toLowerCase().includes((transactionForm.categoryName || '').toLowerCase())).length > 0 ? (
+                          categories.filter(c => c.name.toLowerCase().includes((transactionForm.categoryName || '').toLowerCase())).map(c => (
                             <div 
                               key={c._id} 
                               className="custom-dropdown-item"
                               onClick={() => {
-                                setTransactionForm({ ...transactionForm, serviceName: c.name });
+                                setTransactionForm({ 
+                                  ...transactionForm, 
+                                  categoryId: c._id,
+                                  categoryName: c.name,
+                                  projectId: '',
+                                  projectName: '',
+                                  serviceName: transactionForm.serviceName || c.name
+                                });
                                 setShowCategoryDropdown(false);
                               }}
                             >
-                              <div className="dropdown-avatar" style={{ background: '#10b981' }}>
+                              <div className="dropdown-avatar" style={{ background: '#4361ee' }}>
                                 {c.name.charAt(0).toUpperCase()}
                               </div>
                               <div className="dropdown-info">
                                 <strong>{c.name}</strong>
-                                <span>Portfolio Category</span>
+                                <span>{projects.filter(p => (p.category?._id || p.category) === c._id).length} Project(s) available</span>
                               </div>
                             </div>
                           ))
@@ -1631,13 +1703,88 @@ const AdminPanel = () => {
                     )}
                   </div>
                 </div>
+
+                <div className="form-group-row">
+                  {/* 2. Project Selector (Filtered by chosen Category) */}
+                  <div className="form-group" style={{ position: 'relative' }} ref={projectDropdownRef}>
+                    <label>2. Select Project {transactionForm.categoryName ? `(in ${transactionForm.categoryName})` : ''}</label>
+                    <input 
+                      type="text" 
+                      value={transactionForm.projectName} 
+                      onChange={(e) => {
+                        setTransactionForm({ 
+                          ...transactionForm, 
+                          projectName: e.target.value,
+                          projectId: '',
+                          serviceName: e.target.value
+                        });
+                        setShowProjectDropdown(true);
+                      }} 
+                      onFocus={() => setShowProjectDropdown(true)}
+                      placeholder={transactionForm.categoryId ? "Select Project in this Category..." : "Choose category first or search all projects..."} 
+                      autoComplete="off"
+                    />
+                    {showProjectDropdown && (
+                      <div className="custom-dropdown-menu">
+                        {filteredCategoryProjects.filter(p => p.title.toLowerCase().includes((transactionForm.projectName || '').toLowerCase())).length > 0 ? (
+                          filteredCategoryProjects.filter(p => p.title.toLowerCase().includes((transactionForm.projectName || '').toLowerCase())).map(p => {
+                            const pCatName = p.category?.name || categories.find(c => c._id === (p.category?._id || p.category))?.name || '';
+                            const pCatId = p.category?._id || p.category || '';
+                            return (
+                              <div 
+                                key={p._id} 
+                                className="custom-dropdown-item"
+                                onClick={() => {
+                                  setTransactionForm(prev => ({ 
+                                    ...prev, 
+                                    projectId: p._id,
+                                    projectName: p.title,
+                                    serviceName: p.title,
+                                    categoryId: prev.categoryId || pCatId,
+                                    categoryName: prev.categoryName || pCatName,
+                                    clientName: (!prev.clientName && p.clientName) ? p.clientName : prev.clientName
+                                  }));
+                                  setShowProjectDropdown(false);
+                                }}
+                              >
+                                <div className="dropdown-avatar" style={{ background: '#10b981' }}>
+                                  🎬
+                                </div>
+                                <div className="dropdown-info">
+                                  <strong>{p.title}</strong>
+                                  <span>{pCatName ? `${pCatName} • ` : ''}{p.clientName ? `Client: ${p.clientName}` : 'No client specified'}</span>
+                                </div>
+                              </div>
+                            );
+                          })
+                        ) : (
+                          <div className="custom-dropdown-empty">
+                            {transactionForm.categoryId ? "No projects found in this category" : "No matching projects found"}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 3. Service / Custom Note */}
+                  <div className="form-group">
+                    <label>Service Description / Note</label>
+                    <input 
+                      type="text" 
+                      value={transactionForm.serviceName} 
+                      onChange={(e) => setTransactionForm({ ...transactionForm, serviceName: e.target.value })} 
+                      placeholder="e.g. Video Production, Color Grade..." 
+                    />
+                  </div>
+                </div>
+
                 <div className="form-group-row">
                   <div className="form-group">
-                    <label>Amount (EGP)</label>
-                    <input type="number" required min="0" value={transactionForm.amount} onChange={(e) => setTransactionForm({ ...transactionForm, amount: e.target.value })} placeholder="Amount Paid" />
+                    <label>Amount (EGP) <span style={{ color: '#ef4444' }}>*</span></label>
+                    <input type="number" required min="0" value={transactionForm.amount} onChange={(e) => setTransactionForm({ ...transactionForm, amount: e.target.value })} placeholder="Amount Paid in EGP" />
                   </div>
                   <div className="form-group">
-                    <label>Payment Method</label>
+                    <label>Payment Method <span style={{ color: '#ef4444' }}>*</span></label>
                     <select value={transactionForm.paymentMethod} onChange={(e) => setTransactionForm({ ...transactionForm, paymentMethod: e.target.value })}>
                       <option value="cash">Cash</option>
                       <option value="instapay">InstaPay</option>
@@ -1646,6 +1793,7 @@ const AdminPanel = () => {
                     </select>
                   </div>
                 </div>
+
                 <div className="form-actions-modern" style={{marginTop: '0px'}}>
                   <button type="submit" className="btn-save" disabled={isSubmittingTransaction}>
                     {isSubmittingTransaction ? 'Saving...' : (transactionEditingId ? 'Update Transaction' : 'Record Transaction')}
@@ -1653,7 +1801,16 @@ const AdminPanel = () => {
                   {transactionEditingId && (
                     <button type="button" onClick={() => {
                       setTransactionEditingId(null);
-                      setTransactionForm({ clientName: '', serviceName: '', amount: '', paymentMethod: 'cash' });
+                      setTransactionForm({ 
+                        clientName: '', 
+                        categoryId: '', 
+                        categoryName: '', 
+                        projectId: '', 
+                        projectName: '', 
+                        serviceName: '', 
+                        amount: '', 
+                        paymentMethod: 'cash' 
+                      });
                     }} className="btn-cancel">Cancel</button>
                   )}
                 </div>
@@ -1671,13 +1828,39 @@ const AdminPanel = () => {
               ) : (
                 <div style={{overflowX: 'auto'}}>
                   <table className="admin-table">
-                      <thead><tr><th>Date</th><th>Client Name</th><th>Service</th><th>Amount</th><th>Method</th><th>Actions</th></tr></thead>
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Client Name</th>
+                          <th>Category</th>
+                          <th>Project / Service</th>
+                          <th>Amount</th>
+                          <th>Method</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
                       <tbody>
                           {transactions.map(t => (
                               <tr key={t._id}>
                                 <td>{new Date(t.date || t.createdAt).toLocaleDateString()} {new Date(t.date || t.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
-                                <td>{t.clientName}</td>
-                                <td>{t.serviceName}</td>
+                                <td><strong>{t.clientName}</strong></td>
+                                <td>
+                                  {t.category?.name || t.categoryName ? (
+                                    <span className="badge" style={{ backgroundColor: '#e0e7ff', color: '#3730a3', fontWeight: 600 }}>
+                                      {t.category?.name || t.categoryName}
+                                    </span>
+                                  ) : (
+                                    <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>-</span>
+                                  )}
+                                </td>
+                                <td>
+                                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <strong>{t.project?.title || t.projectName || t.serviceName}</strong>
+                                    {t.serviceName && t.serviceName !== (t.project?.title || t.projectName) && (
+                                      <small style={{ color: '#64748b' }}>{t.serviceName}</small>
+                                    )}
+                                  </div>
+                                </td>
                                 <td><strong>{t.amount} EGP</strong></td>
                                 <td>
                                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>

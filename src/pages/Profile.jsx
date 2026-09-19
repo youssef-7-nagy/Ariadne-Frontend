@@ -239,7 +239,8 @@ const BillingTab = ({ userName }) => {
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>Service Provided</th>
+                                <th>Category</th>
+                                <th>Project / Service</th>
                                 <th>Method</th>
                                 <th>Amount</th>
                                 <th>Status</th>
@@ -254,7 +255,23 @@ const BillingTab = ({ userName }) => {
                                             {new Date(t.date || t.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                         </div>
                                     </td>
-                                    <td><strong>{t.serviceName}</strong></td>
+                                    <td>
+                                        {t.category?.name || t.categoryName ? (
+                                            <span className="pill" style={{ background: '#e0e7ff', color: '#3730a3', fontWeight: 600 }}>
+                                                {t.category?.name || t.categoryName}
+                                            </span>
+                                        ) : (
+                                            <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>-</span>
+                                        )}
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <strong>{t.project?.title || t.projectName || t.serviceName}</strong>
+                                            {t.serviceName && t.serviceName !== (t.project?.title || t.projectName) && (
+                                                <div style={{ fontSize: '0.8rem', color: '#64748b' }}>{t.serviceName}</div>
+                                            )}
+                                        </div>
+                                    </td>
                                     <td>
                                         <span className="pill" style={{ textTransform: 'uppercase', fontSize: '0.75rem' }}>
                                             {t.paymentMethod}
@@ -263,7 +280,7 @@ const BillingTab = ({ userName }) => {
                                     <td className="price-text">{t.amount} EGP</td>
                                     <td>
                                         <span className={`badge ${t.paymentMethod === 'visa' ? 'status-success' : 'status-warning'}`}>
-                                            {t.paymentMethod === 'visa' ? 'PAID' : 'PENDING'}
+                                            {t.paymentMethod === 'visa' ? 'PAID' : 'COMPLETED'}
                                         </span>
                                     </td>
                                 </tr>
