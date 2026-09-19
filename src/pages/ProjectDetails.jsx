@@ -394,7 +394,7 @@ const ProjectDetails = () => {
                     <p className="pd-back-text">Back to {project.category?.name || 'Portfolio'}</p>
                 </Link>
 
-                <div className="pd-grid-layout">
+                <div className={`pd-grid-layout ${!project.isPortrait && project.mediaType !== 'gallery' ? 'pd-grid-landscape' : ''}`}>
                     {/* Left Column: Text Information */}
                     <div className="pd-info-column">
                         {/* Hero Header (Title & Meta) */}

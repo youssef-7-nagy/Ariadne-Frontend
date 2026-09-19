@@ -1132,6 +1132,18 @@ html.dark .project-details-container {
     width: 100%;
 }
 
+.pd-grid-landscape {
+    display: flex;
+    flex-direction: column-reverse;
+}
+.pd-grid-landscape .pd-media-column {
+    width: 100%;
+}
+.pd-grid-landscape .pd-info-column {
+    width: 100%;
+    margin-top: 1rem;
+}
+
 /* ─── Back Link ─── */
 .pd-back {
     display: flex;
