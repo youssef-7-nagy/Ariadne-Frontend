@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-    FaFacebookF,
-    FaInstagram,
     FaPhoneAlt,
     FaEnvelope,
     FaMapMarkerAlt,
     FaShareAlt,
-    FaWhatsapp
+    FaInstagram
 } from 'react-icons/fa';
 import './Footer.css';
 import { notify } from '../utils/notify';
@@ -52,16 +50,10 @@ const Footer = () => {
                                         <FaShareAlt />
                                     </div>
                                     <li style={{ '--i': 1 }}>
-                                        <a href="https://wa.me/20128247661" className="whatsapp" target="_blank" rel="noreferrer" aria-label="WhatsApp"><FaWhatsapp /></a>
-                                    </li>
-                                    <li style={{ '--i': 2 }}>
                                         <a href="https://instagram.com/ariadneprd" className="instagram" target="_blank" rel="noreferrer" aria-label="Instagram"><FaInstagram /></a>
                                     </li>
-                                    <li style={{ '--i': 3 }}>
-                                        <a href="mailto:leronardo.hanna@ariadneg.com" className="gmail" target="_blank" rel="noreferrer" aria-label="Gmail"><FaEnvelope /></a>
-                                    </li>
-                                    <li style={{ '--i': 4 }}>
-                                        <a href="https://facebook.com" className="facebook" target="_blank" rel="noreferrer" aria-label="Facebook"><FaFacebookF /></a>
+                                    <li style={{ '--i': 2 }}>
+                                        <a href="mailto:Leonardo.hanna@ariadneg.com" className="gmail" target="_blank" rel="noreferrer" aria-label="Gmail"><FaEnvelope /></a>
                                     </li>
                                 </ul>
                             </div>
@@ -93,7 +85,7 @@ const Footer = () => {
                                 </li>
                                 <li>
                                     <FaEnvelope className="contact-icon" />
-                                    <span>leonardor.hanna@gmail.com</span>
+                                    <span>Leonardo.hanna@ariadneg.com</span>
                                 </li>
                             </ul>
 
