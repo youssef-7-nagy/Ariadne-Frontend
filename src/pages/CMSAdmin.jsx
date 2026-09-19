@@ -614,32 +614,48 @@ const ProjectsTab = () => {
               />
               {showClientDropdown && (
                 <div className="custom-dropdown-menu" style={{ zIndex: 999 }}>
-                  {users.filter(u =>
-                    u.name.toLowerCase().includes((form.clientName || '').toLowerCase())
-                  ).length > 0 ? (
-                    users
-                      .filter(u => u.name.toLowerCase().includes((form.clientName || '').toLowerCase()))
-                      .map(u => (
-                        <div
-                          key={u._id}
-                          className="custom-dropdown-item"
-                          onMouseDown={e => {
-                            e.preventDefault();
-                            setForm(f => ({ ...f, clientName: u.name }));
-                            setShowClientDropdown(false);
-                          }}
-                        >
-                          <div className="dropdown-avatar">
-                            {u.name.charAt(0).toUpperCase()}
-                          </div>
-                          <div className="dropdown-info">
-                            <strong>{u.name}</strong>
-                            <span>{u.email}</span>
-                          </div>
+                  {users
+                    .filter(u => u.name.toLowerCase().includes((form.clientName || '').toLowerCase()))
+                    .map(u => (
+                      <div
+                        key={u._id}
+                        className="custom-dropdown-item"
+                        onMouseDown={e => {
+                          e.preventDefault();
+                          setForm(f => ({ ...f, clientName: u.name }));
+                          setShowClientDropdown(false);
+                        }}
+                      >
+                        <div className="dropdown-avatar">
+                          {u.name.charAt(0).toUpperCase()}
                         </div>
-                      ))
-                  ) : (
-                    <div className="custom-dropdown-empty">No matching clients found</div>
+                        <div className="dropdown-info">
+                          <strong>{u.name}</strong>
+                          <span>{u.email}</span>
+                        </div>
+                      </div>
+                    ))}
+                  
+                  {form.clientName?.trim() && !users.some(u => u.name.toLowerCase() === form.clientName.trim().toLowerCase()) && (
+                    <div 
+                      className="custom-dropdown-item"
+                      onMouseDown={e => {
+                        e.preventDefault();
+                        setShowClientDropdown(false);
+                      }}
+                    >
+                      <div className="dropdown-avatar" style={{ background: '#333' }}>
+                        +
+                      </div>
+                      <div className="dropdown-info">
+                        <strong>Use "{form.clientName}"</strong>
+                        <span>Custom client (not registered)</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {!form.clientName?.trim() && users.length === 0 && (
+                    <div className="custom-dropdown-empty">Search or type a client name</div>
                   )}
                 </div>
               )}
