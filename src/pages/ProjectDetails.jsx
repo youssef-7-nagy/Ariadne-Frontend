@@ -266,6 +266,15 @@ const ProjectDetails = () => {
     const embedMedia = project.media?.find(m => m.type === 'embed');
     const imageMedia = project.media?.find(m => m.type === 'image');
 
+    const checkIsPortrait = (mediaUrl) => {
+        if (mediaUrl && String(mediaUrl).includes('youtube.com/shorts/')) {
+            return true;
+        }
+        return !!project?.isPortrait;
+    };
+
+    const isPortraitVideo = checkIsPortrait(videoMedia?.url || embedMedia?.url || project.externalLink);
+
     const renderMainMedia = () => {
         const mainImagePoster = imageMedia ? resolveUrl(imageMedia.url) : undefined;
         const coverPoster = project.coverImage ? resolveUrl(project.coverImage) : undefined;
@@ -274,13 +283,13 @@ const ProjectDetails = () => {
         if (videoMedia) {
             const posterToUse = videoMedia.thumbnailUrl ? resolveUrl(videoMedia.thumbnailUrl) : (mainImagePoster || coverPoster);
             return (
-                <div className="pd-media-block">
+                <div className={`pd-media-block ${isPortraitVideo ? 'pd-media-block-portrait' : ''}`}>
                     <span className="pd-media-badge">🎬 Video</span>
                     <CustomVideoPlayer
                         src={resolveUrl(videoMedia.url)}
                         poster={posterToUse}
                         fallbackPosters={fallbacks}
-                        isPortrait={project.isPortrait}
+                        isPortrait={isPortraitVideo}
                     />
                 </div>
             );
@@ -288,13 +297,13 @@ const ProjectDetails = () => {
         if (embedMedia) {
             const posterToUse = embedMedia.thumbnailUrl ? resolveUrl(embedMedia.thumbnailUrl) : (mainImagePoster || coverPoster);
             return (
-                <div className="pd-media-block">
+                <div className={`pd-media-block ${isPortraitVideo ? 'pd-media-block-portrait' : ''}`}>
                     <span className="pd-media-badge">🎬 Video</span>
                     <CustomVideoPlayer
                         src={resolveUrl(embedMedia.url)}
                         poster={posterToUse}
                         fallbackPosters={fallbacks}
-                        isPortrait={project.isPortrait}
+                        isPortrait={isPortraitVideo}
                     />
                 </div>
             );
@@ -305,13 +314,13 @@ const ProjectDetails = () => {
 
             if (isEmbeddableVideo) {
                 return (
-                    <div className="pd-media-block">
+                    <div className={`pd-media-block ${isPortraitVideo ? 'pd-media-block-portrait' : ''}`}>
                         <span className="pd-media-badge">🎬 Video</span>
                         <CustomVideoPlayer
                             src={project.externalLink}
                             poster={mainImagePoster || coverPoster}
                             fallbackPosters={fallbacks}
-                            isPortrait={project.isPortrait}
+                            isPortrait={isPortraitVideo}
                         />
                     </div>
                 );

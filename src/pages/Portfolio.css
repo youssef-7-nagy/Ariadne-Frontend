@@ -1485,6 +1485,12 @@ html.dark .pd-description {
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.pd-media-block-portrait {
+    max-width: 360px;
+    margin: 0 auto;
+    border-radius: 20px;
+}
+
 html.dark .pd-media-block {
     box-shadow:
         0 4px 6px rgba(0, 0, 0, 0.2),
@@ -1516,7 +1522,8 @@ html.dark .pd-media-block {
 
 .pd-video-portrait {
     padding-bottom: 177.78%; /* 9:16 aspect ratio */
-    max-width: 320px;
+    width: 100%;
+    max-width: 100%;
     margin: 0 auto;
 }
 
