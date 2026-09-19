@@ -1766,23 +1766,13 @@ const AdminPanel = () => {
                     )}
                   </div>
 
-                  {/* 3. Service / Custom Note */}
-                  <div className="form-group">
-                    <label>Service Description / Note</label>
-                    <input 
-                      type="text" 
-                      value={transactionForm.serviceName} 
-                      onChange={(e) => setTransactionForm({ ...transactionForm, serviceName: e.target.value })} 
-                      placeholder="e.g. Video Production, Color Grade..." 
-                    />
-                  </div>
-                </div>
-
-                <div className="form-group-row">
                   <div className="form-group">
                     <label>Amount (EGP) <span style={{ color: '#ef4444' }}>*</span></label>
                     <input type="number" required min="0" value={transactionForm.amount} onChange={(e) => setTransactionForm({ ...transactionForm, amount: e.target.value })} placeholder="Amount Paid in EGP" />
                   </div>
+                </div>
+
+                <div className="form-group-row">
                   <div className="form-group">
                     <label>Payment Method <span style={{ color: '#ef4444' }}>*</span></label>
                     <select value={transactionForm.paymentMethod} onChange={(e) => setTransactionForm({ ...transactionForm, paymentMethod: e.target.value })}>
