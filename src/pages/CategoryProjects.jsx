@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import './Portfolio.css';
+import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 
 import { API_URL } from '../utils/apiUrl';
 
@@ -38,10 +39,8 @@ const CategoryProjects = () => {
 
     if (isLoading) {
         return (
-            <div className="portfolio-container">
-                <div className="container text-center py-5">
-                    <h2>Loading Projects...</h2>
-                </div>
+            <div className="portfolio-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
+                <LoadingSpinner />
             </div>
         );
     }

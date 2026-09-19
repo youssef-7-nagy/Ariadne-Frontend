@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Portfolio.css';
+import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 
 /* ─── Fallback category images ─── */
 import imgShortFilms from '../assets/categories/short-films.png';
@@ -193,10 +194,8 @@ const Portfolio = () => {
 
                 {/* Category Grid */}
                 {isLoading ? (
-                    <div className="pf-grid">
-                        {[...Array(10)].map((_, i) => (
-                            <SkeletonCard key={i} index={i} />
-                        ))}
+                    <div className="pf-empty" style={{ minHeight: '50vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <LoadingSpinner />
                     </div>
                 ) : categories.length === 0 ? (
                     <div className="pf-empty">

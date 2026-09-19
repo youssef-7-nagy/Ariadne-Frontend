@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Home.css';
+import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 import imgShortFilms from '../assets/categories/short-films.png';
 import imgDocumentaries from '../assets/categories/documentaries.png';
 import imgCommercials from '../assets/categories/commercials.png';
@@ -368,7 +369,9 @@ const Home = () => {
                                     </Link>
                                 );
                             }) : (
-                                <div style={{ color: '#fff', width: '100%', padding: '2rem' }}>Loading categories...</div>
+                                <div style={{ color: '#fff', width: '100%', padding: '2rem', display: 'flex', justifyContent: 'center' }}>
+                                    <LoadingSpinner />
+                                </div>
                             )}
                         </div>
 

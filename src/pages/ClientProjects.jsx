@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import './Portfolio.css';
+import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 
 import { API_URL } from '../utils/apiUrl';
 
@@ -105,8 +106,8 @@ const ClientProjects = () => {
             <div className="portfolio-container">
                 <div className="pf-ambient pf-ambient-1" />
                 <div className="pf-ambient pf-ambient-2" />
-                <div className="pf-inner text-center" style={{ padding: '8rem 0' }}>
-                    <h2 style={{ color: '#bd9f67', fontWeight: 500, letterSpacing: '0.05em' }}>Loading projects...</h2>
+                <div className="pf-inner text-center" style={{ padding: '8rem 0', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <LoadingSpinner />
                 </div>
             </div>
         );

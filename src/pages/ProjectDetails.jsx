@@ -6,6 +6,7 @@ import { ImageFallback } from '../components/media/ImageFallback';
 import { VideoFallback } from '../components/media/VideoFallback';
 import CursorNav from '../components/CursorNav';
 import OriginImageGallery from '../components/OriginImageGallery';
+import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 import './Portfolio.css';
 
 import { API_URL } from '../utils/apiUrl';
@@ -243,10 +244,8 @@ const ProjectDetails = () => {
 
     if (isLoading) {
         return (
-            <div className="portfolio-container">
-                <div className="container text-center py-5">
-                    <h2>Loading Project...</h2>
-                </div>
+            <div className="portfolio-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '50vh' }}>
+                <LoadingSpinner />
             </div>
         );
     }
