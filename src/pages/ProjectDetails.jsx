@@ -403,93 +403,100 @@ const ProjectDetails = () => {
                     <p className="pd-back-text">Back to {project.category?.name || 'Portfolio'}</p>
                 </Link>
 
-                {/* Hero Header (Title & Meta) ALWAYS AT THE TOP */}
-                <div className="pd-header">
-                    <h1 className="pd-title">{project.title}</h1>
+                <div className="pd-grid-layout">
+                    {/* Left Column: Text Information */}
+                    <div className="pd-info-column">
+                        {/* Hero Header (Title & Meta) */}
+                        <div className="pd-header">
+                            <h1 className="pd-title">{project.title}</h1>
 
-                    {/* Meta pills (Client, Date, Category) */}
-                    <div className="pd-meta">
-                        {project.clientName && (
-                            <span className="pd-pill pd-client-pill">
-                                <span className="pd-pill-label">Client</span>
-                                <Link
-                                    to={`/portfolio/client/${encodeURIComponent(project.clientName)}`}
-                                    className="pd-pill-link pd-client-link"
-                                    title={`View all projects for ${project.clientName}`}
-                                >
-                                    {project.clientName}
-                                    <svg className="pd-client-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                                        <polyline points="12 5 19 12 12 19"></polyline>
-                                    </svg>
-                                </Link>
-                            </span>
-                        )}
-                        {project.date && (
-                            <span className="pd-pill">
-                                <span className="pd-pill-label">Date</span>
-                                {new Date(project.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
-                            </span>
-                        )}
-                        {project.category?.name && (
-                            <span className="pd-pill">
-                                <span className="pd-pill-label">Category</span>
-                                {project.category.name}
-                            </span>
-                        )}
-                    </div>
-                </div>
+                            {/* Meta pills (Client, Date, Category) */}
+                            <div className="pd-meta">
+                                {project.clientName && (
+                                    <span className="pd-pill pd-client-pill">
+                                        <span className="pd-pill-label">Client</span>
+                                        <Link
+                                            to={`/portfolio/client/${encodeURIComponent(project.clientName)}`}
+                                            className="pd-pill-link pd-client-link"
+                                            title={`View all projects for ${project.clientName}`}
+                                        >
+                                            {project.clientName}
+                                            <svg className="pd-client-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                <polyline points="12 5 19 12 12 19"></polyline>
+                                            </svg>
+                                        </Link>
+                                    </span>
+                                )}
+                                {project.date && (
+                                    <span className="pd-pill">
+                                        <span className="pd-pill-label">Date</span>
+                                        {new Date(project.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                                    </span>
+                                )}
+                                {project.category?.name && (
+                                    <span className="pd-pill">
+                                        <span className="pd-pill-label">Category</span>
+                                        {project.category.name}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
 
-                {/* Main Media Section */}
-                <div className={`pd-main-media-wrapper ${isPortraitVideo ? 'pd-main-media-portrait' : 'pd-main-media-landscape'}`}>
-                    {project.mediaType === 'gallery' ? (
-                        /* ── Gallery mode: Animated OriginImageGallery ── */
-                        (() => {
-                            const galleryImages = (project.media || [])
-                                .filter(m => m.type === 'image')
-                                .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-                                .map(m => resolveUrl(m.url));
-                            return galleryImages.length > 0 ? (
-                                <OriginImageGallery images={galleryImages} title={project.title} />
-                            ) : (
-                                <div className="pd-media-block" style={{ textAlign: 'center', padding: '4rem 2rem', background: '#0a0a0a', borderRadius: '12px' }}>
-                                    <span style={{ color: '#64748b' }}>No gallery images yet.</span>
-                                </div>
-                            );
-                        })()
-                    ) : (
-                        /* ── Video/Trailer mode ── */
-                        <>
-                            {externalVideoUrl && (
-                                <div className="pd-yt-btn-wrapper">
-                                    <a
-                                        href={externalVideoUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="pd-yt-btn"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
-                                        </svg>
-                                        Watch the full video on YouTube
-                                    </a>
+                        {/* Project Context (Description & Tags) */}
+                        <div className="pd-context">
+                            <p className="pd-description">{project.description}</p>
+
+                            {/* Tags moved under description */}
+                            {project.tags && project.tags.length > 0 && (
+                                <div className="pd-tags" style={{ marginTop: '2rem' }}>
+                                    {project.tags.map(tag => (
+                                        <span key={tag} className="pd-tag">{tag}</span>
+                                    ))}
                                 </div>
                             )}
-                            {renderMainMedia()}
-                        </>
-                    )}
-                </div>
-
-                {/* Project Context (Description & Tags) below Video */}
-                <div className="pd-context">
-                    <p className="pd-description">{project.description}</p>
-                    {project.tags && project.tags.length > 0 && (
-                        <div className="pd-tags" style={{ marginTop: '2rem' }}>
-                            {project.tags.map(tag => (
-                                <span key={tag} className="pd-tag">{tag}</span>
-                            ))}
                         </div>
-                    )}
+                    </div>
+
+                    {/* Right Column: Featured Media */}
+                    <div className="pd-media-column">
+                        {project.mediaType === 'gallery' ? (
+                            /* ── Gallery mode: Animated OriginImageGallery ── */
+                            (() => {
+                                const galleryImages = (project.media || [])
+                                    .filter(m => m.type === 'image')
+                                    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+                                    .map(m => resolveUrl(m.url));
+                                return galleryImages.length > 0 ? (
+                                    <OriginImageGallery images={galleryImages} title={project.title} />
+                                ) : (
+                                    <div className="pd-media-block" style={{ textAlign: 'center', padding: '4rem 2rem', background: '#0a0a0a', borderRadius: '12px' }}>
+                                        <span style={{ color: '#64748b' }}>No gallery images yet.</span>
+                                    </div>
+                                );
+                            })()
+                        ) : (
+                            /* ── Video/Trailer mode ── */
+                            <>
+                                {externalVideoUrl && (
+                                    <div className="pd-yt-btn-wrapper">
+                                        <a
+                                            href={externalVideoUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="pd-yt-btn"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+                                            </svg>
+                                            Watch the full video on YouTube
+                                        </a>
+                                    </div>
+                                )}
+                                {renderMainMedia()}
+                            </>
+                        )}
+                    </div>
                 </div>
 
                 {/* Remaining Media Gallery */}

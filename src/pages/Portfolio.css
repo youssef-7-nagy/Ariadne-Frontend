@@ -1123,25 +1123,19 @@ html.dark .project-details-container {
     min-height: calc(100vh - 4rem);
 }
 
-/* ─── Grid Layout for Single Screen View ─── */
+/* ─── Grid Layout for 2-Column View (Text on Left, Media on Right) ─── */
 .pd-grid-layout {
     display: grid;
-    grid-template-columns: 1fr 1.5fr;
+    grid-template-columns: 1fr 1.3fr;
     gap: clamp(1.5rem, 3vw, 3rem);
     align-items: start;
     width: 100%;
 }
 
-.pd-grid-landscape {
-    display: flex;
-    flex-direction: column-reverse;
-}
-.pd-grid-landscape .pd-media-column {
-    width: 100%;
-}
-.pd-grid-landscape .pd-info-column {
-    width: 100%;
-    margin-top: 1rem;
+@media (max-width: 992px) {
+    .pd-grid-layout {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* ─── Back Link ─── */
@@ -1514,7 +1508,7 @@ html.dark .pd-description {
 }
 
 .pd-media-block-portrait {
-    max-width: 480px;
+    max-width: 360px;
     margin: 0 auto;
     border-radius: 24px;
 }
