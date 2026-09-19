@@ -266,7 +266,7 @@ const ProjectsTab = () => {
 
   const [form, setForm] = useState({
     title: '', slug: '', categoryId: '', description: '',
-    date: '', clientName: '', tags: '', externalLink: '', youtubeUrl: '', embedUrl: ''
+    date: '', clientName: '', tags: '', externalLink: '', youtubeUrl: '', embedUrl: '', isPortrait: false
   });
   const [projectMediaLayout, setProjectMediaLayout] = useState('video'); // 'video' | 'gallery'
   const [mediaFile, setMediaFile] = useState(null);
@@ -341,7 +341,7 @@ const ProjectsTab = () => {
   useEffect(() => { load(); }, []);
 
   const resetForm = () => {
-    setForm({ title: '', slug: '', categoryId: '', description: '', date: '', clientName: '', tags: '', externalLink: '', youtubeUrl: '', embedUrl: '' });
+    setForm({ title: '', slug: '', categoryId: '', description: '', date: '', clientName: '', tags: '', externalLink: '', youtubeUrl: '', embedUrl: '', isPortrait: false });
     setProjectMediaLayout('video');
     setMediaFile(null);
     setMediaPreview('');
@@ -526,7 +526,8 @@ const ProjectsTab = () => {
       tags: p.tags?.join(', ') || '',
       externalLink: p.externalLink || p.youtubeUrl || '',
       youtubeUrl: p.externalLink || p.youtubeUrl || '',
-      embedUrl: p.media?.[0]?.url?.includes('http') ? p.media[0].url : ''
+      embedUrl: p.media?.[0]?.url?.includes('http') ? p.media[0].url : '',
+      isPortrait: p.isPortrait || false
     });
     const featured = p.media?.[0];
     setMediaFile(null);
@@ -812,6 +813,18 @@ const ProjectsTab = () => {
                         setForm(f => ({ ...f, embedUrl: e.target.value }));
                         if (e.target.value) setMediaType('video');
                       }} />
+                    <div style={{ marginTop: '10px', display: 'flex', alignItems: 'center' }}>
+                      <input 
+                        type="checkbox" 
+                        id="isPortrait" 
+                        checked={form.isPortrait || false} 
+                        onChange={e => setForm(f => ({ ...f, isPortrait: e.target.checked }))} 
+                        style={{ marginRight: '8px', cursor: 'pointer' }} 
+                      />
+                      <label htmlFor="isPortrait" style={{ marginBottom: 0, fontWeight: '500', cursor: 'pointer' }}>
+                        Display as Portrait Video (9:16 aspect ratio)
+                      </label>
+                    </div>
                   </div>
                   {mediaFile && !form.embedUrl && (
                     <div style={{ marginTop: 4, fontSize: '0.78rem', color: '#94a3b8' }}>

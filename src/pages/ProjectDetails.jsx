@@ -106,7 +106,7 @@ const YouTubeModal = ({ videoId, onClose }) => {
 };
 
 
-const CustomVideoPlayer = ({ src, poster, fallbackPosters = [] }) => {
+const CustomVideoPlayer = ({ src, poster, fallbackPosters = [], isPortrait = false }) => {
     const [isPlaying, setIsPlaying] = React.useState(false);
     const iframeRef = React.useRef(null);
 
@@ -169,7 +169,7 @@ const CustomVideoPlayer = ({ src, poster, fallbackPosters = [] }) => {
     };
 
     return (
-        <div className="pd-video-wrapper">
+        <div className={`pd-video-wrapper ${isPortrait ? 'pd-video-portrait' : ''}`}>
             {!isPlaying ? (
                 <div
                     className="pd-video-poster-container"
@@ -280,6 +280,7 @@ const ProjectDetails = () => {
                         src={resolveUrl(videoMedia.url)}
                         poster={posterToUse}
                         fallbackPosters={fallbacks}
+                        isPortrait={project.isPortrait}
                     />
                 </div>
             );
@@ -293,6 +294,7 @@ const ProjectDetails = () => {
                         src={resolveUrl(embedMedia.url)}
                         poster={posterToUse}
                         fallbackPosters={fallbacks}
+                        isPortrait={project.isPortrait}
                     />
                 </div>
             );
@@ -309,6 +311,7 @@ const ProjectDetails = () => {
                             src={project.externalLink}
                             poster={mainImagePoster || coverPoster}
                             fallbackPosters={fallbacks}
+                            isPortrait={project.isPortrait}
                         />
                     </div>
                 );
@@ -500,6 +503,7 @@ const ProjectDetails = () => {
                                             <CustomVideoPlayer
                                                 src={resolveUrl(item.url)}
                                                 poster={item.thumbnailUrl ? resolveUrl(item.thumbnailUrl) : undefined}
+                                                isPortrait={project.isPortrait}
                                             />
                                         </>
                                     ) : (

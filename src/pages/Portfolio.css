@@ -1502,6 +1502,12 @@ html.dark .pd-media-block {
     border-radius: inherit;
 }
 
+.pd-video-portrait {
+    padding-bottom: 177.78%; /* 9:16 aspect ratio */
+    max-width: 450px;
+    margin: 0 auto;
+}
+
 .pd-video-poster-container {
     position: absolute;
     top: 0;
