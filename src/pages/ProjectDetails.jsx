@@ -371,10 +371,6 @@ const ProjectDetails = () => {
             if (ytId) return `https://www.youtube.com/watch?v=${ytId}`;
             return raw;
         }
-        if (embedMedia?.url) {
-            const ytId = extractYoutubeVideoId(embedMedia.url);
-            if (ytId) return `https://www.youtube.com/watch?v=${ytId}`;
-        }
         return null;
     };
 
