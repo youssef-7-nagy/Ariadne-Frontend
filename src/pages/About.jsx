@@ -131,7 +131,7 @@ const About = () => {
                 <div className="about-values-inner">
                     <div className="about-section-header">
                         <h2>What Drives Us</h2>
-                        <p>Six principles that guide every decision we make and every frame we capture.</p>
+                        <p>Six principles that guide every frame we capture.</p>
                     </div>
                     <div className="about-values-grid">
                         {VALUES.map((v, i) => (

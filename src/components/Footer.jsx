@@ -5,13 +5,34 @@ import {
     FaEnvelope,
     FaMapMarkerAlt,
     FaShareAlt,
-    FaInstagram
+    FaInstagram,
+    FaRegCopy,
+    FaCheck
 } from 'react-icons/fa';
 import './Footer.css';
 import { notify } from '../utils/notify';
 
 const Footer = () => {
     const [newsletterEmail, setNewsletterEmail] = useState('');
+    const [copiedField, setCopiedField] = useState(null);
+
+    const handleCopy = (text, fieldName) => {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text);
+        } else {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+        setCopiedField(fieldName);
+        notify.success(`${fieldName === 'phone' ? 'Phone number' : 'Email address'} copied to clipboard!`);
+        setTimeout(() => {
+            setCopiedField(null);
+        }, 2000);
+    };
 
     const handleNewsletterSubmit = () => {
         const email = newsletterEmail.trim();
@@ -79,13 +100,31 @@ const Footer = () => {
                                     <FaMapMarkerAlt className="contact-icon" />
                                     <span>Zamalek, Cairo, Egypt</span>
                                 </li>
-                                <li>
+                                <li className="contact-item-copyable">
                                     <FaPhoneAlt className="contact-icon" />
                                     <span>+20 109 609 6498</span>
+                                    <button
+                                        type="button"
+                                        className={`copy-contact-btn ${copiedField === 'phone' ? 'copied' : ''}`}
+                                        onClick={() => handleCopy('+20 109 609 6498', 'phone')}
+                                        title="Copy phone number"
+                                        aria-label="Copy phone number"
+                                    >
+                                        {copiedField === 'phone' ? <FaCheck /> : <FaRegCopy />}
+                                    </button>
                                 </li>
-                                <li>
+                                <li className="contact-item-copyable">
                                     <FaEnvelope className="contact-icon" />
                                     <span>Leonardo.hanna@ariadneg.com</span>
+                                    <button
+                                        type="button"
+                                        className={`copy-contact-btn ${copiedField === 'email' ? 'copied' : ''}`}
+                                        onClick={() => handleCopy('Leonardo.hanna@ariadneg.com', 'email')}
+                                        title="Copy email address"
+                                        aria-label="Copy email address"
+                                    >
+                                        {copiedField === 'email' ? <FaCheck /> : <FaRegCopy />}
+                                    </button>
                                 </li>
                             </ul>
 
