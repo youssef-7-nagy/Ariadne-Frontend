@@ -61,8 +61,8 @@ const Home = () => {
     const [categories, setCategories] = useState([]);
     const [activeIndex, setActiveIndex] = useState(0);
     const [carouselHeight, setCarouselHeight] = useState(600);
-    const storyVideoRef = useRef(null);
     const storySectionRef = useRef(null);
+    const videoRef = useRef(null);
 
     const updateCarouselHeight = useCallback(() => {
         const w = window.innerWidth;
@@ -106,17 +106,17 @@ const Home = () => {
         fetchCategories();
     }, []);
 
-    // Video optimization: Preload when approaching, play when in view, pause when outside
+    // Background video playback controller: start when arriving to section, pause when leaving
     useEffect(() => {
         const section = storySectionRef.current;
-        const video = storyVideoRef.current;
+        const video = videoRef.current;
         if (!section || !video) return;
 
-        // Ensure iOS/Android policies recognize it as muted for autoplay permission
+        // Force muted properties on DOM node for strict iOS Safari and Android Chrome autoplay permission
         video.muted = true;
         video.defaultMuted = true;
 
-        // 1. Proximity preload observer: loads video buffer ~400px before user arrives
+        // 1. Proximity preload observer: begins loading video data ~350px before scroll arrival
         const preloadObserver = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
@@ -126,7 +126,7 @@ const Home = () => {
                     preloadObserver.disconnect();
                 }
             },
-            { rootMargin: '400px 0px' }
+            { rootMargin: '350px 0px' }
         );
         preloadObserver.observe(section);
 
@@ -136,7 +136,9 @@ const Home = () => {
                 if (entry.isIntersecting) {
                     const playPromise = video.play();
                     if (playPromise !== undefined) {
-                        playPromise.catch(() => {});
+                        playPromise.catch(() => {
+                            // Autoplay was prevented by battery saver or policy, remains ready
+                        });
                     }
                 } else {
                     video.pause();
@@ -151,6 +153,7 @@ const Home = () => {
             playbackObserver.disconnect();
         };
     }, []);
+
 
 
 
@@ -364,25 +367,45 @@ const Home = () => {
                     <div className="curved-center-content">
                         <h2>Create Timeless Photos<br />That Tell Your Story</h2>
                         <p>Professional photography for personal moments, brands, and unforgettable memories.</p>
-                        <Link to="/packages" className="btn-book-session-curved">Book a Session</Link>
+                        <a 
+                            href="#footer" 
+                            className="btn-book-session-curved"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                const footer = document.getElementById('footer');
+                                if (footer) {
+                                    footer.scrollIntoView({ behavior: 'smooth' });
+                                    setTimeout(() => {
+                                        const magicMenu = document.querySelector('.magic-menu');
+                                        if (magicMenu) {
+                                            magicMenu.classList.add('force-open');
+                                            setTimeout(() => magicMenu.classList.remove('force-open'), 3000);
+                                        }
+                                    }, 800);
+                                }
+                            }}
+                        >
+                            Contact Us
+                        </a>
                     </div>
 
-                    {/* Footer features */}
-                    <div className="curved-footer-features">
-                        <div className="curved-feat-col">
-                            <h5>Fast Delivery</h5>
-                            <p>Get your edited gallery in a short time</p>
-                        </div>
-                        <div className="curved-feat-divider"></div>
-                        <div className="curved-feat-col">
-                            <h5>Personal Approach</h5>
-                            <p>Every shoot is tailored to your vision</p>
-                        </div>
-                        <div className="curved-feat-divider"></div>
-                        <div className="curved-feat-col">
-                            <h5>Natural Style</h5>
-                            <p>Authentic photos with emotion and elegance</p>
-                        </div>
+                </div>
+
+                {/* Bottom features bar */}
+                <div className="video-bottom-features">
+                    <div className="curved-feat-col">
+                        <h5>Fast Delivery</h5>
+                        <p>Get your edited gallery in a short time</p>
+                    </div>
+                    <div className="curved-feat-divider"></div>
+                    <div className="curved-feat-col">
+                        <h5>Personal Approach</h5>
+                        <p>Every shoot is tailored to your vision</p>
+                    </div>
+                    <div className="curved-feat-divider"></div>
+                    <div className="curved-feat-col">
+                        <h5>Natural Style</h5>
+                        <p>Authentic photos with emotion and elegance</p>
                     </div>
                 </div>
             </section>
@@ -390,49 +413,74 @@ const Home = () => {
 
             {/* Section 3: Video Showcase Section */}
             <section className="home-white-section" ref={storySectionRef} aria-label="Cinematic Teaser">
-                <video
-                    ref={storyVideoRef}
-                    className="white-section-video-bg"
-                    muted
-                    loop
-                    playsInline
-                    webkit-playsinline="true"
-                    preload="none"
-                    crossOrigin="anonymous"
-                    poster="https://cloudinary-a.akamaihd.net/dqvclzcod/video/upload/so_0,q_auto,f_jpg,w_1280/Basha_E3temed_Teaser_rnogeb.jpg"
-                    disablePictureInPicture
-                    disableRemotePlayback
-                >
-                    {/* Mobile & Tablet (< 768px): 720p HD stream (~2.0 MB vs 82 MB) */}
-                    <source
-                        media="(max-width: 768px)"
-                        src="https://cloudinary-a.akamaihd.net/dqvclzcod/video/upload/q_auto,vc_h264,w_720/Basha_E3temed_Teaser_rnogeb.mp4"
-                        type="video/mp4"
-                    />
-                    <source
-                        media="(max-width: 768px)"
-                        src="https://res-1.cloudinary.com/dqvclzcod/video/upload/q_auto,vc_h264,w_720/Basha_E3temed_Teaser_rnogeb.mp4"
-                        type="video/mp4"
-                    />
+                <div className="home-video-bg-wrapper">
+                    <video
+                        ref={videoRef}
+                        className="home-video-bg-media"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        webkit-playsinline="true"
+                        preload="metadata"
+                        poster="https://res.cloudinary.com/dqvclzcod/video/upload/so_0,f_auto,q_auto,w_1280/Basha_E3temed_Teaser_rnogeb.jpg"
+                        disablePictureInPicture
+                        disableRemotePlayback
+                        aria-hidden="true"
+                    >
+                        {/* Primary modern optimized stream: auto format negotiation + perceptual compression */}
+                        <source
+                            src="https://res.cloudinary.com/dqvclzcod/video/upload/f_auto,q_auto/Basha_E3temed_Teaser_rnogeb.mp4"
+                            type="video/mp4"
+                        />
+                        {/* Universal compatibility fallback */}
+                        <source
+                            src="https://res.cloudinary.com/dqvclzcod/video/upload/q_auto,vc_h264/Basha_E3temed_Teaser_rnogeb.mp4"
+                            type="video/mp4"
+                        />
+                    </video>
+                </div>
 
-                    {/* Desktop & Laptop (>= 769px): 1280p crisp HD stream (~2.7 MB vs 82 MB) */}
-                    <source
-                        media="(min-width: 769px)"
-                        src="https://cloudinary-a.akamaihd.net/dqvclzcod/video/upload/q_auto,vc_h264,w_1280/Basha_E3temed_Teaser_rnogeb.mp4"
-                        type="video/mp4"
-                    />
-                    <source
-                        media="(min-width: 769px)"
-                        src="https://res-1.cloudinary.com/dqvclzcod/video/upload/q_auto,vc_h264,w_1280/Basha_E3temed_Teaser_rnogeb.mp4"
-                        type="video/mp4"
-                    />
-
-                    {/* Universal fallback */}
-                    <source
-                        src="https://cloudinary-a.akamaihd.net/dqvclzcod/video/upload/q_auto,vc_h264,w_1280/Basha_E3temed_Teaser_rnogeb.mp4"
-                        type="video/mp4"
-                    />
-                </video>
+                {/* Bottom features bar */}
+                <div className="video-bottom-features">
+                    <div className="curved-feat-col">
+                        <h5>Fast Delivery</h5>
+                        <p>Get your edited gallery in a short time</p>
+                    </div>
+                    <div className="curved-feat-divider"></div>
+                    <div className="curved-feat-col" style={{ position: 'relative' }}>
+                        {/* Center Video CTA */}
+                        <div className="video-center-cta">
+                            <a 
+                                href="#footer" 
+                                className="btn-book-session-curved"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    const footer = document.getElementById('footer');
+                                    if (footer) {
+                                        footer.scrollIntoView({ behavior: 'smooth' });
+                                        setTimeout(() => {
+                                            const magicMenu = document.querySelector('.magic-menu');
+                                            if (magicMenu) {
+                                                magicMenu.classList.add('force-open');
+                                                setTimeout(() => magicMenu.classList.remove('force-open'), 3000);
+                                            }
+                                        }, 800);
+                                    }
+                                }}
+                            >
+                                Contact Us
+                            </a>
+                        </div>
+                        <h5>Personal Approach</h5>
+                        <p>Every shoot is tailored to your vision</p>
+                    </div>
+                    <div className="curved-feat-divider"></div>
+                    <div className="curved-feat-col">
+                        <h5>Natural Style</h5>
+                        <p>Authentic photos with emotion and elegance</p>
+                    </div>
+                </div>
             </section>
 
 

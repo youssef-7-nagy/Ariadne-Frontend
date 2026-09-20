@@ -2864,6 +2864,7 @@ html.dark, .dark {
     font-size: 0.88rem;
     font-weight: 600;
     letter-spacing: 0.08em;
+    white-space: nowrap;
     transition: all 0.3s ease;
     background: transparent;
     backdrop-filter: blur(5px);
@@ -3184,54 +3185,172 @@ html.dark, .dark {
 }
 
 /* ==========================================================================
-   VIDEO SHOWCASE SECTION (RESPONSIVE & CINEMATIC)
+   VIDEO SHOWCASE SECTION (RESPONSIVE & CINEMATIC BACKGROUND)
    ========================================================================== */
 .home-white-section {
     position: relative;
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);
-    height: 70vh;
-    min-height: 450px;
-    max-height: 750px;
+    height: 85vh;
+    height: 85svh;
+    height: 85dvh;
+    min-height: 560px;
+    max-height: 920px;
     background-color: #000000;
     overflow: hidden;
-    pointer-events: none;
+    box-sizing: border-box;
 }
 
-/* Tablet (iPad, landscape tablets) */
+/* Tablet (iPad, landscape tablets, iPad Pro) */
 @media (max-width: 1024px) {
     .home-white-section {
-        height: 55vh;
-        min-height: 360px;
-        max-height: 540px;
+        height: 72vh;
+        height: 72svh;
+        height: 72dvh;
+        min-height: 480px;
+        max-height: 760px;
     }
 }
 
 /* Mobile Devices (iPhone, Android) */
-@media (max-width: 768px) {
+@media (max-width: 640px) {
     .home-white-section {
-        height: 45vh;
-        min-height: 250px;
-        max-height: 400px;
+        height: 70vh;
+        height: 70svh;
+        height: 70dvh;
+        min-height: 440px;
+        max-height: 640px;
     }
 }
 
-@media (max-width: 480px) {
+/* Mobile Landscape (short height, wide aspect ratio) */
+@media (orientation: landscape) and (max-height: 520px) {
     .home-white-section {
-        height: 38vh;
-        min-height: 210px;
-        max-height: 320px;
+        height: 100vh;
+        height: 100svh;
+        height: 100dvh;
+        min-height: 320px;
+        max-height: 520px;
+    }
+    
+    .video-bottom-features {
+        padding: 20px 20px 16px !important;
+        gap: clamp(10px, 3vw, 30px) !important;
+    }
+    
+    .video-center-cta {
+        margin-bottom: 8px !important;
     }
 }
 
-.white-section-video-bg {
+/* Native Background Video Wrapper */
+.home-video-bg-wrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Native Cloudinary Video with responsive object-position & cover */
+.home-video-bg-media {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center 38%;
     display: block;
+    background-color: #000000;
     pointer-events: none;
     user-select: none;
     -webkit-user-select: none;
-    background-color: #000000;
+}
+
+@media (min-width: 1025px) {
+    .home-video-bg-media {
+        object-position: center center;
+    }
+}
+
+/* Bottom features bar overlay in video section */
+.video-bottom-features {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: clamp(8px, 3vw, 55px);
+    padding: clamp(35px, 5vw, 55px) clamp(10px, 2.5vw, 40px) clamp(18px, 3vw, 36px);
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.94) 0%,
+        rgba(0, 0, 0, 0.72) 45%,
+        rgba(0, 0, 0, 0.3) 78%,
+        transparent 100%
+    );
+    z-index: 10;
+    pointer-events: auto;
+    box-sizing: border-box;
+}
+
+.video-bottom-features .curved-feat-col {
+    text-align: center;
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 290px;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.video-bottom-features .curved-feat-col h5 {
+    font-size: clamp(0.72rem, 1.5vw + 0.25rem, 0.98rem);
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: clamp(4px, 0.8vw, 8px);
+    letter-spacing: 0.015em;
+    line-height: 1.25;
+    white-space: normal;
+}
+
+.video-bottom-features .curved-feat-col p {
+    font-size: clamp(0.62rem, 1.1vw + 0.25rem, 0.8rem);
+    color: #a1a1aa;
+    line-height: 1.35;
+    margin: 0;
+}
+
+.video-bottom-features .curved-feat-divider {
+    width: 1px;
+    height: clamp(22px, 3.5vw, 40px);
+    background: rgba(255, 255, 255, 0.18);
+    flex-shrink: 0;
+    margin-bottom: clamp(4px, 0.8vw, 10px);
+    display: block;
+}
+
+/* Center CTA in video section (anchored above "Personal Approach") */
+.video-center-cta {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: clamp(10px, 1.8vw, 16px);
+    z-index: 11;
+    pointer-events: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.video-center-cta .btn-book-session-curved {
+    padding: clamp(9px, 1.8vw, 14px) clamp(18px, 3.5vw, 36px);
+    font-size: clamp(0.75rem, 1.5vw, 0.88rem);
+    letter-spacing: 0.06em;
 }
