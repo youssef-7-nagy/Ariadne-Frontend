@@ -44,7 +44,7 @@ const AdminPanel = () => {
   
   // --- STATE ---
   const [activeTab, setActiveTab] = useState('overview'); 
-  const [selectedMetric, setSelectedMetric] = useState('orders'); 
+  const [selectedMetric, setSelectedMetric] = useState('users'); 
 
   // --- DATA ---
   const [users, setUsers] = useState([]);
