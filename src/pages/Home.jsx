@@ -365,7 +365,7 @@ const Home = () => {
             </section>
 
 
-            {/* Section 3: White Background Feature Section */}
+            {/* Section 3: Video Showcase Section */}
             <section className="home-white-section" ref={storySectionRef}>
                 <video
                     ref={storyVideoRef}
@@ -379,27 +379,6 @@ const Home = () => {
                     <source src="https://res.cloudinary.com/dqvclzcod/video/upload/Basha_E3temed_Teaser_rnogeb.mp4" type="video/mp4" />
                     <source src="https://cloudinary-a.akamaihd.net/dqvclzcod/video/upload/Basha_E3temed_Teaser_rnogeb.mp4" type="video/mp4" />
                 </video>
-                <div className="white-section-overlay"></div>
-                <div className="white-section-container">
-                    <h2 className="white-section-title">The Art of Storytelling</h2>
-                    <p className="white-section-subtitle">
-                        We blend creative vision with technical precision to deliver stunning visual narratives. Experience the world through our lens, where every detail matters and every frame speaks volumes.
-                    </p>
-                    <div className="white-section-grid">
-                        <div className="white-feature-card">
-                            <h3 className="white-feature-title">Creative Direction</h3>
-                            <p className="white-feature-text">Guiding projects from concept to breathtaking execution.</p>
-                        </div>
-                        <div className="white-feature-card">
-                            <h3 className="white-feature-title">Masterful Editing</h3>
-                            <p className="white-feature-text">Refining raw captures into cinematic masterpieces.</p>
-                        </div>
-                        <div className="white-feature-card">
-                            <h3 className="white-feature-title">Exceptional Quality</h3>
-                            <p className="white-feature-text">Uncompromising standards in high-resolution visual art.</p>
-                        </div>
-                    </div>
-                </div>
             </section>
 
 
