@@ -67,8 +67,8 @@ const Footer = () => {
                             {/* --- HOVER MAGIC SOCIAL MENU --- */}
                             <div className="magic-social-wrapper">
                                 <ul className="magic-menu">
-                                    <div className="magic-toggle">
-                                        <FaShareAlt />
+                                    <div className="magic-toggle" aria-label="Contact Links">
+                                        <FaPhoneAlt />
                                     </div>
                                     <li style={{ '--i': 1 }}>
                                         <a href="https://instagram.com/ariadneprd" className="instagram" target="_blank" rel="noreferrer" aria-label="Instagram"><FaInstagram /></a>
