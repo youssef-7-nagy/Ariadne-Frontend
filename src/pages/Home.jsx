@@ -254,24 +254,6 @@ const Home = () => {
                                 Contact Us
                             </a>
                         </div>
-
-                        {/* Stats */}
-                        <div className="hero-stats-row">
-                            <div className="hero-stat">
-                                <span className="hero-stat-num">500<sup>+</sup></span>
-                                <span className="hero-stat-label">Sessions</span>
-                            </div>
-                            <div className="hero-stat-sep"></div>
-                            <div className="hero-stat">
-                                <span className="hero-stat-num">8</span>
-                                <span className="hero-stat-label">Years</span>
-                            </div>
-                            <div className="hero-stat-sep"></div>
-                            <div className="hero-stat">
-                                <span className="hero-stat-num">100<sup>%</sup></span>
-                                <span className="hero-stat-label">Satisfaction</span>
-                            </div>
-                        </div>
                     </div>
 
                     {/* === RIGHT: Framed Photo Showcase === */}
