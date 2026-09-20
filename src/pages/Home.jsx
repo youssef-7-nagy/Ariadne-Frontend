@@ -20,6 +20,8 @@ import imgHome6342 from '../assets/home/IMG_6342.jpg';
 import imgHome301 from '../assets/home/section301.jpg';
 import imgHome302 from '../assets/home/section302.jpg';
 import imgHome303 from '../assets/home/section303.jpg';
+import imgCinema from '../assets/home/cenima.jpg';
+import videoCDW from '../assets/home/CDW Teaser 4K (YouTube).mp4';
 
 
 const LOCAL_IMAGE_MAP = {
@@ -138,7 +140,7 @@ const Home = () => {
                         <span className="hero-hud-gem">◆</span>
                         <span>EST. 2026</span>
                     </div>
-                    <div className="hero-hud-r">F/1.8 · 85mm · ISO 400</div>
+                    <div className="hero-hud-r"></div>
                 </div>
 
                 {/* === MAIN CONTAINER: Split Grid === */}
@@ -252,14 +254,20 @@ const Home = () => {
             </section>
 
 
-            {/* Section 2: Curved Gallery Showcase */}
+            {/* Section 2: Video Showcase Section */}
             <section className="curved-gallery-section">
-                <div className="curved-bg-glows">
-                    <div className="curved-glow-left-amber"></div>
-                    <div className="curved-glow-right-amber"></div>
-                    <div className="curved-rainbow-leak"></div>
-                    <div className="curved-noise-overlay"></div>
-                </div>
+                {/* Background Video */}
+                <video
+                    className="curved-bg-video"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    poster={imgCinema}
+                >
+                    <source src={videoCDW} type="video/mp4" />
+                </video>
+                <div className="curved-video-overlay"></div>
 
                 {/* Technical Viewfinder Camera Overlay */}
                 <div className="curved-viewfinder-overlay">
@@ -281,43 +289,15 @@ const Home = () => {
                         <span className="vf-status-text">TC 09:12:45:22</span>
                     </div>
                     <div className="vf-status vf-status-bl">
-                        <span className="vf-status-text">F2.8  |  1/250s  |  ISO 400</span>
                     </div>
                     <div className="vf-status vf-status-br">
-                        <span className="vf-status-text">RAW 8K  |  24fps  |  [+]</span>
                     </div>
                     <div className="vf-focus-ring"></div>
                 </div>
 
                 <div className="curved-gallery-container">
-                    {/* The arch of curved photos */}
-                    <div className="curved-arch-photos">
-                        {curvedGalleryImages.map((img, idx) => (
-                            <div 
-                                key={idx} 
-                                className={`arch-photo-card arch-card-${idx}`}
-                                style={{
-                                    left: img.left,
-                                    top: img.top,
-                                    transform: `rotate(${img.rotate}deg)`,
-                                }}
-                            >
-                                <img 
-                                    src={img.src} 
-                                    alt={`Showcase visual ${idx + 1}`} 
-                                    loading="lazy"
-                                    decoding="async"
-                                />
-                            </div>
-                        ))}
-                    </div>
+                    {/* The arch of curved photos removed as requested */}
 
-                    {/* Center Content block */}
-                    <div className="curved-center-content">
-                        <h2>Create Timeless Photos<br />That Tell Your Story</h2>
-                        <p>Professional photography for personal moments, brands, and unforgettable memories.</p>
-                        <Link to="/packages" className="btn-book-session-curved">Book a Session</Link>
-                    </div>
 
                     {/* Footer features */}
                     <div className="curved-footer-features">

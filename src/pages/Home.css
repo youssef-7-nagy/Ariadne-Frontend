@@ -2725,13 +2725,36 @@ html.dark, .dark {
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);
-    height: 850px;
+    min-height: 700px;
+    height: clamp(650px, 80vh, 900px);
     background-color: #0e0d0c;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 100px 0 80px;
+    padding: 90px 0 70px;
+}
+
+.curved-bg-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.curved-video-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(14, 13, 12, 0.4) 0%, rgba(14, 13, 12, 0.72) 100%);
+    z-index: 1;
+    pointer-events: none;
 }
 
 .curved-bg-glows {
@@ -2825,11 +2848,10 @@ html.dark, .dark {
 
 .curved-center-content {
     text-align: center;
-    margin-top: 310px;
-    /* Aligns content inside the arch */
-    max-width: 700px;
+    margin: auto 0;
+    max-width: 760px;
     z-index: 5;
-    padding: 0 20px;
+    padding: 30px 20px;
 }
 
 .curved-center-content h2 {
@@ -2864,6 +2886,7 @@ html.dark, .dark {
     font-size: 0.88rem;
     font-weight: 600;
     letter-spacing: 0.08em;
+    margin-top: 35px;
     transition: all 0.3s ease;
     background: transparent;
     backdrop-filter: blur(5px);
@@ -2914,63 +2937,64 @@ html.dark, .dark {
     background: rgba(255, 255, 255, 0.12);
 }
 
-/* Responsiveness for Curved Gallery */
+/* Responsiveness for Video Showcase Section */
 @media (max-width: 1200px) {
-    .curved-arch-photos {
-        transform: scale(0.85);
-        transform-origin: top center;
-    }
-
-    .curved-center-content {
-        margin-top: 270px;
+    .curved-gallery-section {
+        min-height: 650px;
     }
 }
 
 @media (max-width: 992px) {
     .curved-gallery-section {
-        height: auto;
-        padding: 80px 0 60px;
+        min-height: 580px;
+        padding: 70px 0 50px;
     }
 
     .curved-gallery-container {
         height: auto;
-        justify-content: flex-start;
-    }
-
-    .curved-arch-photos {
-        position: relative;
-        display: flex;
-        flex-wrap: wrap;
         justify-content: center;
-        gap: 15px;
-        transform: none;
-        width: 100%;
-        padding: 0 20px;
-        margin-bottom: 40px;
-    }
-
-    .arch-photo-card {
-        position: static !important;
-        width: clamp(100px, 20vw, 130px);
-        aspect-ratio: 0.95;
-        transform: none !important;
-        border-radius: 24px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
     }
 
     .curved-center-content {
-        margin-top: 0;
-        margin-bottom: 40px;
+        margin: auto 0 30px;
     }
 
     .curved-footer-features {
-        flex-direction: column;
-        gap: 35px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 30px;
         margin-top: 20px;
     }
 
     .curved-feat-divider {
         display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .curved-gallery-section {
+        min-height: 520px;
+        padding: 60px 0 40px;
+    }
+
+    .curved-center-content {
+        padding: 10px 15px;
+        margin-bottom: 25px;
+    }
+
+    .curved-center-content h2 {
+        font-size: clamp(1.6rem, 6vw, 2.2rem);
+    }
+
+    .btn-book-session-curved {
+        padding: 13px 32px;
+        font-size: 0.84rem;
+        margin-top: 28px;
+    }
+
+    .curved-footer-features {
+        flex-direction: column;
+        gap: 20px;
     }
 }
 
