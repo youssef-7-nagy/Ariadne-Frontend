@@ -340,7 +340,46 @@ const Home = () => {
             </section>
 
 
+            {/* Section 3: White Background Feature Section */}
+            <section className="home-white-section">
+                <video
+                    className="white-section-video-bg"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="auto"
+                    crossOrigin="anonymous"
+                >
+                    <source src="https://res.cloudinary.com/dqvclzcod/video/upload/Basha_E3temed_Teaser_rnogeb.mp4" type="video/mp4" />
+                    <source src="https://cloudinary-a.akamaihd.net/dqvclzcod/video/upload/Basha_E3temed_Teaser_rnogeb.mp4" type="video/mp4" />
+                </video>
+                <div className="white-section-overlay"></div>
+                <div className="white-section-container">
+                    <h2 className="white-section-title">The Art of Storytelling</h2>
+                    <p className="white-section-subtitle">
+                        We blend creative vision with technical precision to deliver stunning visual narratives. Experience the world through our lens, where every detail matters and every frame speaks volumes.
+                    </p>
+                    <div className="white-section-grid">
+                        <div className="white-feature-card">
+                            <h3 className="white-feature-title">Creative Direction</h3>
+                            <p className="white-feature-text">Guiding projects from concept to breathtaking execution.</p>
+                        </div>
+                        <div className="white-feature-card">
+                            <h3 className="white-feature-title">Masterful Editing</h3>
+                            <p className="white-feature-text">Refining raw captures into cinematic masterpieces.</p>
+                        </div>
+                        <div className="white-feature-card">
+                            <h3 className="white-feature-title">Exceptional Quality</h3>
+                            <p className="white-feature-text">Uncompromising standards in high-resolution visual art.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
             {/* Section 5: Expanding Categories Gallery */}
+
             <section className="home-section categories-section">
                 <div className="container text-center">
                     <h2 className="section-title">Our Expertise</h2>
