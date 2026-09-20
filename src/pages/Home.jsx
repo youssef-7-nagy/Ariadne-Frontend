@@ -62,7 +62,8 @@ const Home = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [carouselHeight, setCarouselHeight] = useState(600);
     const storySectionRef = useRef(null);
-    const videoRef = useRef(null);
+    const iframeRef = useRef(null);
+    const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
 
     const updateCarouselHeight = useCallback(() => {
         const w = window.innerWidth;
@@ -109,39 +110,44 @@ const Home = () => {
     // Background video playback controller: start when arriving to section, pause when leaving
     useEffect(() => {
         const section = storySectionRef.current;
-        const video = videoRef.current;
-        if (!section || !video) return;
+        if (!section) return;
 
-        // Force muted properties on DOM node for strict iOS Safari and Android Chrome autoplay permission
-        video.muted = true;
-        video.defaultMuted = true;
+        const sendCommand = (method, value) => {
+            try {
+                if (iframeRef.current && iframeRef.current.contentWindow) {
+                    iframeRef.current.contentWindow.postMessage(
+                        JSON.stringify({
+                            context: 'player.js',
+                            version: '0.0.11',
+                            method: method,
+                            value: value
+                        }),
+                        '*'
+                    );
+                }
+            } catch (err) {}
+        };
 
-        // 1. Proximity preload observer: begins loading video data ~350px before scroll arrival
-        const preloadObserver = new IntersectionObserver(
+        // 1. Proximity observer: Load video stream as user approaches (~300px before arrival)
+        const proximityObserver = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    if (video.preload !== 'auto') {
-                        video.preload = 'auto';
-                    }
-                    preloadObserver.disconnect();
+                    setShouldLoadVideo(true);
+                    proximityObserver.disconnect();
                 }
             },
-            { rootMargin: '350px 0px' }
+            { rootMargin: '300px 0px' }
         );
-        preloadObserver.observe(section);
+        proximityObserver.observe(section);
 
-        // 2. Playback observer: starts seamless playback on arrival, pauses when offscreen
+        // 2. Playback observer: Plays when in viewport, pauses when scrolled out
         const playbackObserver = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    const playPromise = video.play();
-                    if (playPromise !== undefined) {
-                        playPromise.catch(() => {
-                            // Autoplay was prevented by battery saver or policy, remains ready
-                        });
-                    }
+                    sendCommand('mute');
+                    sendCommand('play');
                 } else {
-                    video.pause();
+                    sendCommand('pause');
                 }
             },
             { threshold: 0.15 }
@@ -149,7 +155,7 @@ const Home = () => {
         playbackObserver.observe(section);
 
         return () => {
-            preloadObserver.disconnect();
+            proximityObserver.disconnect();
             playbackObserver.disconnect();
         };
     }, []);
@@ -414,31 +420,17 @@ const Home = () => {
             {/* Section 3: Video Showcase Section */}
             <section className="home-white-section" ref={storySectionRef} aria-label="Cinematic Teaser">
                 <div className="home-video-bg-wrapper">
-                    <video
-                        ref={videoRef}
-                        className="home-video-bg-media"
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        webkit-playsinline="true"
-                        preload="metadata"
-                        poster="https://res.cloudinary.com/dqvclzcod/video/upload/so_0,f_auto,q_auto,w_1280/Basha_E3temed_Teaser_rnogeb.jpg"
-                        disablePictureInPicture
-                        disableRemotePlayback
-                        aria-hidden="true"
-                    >
-                        {/* Primary modern optimized stream: auto format negotiation + perceptual compression */}
-                        <source
-                            src="https://res.cloudinary.com/dqvclzcod/video/upload/f_auto,q_auto/Basha_E3temed_Teaser_rnogeb.mp4"
-                            type="video/mp4"
+                    {shouldLoadVideo && (
+                        <iframe
+                            ref={iframeRef}
+                            src="https://player.mediadelivery.net/embed/757833/c8ff08a7-dfe6-4d08-8bfb-84690d45c31e?autoplay=true&loop=true&muted=true&preload=true&responsive=true"
+                            loading="eager"
+                            className="home-video-bg-iframe"
+                            allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;"
+                            tabIndex="-1"
+                            title="Cinematic Background Video"
                         />
-                        {/* Universal compatibility fallback */}
-                        <source
-                            src="https://res.cloudinary.com/dqvclzcod/video/upload/q_auto,vc_h264/Basha_E3temed_Teaser_rnogeb.mp4"
-                            type="video/mp4"
-                        />
-                    </video>
+                    )}
                 </div>
 
                 {/* Bottom features bar */}
