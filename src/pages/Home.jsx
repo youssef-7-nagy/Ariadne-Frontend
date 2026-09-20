@@ -106,27 +106,50 @@ const Home = () => {
         fetchCategories();
     }, []);
 
-    // Play/pause video when section scrolls into/out of view
+    // Video optimization: Preload when approaching, play when in view, pause when outside
     useEffect(() => {
         const section = storySectionRef.current;
         const video = storyVideoRef.current;
         if (!section || !video) return;
 
-        const observer = new IntersectionObserver(
+        // Ensure iOS/Android policies recognize it as muted for autoplay permission
+        video.muted = true;
+        video.defaultMuted = true;
+
+        // 1. Proximity preload observer: loads video buffer ~400px before user arrives
+        const preloadObserver = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    video.currentTime = 0;
-                    video.play().catch(() => {});
-                } else {
-                    video.pause();
-                    video.currentTime = 0;
+                    if (video.preload !== 'auto') {
+                        video.preload = 'auto';
+                    }
+                    preloadObserver.disconnect();
                 }
             },
-            { threshold: 0.25 }
+            { rootMargin: '400px 0px' }
         );
+        preloadObserver.observe(section);
 
-        observer.observe(section);
-        return () => observer.disconnect();
+        // 2. Playback observer: starts seamless playback on arrival, pauses when offscreen
+        const playbackObserver = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    const playPromise = video.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(() => {});
+                    }
+                } else {
+                    video.pause();
+                }
+            },
+            { threshold: 0.15 }
+        );
+        playbackObserver.observe(section);
+
+        return () => {
+            preloadObserver.disconnect();
+            playbackObserver.disconnect();
+        };
     }, []);
 
 
@@ -366,18 +389,49 @@ const Home = () => {
 
 
             {/* Section 3: Video Showcase Section */}
-            <section className="home-white-section" ref={storySectionRef}>
+            <section className="home-white-section" ref={storySectionRef} aria-label="Cinematic Teaser">
                 <video
                     ref={storyVideoRef}
                     className="white-section-video-bg"
                     muted
                     loop
                     playsInline
-                    preload="auto"
+                    webkit-playsinline="true"
+                    preload="none"
                     crossOrigin="anonymous"
+                    poster="https://cloudinary-a.akamaihd.net/dqvclzcod/video/upload/so_0,q_auto,f_jpg,w_1280/Basha_E3temed_Teaser_rnogeb.jpg"
+                    disablePictureInPicture
+                    disableRemotePlayback
                 >
-                    <source src="https://res.cloudinary.com/dqvclzcod/video/upload/Basha_E3temed_Teaser_rnogeb.mp4" type="video/mp4" />
-                    <source src="https://cloudinary-a.akamaihd.net/dqvclzcod/video/upload/Basha_E3temed_Teaser_rnogeb.mp4" type="video/mp4" />
+                    {/* Mobile & Tablet (< 768px): 720p HD stream (~2.0 MB vs 82 MB) */}
+                    <source
+                        media="(max-width: 768px)"
+                        src="https://cloudinary-a.akamaihd.net/dqvclzcod/video/upload/q_auto,vc_h264,w_720/Basha_E3temed_Teaser_rnogeb.mp4"
+                        type="video/mp4"
+                    />
+                    <source
+                        media="(max-width: 768px)"
+                        src="https://res-1.cloudinary.com/dqvclzcod/video/upload/q_auto,vc_h264,w_720/Basha_E3temed_Teaser_rnogeb.mp4"
+                        type="video/mp4"
+                    />
+
+                    {/* Desktop & Laptop (>= 769px): 1280p crisp HD stream (~2.7 MB vs 82 MB) */}
+                    <source
+                        media="(min-width: 769px)"
+                        src="https://cloudinary-a.akamaihd.net/dqvclzcod/video/upload/q_auto,vc_h264,w_1280/Basha_E3temed_Teaser_rnogeb.mp4"
+                        type="video/mp4"
+                    />
+                    <source
+                        media="(min-width: 769px)"
+                        src="https://res-1.cloudinary.com/dqvclzcod/video/upload/q_auto,vc_h264,w_1280/Basha_E3temed_Teaser_rnogeb.mp4"
+                        type="video/mp4"
+                    />
+
+                    {/* Universal fallback */}
+                    <source
+                        src="https://cloudinary-a.akamaihd.net/dqvclzcod/video/upload/q_auto,vc_h264,w_1280/Basha_E3temed_Teaser_rnogeb.mp4"
+                        type="video/mp4"
+                    />
                 </video>
             </section>
 

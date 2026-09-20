@@ -3184,7 +3184,7 @@ html.dark, .dark {
 }
 
 /* ==========================================================================
-   WHITE FEATURE SECTION
+   VIDEO SHOWCASE SECTION (RESPONSIVE & CINEMATIC)
    ========================================================================== */
 .home-white-section {
     position: relative;
@@ -3196,6 +3196,33 @@ html.dark, .dark {
     max-height: 750px;
     background-color: #000000;
     overflow: hidden;
+    pointer-events: none;
+}
+
+/* Tablet (iPad, landscape tablets) */
+@media (max-width: 1024px) {
+    .home-white-section {
+        height: 55vh;
+        min-height: 360px;
+        max-height: 540px;
+    }
+}
+
+/* Mobile Devices (iPhone, Android) */
+@media (max-width: 768px) {
+    .home-white-section {
+        height: 45vh;
+        min-height: 250px;
+        max-height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-white-section {
+        height: 38vh;
+        min-height: 210px;
+        max-height: 320px;
+    }
 }
 
 .white-section-video-bg {
@@ -3203,4 +3230,8 @@ html.dark, .dark {
     height: 100%;
     object-fit: cover;
     display: block;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    background-color: #000000;
 }
