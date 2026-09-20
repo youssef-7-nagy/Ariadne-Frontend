@@ -7,18 +7,20 @@ import AppToaster from './components/AppToaster';
 import SplashScreen from './components/SplashScreen';
 
 import Home from './pages/Home';
-import About from './pages/About';
-import Portfolio from './pages/Portfolio';
-import CategoryProjects from './pages/CategoryProjects';
-import ClientProjects from './pages/ClientProjects';
-import ProjectDetails from './pages/ProjectDetails';
-import Login from './pages/Login';
-import ForgotPassword from './pages/ForgotPassword';
-import ResetPassword from './pages/ResetPassword';
-import Profile from './pages/Profile';
-import AdminPanel from './pages/AdminPanel';
-import NotFound from './pages/NotFound';
-import OAuthCallback from './pages/OAuthCallback';
+import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner';
+
+const About = React.lazy(() => import('./pages/About'));
+const Portfolio = React.lazy(() => import('./pages/Portfolio'));
+const CategoryProjects = React.lazy(() => import('./pages/CategoryProjects'));
+const ClientProjects = React.lazy(() => import('./pages/ClientProjects'));
+const ProjectDetails = React.lazy(() => import('./pages/ProjectDetails'));
+const Login = React.lazy(() => import('./pages/Login'));
+const ForgotPassword = React.lazy(() => import('./pages/ForgotPassword'));
+const ResetPassword = React.lazy(() => import('./pages/ResetPassword'));
+const Profile = React.lazy(() => import('./pages/Profile'));
+const AdminPanel = React.lazy(() => import('./pages/AdminPanel'));
+const NotFound = React.lazy(() => import('./pages/NotFound'));
+const OAuthCallback = React.lazy(() => import('./pages/OAuthCallback'));
 import { API_URL } from './utils/apiUrl';
 import { Navigate } from 'react-router-dom';
 
@@ -147,39 +149,45 @@ const App = () => {
                     toggleTheme={toggleTheme}
                 />
                 <main className="flex-grow-1 d-flex flex-column">
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/about" element={<About />} />
-                        <Route path="/portfolio" element={<Portfolio />} />
-                        <Route path="/packages" element={<Portfolio />} />
-                        <Route path="/projects" element={<Portfolio />} />
-                        <Route path="/portfolio/:categorySlug" element={<CategoryProjects />} />
-                        <Route path="/portfolio/client/:clientName" element={<ClientProjects />} />
-                        <Route path="/portfolio/project/:projectSlug" element={<ProjectDetails />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/forgot-password" element={<ForgotPassword />} />
-                        <Route path="/reset-password" element={<ResetPassword />} />
-                        <Route path="/oauth/callback" element={<OAuthCallback />} />
+                    <React.Suspense fallback={
+                        <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <LoadingSpinner />
+                        </div>
+                    }>
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/about" element={<About />} />
+                            <Route path="/portfolio" element={<Portfolio />} />
+                            <Route path="/packages" element={<Portfolio />} />
+                            <Route path="/projects" element={<Portfolio />} />
+                            <Route path="/portfolio/:categorySlug" element={<CategoryProjects />} />
+                            <Route path="/portfolio/client/:clientName" element={<ClientProjects />} />
+                            <Route path="/portfolio/project/:projectSlug" element={<ProjectDetails />} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/forgot-password" element={<ForgotPassword />} />
+                            <Route path="/reset-password" element={<ResetPassword />} />
+                            <Route path="/oauth/callback" element={<OAuthCallback />} />
 
-                        <Route
-                            path="/profile"
-                            element={
-                                <ProtectedRoute isLoggedIn={isLoggedIn} userData={userData} allowedRoles={['user', 'customer']}>
-                                    <Profile />
-                                </ProtectedRoute>
-                            }
-                        />
-                        <Route
-                            path="/admin"
-                            element={
-                                <ProtectedRoute isLoggedIn={isLoggedIn} userData={userData} allowedRoles={['admin', 'superadmin']}>
-                                    <AdminPanel />
-                                </ProtectedRoute>
-                            }
-                        />
+                            <Route
+                                path="/profile"
+                                element={
+                                    <ProtectedRoute isLoggedIn={isLoggedIn} userData={userData} allowedRoles={['user', 'customer']}>
+                                        <Profile />
+                                    </ProtectedRoute>
+                                }
+                            />
+                            <Route
+                                path="/admin"
+                                element={
+                                    <ProtectedRoute isLoggedIn={isLoggedIn} userData={userData} allowedRoles={['admin', 'superadmin']}>
+                                        <AdminPanel />
+                                    </ProtectedRoute>
+                                }
+                            />
 
-                        <Route path="*" element={<NotFound />} />
-                    </Routes>
+                            <Route path="*" element={<NotFound />} />
+                        </Routes>
+                    </React.Suspense>
                 </main>
                 <Footer />
             </div>

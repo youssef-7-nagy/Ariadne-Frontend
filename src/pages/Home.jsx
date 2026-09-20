@@ -72,9 +72,17 @@ const Home = () => {
     }, []);
 
     useEffect(() => {
+        let timer;
+        const debouncedResize = () => {
+            clearTimeout(timer);
+            timer = setTimeout(updateCarouselHeight, 100);
+        };
         updateCarouselHeight();
-        window.addEventListener('resize', updateCarouselHeight);
-        return () => window.removeEventListener('resize', updateCarouselHeight);
+        window.addEventListener('resize', debouncedResize, { passive: true });
+        return () => {
+            clearTimeout(timer);
+            window.removeEventListener('resize', debouncedResize);
+        };
     }, [updateCarouselHeight]);
 
     const getCategoryBg = (category) => {
@@ -218,7 +226,14 @@ const Home = () => {
                             <span className="vf-corner vf-bl"></span>
                             <span className="vf-corner vf-br"></span>
 
-                            <img src={imgAboutStory} alt="Ariadne Photographer" className="hero-framed-photo" />
+                            <img 
+                                src={imgAboutStory} 
+                                alt="Ariadne Photographer" 
+                                className="hero-framed-photo" 
+                                loading="eager"
+                                fetchPriority="high"
+                                decoding="async"
+                            />
 
 
                         </div>
@@ -287,7 +302,12 @@ const Home = () => {
                                     transform: `rotate(${img.rotate}deg)`,
                                 }}
                             >
-                                <img src={img.src} alt={`Showcase visual ${idx + 1}`} />
+                                <img 
+                                    src={img.src} 
+                                    alt={`Showcase visual ${idx + 1}`} 
+                                    loading="lazy"
+                                    decoding="async"
+                                />
                             </div>
                         ))}
                     </div>

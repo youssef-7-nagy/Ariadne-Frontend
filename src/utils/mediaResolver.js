@@ -77,12 +77,9 @@ export const resolveMedia = (rawUrl) => {
 
     // 5. Vimeo
     if (url.includes('vimeo.com')) {
-        let videoId = '';
-        if (url.includes('player.vimeo.com/video/')) {
-            videoId = url.split('video/')[1]?.split('?')[0]?.split('/')[0] || '';
-        } else {
-            videoId = url.split('vimeo.com/')[1]?.split('?')[0]?.split('/')[0] || '';
-        }
+        const videoId = url.includes('player.vimeo.com/video/')
+            ? (url.split('video/')[1]?.split('?')[0]?.split('/')[0] || '')
+            : (url.split('vimeo.com/')[1]?.split('?')[0]?.split('/')[0] || '');
         if (videoId) {
             return {
                 type: 'vimeo',

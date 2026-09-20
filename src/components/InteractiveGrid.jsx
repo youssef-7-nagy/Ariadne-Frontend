@@ -206,7 +206,6 @@ export default function InteractiveGrid(props) {
   const count = cols * rowCount;
 
   const [hovered, setHovered] = useState(null);
-  const [mousePos, setMousePos] = useState({});
   const leaveTimer = useRef(null);
 
   useEffect(() => {
@@ -238,11 +237,12 @@ export default function InteractiveGrid(props) {
     leaveTimer.current = setTimeout(() => setHovered(null), LEAVE_DELAY);
   };
 
-  const onMouseMove = (e, i) => {
+  const onMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    setMousePos((prev) => ({ ...prev, [i]: { x: `${x}px`, y: `${y}px` } }));
+    e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+    e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
   };
 
   const glowBlur =
@@ -292,13 +292,11 @@ export default function InteractiveGrid(props) {
           const enterDelay = `${i * 0.045}s`;
           const floatDelay = `${(colIdx * 0.35 + rowIdx * 0.5) % 3}s`;
 
-          const currentMouse = mousePos[i] || { x: "50%", y: "50%" };
-
           return (
             <div
               key={i}
               onPointerEnter={() => onEnter(i)}
-              onMouseMove={(e) => onMouseMove(e, i)}
+              onMouseMove={onMouseMove}
               className={[
                 `${NS}-card`,
                 hovered === null && `${NS}-float`,
@@ -326,8 +324,8 @@ export default function InteractiveGrid(props) {
                 cursor: "pointer",
                 "--enter-delay": enterDelay,
                 "--float-delay": floatDelay,
-                "--mouse-x": currentMouse.x,
-                "--mouse-y": currentMouse.y,
+                "--mouse-x": "50%",
+                "--mouse-y": "50%",
               }}
             >
               {logoSrc && (

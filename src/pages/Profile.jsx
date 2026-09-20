@@ -42,14 +42,11 @@ const resolveUrl = (src) => {
 
 const MyProjectsTab = ({ userName }) => {
     const [projects, setProjects] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(() => !!userName);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        if (!userName) {
-            setIsLoading(false);
-            return;
-        }
+        if (!userName) return;
 
         const fetchProjects = async () => {
             try {
@@ -164,14 +161,11 @@ const MyProjectsTab = ({ userName }) => {
 
 const BillingTab = ({ userName }) => {
     const [transactions, setTransactions] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(() => !!userName);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        if (!userName) {
-            setIsLoading(false);
-            return;
-        }
+        if (!userName) return;
 
         const fetchTransactions = async () => {
             try {
