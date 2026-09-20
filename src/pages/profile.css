@@ -2,7 +2,8 @@
    # VARIABLES & BASE LAYOUT
    ========================================================================== */
 
-.dashboard-container {
+.dashboard-container,
+.admin-wrapper {
   --dash-primary: #4361ee;
   --dash-primary-dark: #3a0ca3;
   --dash-gradient: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
