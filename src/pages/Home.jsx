@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Home.css';
@@ -61,6 +61,8 @@ const Home = () => {
     const [categories, setCategories] = useState([]);
     const [activeIndex, setActiveIndex] = useState(0);
     const [carouselHeight, setCarouselHeight] = useState(600);
+    const storyVideoRef = useRef(null);
+    const storySectionRef = useRef(null);
 
     const updateCarouselHeight = useCallback(() => {
         const w = window.innerWidth;
@@ -102,6 +104,29 @@ const Home = () => {
         };
 
         fetchCategories();
+    }, []);
+
+    // Play/pause video when section scrolls into/out of view
+    useEffect(() => {
+        const section = storySectionRef.current;
+        const video = storyVideoRef.current;
+        if (!section || !video) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    video.currentTime = 0;
+                    video.play().catch(() => {});
+                } else {
+                    video.pause();
+                    video.currentTime = 0;
+                }
+            },
+            { threshold: 0.25 }
+        );
+
+        observer.observe(section);
+        return () => observer.disconnect();
     }, []);
 
 
@@ -341,10 +366,10 @@ const Home = () => {
 
 
             {/* Section 3: White Background Feature Section */}
-            <section className="home-white-section">
+            <section className="home-white-section" ref={storySectionRef}>
                 <video
+                    ref={storyVideoRef}
                     className="white-section-video-bg"
-                    autoPlay
                     muted
                     loop
                     playsInline
