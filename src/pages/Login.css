@@ -345,254 +345,6 @@
 
 
 
-/* ─────────────────────────────────────────────────────────
-   TABLET (≤ 768px) — keep 2-panel layout, just shrink it
-───────────────────────────────────────────────────────── */
-@media (max-width: 768px) {
-
-  .login-body {
-    align-items: center;
-    padding: 12px 10px;
-  }
-
-  .login-container {
-    min-height: 420px;
-    border-radius: 16px;
-  }
-
-  .form-container form {
-    padding: 0 18px;
-  }
-
-  .toggle-panel {
-    padding: 0 16px;
-  }
-
-  .login-container form h1 {
-    font-size: 18px;
-    margin-bottom: 6px;
-  }
-
-  .toggle-panel h1 {
-    font-size: 17px;
-    margin-bottom: 6px;
-  }
-
-  .login-container p,
-  .toggle-panel p {
-    font-size: 10px;
-    line-height: 13px;
-    margin: 5px 0;
-  }
-
-  .login-container span {
-    font-size: 9px;
-    margin: 4px 0 2px;
-  }
-
-  .input-wrapper {
-    margin: 4px 0;
-  }
-
-  .input-wrapper input {
-    padding: 9px 10px 9px 30px;
-    font-size: 12px;
-    min-height: 36px;
-    border-radius: 6px;
-  }
-
-  .input-wrapper input.password-input {
-    padding-right: 30px;
-  }
-
-  .input-icon { left: 9px; font-size: 11px; }
-  .input-icon-right { right: 9px; font-size: 11px; }
-
-  .login-container button {
-    padding: 8px 18px;
-    font-size: 10px;
-    margin-top: 8px;
-    border-radius: 6px;
-  }
-
-  .google-btn {
-    padding: 0.35rem 0.7rem;
-    font-size: 0.72rem;
-    gap: 0.45rem;
-    max-width: 100%;
-    margin: 6px 0 4px;
-  }
-
-  .google-btn svg {
-    height: 17px;
-    width: 17px;
-  }
-
-  .toggle-container {
-    border-radius: 100px 0 0 100px;
-  }
-
-  .login-container.active .toggle-container {
-    border-radius: 0 100px 100px 0;
-  }
-
-  /* Keep mobile-toggle hidden — we still use the panel */
-  .mobile-toggle {
-    display: none;
-  }
-}
-
-/* ─────────────────────────────────────────────────────────
-   MOBILE (≤ 480px) — 2-panel preserved, further shrunk
-───────────────────────────────────────────────────────── */
-@media (max-width: 480px) {
-
-  .login-body {
-    padding: 10px 8px;
-  }
-
-  .login-container {
-    min-height: 360px;
-    border-radius: 14px;
-  }
-
-  .form-container form {
-    padding: 0 10px;
-  }
-
-  .toggle-panel {
-    padding: 0 10px;
-  }
-
-  .login-container form h1 {
-    font-size: 14px;
-    margin-bottom: 4px;
-  }
-
-  .toggle-panel h1 {
-    font-size: 13px;
-    margin-bottom: 4px;
-  }
-
-  .login-container p,
-  .toggle-panel p {
-    font-size: 8.5px;
-    line-height: 11px;
-    margin: 3px 0;
-  }
-
-  .login-container span {
-    font-size: 8px;
-    margin: 2px 0 1px;
-  }
-
-  .input-wrapper {
-    margin: 3px 0;
-  }
-
-  .input-wrapper input {
-    padding: 7px 8px 7px 24px;
-    font-size: 11px;
-    min-height: 30px;
-    border-radius: 5px;
-  }
-
-  .input-wrapper input.password-input {
-    padding-right: 24px;
-  }
-
-  .input-icon { left: 7px; font-size: 10px; }
-  .input-icon-right { right: 7px; font-size: 10px; }
-
-  .login-container button {
-    padding: 6px 12px;
-    font-size: 9px;
-    margin-top: 6px;
-    border-radius: 5px;
-  }
-
-  .google-btn {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.62rem;
-    gap: 0.3rem;
-    margin: 4px 0 3px;
-  }
-
-  .google-btn svg {
-    height: 14px;
-    width: 14px;
-  }
-
-  .toggle-container {
-    border-radius: 60px 0 0 60px;
-  }
-
-  .login-container.active .toggle-container {
-    border-radius: 0 60px 60px 0;
-  }
-}
-
-/* ─────────────────────────────────────────────────────────
-   SMALL MOBILE (≤ 360px — small Androids)
-───────────────────────────────────────────────────────── */
-@media (max-width: 360px) {
-
-  .login-container {
-    min-height: 320px;
-    border-radius: 12px;
-  }
-
-  .login-container form h1 {
-    font-size: 12px;
-  }
-
-  .toggle-panel h1 {
-    font-size: 11px;
-  }
-
-  .input-wrapper input {
-    padding: 6px 7px 6px 20px;
-    font-size: 10px;
-    min-height: 26px;
-  }
-
-  .login-container button {
-    padding: 5px 10px;
-    font-size: 8px;
-  }
-
-  .google-btn {
-    font-size: 0.55rem;
-    padding: 0.2rem 0.4rem;
-  }
-
-  .toggle-container {
-    border-radius: 45px 0 0 45px;
-  }
-
-  .login-container.active .toggle-container {
-    border-radius: 0 45px 45px 0;
-  }
-}
-
-
-
-.mobile-toggle span {
-  display: inline;
-  color: #1F75B8;
-  font-weight: 700;
-  cursor: pointer;
-  font-size: 13px;
-  transition: 0.3s;
-}
-
-.mobile-toggle span:hover {
-  text-decoration: underline;
-  color: #0A2440;
-}
-
-/* Desktop & All Screens Base Structure */
-
 /* ==========================================================================
    # DARK MODE — LOGIN PAGE
    ========================================================================== */
@@ -671,44 +423,172 @@
 }
 
 /* ==========================================================================
-   # RESPONSIVE SCALING — SLEEK COMPACT RECTANGULAR CARD ON MOBILE
+   # RESPONSIVE SCALING — FLUID ADAPTATION ACROSS ALL SCREEN SIZES
+   Preserving identical 2-panel composition, curved toggle, and animations
    ========================================================================== */
 
+/* ─────────────────────────────────────────────────────────
+   1. LARGE TABLETS & COMPACT LAPTOPS (≤ 900px)
+   ───────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
   .login-body {
-    padding: 16px 12px;
+    padding: 20px 14px;
     align-items: center;
     overflow-y: auto;
   }
 
   .login-container {
-    width: 100%;
-    max-width: 750px;
-    min-height: 440px;
+    width: 94vw;
+    max-width: 780px;
+    min-height: 480px;
     border-radius: 18px;
   }
 
   .form-container form {
-    padding: 0 20px;
+    padding: 0 clamp(20px, 3vw, 36px);
   }
 
   .toggle-panel {
-    padding: 0 20px;
+    padding: 0 clamp(16px, 2.5vw, 30px);
+  }
+
+  .login-container form h1 {
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+
+  .toggle-panel h1 {
+    font-size: 22px;
+    margin-bottom: 8px;
   }
 
   .toggle-container {
-    border-radius: 100px 0 0 100px;
+    border-radius: 120px 0 0 120px;
   }
 
   .login-container.active .toggle-container {
-    border-radius: 0 100px 100px 0;
+    border-radius: 0 120px 120px 0;
   }
 }
 
-@media (max-width: 650px) {
+/* ─────────────────────────────────────────────────────────
+   2. STANDARD TABLETS & MID-SIZED SCREENS (≤ 768px)
+   ───────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .login-body {
+    padding: 16px 12px;
+  }
+
   .login-container {
-    min-height: 380px;
+    width: 95vw;
+    max-width: 680px;
+    min-height: 460px;
     border-radius: 16px;
+  }
+
+  .form-container form {
+    padding: 0 clamp(14px, 2.5vw, 24px);
+  }
+
+  .toggle-panel {
+    padding: 0 clamp(12px, 2vw, 20px);
+  }
+
+  .login-container form h1 {
+    font-size: clamp(17px, 2.8vw, 20px);
+    margin-bottom: 6px;
+  }
+
+  .toggle-panel h1 {
+    font-size: clamp(17px, 2.8vw, 20px);
+    margin-bottom: 6px;
+  }
+
+  .login-container p,
+  .toggle-panel p {
+    font-size: clamp(10.5px, 1.6vw, 12px);
+    line-height: 1.35;
+    margin: 8px 0;
+  }
+
+  .login-container span {
+    font-size: clamp(9.5px, 1.4vw, 11px);
+    margin: 6px 0 4px;
+  }
+
+  .google-btn {
+    padding: 8px 12px;
+    font-size: clamp(10.5px, 1.5vw, 12px);
+    gap: 8px;
+    margin: 8px 0 6px;
+    max-width: 100%;
+  }
+
+  .google-btn svg {
+    height: 18px;
+    width: 18px;
+  }
+
+  .input-wrapper {
+    margin: 5px 0;
+  }
+
+  .input-wrapper input {
+    padding: 10px 12px 10px 34px;
+    font-size: 12px;
+    min-height: 38px;
+    border-radius: 7px;
+  }
+
+  .input-wrapper input.password-input {
+    padding-right: 34px;
+  }
+
+  .input-icon {
+    left: 11px;
+    font-size: 13px;
+  }
+
+  .input-icon-right {
+    right: 11px;
+    font-size: 13px;
+  }
+
+  .login-container a {
+    font-size: 11px;
+    margin: 8px 0;
+  }
+
+  .login-container button {
+    padding: 10px 24px;
+    font-size: 11px;
+    margin-top: 10px;
+    border-radius: 7px;
+  }
+
+  .toggle-container {
+    border-radius: 90px 0 0 90px;
+  }
+
+  .login-container.active .toggle-container {
+    border-radius: 0 90px 90px 0;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────
+   3. MOBILE PHONES (≤ 540px — iPhone, Android, Galaxy)
+   ───────────────────────────────────────────────────────── */
+@media (max-width: 540px) {
+  .login-body {
+    padding: 14px 8px;
+    overflow-x: hidden;
+  }
+
+  .login-container {
+    width: 96vw;
+    max-width: 440px;
+    min-height: 420px;
+    border-radius: 14px;
   }
 
   .form-container form {
@@ -716,80 +596,164 @@
   }
 
   .toggle-panel {
-    padding: 0 10px;
+    padding: 0 8px;
   }
 
   .login-container form h1 {
-    font-size: 14px;
-    margin-bottom: 3px;
+    font-size: clamp(14px, 3.8vw, 17px);
+    margin-bottom: 5px;
+    letter-spacing: -0.3px;
   }
 
   .toggle-panel h1 {
-    font-size: 13px;
-    margin-bottom: 3px;
+    font-size: clamp(14px, 3.8vw, 17px);
+    margin-bottom: 5px;
+    letter-spacing: -0.3px;
   }
 
   .login-container p,
   .toggle-panel p {
-    font-size: 8.5px;
-    line-height: 11px;
-    margin: 3px 0;
+    font-size: clamp(9.5px, 2.4vw, 11px);
+    line-height: 1.3;
+    margin: 6px 0;
   }
 
   .login-container span {
-    font-size: 8px;
-    margin: 2px 0 1px;
-  }
-
-  .input-wrapper {
-    margin: 3px 0;
-  }
-
-  .input-wrapper input {
-    padding: 6px 8px 6px 24px;
-    font-size: 11px;
-    min-height: 28px;
-    border-radius: 5px;
-  }
-
-  .input-wrapper input.password-input {
-    padding-right: 24px;
-  }
-
-  .input-icon { left: 7px; font-size: 10px; }
-  .input-icon-right { right: 7px; font-size: 10px; }
-
-  .login-container button {
-    padding: 6px 12px;
-    font-size: 9px;
-    margin-top: 5px;
-    border-radius: 5px;
+    font-size: clamp(8.5px, 2.2vw, 10px);
+    margin: 5px 0 4px;
+    text-align: center;
+    line-height: 1.25;
   }
 
   .google-btn {
-    padding: 0.22rem 0.45rem;
-    font-size: 0.6rem;
-    gap: 0.3rem;
-    max-width: 100%;
-    margin: 4px 0 2px;
+    padding: 6px 8px;
+    font-size: clamp(9px, 2.4vw, 11px);
+    gap: 5px;
+    margin: 6px 0 5px;
+    border-radius: 6px;
+    letter-spacing: 0.2px;
   }
 
   .google-btn svg {
-    height: 14px;
-    width: 14px;
+    height: 16px;
+    width: 16px;
+  }
+
+  .input-wrapper {
+    margin: 4px 0;
+  }
+
+  .input-wrapper input {
+    padding: 7px 8px 7px 26px;
+    font-size: 11.5px;
+    min-height: 34px;
+    border-radius: 6px;
+  }
+
+  .input-wrapper input.password-input {
+    padding-right: 26px;
+  }
+
+  .input-icon {
+    left: 8px;
+    font-size: 11px;
+  }
+
+  .input-icon-right {
+    right: 8px;
+    font-size: 11px;
   }
 
   .login-container a {
     font-size: 10px;
-    margin: 6px 0;
+    margin: 6px 0 4px;
+  }
+
+  .login-container button {
+    padding: 8px 18px;
+    font-size: 10px;
+    margin-top: 6px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  .login-container button.ghost-btn {
+    padding: 7px 16px;
+    font-size: 10px;
   }
 
   .toggle-container {
-    border-radius: 60px 0 0 60px;
+    border-radius: clamp(45px, 12vw, 75px) 0 0 clamp(45px, 12vw, 75px);
   }
 
   .login-container.active .toggle-container {
-    border-radius: 0 60px 60px 0;
+    border-radius: 0 clamp(45px, 12vw, 75px) clamp(45px, 12vw, 75px) 0;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────
+   4. VERY SMALL MOBILE (≤ 340px — iPhone SE 1st gen, etc.)
+   ───────────────────────────────────────────────────────── */
+@media (max-width: 340px) {
+  .login-container {
+    width: 98vw;
+    min-height: 390px;
+    border-radius: 12px;
+  }
+
+  .form-container form {
+    padding: 0 6px;
+  }
+
+  .toggle-panel {
+    padding: 0 6px;
+  }
+
+  .google-btn {
+    padding: 5px 6px;
+    font-size: 8.5px;
+    gap: 4px;
+  }
+
+  .google-btn svg {
+    height: 13px;
+    width: 13px;
+  }
+
+  .input-wrapper input {
+    padding: 6px 6px 6px 22px;
+    font-size: 10.5px;
+    min-height: 30px;
+  }
+
+  .login-container button {
+    padding: 6px 12px;
+    font-size: 9px;
+  }
+
+  .toggle-container {
+    border-radius: 35px 0 0 35px;
+  }
+
+  .login-container.active .toggle-container {
+    border-radius: 0 35px 35px 0;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────
+   5. SHORT VIEWPORTS / MOBILE LANDSCAPE (height ≤ 520px)
+   ───────────────────────────────────────────────────────── */
+@media (max-height: 520px) {
+  .login-body {
+    align-items: flex-start;
+    padding: 10px 8px;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .login-container {
+    margin: 8px auto;
+    min-height: 330px;
   }
 }
 
