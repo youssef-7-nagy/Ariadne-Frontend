@@ -382,7 +382,7 @@ const Home = () => {
                                             }
                                         }}
                                     >
-                                        <div className="img" style={{ backgroundImage: `url(${bgImage})` }}></div>
+                                        <div className="img" style={{ backgroundImage: `url("${bgImage}")` }}></div>
                                         <div className="card-title-overlay">
                                             <h3>{category.name}</h3>
                                         </div>

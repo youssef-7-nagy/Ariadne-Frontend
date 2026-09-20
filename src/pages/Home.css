@@ -2303,6 +2303,8 @@ html.dark, .dark {
     -webkit-font-smoothing: antialiased;
     transform-style: preserve-3d;
     will-change: transform;
+    /* Safari 3D transform border-radius clip fix */
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 
 .card.active-front {
@@ -2341,8 +2343,6 @@ html.dark, .dark {
     background-repeat: no-repeat;
     position: relative;
     transition: transform 0.4s ease;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
 }
 
 .card:hover .img {

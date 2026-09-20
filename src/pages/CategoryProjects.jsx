@@ -84,7 +84,7 @@ const CategoryProjects = () => {
                                             setActivePanelId(project._id);
                                         }
                                     }}
-                                    style={{ backgroundImage: `url(${coverUrl})`, textDecoration: 'none' }}
+                                    style={{ backgroundImage: `url("${coverUrl}")`, textDecoration: 'none' }}
                                 >
                                     <div className="panel-content">
                                         <h3>{project.title}</h3>

@@ -23,8 +23,12 @@ const ProjectCard = ({ project, index }) => {
     useEffect(() => {
         if (!coverUrl) return;
         const img = new Image();
-        img.src = coverUrl;
         img.onload = () => setImgLoaded(true);
+        img.onerror = () => setImgLoaded(true);
+        img.src = coverUrl;
+        if (img.complete) {
+            setImgLoaded(true);
+        }
     }, [coverUrl]);
 
     return (
@@ -38,7 +42,7 @@ const ProjectCard = ({ project, index }) => {
                 {/* Background Image with lazy loading transition */}
                 <div
                     className={`pf-card-bg ${imgLoaded ? 'loaded' : ''}`}
-                    style={{ backgroundImage: coverUrl ? `url(${coverUrl})` : 'none' }}
+                    style={{ backgroundImage: coverUrl ? `url("${coverUrl}")` : 'none' }}
                 />
 
                 {/* Cinematic gradient overlay */}

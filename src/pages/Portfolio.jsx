@@ -66,8 +66,12 @@ const CategoryCard = ({ category, index }) => {
     useEffect(() => {
         if (!coverSrc) return;
         const img = new Image();
-        img.src = coverSrc;
         img.onload = () => setImgLoaded(true);
+        img.onerror = () => setImgLoaded(true);
+        img.src = coverSrc;
+        if (img.complete) {
+            setImgLoaded(true);
+        }
     }, [coverSrc]);
 
     return (
@@ -81,7 +85,7 @@ const CategoryCard = ({ category, index }) => {
                 {/* Background Image with lazy loading */}
                 <div
                     className={`pf-card-bg ${imgLoaded ? 'loaded' : ''}`}
-                    style={{ backgroundImage: coverSrc ? `url(${coverSrc})` : 'none' }}
+                    style={{ backgroundImage: coverSrc ? `url("${coverSrc}")` : 'none' }}
                 />
 
                 {/* Cinematic gradient overlay */}
