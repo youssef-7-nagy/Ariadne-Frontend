@@ -10,7 +10,7 @@ import logoCairo from '../assets/trusted leaders/cairo.jpeg';
 import logoCarlos from '../assets/trusted leaders/carlos.jpeg';
 import logoClient4 from '../assets/trusted leaders/client4.avif';
 import logoCommunitas from '../assets/trusted leaders/communitas.jpeg';
-import logoDLS from '../assets/trusted leaders/DLS.jpg';
+import logoDLS from '../assets/trusted leaders/DLS.png';
 import logoDowntown from '../assets/trusted leaders/Downtown-factory.png';
 import logoElsawy from '../assets/trusted leaders/elsawy-logo.png';
 import logoExtraSauce from '../assets/trusted leaders/Extra-sauce.png';
