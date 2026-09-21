@@ -1,21 +1,16 @@
 import React from 'react';
 import './LoadingSpinner.css';
 
-const LoadingSpinner = () => {
+const LoadingSpinner = ({ text = 'loading', className = '' }) => {
   return (
-    <div className="spinner center">
-      <div className="spinner-blade"></div>
-      <div className="spinner-blade"></div>
-      <div className="spinner-blade"></div>
-      <div className="spinner-blade"></div>
-      <div className="spinner-blade"></div>
-      <div className="spinner-blade"></div>
-      <div className="spinner-blade"></div>
-      <div className="spinner-blade"></div>
-      <div className="spinner-blade"></div>
-      <div className="spinner-blade"></div>
-      <div className="spinner-blade"></div>
-      <div className="spinner-blade"></div>
+    <div className={`loader-page ${className}`} id="page">
+      <div className="loader-container" id="container">
+        <div className="loader-ring" id="ring"></div>
+        <div className="loader-ring" id="ring"></div>
+        <div className="loader-ring" id="ring"></div>
+        <div className="loader-ring" id="ring"></div>
+        <div className="loader-text" id="h3">{text}</div>
+      </div>
     </div>
   );
 };

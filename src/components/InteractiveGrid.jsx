@@ -35,52 +35,6 @@ const CSS = `
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-.${NS}-card::before {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 140px;
-  height: 350px;
-  transform: rotate(0deg) translateY(50%);
-  background: linear-gradient(90deg, #ff2288, transparent);
-  animation: rotation_9018 3000ms infinite linear;
-  animation-play-state: running;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.${NS}-card::after {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 140px;
-  height: 350px;
-  transform: rotate(0deg) translateY(-50%);
-  background: linear-gradient(90deg, transparent, #2268ff);
-  animation: rotation_9019 3000ms infinite linear;
-  animation-play-state: running;
-  z-index: 0;
-  pointer-events: none;
-}
-
-@keyframes rotation_9018 {
-  0% {
-    transform: rotate(0deg) translateY(50%);
-  }
-  100% {
-    transform: rotate(360deg) translateY(50%);
-  }
-}
-
-@keyframes rotation_9019 {
-  0% {
-    transform: rotate(0deg) translateY(-50%);
-  }
-  100% {
-    transform: rotate(360deg) translateY(-50%);
-  }
-}
-
 .${NS}-card-content {
   position: relative;
   z-index: 1;
@@ -267,59 +221,41 @@ export default function InteractiveGrid(props) {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                padding: "2px",
-                background: "rgba(0, 0, 0, 0.03)",
+                padding: "20px 12px",
+                background: cardFill,
+                border: `1px solid ${cardBorder}`,
                 borderRadius: `${rounded}px`,
                 boxSizing: "border-box",
                 minWidth: 0,
-                minHeight: "76px",
-                overflow: "hidden",
+                minHeight: "72px",
                 zIndex: isBig ? count + 10 : isSmall ? count + 2 : i + 1,
                 cursor: "pointer",
               }}
             >
-              <div
-                className={`${NS}-card-content`}
-                style={{
-                  position: "relative",
-                  zIndex: 1,
-                  width: "100%",
-                  height: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "20px 12px",
-                  background: cardFill,
-                  borderRadius: `${Math.max(0, rounded - 2)}px`,
-                  boxSizing: "border-box",
-                  minHeight: "72px",
-                }}
-              >
-                {logoSrc && (
-                  <img
-                    src={logoSrc}
-                    alt=""
-                    draggable={false}
-                    style={{
-                      maxHeight: "46px",
-                      maxWidth: "85%",
-                      width: `${logoPct}%`,
-                      height: "auto",
-                      objectFit: "contain",
-                      borderRadius: isCairo ? "6px" : "0",
-                      display: "block",
-                      margin: "0 auto",
-                      userSelect: "none",
-                      pointerEvents: "none",
-                      transform: isBigger
-                        ? "scale(1.7)"
-                        : (isMedium || isCairo)
-                        ? "scale(1.3)"
-                        : "scale(1)",
-                    }}
-                  />
-                )}
-              </div>
+              {logoSrc && (
+                <img
+                  src={logoSrc}
+                  alt=""
+                  draggable={false}
+                  style={{
+                    maxHeight: "46px",
+                    maxWidth: "85%",
+                    width: `${logoPct}%`,
+                    height: "auto",
+                    objectFit: "contain",
+                    borderRadius: isCairo ? "6px" : "0",
+                    display: "block",
+                    margin: "0 auto",
+                    userSelect: "none",
+                    pointerEvents: "none",
+                    transform: isBigger
+                      ? "scale(1.7)"
+                      : (isMedium || isCairo)
+                      ? "scale(1.3)"
+                      : "scale(1)",
+                  }}
+                />
+              )}
             </div>
           );
         })}

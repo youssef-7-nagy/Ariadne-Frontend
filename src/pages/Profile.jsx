@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 import './profile.css';
 import './AdminPanel.css';
 
@@ -75,9 +76,8 @@ const MyProjectsTab = ({ userName }) => {
                     <h3>My Projects</h3>
                     <p>Projects we've crafted for you.</p>
                 </div>
-                <div className="client-projects-loading">
-                    <div className="cp-spinner" />
-                    <p>Loading your projects…</p>
+                <div className="client-projects-loading" style={{ padding: '2rem 0' }}>
+                    <LoadingSpinner text="loading" />
                 </div>
             </div>
         );
@@ -196,9 +196,8 @@ const BillingTab = ({ userName }) => {
                     <h3>Billing & Transactions</h3>
                     <p>Your payment history and invoices.</p>
                 </div>
-                <div className="client-projects-loading">
-                    <div className="cp-spinner" />
-                    <p>Loading your billing history…</p>
+                <div className="client-projects-loading" style={{ padding: '2rem 0' }}>
+                    <LoadingSpinner text="loading" />
                 </div>
             </div>
         );
@@ -420,8 +419,8 @@ const Profile = () => {
         return (
             <div className="dashboard-container">
                 <div className="dashboard-content">
-                    <div className="dashboard-card">
-                        <p className="empty-text">Loading your profile…</p>
+                    <div className="dashboard-card" style={{ padding: '3rem 0', display: 'flex', justifyContent: 'center' }}>
+                        <LoadingSpinner text="loading" />
                     </div>
                 </div>
             </div>
