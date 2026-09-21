@@ -5,27 +5,31 @@ import InteractiveGrid from '../components/InteractiveGrid';
 import MeetTheMinds from '../components/MeetTheMinds';
 
 // Import logos from assets/trusted leaders
-import logoBasha from '../assets/trusted leaders/Basha.png';
+import logoCairoPhotoWeek from '../assets/trusted leaders/cairo-phot-week.png';
+import logoCairo from '../assets/trusted leaders/cairo.jpeg';
+import logoCarlos from '../assets/trusted leaders/carlos.jpeg';
+import logoClient4 from '../assets/trusted leaders/client4.avif';
+import logoCommunitas from '../assets/trusted leaders/communitas.jpeg';
 import logoDLS from '../assets/trusted leaders/DLS.jpg';
 import logoDowntown from '../assets/trusted leaders/Downtown-factory.png';
+import logoElsawy from '../assets/trusted leaders/elsawy-logo.png';
 import logoExtraSauce from '../assets/trusted leaders/Extra-sauce.png';
 import logoInsa from '../assets/trusted leaders/Insa.png';
 import logoKamena from '../assets/trusted leaders/Kamena.png';
-import logoCairoPhotoWeek from '../assets/trusted leaders/cairo-phot-week.png';
-import logoClient4 from '../assets/trusted leaders/client4.avif';
-import logoElsawy from '../assets/trusted leaders/elsawy-logo.png';
 
-// ── Partner brand data ──────────────────────────────────────────────────────
+// ── Partner brand data (11 unique logos) ───────────────────────────────────
 const PARTNERS = [
-    { name: 'Basha', color: '142, 249, 252', letter: 'B', logo: logoBasha },
-    { name: 'DLS', color: '142, 252, 204', letter: 'D', logo: logoDLS, contain: true },
-    { name: 'Downtown factory', color: '142, 252, 157', letter: 'D', logo: logoDowntown, contain: true },
-    { name: 'Extra Sauce', color: '215, 252, 142', letter: 'E', logo: logoExtraSauce },
-    { name: 'Insa', color: '252, 252, 142', letter: 'I', logo: logoInsa, contain: true },
-    { name: 'Kamena', color: '252, 208, 142', letter: 'K', logo: logoKamena, contain: true },
-    { name: 'Elsawy', color: '252, 142, 142', letter: 'E', logo: logoElsawy, contain: true },
-    { name: 'Cairo Photo Week', color: '252, 142, 239', letter: 'C', logo: logoCairoPhotoWeek, contain: true },
-    { name: 'Lo2ta', color: '204, 142, 252', letter: 'L', logo: logoClient4, contain: true },
+    { name: 'Cairo Photo Week', logo: logoCairoPhotoWeek },
+    { name: 'Cairo Design Week', logo: logoCairo },
+    { name: 'Carlos', logo: logoCarlos },
+    { name: 'Lo2ta', logo: logoClient4 },
+    { name: 'Communitas', logo: logoCommunitas },
+    { name: 'DLS', logo: logoDLS },
+    { name: 'Downtown Factory', logo: logoDowntown },
+    { name: 'Elsawy', logo: logoElsawy },
+    { name: 'Extra Sauce', logo: logoExtraSauce },
+    { name: 'Insa', logo: logoInsa },
+    { name: 'Kamena', logo: logoKamena },
 ];
 
 
@@ -159,8 +163,8 @@ const About = () => {
                     <div className="interactive-partners-stage">
                         <InteractiveGrid
                             images={PARTNERS.map(p => p.logo).filter(Boolean)}
-                            columns={5}
-                            rows={3}
+                            columns={4}
+                            repeat={false}
                             gap={14}
                             rounded={14}
                             cardFill="#ffffff"

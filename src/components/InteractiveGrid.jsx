@@ -169,6 +169,27 @@ const CSS = `
     box-shadow: 0 24px 48px -6px rgba(124, 58, 237, 0.28), 0 0 20px rgba(124, 58, 237, 0.2), 0 0 0 1.5px rgba(124, 58, 237, 0.5);
   }
 }
+
+@media (max-width: 900px) {
+  .${NS}-grid-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .${NS}-card {
+    grid-column: span 1 !important;
+    grid-column-start: auto !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .${NS}-grid-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+  .${NS}-card {
+    padding: 16px 10px !important;
+    min-height: 75px !important;
+  }
+}
 `;
 
 const srcOf = (image) => (typeof image === "string" ? image : image?.src ?? "");
@@ -193,6 +214,7 @@ export default function InteractiveGrid(props) {
     perspective = DEFAULTS.perspective,
     rotateX = DEFAULTS.rotateX,
     rotateY = DEFAULTS.rotateY,
+    repeat = true,
     style,
   } = props;
 
@@ -203,7 +225,7 @@ export default function InteractiveGrid(props) {
 
   const cols = Math.max(1, Math.round(columns));
   const rowCount = Math.max(1, Math.round(rows));
-  const count = cols * rowCount;
+  const count = repeat ? cols * rowCount : urls.length;
 
   const [hovered, setHovered] = useState(null);
   const leaveTimer = useRef(null);
@@ -250,6 +272,10 @@ export default function InteractiveGrid(props) {
 
   const logoPct = Math.min(10, Math.max(1, Math.round(logoScale))) * 20;
 
+  // Track subdivision for centering the last row when cols === 4 and count === 11
+  const isCustom4Cols = !repeat && cols === 4 && count === 11;
+  const tracks = isCustom4Cols ? 24 : cols;
+
   return (
     <div
       style={{
@@ -270,11 +296,11 @@ export default function InteractiveGrid(props) {
     >
       <style>{CSS}</style>
       <div
+        className={`${NS}-grid-container`}
         onPointerLeave={onLeave}
         style={{
           display: "grid",
-          gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
-          gridTemplateRows: `repeat(${rowCount}, minmax(0, 1fr))`,
+          gridTemplateColumns: `repeat(${tracks}, minmax(0, 1fr))`,
           gap: `${gap}px`,
           width: "100%",
           transform: `perspective(${perspective}px) rotateX(${rotateY}deg) rotateY(${rotateX}deg)`,
@@ -284,13 +310,27 @@ export default function InteractiveGrid(props) {
         {Array.from({ length: count }).map((_, i) => {
           const isBig = hovered === i;
           const isSmall = !isBig && neighbours.includes(i);
-          const logoSrc = urls[i % urls.length];
+          const logoSrc = repeat ? urls[i % urls.length] : urls[i];
           const isKamena = logoSrc && logoSrc.includes("Kamena");
+          const isCairo = logoSrc && (logoSrc.includes("cairo.") || logoSrc.includes("cairo.jpeg"));
 
           const colIdx = i % cols;
           const rowIdx = Math.floor(i / cols);
           const enterDelay = `${i * 0.045}s`;
           const floatDelay = `${(colIdx * 0.35 + rowIdx * 0.5) % 3}s`;
+
+          // Card column positioning for 24-track centering:
+          // Row 1 (indices 0..3): span 6
+          // Row 2 (indices 4..7): span 6
+          // Row 3 (indices 8..10): starts at track 4, each spans 6 -> perfectly centered!
+          let customColStyle = {};
+          if (isCustom4Cols) {
+            if (i === 8) {
+              customColStyle = { gridColumn: "4 / span 6" };
+            } else {
+              customColStyle = { gridColumn: "span 6" };
+            }
+          }
 
           return (
             <div
@@ -308,6 +348,7 @@ export default function InteractiveGrid(props) {
                 .filter(Boolean)
                 .join(" ")}
               style={{
+                ...customColStyle,
                 position: "relative",
                 display: "flex",
                 alignItems: "center",
@@ -339,6 +380,7 @@ export default function InteractiveGrid(props) {
                     width: "auto",
                     height: "auto",
                     objectFit: "contain",
+                    borderRadius: isCairo ? "8px" : "0",
                     display: "block",
                     margin: "0 auto",
                     userSelect: "none",
