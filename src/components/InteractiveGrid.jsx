@@ -28,19 +28,72 @@ const NS = "framer-animate-grid";
 
 const CSS = `
 .${NS}-card {
-  transition: all ${DURATION}ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform ${DURATION}ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow ${DURATION}ms cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, box-shadow;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-.${NS}-shadow {
-  box-shadow:
-    0 2px 6px var(--ag-shadow),
-    0 4px 12px var(--ag-shadow),
-    0 8px 24px var(--ag-shadow);
+.${NS}-card::before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 140px;
+  height: 350px;
+  transform: rotate(0deg) translateY(50%);
+  background: linear-gradient(90deg, #ff2288, transparent);
+  animation: rotation_9018 3000ms infinite linear;
+  animation-play-state: running;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.${NS}-card::after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 140px;
+  height: 350px;
+  transform: rotate(0deg) translateY(-50%);
+  background: linear-gradient(90deg, transparent, #2268ff);
+  animation: rotation_9019 3000ms infinite linear;
+  animation-play-state: running;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes rotation_9018 {
+  0% {
+    transform: rotate(0deg) translateY(50%);
+  }
+  100% {
+    transform: rotate(360deg) translateY(50%);
+  }
+}
+
+@keyframes rotation_9019 {
+  0% {
+    transform: rotate(0deg) translateY(-50%);
+  }
+  100% {
+    transform: rotate(360deg) translateY(-50%);
+  }
+}
+
+.${NS}-card-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
 .${NS}-card img {
-  opacity: 0.75;
+  opacity: 0.85;
   transition: all ${DURATION}ms ease;
   shape-rendering: geometricPrecision;
 }
@@ -51,31 +104,11 @@ const CSS = `
 
 .${NS}-small {
   transform: scale(1.05) translate(-5px, -5px) translateZ(0);
-  border-color: rgba(124, 58, 237, 0.25) !important;
 }
 
 .${NS}-big {
   transform: scale(1.15) translate(-15px, -15px) translateZ(15px);
-  border-color: rgba(124, 58, 237, 0.45) !important;
   box-shadow: 0 16px 36px rgba(124, 58, 237, 0.16), 0 4px 12px rgba(0, 0, 0, 0.05) !important;
-}
-
-.${NS}-glow-big {
-  animation: ${NS}-glow 1.5s ease-in-out infinite alternate;
-}
-
-.${NS}-glow-small {
-  animation: ${NS}-glow-small 1.5s ease-in-out infinite alternate;
-}
-
-@keyframes ${NS}-glow {
-  0%  { filter: drop-shadow(0 0 2px var(--ag-glow-start)); }
-  to  { filter: drop-shadow(0 1px var(--ag-glow-blur) var(--ag-glow-end)); }
-}
-
-@keyframes ${NS}-glow-small {
-  0%  { filter: drop-shadow(0 0 2px var(--ag-glow-start)); }
-  to  { filter: drop-shadow(0 1px var(--ag-glow-blur-small) var(--ag-glow-start)); }
 }
 
 @media (max-width: 1024px) {
@@ -89,7 +122,7 @@ const CSS = `
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
     gap: 6px !important;
   }
-  .${NS}-card {
+  .${NS}-card-content {
     padding: 14px 8px !important;
     min-height: 55px !important;
   }
@@ -100,7 +133,7 @@ const CSS = `
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     gap: 5px !important;
   }
-  .${NS}-card {
+  .${NS}-card-content {
     padding: 10px 6px !important;
     min-height: 48px !important;
   }
@@ -216,21 +249,16 @@ export default function InteractiveGrid(props) {
           const isBig = hovered === i;
           const isSmall = !isBig && neighbours.includes(i);
           const logoSrc = urls[i % urls.length];
-          const isKamena = logoSrc && logoSrc.includes("Kamena");
+          const isBigger = logoSrc && (logoSrc.includes("communitas") || logoSrc.includes("carlos") || logoSrc.includes("Insa") || logoSrc.includes("client4"));
+          const isMedium = logoSrc && (logoSrc.includes("DLS") || logoSrc.includes("Kamena"));
           const isCairo = logoSrc && (logoSrc.includes("cairo.") || logoSrc.includes("cairo.jpeg"));
-          const isSlightlyBigger = logoSrc && (logoSrc.includes("communitas") || logoSrc.includes("client4") || logoSrc.includes("carlos"));
 
           return (
             <div
               key={i}
-              onPointerEnter={() => onEnter(i)}
               className={[
                 `${NS}-card`,
                 shadow && `${NS}-shadow`,
-                isBig && `${NS}-big`,
-                isSmall && `${NS}-small`,
-                glow && isBig && `${NS}-glow-big`,
-                glow && isSmall && `${NS}-glow-small`,
               ]
                 .filter(Boolean)
                 .join(" ")}
@@ -239,42 +267,59 @@ export default function InteractiveGrid(props) {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                padding: "20px 12px",
-                background: cardFill,
-                border: `1px solid ${cardBorder}`,
+                padding: "2px",
+                background: "rgba(0, 0, 0, 0.03)",
                 borderRadius: `${rounded}px`,
                 boxSizing: "border-box",
                 minWidth: 0,
-                minHeight: "72px",
-                overflow: "visible",
+                minHeight: "76px",
+                overflow: "hidden",
                 zIndex: isBig ? count + 10 : isSmall ? count + 2 : i + 1,
                 cursor: "pointer",
               }}
             >
-              {logoSrc && (
-                <img
-                  src={logoSrc}
-                  alt=""
-                  draggable={false}
-                  style={{
-                    maxHeight: "46px",
-                    maxWidth: "85%",
-                    width: `${logoPct}%`,
-                    height: "auto",
-                    objectFit: "contain",
-                    borderRadius: isCairo ? "6px" : "0",
-                    display: "block",
-                    margin: "0 auto",
-                    userSelect: "none",
-                    pointerEvents: "none",
-                    transform: isKamena
-                      ? "scale(1.7)"
-                      : isSlightlyBigger
-                      ? "scale(1.4)"
-                      : "scale(1)",
-                  }}
-                />
-              )}
+              <div
+                className={`${NS}-card-content`}
+                style={{
+                  position: "relative",
+                  zIndex: 1,
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "20px 12px",
+                  background: cardFill,
+                  borderRadius: `${Math.max(0, rounded - 2)}px`,
+                  boxSizing: "border-box",
+                  minHeight: "72px",
+                }}
+              >
+                {logoSrc && (
+                  <img
+                    src={logoSrc}
+                    alt=""
+                    draggable={false}
+                    style={{
+                      maxHeight: "46px",
+                      maxWidth: "85%",
+                      width: `${logoPct}%`,
+                      height: "auto",
+                      objectFit: "contain",
+                      borderRadius: isCairo ? "6px" : "0",
+                      display: "block",
+                      margin: "0 auto",
+                      userSelect: "none",
+                      pointerEvents: "none",
+                      transform: isBigger
+                        ? "scale(1.7)"
+                        : (isMedium || isCairo)
+                        ? "scale(1.3)"
+                        : "scale(1)",
+                    }}
+                  />
+                )}
+              </div>
             </div>
           );
         })}

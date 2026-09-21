@@ -121,11 +121,11 @@ const Home = () => {
             hasSwipedRef.current = true;
             isSwipingActiveRef.current = false;
 
-            // Direction mapping: SWIPE RIGHT -> NEXT, SWIPE LEFT -> PREV
+            // Direction mapping: SWIPE RIGHT -> PREV (moves carousel RIGHT), SWIPE LEFT -> NEXT (moves carousel LEFT)
             if (deltaX > 0) {
-                handleNext();
-            } else {
                 handlePrev();
+            } else {
+                handleNext();
             }
         }
     };
@@ -151,9 +151,9 @@ const Home = () => {
                     lastSwipeTimeRef.current = now;
                     hasSwipedRef.current = true;
                     if (deltaX > 0) {
-                        handleNext();
-                    } else {
                         handlePrev();
+                    } else {
+                        handleNext();
                     }
                 }
             }
