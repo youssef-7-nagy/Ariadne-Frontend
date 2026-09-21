@@ -2222,6 +2222,9 @@ html.dark, .dark {
 .categories-section {
     background: var(--bg-primary);
     padding-top: 60px;
+    padding-bottom: 70px;
+    overflow-x: clip;
+    position: relative;
     /* Shift content up */
 }
 
@@ -2268,14 +2271,19 @@ html.dark, .dark {
     align-items: center;
     justify-content: center;
     overflow: visible;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .inner {
     --w: 180px;
     --h: 260px;
     --translateZ: 420px;
-    --rotateX: -10deg;
-    --perspective: 1200px;
+    --rotateX: -15deg;
+    --perspective: 1800px;
+    --active-pop: 120px;
+    --active-scale: 1.25;
     position: absolute;
     width: var(--w);
     height: var(--h);
@@ -2309,7 +2317,7 @@ html.dark, .dark {
 
 .card.active-front {
     border-color: #bd9f67;
-    transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(calc(var(--translateZ) + 120px)) scale(1.25);
+    transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(calc(var(--translateZ) + var(--active-pop, 120px))) scale(var(--active-scale, 1.25));
     z-index: 10;
     box-shadow: 0 0 40px rgba(189, 159, 103, 0.8), 0 0 80px rgba(189, 159, 103, 0.4);
 }
@@ -2324,15 +2332,21 @@ html.dark, .dark {
     pointer-events: none;
 }
 
-.card:hover {
-    transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(calc(var(--translateZ) + 40px)) scale(1.05);
-    z-index: 10;
-    border-color: rgba(189, 159, 103, 0.5);
-    box-shadow: 0 0 20px rgba(189, 159, 103, 0.3);
-}
+@media (hover: hover) {
+    .card:hover {
+        transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(calc(var(--translateZ) + 40px)) scale(1.05);
+        z-index: 10;
+        border-color: rgba(189, 159, 103, 0.5);
+        box-shadow: 0 0 20px rgba(189, 159, 103, 0.3);
+    }
 
-.card:hover .img::before {
-    opacity: 0.5;
+    .card:hover .img::before {
+        opacity: 0.5;
+    }
+
+    .card:hover .img {
+        transform: scale(1.1);
+    }
 }
 
 .img {
@@ -2392,13 +2406,15 @@ html.dark, .dark {
     margin: 0 auto;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1.2px;
+    letter-spacing: 1px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    word-break: normal !important;
+    line-height: 1.25;
     display: block;
-    max-width: 100%;
+    max-width: 95%;
     position: relative;
     padding-bottom: 6px;
     transition: color 0.4s ease, text-shadow 0.4s ease, letter-spacing 0.4s ease, font-size 0.4s ease;
@@ -2408,7 +2424,7 @@ html.dark, .dark {
 .card.active-front .card-title-overlay h3 {
     color: #bd9f67;
     text-shadow: 0 0 10px rgba(189, 159, 103, 0.5), 0 2px 4px rgba(0, 0, 0, 0.8);
-    letter-spacing: 1.8px;
+    letter-spacing: 1.4px;
 }
 
 /* Expanding gold indicator line */
@@ -2433,17 +2449,18 @@ html.dark, .dark {
 /* --- Mobile Responsive 3D Carousel Card Title Overlays --- */
 @media (max-width: 768px) {
     .card-title-overlay {
-        padding: 20px 3px 10px;
+        padding: 18px 4px 10px;
     }
 
     .card-title-overlay h3 {
-        font-size: clamp(0.44rem, 2vw, 0.58rem);
-        letter-spacing: 0.8px;
+        font-size: clamp(0.40rem, 1.8vw, 0.52rem);
+        letter-spacing: 0.5px;
     }
 
     .card:hover .card-title-overlay h3,
     .card.active-front .card-title-overlay h3 {
-        letter-spacing: 1.2px;
+        font-size: clamp(0.45rem, 2.2vw, 0.60rem);
+        letter-spacing: 0.8px;
     }
 
     .card:hover .card-title-overlay h3::after,
@@ -2454,37 +2471,39 @@ html.dark, .dark {
 
 @media (max-width: 480px) {
     .card-title-overlay {
-        padding: 16px 2px 8px;
+        padding: 14px 4px 8px;
     }
 
     .card-title-overlay h3 {
-        font-size: clamp(0.36rem, 2.5vw, 0.48rem);
-        letter-spacing: 0.4px;
+        font-size: clamp(0.32rem, 1.7vw, 0.42rem);
+        letter-spacing: 0.3px;
     }
 
     .card:hover .card-title-overlay h3,
     .card.active-front .card-title-overlay h3 {
-        letter-spacing: 0.6px;
+        font-size: clamp(0.38rem, 2.0vw, 0.50rem);
+        letter-spacing: 0.5px;
     }
 
     .card:hover .card-title-overlay h3::after,
     .card.active-front .card-title-overlay h3::after {
-        width: 22px;
+        width: 24px;
     }
 }
 
 @media (max-width: 360px) {
     .card-title-overlay {
-        padding: 12px 1px 6px;
+        padding: 12px 2px 6px;
     }
 
     .card-title-overlay h3 {
-        font-size: clamp(0.32rem, 2.8vw, 0.42rem);
-        letter-spacing: 0.2px;
+        font-size: clamp(0.28rem, 1.5vw, 0.38rem);
+        letter-spacing: 0.1px;
     }
 
     .card:hover .card-title-overlay h3,
     .card.active-front .card-title-overlay h3 {
+        font-size: clamp(0.34rem, 1.8vw, 0.44rem);
         letter-spacing: 0.3px;
     }
 }
@@ -2555,6 +2574,19 @@ html.dark, .dark {
     }
 }
 
+@media (max-width: 1024px) {
+    .inner {
+        --w: 155px;
+        --h: 224px;
+        --translateZ: 300px;
+        --rotateX: -13deg;
+        --perspective: 1500px;
+        --active-pop: 85px;
+        --active-scale: 1.22;
+        top: 13%;
+    }
+}
+
 @media (max-width: 768px) {
     .home-section {
         padding: 60px 20px;
@@ -2575,32 +2607,37 @@ html.dark, .dark {
     }
 
     .inner {
-        --w: 130px;
-        --h: 185px;
-        --translateZ: 290px;
+        --w: 125px;
+        --h: 180px;
+        --translateZ: 205px;
+        --rotateX: -11deg;
+        --perspective: 1250px;
+        --active-pop: 55px;
+        --active-scale: 1.20;
+        top: 12%;
     }
 
     .prev-btn {
-        left: calc(50% - 65px) !important;
+        left: calc(50% - 58px) !important;
         right: auto !important;
     }
 
     .next-btn {
-        left: calc(50% + 15px) !important;
+        left: calc(50% + 12px) !important;
         right: auto !important;
     }
 
     .wrapper {
-        margin-bottom: 35px !important;
+        margin-bottom: 25px !important;
     }
 
     .carousel-btn {
         top: auto !important;
-        bottom: -25px !important;
+        bottom: 0px !important;
         transform: none !important;
-        width: 46px;
-        height: 46px;
-        font-size: 1.3rem;
+        width: 44px;
+        height: 44px;
+        font-size: 1.25rem;
         z-index: 50;
     }
 
@@ -2642,26 +2679,32 @@ html.dark, .dark {
         font-size: 1.1rem;
     }
 
-    /* Adjust 3D carousel for small mobile (iPhone 14 = 390px) */
+    /* Adjust 3D carousel for mobile (iPhone 12/13/14/15/16, Pro Max, Pixel, Galaxy) */
     .wrapper {
-        height: 390px !important;
+        height: clamp(350px, 50vh, 390px) !important;
+        margin-bottom: 20px !important;
     }
 
     .inner {
-        --w: 95px;
-        --h: 138px;
-        --translateZ: 200px;
+        --w: clamp(92px, 25vw, 104px);
+        --h: clamp(134px, 36vw, 150px);
+        --translateZ: clamp(128px, 34vw, 142px);
+        --rotateX: -8deg;
+        --perspective: 1050px;
+        --active-pop: 34px;
+        --active-scale: 1.16;
+        top: 10%;
     }
 
     .carousel-btn {
-        bottom: -20px !important;
+        bottom: 5px !important;
         width: 42px;
         height: 42px;
-        font-size: 1.2rem;
+        font-size: 1.15rem;
     }
 
     .prev-btn {
-        left: calc(50% - 55px) !important;
+        left: calc(50% - 52px) !important;
     }
 
     .next-btn {
@@ -2707,13 +2750,67 @@ html.dark, .dark {
     }
 
     .wrapper {
-        height: 320px !important;
+        height: clamp(320px, 48vh, 350px) !important;
+        margin-bottom: 18px !important;
     }
 
     .inner {
-        --w: 80px;
-        --h: 115px;
-        --translateZ: 170px;
+        --w: clamp(86px, 24.5vw, 94px);
+        --h: clamp(124px, 35vw, 136px);
+        --translateZ: clamp(118px, 33vw, 128px);
+        --rotateX: -7.5deg;
+        --perspective: 980px;
+        --active-pop: 28px;
+        --active-scale: 1.15;
+        top: 9%;
+    }
+
+    .carousel-btn {
+        bottom: 5px !important;
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+
+    .prev-btn {
+        left: calc(50% - 49px) !important;
+    }
+
+    .next-btn {
+        left: calc(50% + 9px) !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .wrapper {
+        height: clamp(300px, 48vh, 335px) !important;
+        margin-bottom: 15px !important;
+    }
+
+    .inner {
+        --w: 82px;
+        --h: 118px;
+        --translateZ: 112px;
+        --rotateX: -7deg;
+        --perspective: 900px;
+        --active-pop: 25px;
+        --active-scale: 1.14;
+        top: 8%;
+    }
+
+    .carousel-btn {
+        bottom: 5px !important;
+        width: 38px;
+        height: 38px;
+        font-size: 1.05rem;
+    }
+
+    .prev-btn {
+        left: calc(50% - 46px) !important;
+    }
+
+    .next-btn {
+        left: calc(50% + 8px) !important;
     }
 }
 

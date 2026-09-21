@@ -65,12 +65,122 @@ const Home = () => {
     const iframeRef = useRef(null);
     const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
 
+    const handlePrev = useCallback(() => {
+        setActiveIndex(prev => prev - 1);
+    }, []);
+
+    const handleNext = useCallback(() => {
+        setActiveIndex(prev => prev + 1);
+    }, []);
+
+    // Touch & Swipe gesture interaction for 3D Category Carousel
+    const touchStartRef = useRef({ x: 0, y: 0, time: 0 });
+    const hasSwipedRef = useRef(false);
+    const isSwipingActiveRef = useRef(false);
+    const isVerticalScrollRef = useRef(false);
+    const lastSwipeTimeRef = useRef(0);
+    const SWIPE_THRESHOLD = 40;
+
+    const handlePointerDown = (e) => {
+        if (!e.isPrimary) return;
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        if (e.target.closest('.carousel-btn')) return;
+
+        touchStartRef.current = {
+            x: e.clientX,
+            y: e.clientY,
+            time: Date.now()
+        };
+        hasSwipedRef.current = false;
+        isSwipingActiveRef.current = true;
+        isVerticalScrollRef.current = false;
+    };
+
+    const handlePointerMove = (e) => {
+        if (!isSwipingActiveRef.current || hasSwipedRef.current) return;
+
+        const deltaX = e.clientX - touchStartRef.current.x;
+        const deltaY = e.clientY - touchStartRef.current.y;
+        const absX = Math.abs(deltaX);
+        const absY = Math.abs(deltaY);
+
+        // If vertical movement is dominant early, allow native page scroll
+        if (!isVerticalScrollRef.current && absY > absX && absY > 10) {
+            isVerticalScrollRef.current = true;
+            return;
+        }
+
+        if (isVerticalScrollRef.current) return;
+
+        // Check horizontal swipe threshold
+        if (absX >= SWIPE_THRESHOLD && absX > absY) {
+            const now = Date.now();
+            if (now - lastSwipeTimeRef.current < 250) return;
+            lastSwipeTimeRef.current = now;
+
+            hasSwipedRef.current = true;
+            isSwipingActiveRef.current = false;
+
+            // Direction mapping: SWIPE RIGHT -> NEXT, SWIPE LEFT -> PREV
+            if (deltaX > 0) {
+                handleNext();
+            } else {
+                handlePrev();
+            }
+        }
+    };
+
+    const handlePointerUp = (e) => {
+        if (!isSwipingActiveRef.current) {
+            setTimeout(() => {
+                hasSwipedRef.current = false;
+            }, 150);
+            return;
+        }
+
+        // Support quick flick if pointermove did not cross threshold yet
+        if (!hasSwipedRef.current && !isVerticalScrollRef.current) {
+            const deltaX = e.clientX - touchStartRef.current.x;
+            const deltaY = e.clientY - touchStartRef.current.y;
+            const absX = Math.abs(deltaX);
+            const absY = Math.abs(deltaY);
+
+            if (absX >= SWIPE_THRESHOLD && absX > absY) {
+                const now = Date.now();
+                if (now - lastSwipeTimeRef.current >= 250) {
+                    lastSwipeTimeRef.current = now;
+                    hasSwipedRef.current = true;
+                    if (deltaX > 0) {
+                        handleNext();
+                    } else {
+                        handlePrev();
+                    }
+                }
+            }
+        }
+
+        isSwipingActiveRef.current = false;
+        setTimeout(() => {
+            hasSwipedRef.current = false;
+        }, 150);
+    };
+
+    const handlePointerCancel = () => {
+        isSwipingActiveRef.current = false;
+        isVerticalScrollRef.current = false;
+        setTimeout(() => {
+            hasSwipedRef.current = false;
+        }, 150);
+    };
+
     const updateCarouselHeight = useCallback(() => {
         const w = window.innerWidth;
-        if (w <= 375) setCarouselHeight(320);
-        else if (w <= 480) setCarouselHeight(390);
-        else if (w <= 600) setCarouselHeight(450);
-        else if (w <= 768) setCarouselHeight(520);
+        const h = window.innerHeight;
+        if (w <= 360) setCarouselHeight(Math.min(350, Math.max(300, Math.round(h * 0.48))));
+        else if (w <= 480) setCarouselHeight(Math.min(390, Math.max(330, Math.round(h * 0.5))));
+        else if (w <= 600) setCarouselHeight(440);
+        else if (w <= 768) setCarouselHeight(500);
+        else if (w <= 1024) setCarouselHeight(540);
         else setCarouselHeight(600);
     }, []);
 
@@ -89,7 +199,7 @@ const Home = () => {
     }, [updateCarouselHeight]);
 
     const getCategoryBg = (category) => {
-        return category.coverImage ? resolveUrl(category.coverImage) : LOCAL_IMAGE_MAP[category.slug];
+        return LOCAL_IMAGE_MAP[category.slug] || (category.coverImage ? resolveUrl(category.coverImage) : '');
     };
 
     useEffect(() => {
@@ -465,17 +575,31 @@ const Home = () => {
                     <h2 className="section-title">Our Expertise</h2>
                     <p className="section-subtitle">Explore the diverse range of visual storytelling categories we offer.</p>
 
-                    <div className="wrapper" style={{ height: `${carouselHeight}px`, marginTop: '20px' }}>
+                    <div
+                        className="wrapper"
+                        style={{ height: `${carouselHeight}px`, marginTop: '20px' }}
+                        onPointerDown={handlePointerDown}
+                        onPointerMove={handlePointerMove}
+                        onPointerUp={handlePointerUp}
+                        onPointerCancel={handlePointerCancel}
+                        onClickCapture={(e) => {
+                            if (hasSwipedRef.current) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }
+                        }}
+                    >
                         <button
                             className="carousel-btn prev-btn"
-                            onClick={() => setActiveIndex(prev => prev - 1)}
+                            onClick={handlePrev}
+                            aria-label="Previous category"
                         >
                             &#10094;
                         </button>
 
                         <div className="inner" style={{
                             '--quantity': categories.length || 10,
-                            transform: `perspective(1800px) rotateX(-15deg) rotateY(${-(360 / (categories.length || 1)) * activeIndex}deg)`
+                            transform: `perspective(var(--perspective, 1800px)) rotateX(var(--rotateX, -15deg)) rotateY(${-(360 / (categories.length || 1)) * activeIndex}deg)`
                         }}>
                             {categories.length > 0 ? categories.map((category, index) => {
                                 const bgImage = getCategoryBg(category);
@@ -516,7 +640,8 @@ const Home = () => {
 
                         <button
                             className="carousel-btn next-btn"
-                            onClick={() => setActiveIndex(prev => prev + 1)}
+                            onClick={handleNext}
+                            aria-label="Next category"
                         >
                             &#10095;
                         </button>
