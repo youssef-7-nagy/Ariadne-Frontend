@@ -435,148 +435,209 @@
 }
 
 /* ==========================================================================
-   # RESPONSIVE SCALING — ELEGANT ADAPTATION (ORIGINAL CLEAN MOBILE DESIGN)
+   # RESPONSIVE SCALING — SLEEK COMPACT RECTANGULAR CARD ON MOBILE
    ========================================================================== */
 
-/* Tablets / Compact Screens */
 @media (max-width: 900px) {
+  .login-body {
+    padding: 16px 12px;
+    align-items: center;
+    overflow-y: auto;
+  }
+
   .login-container {
-    width: 94%;
-    max-width: 780px;
-    min-height: 500px;
+    width: 100%;
+    max-width: 750px;
+    min-height: 480px;
+    border-radius: 18px;
   }
 
   .form-container form {
-    padding: 0 32px;
+    padding: 0 20px;
   }
 
   .toggle-panel {
-    padding: 0 30px;
-  }
-}
-
-/* Mobile Devices (≤ 768px) — Clean Full-Width Card (Original Layout) */
-@media (max-width: 768px) {
-  .login-body {
-    padding: 24px 16px;
-    align-items: center;
+    padding: 0 20px;
   }
 
-  .login-container {
-    width: 100%;
-    max-width: 450px;
-    min-height: auto;
-    border-radius: 18px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-  }
-
-  .form-container {
-    position: relative;
-    width: 100%;
-    height: auto;
-    opacity: 1;
-    z-index: 1;
-    transform: none !important;
-    animation: none !important;
-    transition: opacity 0.3s ease-in-out;
-  }
-
-  .sign-up,
-  .sign-in {
-    display: none;
-    position: relative;
-    width: 100%;
-    left: 0;
-    transform: none !important;
-  }
-
-  .login-container.active .sign-up {
-    display: block;
-    opacity: 1;
-    animation: none;
-  }
-
-  .login-container:not(.active) .sign-in {
-    display: block;
-    opacity: 1;
-  }
-
-  /* Hide sliding toggle panel entirely on mobile to prevent squeezing */
   .toggle-container {
-    display: none !important;
+    border-radius: 100px 0 0 100px;
   }
 
-  .form-container form {
-    padding: 36px 26px;
-    height: auto;
-  }
-
-  .login-container form h1 {
-    font-size: 24px;
-    margin-bottom: 8px;
-  }
-
-  .google-btn {
-    max-width: 100%;
-    padding: 11px 16px;
-    font-size: 0.85rem;
-    margin: 10px 0 8px;
-  }
-
-  .input-wrapper {
-    margin: 6px 0;
-  }
-
-  .input-wrapper input {
-    padding: 12px 14px 12px 38px;
-    font-size: 13px;
-    min-height: 44px;
-  }
-
-  .input-wrapper input.password-input {
-    padding-right: 38px;
-  }
-
-  .login-container button[type="submit"] {
-    width: 100%;
-    padding: 12px 20px;
-    font-size: 12px;
-    margin-top: 14px;
-  }
-
-  /* Show the mobile toggle link at the bottom */
-  .mobile-toggle {
-    display: block;
-    margin-top: 18px;
+  .login-container.active .toggle-container {
+    border-radius: 0 100px 100px 0;
   }
 }
 
-@media (max-width: 480px) {
-  .login-body {
-    padding: 18px 12px;
-  }
-
+@media (max-width: 650px) {
   .login-container {
-    max-width: 100%;
+    min-height: 420px;
     border-radius: 16px;
   }
 
   .form-container form {
-    padding: 30px 18px;
+    padding: 0 12px;
+  }
+
+  .toggle-panel {
+    padding: 0 12px;
   }
 
   .login-container form h1 {
-    font-size: 22px;
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+
+  .toggle-panel h1 {
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+
+  .login-container p,
+  .toggle-panel p {
+    font-size: 10.5px;
+    line-height: 14px;
+    margin: 6px 0;
+  }
+
+  .login-container span {
+    font-size: 9.5px;
+    margin: 4px 0 2px;
+  }
+
+  .input-wrapper {
+    margin: 3px 0;
+  }
+
+  .input-wrapper input {
+    padding: 8px 10px 8px 32px;
+    font-size: 12px;
+    min-height: 36px;
+    border-radius: 6px;
+  }
+
+  .input-wrapper input.password-input {
+    padding-right: 32px;
+  }
+
+  .input-icon,
+  .input-icon-right {
+    font-size: 12px;
+  }
+
+  .input-icon {
+    left: 10px;
+  }
+
+  .input-icon-right {
+    right: 10px;
+  }
+
+  .login-container button {
+    padding: 8px 18px;
+    font-size: 10px;
+    margin-top: 8px;
+    border-radius: 6px;
   }
 
   .google-btn {
-    font-size: 0.8rem;
-    padding: 10px 14px;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.72rem;
+    gap: 0.45rem;
+    max-width: 100%;
+    margin: 6px 0 4px;
+    white-space: nowrap;
   }
 
-  .mobile-toggle {
-    font-size: 12.5px;
-    margin-top: 16px;
+  .google-btn svg {
+    height: 18px;
+    width: 18px;
+  }
+
+  .toggle-container {
+    border-radius: 70px 0 0 70px;
+  }
+
+  .login-container.active .toggle-container {
+    border-radius: 0 70px 70px 0;
+  }
+}
+
+@media (max-width: 430px) {
+  .login-body {
+    padding: 12px 6px;
+  }
+
+  .login-container {
+    min-height: 380px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .form-container form {
+    padding: 0 6px;
+  }
+
+  .toggle-panel {
+    padding: 0 6px;
+  }
+
+  .login-container form h1,
+  .toggle-panel h1 {
+    font-size: 15px;
+  }
+
+  .login-container p,
+  .toggle-panel p {
+    font-size: 9px;
+    line-height: 12px;
+    margin: 4px 0;
+  }
+
+  .input-wrapper input {
+    padding: 7px 8px 7px 26px;
+    font-size: 11px;
+    min-height: 32px;
+  }
+
+  .input-wrapper input.password-input {
+    padding-right: 26px;
+  }
+
+  .input-icon {
+    left: 7px;
+    font-size: 10px;
+  }
+
+  .input-icon-right {
+    right: 7px;
+    font-size: 10px;
+  }
+
+  .login-container button {
+    padding: 6px 12px;
+    font-size: 9px;
+    margin-top: 6px;
+  }
+
+  .google-btn {
+    padding: 0.25rem 0.45rem;
+    font-size: 0.62rem;
+    gap: 0.35rem;
+    white-space: nowrap;
+  }
+
+  .google-btn svg {
+    height: 15px;
+    width: 15px;
+  }
+
+  .toggle-container {
+    border-radius: 50px 0 0 50px;
+  }
+
+  .login-container.active .toggle-container {
+    border-radius: 0 50px 50px 0;
   }
 }
 
