@@ -313,6 +313,7 @@ export default function InteractiveGrid(props) {
           const logoSrc = repeat ? urls[i % urls.length] : urls[i];
           const isKamena = logoSrc && logoSrc.includes("Kamena");
           const isCairo = logoSrc && (logoSrc.includes("cairo.") || logoSrc.includes("cairo.jpeg"));
+          const isSlightlyBigger = logoSrc && (logoSrc.includes("communitas") || logoSrc.includes("client4") || logoSrc.includes("carlos"));
 
           const colIdx = i % cols;
           const rowIdx = Math.floor(i / cols);
@@ -389,6 +390,10 @@ export default function InteractiveGrid(props) {
                       ? isBig
                         ? "scale(1.9)"
                         : "scale(1.75)"
+                      : isSlightlyBigger
+                      ? isBig
+                        ? "scale(1.65)"
+                        : "scale(1.55)"
                       : isBig
                       ? "scale(1.08)"
                       : "scale(1)",
