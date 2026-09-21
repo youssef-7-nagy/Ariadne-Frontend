@@ -1,4 +1,3 @@
-#page,
 .loader-page {
   display: flex;
   justify-content: center;
@@ -8,7 +7,6 @@
   position: relative;
 }
 
-#container,
 .loader-container {
   display: flex;
   justify-content: center;
@@ -18,7 +16,6 @@
   height: 190px;
 }
 
-#h3,
 .loader-text {
   position: absolute;
   top: 50%;
@@ -39,7 +36,6 @@
   line-height: 1;
 }
 
-#ring,
 .loader-ring {
   width: 190px;
   height: 190px;
@@ -49,7 +45,6 @@
   box-sizing: border-box;
 }
 
-#ring:nth-child(1),
 .loader-container > .loader-ring:nth-child(1) {
   border-bottom: 8px solid rgb(255, 141, 249);
   animation: rotate1 2s linear infinite;
@@ -65,7 +60,6 @@
   }
 }
 
-#ring:nth-child(2),
 .loader-container > .loader-ring:nth-child(2) {
   border-bottom: 8px solid rgb(255, 65, 106);
   animation: rotate2 2s linear infinite;
@@ -81,7 +75,6 @@
   }
 }
 
-#ring:nth-child(3),
 .loader-container > .loader-ring:nth-child(3) {
   border-bottom: 8px solid rgb(0, 255, 255);
   animation: rotate3 2s linear infinite;
@@ -97,7 +90,6 @@
   }
 }
 
-#ring:nth-child(4),
 .loader-container > .loader-ring:nth-child(4) {
   border-bottom: 8px solid rgb(252, 183, 55);
   animation: rotate4 2s linear infinite;

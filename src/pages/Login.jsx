@@ -129,7 +129,7 @@ const Login = () => {
 
     return (
         <div className="login-body">
-            <div className={`login-container ${isActive ? "active" : ""}`} id="container">
+            <div className={`login-container ${isActive ? "active" : ""}`} id="login-container">
 
                 {/* --- REGISTER FORM --- */}
                 <div className="form-container sign-up">
