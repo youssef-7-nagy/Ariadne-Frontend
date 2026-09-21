@@ -75,7 +75,7 @@ const OAuthCallback = () => {
         background: "#0a0a0a",
       }}
     >
-      <LoadingSpinner text="Signing in…" />
+      <LoadingSpinner text="loading" />
     </div>
   );
 };
