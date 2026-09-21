@@ -129,6 +129,7 @@ export default function InteractiveGrid(props) {
     perspective = DEFAULTS.perspective,
     rotateX = DEFAULTS.rotateX,
     rotateY = DEFAULTS.rotateY,
+    repeat = true,
     style,
   } = props;
 
@@ -139,7 +140,7 @@ export default function InteractiveGrid(props) {
 
   const cols = Math.max(1, Math.round(columns));
   const rowCount = Math.max(1, Math.round(rows));
-  const count = cols * rowCount;
+  const count = repeat ? cols * rowCount : urls.length;
 
   const [hovered, setHovered] = useState(null);
   const leaveTimer = useRef(null);

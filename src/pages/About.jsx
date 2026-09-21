@@ -165,9 +165,10 @@ const About = () => {
                     <div className="interactive-partners-stage">
                         <InteractiveGrid
                             images={PARTNERS.map(p => p.logo).filter(Boolean)}
-                            columns={7}
-                            rows={4}
-                            gap={8}
+                            columns={4}
+                            rows={3}
+                            repeat={false}
+                            gap={12}
                             rounded={10}
                             logoScale={4}
                             cardFill="#ffffff"
