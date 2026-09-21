@@ -5,6 +5,7 @@ import InteractiveGrid from '../components/InteractiveGrid';
 import MeetTheMinds from '../components/MeetTheMinds';
 
 // Import logos from assets/trusted leaders
+import logoBasha from '../assets/trusted leaders/Basha.png';
 import logoCairoPhotoWeek from '../assets/trusted leaders/cairo-phot-week.png';
 import logoCairo from '../assets/trusted leaders/cairo.jpeg';
 import logoCarlos from '../assets/trusted leaders/carlos.jpeg';
@@ -17,8 +18,9 @@ import logoExtraSauce from '../assets/trusted leaders/Extra-sauce.png';
 import logoInsa from '../assets/trusted leaders/Insa.png';
 import logoKamena from '../assets/trusted leaders/Kamena.png';
 
-// ── Partner brand data (11 unique logos) ───────────────────────────────────
+// ── Partner brand data (12 unique logos) ───────────────────────────────────
 const PARTNERS = [
+    { name: 'Basha', logo: logoBasha },
     { name: 'Cairo Photo Week', logo: logoCairoPhotoWeek },
     { name: 'Cairo Design Week', logo: logoCairo },
     { name: 'Carlos', logo: logoCarlos },
