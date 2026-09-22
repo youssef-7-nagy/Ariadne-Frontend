@@ -100,20 +100,6 @@ const About = () => {
                             From intimate product shoots to large-scale corporate campaigns, we bring the same relentless
                             attention to detail and creative ambition to every project we take on.
                         </p>
-                        <div className="about-stat-row">
-                            <div className="about-stat">
-                                <span className="about-stat-num">120+</span>
-                                <span className="about-stat-label">Projects</span>
-                            </div>
-                            <div className="about-stat">
-                                <span className="about-stat-num">40+</span>
-                                <span className="about-stat-label">Brands</span>
-                            </div>
-                            <div className="about-stat">
-                                <span className="about-stat-num">5★</span>
-                                <span className="about-stat-label">Rating</span>
-                            </div>
-                        </div>
                     </div>
                     <div className="about-story-img-wrap">
                         <img 

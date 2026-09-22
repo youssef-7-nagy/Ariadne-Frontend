@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { FiEdit2, FiTrash2, FiArrowUp, FiArrowDown, FiArrowLeft, FiArrowRight, FiPlus, FiX, FiExternalLink, FiUploadCloud, FiImage, FiVideo } from 'react-icons/fi';
+import { FiEdit2, FiTrash2, FiArrowUp, FiArrowDown, FiArrowLeft, FiArrowRight, FiPlus, FiX, FiExternalLink, FiUploadCloud, FiImage, FiVideo, FiEye, FiEyeOff } from 'react-icons/fi';
 import { notify } from '../utils/notify';
 import './AdminPanel.css';
 
@@ -46,7 +46,7 @@ const getAuthConfig = () => ({
 
 import { MediaPreview } from '../components/admin/MediaPreview';
 import { MediaUploader as UploadZone } from '../components/admin/MediaUploader';
-import OriginImageGallery from '../components/OriginImageGallery';
+import { FilmstripGallery } from '@/components/ui/filmstrip-gallery';
 
 // URL Validators
 const isValidYoutubeVimeo = (url) => {
@@ -161,10 +161,25 @@ const CategoriesTab = () => {
     const targetIndex = index + direction;
     const [moved] = list.splice(index, 1);
     list.splice(targetIndex, 0, moved);
+    
+    // Fix: actually update the order property before saving
+    list.forEach((item, i) => { item.order = i; });
+    
     setCategories(list);
     try {
       await axios.put(`${API}/categories/reorder`, { reorderedItems: list.map(c => ({ id: c._id, order: c.order })) }, getAuthConfig());
     } catch { notify.error('Reorder failed'); load(); }
+  };
+
+  const handleToggleVisibility = async (cat) => {
+    try {
+      const updatedStatus = !(cat.isActive !== false); // default is true if undefined
+      await axios.put(`${API}/categories/${cat._id}`, { isActive: updatedStatus }, getAuthConfig());
+      notify.success(`Category is now ${updatedStatus ? 'visible' : 'hidden'}`);
+      load();
+    } catch (err) {
+      notify.error('Failed to update visibility');
+    }
   };
 
   return (
@@ -241,6 +256,16 @@ const CategoriesTab = () => {
                 <div className="cms-reorder-btns">
                   <button className="btn-icon" onClick={() => handleReorder(index, -1)} title="Move left"><FiArrowLeft /></button>
                   <button className="btn-icon" onClick={() => handleReorder(index, 1)} title="Move right"><FiArrowRight /></button>
+                </div>
+                <div style={{ display: 'flex' }}>
+                  <button 
+                    className="btn-icon" 
+                    onClick={() => handleToggleVisibility(cat)} 
+                    title={cat.isActive !== false ? "Hide from website" : "Show on website"}
+                    style={{ color: cat.isActive !== false ? 'inherit' : '#f59e0b' }}
+                  >
+                    {cat.isActive !== false ? <FiEye /> : <FiEyeOff />}
+                  </button>
                 </div>
                 <div style={{ display: 'flex', gap: 6 }}>
                   <button className="btn-icon" onClick={() => handleEdit(cat)} title="Edit"><FiEdit2 /></button>
@@ -757,7 +782,7 @@ const ProjectsTab = () => {
                         <label style={{ display: 'block', marginBottom: 8, fontSize: '0.88rem', color: '#cbd5e1', fontWeight: 600 }}>
                           ✨ Live Gallery Preview ({galleryPreviews.length} photos):
                         </label>
-                        <OriginImageGallery images={galleryPreviews} title={form.title || 'Project Preview'} />
+                        <FilmstripGallery images={galleryPreviews} title={form.title || 'Project Preview'} aspect="auto" />
                       </div>
 
                       <label style={{ display: 'block', marginBottom: 8, fontSize: '0.8rem', color: '#94a3b8' }}>

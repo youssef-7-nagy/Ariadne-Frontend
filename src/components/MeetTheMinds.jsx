@@ -30,10 +30,11 @@ const TEAM_MEMBERS = [
         id: 'leo',
         name: 'Léonardo HANNA',
         role: 'Creative Director',
-        badge: 'CREATIVE DIRECTION',
+        badge: 'CREATIVE DIRECTOR',
         bio: 'Léonardo brings a sharp vision and precision to set direction. He leads Ariadne\'s cinematic productions, bridging raw human emotion and powerful storylines into high-end films that resonate with audiences.',
         img: imgLeo,
         accentColor: '#7c3aed',
+        ribbonFold: '#5b21b6',
         icon: LuClapperboard,
         cameraSpecs: ['ISO 100  |  85mm  |  f/1.2', '1/250s  |  5.6K RAW'],
         gradientColors: ['#7c3aed', '#a78bfa'],
@@ -41,11 +42,12 @@ const TEAM_MEMBERS = [
     {
         id: 'ramsis',
         name: 'Ramsis HANNA',
-        role: 'Executive Producer',
-        badge: 'EXECUTIVE PRODUCER',
-        bio: 'Ramsis leads Ariadne\'s executive production and visual strategy, overseeing project development, creative direction, and cinematic execution from inception to final delivery.',
+        role: 'Senior Producer',
+        badge: 'SENIOR PRODUCER',
+        bio: 'Ramsis leads Ariadne\'s senior production and visual strategy, overseeing project development, creative direction, and cinematic execution from inception to final delivery.',
         img: imgRamsis,
         accentColor: '#ff6b35',
+        ribbonFold: '#cc4a1a',
         icon: FaBriefcase,
         cameraSpecs: ['ARRI Alexa Mini  |  RED V-Raptor', 'PRODUCTION DEPT  |  SET-01'],
         gradientColors: ['#ff6b35', '#f97316'],
@@ -58,6 +60,7 @@ const TEAM_MEMBERS = [
         bio: 'Samah coordinates set logistics, scheduling, and production operations for Ariadne\'s projects, ensuring seamless execution across departments and keeping every shoot running flawlessly.',
         img: imgSamah,
         accentColor: '#ec4899',
+        ribbonFold: '#be185d',
         icon: FaClipboardList,
         cameraSpecs: ['MOOD BOARD 03  |  PALETTE A', 'ART DIRECTION & STYLING'],
         gradientColors: ['#ec4899', '#f472b6'],
@@ -70,6 +73,7 @@ const TEAM_MEMBERS = [
         bio: 'Bringing together PR, communications, client relations, and account management to turn ideas into impactful work. She works closely with clients and production teams, keeping communication clear, relationships strong, and every project moving smoothly from concept to execution.',
         img: imgMaria,
         accentColor: '#8b5cf6',
+        ribbonFold: '#6d28d9',
         icon: FaBullhorn,
         cameraSpecs: ['PROD SCHEDULE  |  CALL SHEET 02', 'CLIENT COLLABORATION'],
         gradientColors: ['#8b5cf6', '#c084fc'],
@@ -79,9 +83,10 @@ const TEAM_MEMBERS = [
         name: 'Fady BARSSOUM',
         role: 'Director Of Photography',
         badge: 'CINEMATOGRAPHY',
-        bio: 'He leads Ariadne’s camera and lighting department, bringing technical precision and visual expertise to every production. He oversees cinematography and on-set workflow across commercials, brand films, and digital content, ensuring every frame is polished, cinematic, and aligned with the client’s vision.',
+        bio: 'He leads Ariadne\'s camera and lighting department, bringing technical precision and visual expertise to every production. He oversees cinematography and on-set workflow across commercials, brand films, and digital content, ensuring every frame is polished, cinematic, and aligned with the client\'s vision.',
         img: imgFady,
         accentColor: '#10b981',
+        ribbonFold: '#047857',
         icon: FaCamera,
         cameraSpecs: ['REC.709  |  DCI-P3  |  12-BIT', 'DAVINCI RESOLVE Studio'],
         gradientColors: ['#10b981', '#34d399'],
@@ -91,9 +96,10 @@ const TEAM_MEMBERS = [
         name: 'Pierre TOMA',
         role: 'Sound Engineer',
         badge: 'SOUND DEPT',
-        bio: 'He leads Ariadne’s audio engineering department, shaping sound across every stage of post-production. His expertise in sound design, mixing, and mastering ensures clear, immersive soundscapes and balanced final mixes that complement the visual story and elevate the overall cinematic experience.',
+        bio: 'He leads Ariadne\'s audio engineering department, shaping sound across every stage of post-production. His expertise in sound design, mixing, and mastering ensures clear, immersive soundscapes and balanced final mixes that complement the visual story and elevate the overall cinematic experience.',
         img: imgPierre,
         accentColor: '#1392d6',
+        ribbonFold: '#0c6da0',
         icon: GiSoundWaves,
         cameraSpecs: ['ISO 800  |  35mm  |  T/1.5', '1/50s  |  24fps  |  8K'],
         gradientColors: ['#1392d6', '#60a5fa'],
@@ -103,9 +109,10 @@ const TEAM_MEMBERS = [
         name: 'John ZAKI',
         role: 'Music Composer',
         badge: 'COMPOSITION',
-        bio: 'He brings ideas to life through original music, crafting scores that strengthen the story and create memorable sonic experiences. From the first creative concept to the final mix, every composition is shaped with purpose, emotion, and a clear understanding of the brand’s identity and visual narrative.',
+        bio: 'He brings ideas to life through original music, crafting scores that strengthen the story and create memorable sonic experiences. From the first creative concept to the final mix, every composition is shaped with purpose, emotion, and a clear understanding of the brand\'s identity and visual narrative.',
         img: imgJohn,
         accentColor: '#e0a96d',
+        ribbonFold: '#b8844a',
         icon: FaMusic,
         cameraSpecs: ['M18 HMI  |  Skypanel S60-C', 'FREEFLY Alta X  |  DJI Inspire 3'],
         gradientColors: ['#e0a96d', '#f5d0a9'],
@@ -189,9 +196,14 @@ export default function MeetTheMinds() {
                                             decoding="async"
                                         />
                                         <div className="mtm-viewfinder" />
-                                        <span className="mtm-badge" style={{ backgroundColor: member.accentColor }}>
-                                            {member.badge}
-                                        </span>
+                                        <div className="mtm-badge">
+                                            <div 
+                                                className="mtm-badge-ribbon"
+                                                style={{ background: member.accentColor }}
+                                            >
+                                                <span className="mtm-badge-text">{member.badge}</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </motion.div>
 
@@ -232,7 +244,6 @@ export default function MeetTheMinds() {
                                         <h4 className="mtm-role" style={{ color: member.accentColor }}>{member.role}</h4>
                                         <div className="mtm-divider" style={{ backgroundColor: member.accentColor }} />
                                         <p className="mtm-bio">{member.bio}</p>
-
                                     </div>
                                 </motion.div>
                             </motion.div>

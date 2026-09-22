@@ -205,20 +205,50 @@
     border-right: 2px solid #ffffff;
 }
 
-/* Category Badge */
+/* ── Premium Corner Ribbon ── */
 .mtm-badge {
     position: absolute;
-    top: 15px;
-    left: 15px;
-    font-size: 0.52rem;
+    top: 0;
+    left: 0;
+    width: 130px;
+    height: 130px;
+    overflow: hidden;
+    z-index: 5;
+    pointer-events: none;
+}
+
+/* Diagonal ribbon strip */
+.mtm-badge-ribbon {
+    position: absolute;
+    top: 24px;
+    left: -36px;
+    width: 180px;
+    height: 25px;
+    transform: rotate(-45deg);
+    transform-origin: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    
+    /* Subtle shadow */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Typography centered on ribbon */
+.mtm-badge-text {
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 0.5rem;
     font-weight: 800;
-    letter-spacing: 1.8px;
+    letter-spacing: 1px;
     text-transform: uppercase;
     color: #ffffff;
-    padding: 4px 10px;
-    border-radius: 2px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 3;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+    white-space: nowrap;
+    text-align: center;
+    line-height: 1;
+    display: inline-block;
+    transform: translateX(-12px);
 }
 
 /* ── Content Column ── */
@@ -488,11 +518,37 @@
     }
 
     .mtm-badge {
-        font-size: 0.42rem;
-        padding: 2.5px 6px;
-        top: 8px;
-        left: 8px;
-        letter-spacing: 1.2px;
+        width: 95px;
+        height: 95px;
+    }
+
+    .mtm-badge-ribbon {
+        top: 17px;
+        left: -28px;
+        width: 135px;
+        height: 20px;
+        gap: 4px;
+    }
+
+    .mtm-badge-crown {
+        width: 8px;
+        height: 8px;
+    }
+
+    .mtm-badge-text {
+        font-size: 0.35rem;
+        letter-spacing: 1.1px;
+    }
+
+    .mtm-badge::after {
+        top: 38px;
+        border-width: 0 5px 5px 0;
+    }
+
+    .mtm-badge::before {
+        top: 0;
+        left: 38px;
+        border-width: 0 0 5px 5px;
     }
 
     .mtm-viewfinder {
@@ -589,12 +645,37 @@
     }
 
     .mtm-badge {
-        font-size: 0.36rem;
-        padding: 2px 4px;
-        top: 6px;
-        left: 6px;
+        width: 75px;
+        height: 75px;
+    }
+
+    .mtm-badge-ribbon {
+        top: 13px;
+        left: -24px;
+        width: 110px;
+        height: 16px;
+        gap: 3px;
+    }
+
+    .mtm-badge-crown {
+        width: 7px;
+        height: 7px;
+    }
+
+    .mtm-badge-text {
+        font-size: 0.28rem;
         letter-spacing: 0.8px;
-        border-radius: 1px;
+    }
+
+    .mtm-badge::after {
+        top: 30px;
+        border-width: 0 4px 4px 0;
+    }
+
+    .mtm-badge::before {
+        top: 0;
+        left: 30px;
+        border-width: 0 0 4px 4px;
     }
 
     .mtm-viewfinder {

@@ -56,7 +56,7 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
             <nav className="navbar">
                 <div
                     className="logo"
-                    onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); navigate('/'); }}
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                     style={{ cursor: 'pointer' }}
                 >
                     <img src="/mylogo.png" alt="Ariadne Logo" className="logo-img" />
