@@ -199,7 +199,7 @@ const Home = () => {
     }, [updateCarouselHeight]);
 
     const getCategoryBg = (category) => {
-        return LOCAL_IMAGE_MAP[category.slug] || (category.coverImage ? resolveUrl(category.coverImage) : '');
+        return (category.coverImage ? resolveUrl(category.coverImage) : LOCAL_IMAGE_MAP[category.slug]) || '';
     };
 
     useEffect(() => {
