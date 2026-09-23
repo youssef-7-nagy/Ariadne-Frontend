@@ -92,14 +92,6 @@ const About = () => {
             {/* ── Interactive Grid Partners (White Background) ── */}
             <section className="about-partners">
                 <div className="about-partners-inner">
-                    <div className="about-section-header">
-                        <h2>Trusted By Industry <span>Leaders</span></h2>
-                        <p>
-                            We're proud to partner with innovative brands and forward-thinking companies
-                            that demand the very best in visual storytelling.
-                        </p>
-                    </div>
-
                     <div className="interactive-partners-stage">
                         <InteractiveGrid
                             images={PARTNERS.map(p => p.logo).filter(Boolean)}
