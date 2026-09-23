@@ -51,9 +51,9 @@
   }
 }
 
-/* 2. Golden */
+/* 2. Golden (#C9A227) */
 .loader-ring:nth-child(2) {
-  border-bottom: 8px solid #d4af37;
+  border-bottom: 8px solid #C9A227;
   animation: rotate2 2s linear infinite;
 }
 
