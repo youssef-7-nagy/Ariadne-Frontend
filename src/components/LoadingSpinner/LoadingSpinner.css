@@ -21,12 +21,12 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: #ffffff;
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text-primary);
+  font-family: 'Outfit', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 1.1rem;
   font-weight: 500;
   letter-spacing: 0.5px;
-  text-transform: lowercase;
+  text-transform: capitalize;
   margin: 0;
   padding: 0;
   z-index: 10;
@@ -34,19 +34,25 @@
   user-select: none;
   text-align: center;
   line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .loader-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 190px;
   height: 190px;
   border: 1px solid transparent;
   border-radius: 50%;
-  position: absolute;
   box-sizing: border-box;
 }
 
+/* 1. Navy Blue */
 .loader-container > .loader-ring:nth-child(1) {
-  border-bottom: 8px solid rgb(255, 141, 249);
+  border-bottom: 8px solid rgb(30, 64, 175);
   animation: rotate1 2s linear infinite;
 }
 
@@ -60,8 +66,9 @@
   }
 }
 
+/* 2. Gold */
 .loader-container > .loader-ring:nth-child(2) {
-  border-bottom: 8px solid rgb(255, 65, 106);
+  border-bottom: 8px solid rgb(212, 175, 55);
   animation: rotate2 2s linear infinite;
 }
 
@@ -75,8 +82,9 @@
   }
 }
 
+/* 3. Off White */
 .loader-container > .loader-ring:nth-child(3) {
-  border-bottom: 8px solid rgb(0, 255, 255);
+  border-bottom: 8px solid rgb(245, 245, 240);
   animation: rotate3 2s linear infinite;
 }
 
@@ -90,8 +98,9 @@
   }
 }
 
+/* 4. Baby Blue */
 .loader-container > .loader-ring:nth-child(4) {
-  border-bottom: 8px solid rgb(252, 183, 55);
+  border-bottom: 8px solid rgb(125, 211, 252);
   animation: rotate4 2s linear infinite;
 }
 

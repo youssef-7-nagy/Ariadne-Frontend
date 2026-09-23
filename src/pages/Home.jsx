@@ -235,7 +235,7 @@ const Home = () => {
                         '*'
                     );
                 }
-            } catch (err) {}
+            } catch (err) { }
         };
 
         // 1. Proximity observer: Load video stream as user approaches (~300px before arrival)
@@ -340,11 +340,11 @@ const Home = () => {
                             <Link to="/portfolio" className="hero-btn-primary">
                                 <span>View Projects</span>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M5 12H19M19 12L12 5M19 12L12 19"/>
+                                    <path d="M5 12H19M19 12L12 5M19 12L12 19" />
                                 </svg>
                             </Link>
-                            <a 
-                                href="#footer" 
+                            <a
+                                href="#footer"
                                 className="hero-btn-cool-contact"
                                 onClick={(e) => {
                                     e.preventDefault();
@@ -375,10 +375,10 @@ const Home = () => {
                             <span className="vf-corner vf-bl"></span>
                             <span className="vf-corner vf-br"></span>
 
-                            <img 
-                                src={imgAboutStory} 
-                                alt="Ariadne Photographer" 
-                                className="hero-framed-photo" 
+                            <img
+                                src={imgAboutStory}
+                                alt="Ariadne Photographer"
+                                className="hero-framed-photo"
                                 loading="eager"
                                 fetchPriority="high"
                                 decoding="async"
@@ -416,12 +416,12 @@ const Home = () => {
                     <div className="vf-bracket vf-top-right"></div>
                     <div className="vf-bracket vf-bottom-left"></div>
                     <div className="vf-bracket vf-bottom-right"></div>
-                    
+
                     <div className="vf-grid-line vf-grid-v1"></div>
                     <div className="vf-grid-line vf-grid-v2"></div>
                     <div className="vf-grid-line vf-grid-h1"></div>
                     <div className="vf-grid-line vf-grid-h2"></div>
-                    
+
                     <div className="vf-status vf-status-tl">
                         <span className="vf-rec-dot"></span>
                         <span className="vf-status-text">REC</span>
@@ -442,8 +442,8 @@ const Home = () => {
                     {/* The arch of curved photos */}
                     <div className="curved-arch-photos">
                         {curvedGalleryImages.map((img, idx) => (
-                            <div 
-                                key={idx} 
+                            <div
+                                key={idx}
                                 className={`arch-photo-card arch-card-${idx}`}
                                 style={{
                                     left: img.left,
@@ -451,9 +451,9 @@ const Home = () => {
                                     transform: `rotate(${img.rotate}deg)`,
                                 }}
                             >
-                                <img 
-                                    src={img.src} 
-                                    alt={`Showcase visual ${idx + 1}`} 
+                                <img
+                                    src={img.src}
+                                    alt={`Showcase visual ${idx + 1}`}
                                     loading="lazy"
                                     decoding="async"
                                 />
@@ -465,8 +465,8 @@ const Home = () => {
                     <div className="curved-center-content">
                         <h2>Create Timeless Photos<br />That Tell Your Story</h2>
                         <p>Professional photography for personal moments, brands, and unforgettable memories.</p>
-                        <a 
-                            href="#footer" 
+                        <a
+                            href="#footer"
                             className="btn-book-session-curved"
                             onClick={(e) => {
                                 e.preventDefault();
@@ -535,8 +535,8 @@ const Home = () => {
                     <div className="curved-feat-col" style={{ position: 'relative' }}>
                         {/* Center Video CTA */}
                         <div className="video-center-cta">
-                            <a 
-                                href="#footer" 
+                            <a
+                                href="#footer"
                                 className="btn-book-session-curved"
                                 onClick={(e) => {
                                     e.preventDefault();

@@ -1,15 +1,15 @@
 import React from 'react';
 import './LoadingSpinner.css';
 
-const LoadingSpinner = ({ text = 'loading', className = '' }) => {
+const LoadingSpinner = ({ text = 'Loading', className = '' }) => {
   return (
     <div className={`loader-page ${className}`}>
       <div className="loader-container">
-        <div className="loader-ring"></div>
-        <div className="loader-ring"></div>
-        <div className="loader-ring"></div>
-        <div className="loader-ring"></div>
-        <div className="loader-text">{text || 'loading'}</div>
+        <div className="loader-ring" />
+        <div className="loader-ring" />
+        <div className="loader-ring" />
+        <div className="loader-ring" />
+        <div className="loader-text">{text || 'Loading'}</div>
       </div>
     </div>
   );

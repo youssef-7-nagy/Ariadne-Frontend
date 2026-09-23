@@ -10,7 +10,8 @@
     --card-bg: #ffffff;
 }
 
-html.dark, .dark {
+html.dark,
+.dark {
     --bg-primary: #04101d;
     --bg-secondary: #081d35;
     --text-primary: #f2f7ff;
@@ -387,7 +388,10 @@ html.dark, .dark {
 .hero-btn-cool-contact::before {
     content: '';
     position: absolute;
-    top: 0; left: -100%; width: 100%; height: 100%;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
     background: linear-gradient(90deg, transparent, rgba(197, 168, 128, 0.3), transparent);
     transition: left 0.6s ease;
 }
@@ -3330,12 +3334,12 @@ html.dark, .dark {
         min-height: 320px;
         max-height: 520px;
     }
-    
+
     .video-bottom-features {
         padding: 20px 20px 16px !important;
         gap: clamp(10px, 3vw, 30px) !important;
     }
-    
+
     .video-center-cta {
         margin-bottom: 8px !important;
     }
@@ -3348,10 +3352,13 @@ html.dark, .dark {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100vw;
-    height: 56.25vw; /* 16:9 based on width */
+    height: 56.25vw;
+    /* 16:9 based on width */
     min-height: 100%;
-    min-width: 177.78vh; /* fallback */
-    min-width: 177.78dvh; /* 16:9 based on dvh */
+    min-width: 177.78vh;
+    /* fallback */
+    min-width: 177.78dvh;
+    /* 16:9 based on dvh */
     pointer-events: none;
     z-index: 1;
     overflow: hidden;
@@ -3378,13 +3385,11 @@ html.dark, .dark {
     justify-content: center;
     gap: clamp(8px, 3vw, 55px);
     padding: clamp(35px, 5vw, 55px) clamp(10px, 2.5vw, 40px) clamp(18px, 3vw, 36px);
-    background: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0.94) 0%,
-        rgba(0, 0, 0, 0.72) 45%,
-        rgba(0, 0, 0, 0.3) 78%,
-        transparent 100%
-    );
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.94) 0%,
+            rgba(0, 0, 0, 0.72) 45%,
+            rgba(0, 0, 0, 0.3) 78%,
+            transparent 100%);
     z-index: 10;
     pointer-events: auto;
     box-sizing: border-box;
@@ -3444,4 +3449,4 @@ html.dark, .dark {
     padding: clamp(9px, 1.8vw, 14px) clamp(18px, 3.5vw, 36px);
     font-size: clamp(0.75rem, 1.5vw, 0.88rem);
     letter-spacing: 0.06em;
-}
+}
