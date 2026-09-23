@@ -38,38 +38,7 @@ const PARTNERS = [
 
 
 
-const VALUES = [
-    {
-        icon: '🎯',
-        title: 'Precision',
-        text: 'Every frame is composed with intention. We obsess over the details so your brand story lands exactly as envisioned.',
-    },
-    {
-        icon: '✨',
-        title: 'Creativity',
-        text: 'We blend artistic vision with strategic thinking — delivering visuals that are both beautiful and purposeful.',
-    },
-    {
-        icon: '🤝',
-        title: 'Partnership',
-        text: 'We work alongside you as a true creative partner, not just a vendor. Your success is our benchmark.',
-    },
-    {
-        icon: '⚡',
-        title: 'Speed',
-        text: 'Fast turnarounds without sacrificing quality. We deliver on time, every time, so your projects never stall.',
-    },
-    {
-        icon: '🔒',
-        title: 'Trust',
-        text: 'Transparent pricing, clear communication and a track record that speaks for itself. No surprises.',
-    },
-    {
-        icon: '🌍',
-        title: 'Impact',
-        text: "Our work doesn't just look good — it moves people. We create visuals that drive real results for your audience.",
-    },
-];
+
 
 const About = () => {
     return (
@@ -118,24 +87,7 @@ const About = () => {
             {/* ── Meet The Minds Section ── */}
             <MeetTheMinds />
 
-            {/* ── Values ── */}
-            <section className="about-values">
-                <div className="about-values-inner">
-                    <div className="about-section-header">
-                        <h2>What Drives Us</h2>
-                        <p>Six principles that guide every frame we capture.</p>
-                    </div>
-                    <div className="about-values-grid">
-                        {VALUES.map((v, i) => (
-                            <div className="about-value-card" key={i}>
-                                <span className="about-value-icon">{v.icon}</span>
-                                <h3>{v.title}</h3>
-                                <p>{v.text}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+
 
             {/* ── Interactive Grid Partners (White Background) ── */}
             <section className="about-partners">
