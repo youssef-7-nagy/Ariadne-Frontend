@@ -3,20 +3,31 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  min-height: 220px;
+  max-width: 100%;
+  min-height: clamp(160px, 30vh, 220px);
+  padding: clamp(8px, 2vmin, 16px);
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .loader-container {
+  --loader-size: clamp(130px, 38vmin, 190px);
+  --ring-border-width: clamp(5px, calc(var(--loader-size) * 0.0421), 8px);
+
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+  width: var(--loader-size);
+  height: var(--loader-size);
+  flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 .loader-text {
   color: var(--text-primary, #ffffff);
   font-family: 'Outfit', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 1.05rem;
+  font-size: clamp(0.85rem, calc(var(--loader-size) * 0.0055), 1.05rem);
   font-weight: 500;
   letter-spacing: 0.5px;
   text-transform: lowercase;
@@ -24,11 +35,14 @@
   padding: 0;
   user-select: none;
   z-index: 2;
+  white-space: nowrap;
 }
 
 .loader-ring {
-  width: 190px;
-  height: 190px;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
   border: 1px solid transparent;
   border-radius: 50%;
   position: absolute;
@@ -38,7 +52,7 @@
 
 /* 1. Navy Blue */
 .loader-ring:nth-child(1) {
-  border-bottom: 8px solid #1e3a8a;
+  border-bottom: var(--ring-border-width) solid #1e3a8a;
   animation: rotate1 2s linear infinite;
 }
 
@@ -53,7 +67,7 @@
 
 /* 2. Golden */
 .loader-ring:nth-child(2) {
-  border-bottom: 8px solid #d4b483;
+  border-bottom: var(--ring-border-width) solid #d4b483;
   animation: rotate2 2s linear infinite;
 }
 
@@ -68,7 +82,7 @@
 
 /* 3. Baby Blue */
 .loader-ring:nth-child(3) {
-  border-bottom: 8px solid #7dd3fc;
+  border-bottom: var(--ring-border-width) solid #7dd3fc;
   animation: rotate3 2s linear infinite;
 }
 
@@ -83,7 +97,7 @@
 
 /* 4. Soft Sage (#A8B3A0) */
 .loader-ring:nth-child(4) {
-  border-bottom: 8px solid #A8B3A0;
+  border-bottom: var(--ring-border-width) solid #A8B3A0;
   animation: rotate4 2s linear infinite;
 }
 
