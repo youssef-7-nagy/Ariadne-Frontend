@@ -3,8 +3,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: 2rem 0;
-  position: relative;
+  min-height: 220px;
 }
 
 .loader-container {
@@ -12,104 +11,90 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 170px;
-  height: 170px;
-  perspective: 800px;
 }
 
 .loader-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   color: var(--text-primary, #ffffff);
   font-family: 'Outfit', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 500;
-  letter-spacing: 0.6px;
+  letter-spacing: 0.5px;
   text-transform: lowercase;
   margin: 0;
   padding: 0;
-  z-index: 10;
-  pointer-events: none;
   user-select: none;
-  text-align: center;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  z-index: 2;
 }
 
 .loader-ring {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  width: 190px;
+  height: 190px;
+  border: 1px solid transparent;
   border-radius: 50%;
-  box-sizing: border-box;
-  transform-origin: center center;
+  position: absolute;
   pointer-events: none;
+  box-sizing: border-box;
 }
 
 /* 1. Navy Blue */
-.loader-ring.ring-navy {
-  border-bottom: 6px solid #1e40af;
-  animation: rotateNavy 2s linear infinite;
+.loader-ring:nth-child(1) {
+  border-bottom: 8px solid #1e3a8a;
+  animation: rotate1 2s linear infinite;
 }
 
-@keyframes rotateNavy {
-  0% {
-    transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+@keyframes rotate1 {
+  from {
+    transform: rotateX(50deg) rotateZ(110deg);
   }
-  100% {
-    transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+  to {
+    transform: rotateX(50deg) rotateZ(470deg);
   }
 }
 
 /* 2. Golden */
-.loader-ring.ring-gold {
-  border-bottom: 6px solid #d4af37;
-  animation: rotateGold 2s linear infinite;
+.loader-ring:nth-child(2) {
+  border-bottom: 8px solid #d4af37;
+  animation: rotate2 2s linear infinite;
 }
 
-@keyframes rotateGold {
-  0% {
-    transform: rotateX(50deg) rotateY(25deg) rotateZ(0deg);
+@keyframes rotate2 {
+  from {
+    transform: rotateX(20deg) rotateY(50deg) rotateZ(20deg);
   }
-  100% {
-    transform: rotateX(50deg) rotateY(25deg) rotateZ(360deg);
+  to {
+    transform: rotateX(20deg) rotateY(50deg) rotateZ(380deg);
   }
 }
 
 /* 3. Baby Blue */
-.loader-ring.ring-baby-blue {
-  border-bottom: 6px solid #67c4f7;
-  animation: rotateBabyBlue 2s linear infinite;
+.loader-ring:nth-child(3) {
+  border-bottom: 8px solid #7dd3fc;
+  animation: rotate3 2s linear infinite;
 }
 
-@keyframes rotateBabyBlue {
-  0% {
-    transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+@keyframes rotate3 {
+  from {
+    transform: rotateX(40deg) rotateY(130deg) rotateZ(450deg);
   }
-  100% {
-    transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+  to {
+    transform: rotateX(40deg) rotateY(130deg) rotateZ(90deg);
   }
 }
 
 /* 4. Soft Sage (#A8B3A0) */
-.loader-ring.ring-sage {
-  border-bottom: 6px solid #A8B3A0;
-  animation: rotateSage 2s linear infinite;
+.loader-ring:nth-child(4) {
+  border-bottom: 8px solid #A8B3A0;
+  animation: rotate4 2s linear infinite;
 }
 
-@keyframes rotateSage {
-  0% {
-    transform: rotateX(65deg) rotateY(-25deg) rotateZ(0deg);
+@keyframes rotate4 {
+  from {
+    transform: rotateX(70deg) rotateZ(270deg);
   }
-  100% {
-    transform: rotateX(65deg) rotateY(-25deg) rotateZ(360deg);
+  to {
+    transform: rotateX(70deg) rotateZ(630deg);
   }
 }
+
 
 
