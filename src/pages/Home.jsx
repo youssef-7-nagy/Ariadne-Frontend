@@ -14,12 +14,7 @@ import imgMusicVideos from '../assets/categories/music-videos.png';
 import imgPhotography from '../assets/categories/photography.png';
 import imgBTS from '../assets/categories/behind-the-scenes.png';
 import imgAboutStory from '../assets/about-story.jpg';
-import imgHome6257 from '../assets/home/IMG_6257.jpg';
-import imgHome6270 from '../assets/home/IMG_6270.jpg';
-import imgHome6342 from '../assets/home/IMG_6342.jpg';
-import imgHome301 from '../assets/home/section301.jpg';
-import imgHome302 from '../assets/home/section302.jpg';
-import imgHome303 from '../assets/home/section303.jpg';
+
 
 
 const LOCAL_IMAGE_MAP = {
@@ -46,16 +41,7 @@ const resolveUrl = (src) => {
 
 
 
-const curvedGalleryImages = [
-    { src: imgHome6270, left: '1.5%', top: '56%', rotate: -62 },
-    { src: imgHome6342, left: '9%', top: '30%', rotate: -42 },
-    { src: imgHome301, left: '21%', top: '13%', rotate: -23 },
-    { src: imgHome302, left: '36.5%', top: '4%', rotate: -8 },
-    { src: imgHome303, left: '53%', top: '4%', rotate: 8 },
-    { src: imgAboutStory, left: '68.5%', top: '13%', rotate: 23 },
-    { src: imgHome6257, left: '80%', top: '30%', rotate: 42 },
-    { src: imgHome6270, left: '87.5%', top: '56%', rotate: 62 },
-];
+
 
 const Home = () => {
     const [categories, setCategories] = useState([]);
@@ -401,112 +387,7 @@ const Home = () => {
             </section>
 
 
-            {/* Section 2: Curved Gallery Showcase */}
-            <section className="curved-gallery-section">
-                <div className="curved-bg-glows">
-                    <div className="curved-glow-left-amber"></div>
-                    <div className="curved-glow-right-amber"></div>
-                    <div className="curved-rainbow-leak"></div>
-                    <div className="curved-noise-overlay"></div>
-                </div>
 
-                {/* Technical Viewfinder Camera Overlay */}
-                <div className="curved-viewfinder-overlay">
-                    <div className="vf-bracket vf-top-left"></div>
-                    <div className="vf-bracket vf-top-right"></div>
-                    <div className="vf-bracket vf-bottom-left"></div>
-                    <div className="vf-bracket vf-bottom-right"></div>
-
-                    <div className="vf-grid-line vf-grid-v1"></div>
-                    <div className="vf-grid-line vf-grid-v2"></div>
-                    <div className="vf-grid-line vf-grid-h1"></div>
-                    <div className="vf-grid-line vf-grid-h2"></div>
-
-                    <div className="vf-status vf-status-tl">
-                        <span className="vf-rec-dot"></span>
-                        <span className="vf-status-text">REC</span>
-                    </div>
-                    <div className="vf-status vf-status-tr">
-                        <span className="vf-status-text">TC 09:12:45:22</span>
-                    </div>
-                    <div className="vf-status vf-status-bl">
-                        <span className="vf-status-text">F2.8  |  1/250s  |  ISO 400</span>
-                    </div>
-                    <div className="vf-status vf-status-br">
-                        <span className="vf-status-text">RAW 8K  |  24fps  |  [+]</span>
-                    </div>
-                    <div className="vf-focus-ring"></div>
-                </div>
-
-                <div className="curved-gallery-container">
-                    {/* The arch of curved photos */}
-                    <div className="curved-arch-photos">
-                        {curvedGalleryImages.map((img, idx) => (
-                            <div
-                                key={idx}
-                                className={`arch-photo-card arch-card-${idx}`}
-                                style={{
-                                    left: img.left,
-                                    top: img.top,
-                                    transform: `rotate(${img.rotate}deg)`,
-                                }}
-                            >
-                                <img
-                                    src={img.src}
-                                    alt={`Showcase visual ${idx + 1}`}
-                                    loading="lazy"
-                                    decoding="async"
-                                />
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Center Content block */}
-                    <div className="curved-center-content">
-                        <h2>Create Timeless Photos<br />That Tell Your Story</h2>
-                        <p>Professional photography for personal moments, brands, and unforgettable memories.</p>
-                        <a
-                            href="#footer"
-                            className="btn-book-session-curved"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                const footer = document.getElementById('footer');
-                                if (footer) {
-                                    footer.scrollIntoView({ behavior: 'smooth' });
-                                    setTimeout(() => {
-                                        const magicMenu = document.querySelector('.magic-menu');
-                                        if (magicMenu) {
-                                            magicMenu.classList.add('force-open');
-                                            setTimeout(() => magicMenu.classList.remove('force-open'), 3000);
-                                        }
-                                    }, 800);
-                                }
-                            }}
-                        >
-                            Contact Us
-                        </a>
-                    </div>
-
-                </div>
-
-                {/* Bottom features bar */}
-                <div className="video-bottom-features">
-                    <div className="curved-feat-col">
-                        <h5>Fast Delivery</h5>
-                        <p>Get your edited gallery in a short time</p>
-                    </div>
-                    <div className="curved-feat-divider"></div>
-                    <div className="curved-feat-col">
-                        <h5>Personal Approach</h5>
-                        <p>Every shoot is tailored to your vision</p>
-                    </div>
-                    <div className="curved-feat-divider"></div>
-                    <div className="curved-feat-col">
-                        <h5>Natural Style</h5>
-                        <p>Authentic photos with emotion and elegance</p>
-                    </div>
-                </div>
-            </section>
 
 
             {/* Section 3: Video Showcase Section */}
