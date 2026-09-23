@@ -1,5 +1,6 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 import {
     FaCamera,
     FaFilm,
@@ -119,9 +120,113 @@ const TEAM_MEMBERS = [
     }
 ];
 
-export default function MeetTheMinds() {
+function OwnerProfile({ member, index }) {
+    const isEven = index % 2 === 0; // Even = Image Left, Bio Right. Odd = Bio Left, Image Right.
+    const IconComponent = member.icon;
+
+    // Split name into first and last part to apply mixed color style
+    const nameParts = member.name.split(' ');
+    const firstName = nameParts[0];
+    const lastName = nameParts.slice(1).join(' ');
+
+    const imgVariants = {
+        hidden: { opacity: 0, x: isEven ? -40 : 40 },
+        visible: {
+            opacity: 1,
+            x: 0,
+            transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1] }
+        }
+    };
+
+    const contentVariants = {
+        hidden: { opacity: 0, x: isEven ? 40 : -40 },
+        visible: {
+            opacity: 1,
+            x: 0,
+            transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.2 }
+        }
+    };
+
     return (
-        <section className="mtm-section">
+        <motion.div 
+            className={`mtm-row ${isEven ? 'row-left' : 'row-right'}`}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+        >
+            {/* Image Box - Enters first */}
+            <motion.div
+                className="mtm-img-col"
+                variants={imgVariants}
+            >
+                <div className="mtm-img-card">
+                    <img 
+                        src={member.img} 
+                        alt={member.name} 
+                        className="mtm-img" 
+                        loading="lazy"
+                        decoding="async"
+                    />
+                    <div className="mtm-viewfinder" />
+                    <div className="mtm-badge">
+                        <div 
+                            className="mtm-badge-ribbon"
+                            style={{ background: member.accentColor }}
+                        >
+                            <span className="mtm-badge-text">{member.badge}</span>
+                        </div>
+                    </div>
+                </div>
+            </motion.div>
+
+            {/* Content Box - Enters second from opposite side */}
+            <motion.div
+                className="mtm-content-col"
+                variants={contentVariants}
+            >
+                <div className="mtm-content-inner">
+                    <div
+                        className={`mtm-icon-tag ${member.id === 'pierre' ? 'mtm-soundwave-active' : ''} ${member.id === 'leo' ? 'mtm-clapper-active' : ''}`}
+                        style={{ color: member.accentColor }}
+                    >
+                        <IconComponent size={member.id === 'pierre' ? 24 : 20} />
+                        {member.id === 'pierre' && (
+                            <div className="mtm-soundwave-bars">
+                                <span className="bar"></span>
+                                <span className="bar"></span>
+                                <span className="bar"></span>
+                                <span className="bar"></span>
+                            </div>
+                        )}
+                    </div>
+                    <h3 className="mtm-name">
+                        {firstName}{' '}
+                        <span
+                            style={{
+                                background: `linear-gradient(135deg, ${member.gradientColors[0]}, ${member.gradientColors[1]})`,
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent',
+                                backgroundClip: 'text',
+                                display: 'inline-block'
+                            }}
+                        >
+                            {lastName}
+                        </span>
+                    </h3>
+                    <h4 className="mtm-role" style={{ color: member.accentColor }}>{member.role}</h4>
+                    <div className="mtm-divider" style={{ backgroundColor: member.accentColor }} />
+                    <p className="mtm-bio">{member.bio}</p>
+                </div>
+            </motion.div>
+        </motion.div>
+    );
+}
+
+export default function MeetTheMinds() {
+    const location = useLocation();
+
+    return (
+        <section key={location.pathname} className="mtm-section">
             <div className="mtm-container">
                 {/* Header */}
                 <div className="mtm-header">
@@ -137,118 +242,9 @@ export default function MeetTheMinds() {
 
                 {/* Team Rows - Alternating Left / Right */}
                 <div className="mtm-rows">
-                    {TEAM_MEMBERS.map((member, index) => {
-                        const isEven = index % 2 === 0; // Even = Image Left, Bio Right. Odd = Bio Left, Image Right.
-                        const IconComponent = member.icon;
-
-                        // Split name into first and last part to apply mixed color style
-                        const nameParts = member.name.split(' ');
-                        const firstName = nameParts[0];
-                        const lastName = nameParts.slice(1).join(' ');
-
-                        const rowVariants = {
-                            hidden: {},
-                            visible: {
-                                transition: {
-                                    staggerChildren: 0.15
-                                }
-                            }
-                        };
-
-                        const imgVariants = {
-                            hidden: { opacity: 0, x: isEven ? -28 : 28 },
-                            visible: {
-                                opacity: 1,
-                                x: 0,
-                                transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] }
-                            }
-                        };
-
-                        const contentVariants = {
-                            hidden: { opacity: 0, x: isEven ? 28 : -28 },
-                            visible: {
-                                opacity: 1,
-                                x: 0,
-                                transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] }
-                            }
-                        };
-
-                        return (
-                            <motion.div
-                                key={member.id}
-                                className={`mtm-row ${isEven ? 'row-left' : 'row-right'}`}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{ once: true, amount: 0.15, margin: "0px 0px -40px 0px" }}
-                                variants={rowVariants}
-                            >
-                                {/* Image Box - Enters first */}
-                                <motion.div
-                                    className="mtm-img-col"
-                                    variants={imgVariants}
-                                >
-                                    <div className="mtm-img-card">
-                                        <img 
-                                            src={member.img} 
-                                            alt={member.name} 
-                                            className="mtm-img" 
-                                            loading="lazy"
-                                            decoding="async"
-                                        />
-                                        <div className="mtm-viewfinder" />
-                                        <div className="mtm-badge">
-                                            <div 
-                                                className="mtm-badge-ribbon"
-                                                style={{ background: member.accentColor }}
-                                            >
-                                                <span className="mtm-badge-text">{member.badge}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </motion.div>
-
-                                {/* Content Box - Enters second from opposite side */}
-                                <motion.div
-                                    className="mtm-content-col"
-                                    variants={contentVariants}
-                                >
-                                    <div className="mtm-content-inner">
-                                        <div
-                                            className={`mtm-icon-tag ${member.id === 'pierre' ? 'mtm-soundwave-active' : ''} ${member.id === 'leo' ? 'mtm-clapper-active' : ''}`}
-                                            style={{ color: member.accentColor }}
-                                        >
-                                            <IconComponent size={member.id === 'pierre' ? 24 : 20} />
-                                            {member.id === 'pierre' && (
-                                                <div className="mtm-soundwave-bars">
-                                                    <span className="bar"></span>
-                                                    <span className="bar"></span>
-                                                    <span className="bar"></span>
-                                                    <span className="bar"></span>
-                                                </div>
-                                            )}
-                                        </div>
-                                        <h3 className="mtm-name">
-                                            {firstName}{' '}
-                                            <span
-                                                style={{
-                                                    background: `linear-gradient(135deg, ${member.gradientColors[0]}, ${member.gradientColors[1]})`,
-                                                    WebkitBackgroundClip: 'text',
-                                                    WebkitTextFillColor: 'transparent',
-                                                    backgroundClip: 'text',
-                                                    display: 'inline-block'
-                                                }}
-                                            >
-                                                {lastName}
-                                            </span>
-                                        </h3>
-                                        <h4 className="mtm-role" style={{ color: member.accentColor }}>{member.role}</h4>
-                                        <div className="mtm-divider" style={{ backgroundColor: member.accentColor }} />
-                                        <p className="mtm-bio">{member.bio}</p>
-                                    </div>
-                                </motion.div>
-                            </motion.div>
-                        );
-                    })}
+                    {TEAM_MEMBERS.map((member, index) => (
+                        <OwnerProfile key={member.id} member={member} index={index} />
+                    ))}
                 </div>
             </div>
         </section>
