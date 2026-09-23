@@ -1,0 +1,755 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   ProjectGallery.css — Modern Minimalist Cinema Thumbnail Carousel
+   Inspired by premium editorial photography portfolio reference
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.project-gallery {
+    width: 100%;
+    position: relative;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* ─── Main Image Stage Container ─── */
+.pg-main-stage {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    background: #0e1015;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: zoom-in;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.pg-main-stage:hover {
+    box-shadow: 0 16px 44px -10px rgba(0, 0, 0, 0.38), 0 0 0 1px rgba(255, 255, 255, 0.16);
+}
+
+/* ─── Main Image (strictly object-fit: contain, never cropped) ─── */
+.pg-main-image {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    pointer-events: auto;
+    transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.pg-main-image.pg-animating {
+    opacity: 0.85;
+    transform: scale(0.99);
+}
+
+/* Subtle Expand Hint in Top Right */
+.pg-expand-hint {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(18, 20, 26, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.85);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    z-index: 5;
+}
+
+.pg-main-stage:hover .pg-expand-hint {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ─── Circular Floating Prev / Next Navigation Buttons ─── */
+.pg-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.88);
+    color: #1a1e28;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+}
+
+.pg-nav-btn:hover:not(:disabled) {
+    background: #ffffff;
+    transform: translateY(-50%) scale(1.08);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+    color: #000000;
+}
+
+.pg-nav-btn:active:not(:disabled) {
+    transform: translateY(-50%) scale(0.96);
+}
+
+.pg-nav-btn:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.pg-nav-prev {
+    left: 14px;
+}
+
+.pg-nav-next {
+    right: 14px;
+}
+
+.pg-nav-icon {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    stroke-width: 2.4;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* ─── Pill Counter (1 / 12) ─── */
+.pg-counter-pill {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(18, 20, 26, 0.76);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    padding: 6px 16px;
+    border-radius: 9999px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* ─── Horizontal Thumbnail Strip / Carousel ─── */
+.pg-thumbnails-strip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    padding: 4px 2px 10px 2px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+
+.pg-thumbnails-strip::-webkit-scrollbar {
+    height: 4px;
+}
+
+.pg-thumbnails-strip::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.pg-thumbnails-strip::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.pg-thumbnails-strip::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+/* ─── Individual Thumbnail Item ─── */
+.pg-thumb-btn {
+    position: relative;
+    height: 68px;
+    width: 76px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #14171d;
+    border: 2px solid transparent;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+    opacity: 0.55;
+    filter: brightness(0.9);
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pg-thumb-btn:hover {
+    opacity: 0.9;
+    filter: brightness(1);
+    transform: translateY(-2px);
+}
+
+.pg-thumb-btn.pg-thumb-active {
+    opacity: 1;
+    filter: brightness(1.05);
+    border-color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5), 0 4px 14px rgba(0, 0, 0, 0.35);
+    transform: translateY(-2px) scale(1.03);
+}
+
+.pg-thumb-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+}
+
+/* ─── Fullscreen Lightbox Modal ─── */
+.pg-lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: rgba(5, 7, 10, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    animation: pgFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pgFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Lightbox Header */
+.pg-lb-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 28px;
+    z-index: 10;
+}
+
+.pg-lb-title-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.pg-lb-title {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0;
+}
+
+.pg-lb-counter {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #f1f3f7;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    font-variant-numeric: tabular-nums;
+    padding: 4px 12px;
+    border-radius: 9999px;
+}
+
+.pg-lb-close-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.pg-lb-close-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.08);
+}
+
+.pg-lb-close-btn:active {
+    transform: scale(0.95);
+}
+
+/* Lightbox Main Stage */
+.pg-lb-stage {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 10px 80px;
+    overflow: hidden;
+}
+
+.pg-lb-image {
+    max-width: 100%;
+    max-height: 78vh;
+    object-fit: contain;
+    user-select: none;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    border-radius: 6px;
+    transition: transform 0.2s ease;
+}
+
+/* Lightbox Nav Buttons */
+.pg-lb-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.25s ease;
+}
+
+.pg-lb-nav-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.pg-lb-nav-btn:disabled {
+    opacity: 0.18;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.pg-lb-nav-prev {
+    left: 24px;
+}
+
+.pg-lb-nav-next {
+    right: 24px;
+}
+
+/* Lightbox Footer / Mini Thumbnails */
+.pg-lb-footer {
+    width: 100%;
+    padding: 16px 28px 24px;
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+}
+
+.pg-lb-thumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    max-width: 90vw;
+    padding: 4px;
+    scrollbar-width: thin;
+}
+
+.pg-lb-thumb {
+    height: 50px;
+    width: 56px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #111;
+    border: 2px solid transparent;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0.45;
+    transition: all 0.2s ease;
+}
+
+.pg-lb-thumb:hover {
+    opacity: 0.8;
+}
+
+.pg-lb-thumb.pg-lb-thumb-active {
+    opacity: 1;
+    border-color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+}
+
+.pg-lb-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Responsive Breakpoints
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Tablet (≤ 1024px) ── */
+@media (max-width: 1024px) {
+    .pg-main-stage {
+        height: 420px;
+    }
+}
+
+/* ── Small Tablet / Large Mobile (≤ 768px) ── */
+@media (max-width: 768px) {
+    .project-gallery {
+        gap: 10px;
+    }
+
+    .pg-main-stage {
+        /* Responsive height that scales with viewport width */
+        height: clamp(240px, 56vw, 380px);
+        border-radius: 12px;
+    }
+
+    /* Nav buttons: comfortable touch targets (min 44px per WCAG) */
+    .pg-nav-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .pg-nav-prev {
+        left: 8px;
+    }
+
+    .pg-nav-next {
+        right: 8px;
+    }
+
+    .pg-nav-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .pg-counter-pill {
+        bottom: 10px;
+        font-size: 0.76rem;
+        padding: 4px 12px;
+    }
+
+    /* Thumbnails: slightly smaller on tablets */
+    .pg-thumb-btn {
+        height: 54px;
+        width: 60px;
+        border-radius: 6px;
+    }
+
+    /* ── Lightbox on small tablet / large mobile ── */
+    .pg-lb-stage {
+        padding: 8px 56px;
+    }
+
+    .pg-lb-image {
+        max-height: 68vh;
+        border-radius: 4px;
+    }
+
+    .pg-lb-header {
+        padding: 14px 16px;
+    }
+
+    .pg-lb-title {
+        font-size: 0.95rem;
+    }
+
+    .pg-lb-counter {
+        font-size: 0.72rem;
+        padding: 3px 10px;
+    }
+
+    .pg-lb-close-btn {
+        width: 38px;
+        height: 38px;
+    }
+
+    .pg-lb-nav-btn {
+        width: 42px;
+        height: 42px;
+    }
+
+    .pg-lb-nav-prev {
+        left: 8px;
+    }
+
+    .pg-lb-nav-next {
+        right: 8px;
+    }
+
+    .pg-lb-footer {
+        padding: 10px 12px 16px;
+    }
+
+    .pg-lb-thumbs {
+        gap: 6px;
+        max-width: 95vw;
+    }
+
+    .pg-lb-thumb {
+        height: 42px;
+        width: 48px;
+    }
+}
+
+/* ── Mobile (≤ 480px) ── */
+@media (max-width: 480px) {
+    .project-gallery {
+        gap: 8px;
+    }
+
+    .pg-main-stage {
+        /* Scale naturally: ~56vw on narrow phones, never below 200px */
+        height: clamp(200px, 58vw, 300px);
+        border-radius: 10px;
+    }
+
+    /* Expand hint not needed on touch devices */
+    .pg-expand-hint {
+        display: none;
+    }
+
+    /* Nav buttons: keep them touch-friendly but slightly smaller */
+    .pg-nav-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .pg-nav-prev {
+        left: 6px;
+    }
+
+    .pg-nav-next {
+        right: 6px;
+    }
+
+    .pg-nav-icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .pg-counter-pill {
+        bottom: 8px;
+        font-size: 0.72rem;
+        padding: 3px 10px;
+    }
+
+    /* Thumbnails: smaller and tighter on mobile */
+    .pg-thumbnails-strip {
+        gap: 6px;
+        padding: 2px 0 6px 0;
+        scrollbar-width: none; /* Hide scrollbar on mobile */
+    }
+
+    .pg-thumbnails-strip::-webkit-scrollbar {
+        display: none;
+    }
+
+    .pg-thumb-btn {
+        height: 48px;
+        width: 52px;
+        border-radius: 5px;
+    }
+
+    /* ── Lightbox on mobile ── */
+    .pg-lb-stage {
+        /* Remove excessive side padding — use small safe padding */
+        padding: 6px 8px;
+    }
+
+    .pg-lb-image {
+        max-height: 65vh;
+        max-width: calc(100vw - 16px);
+        border-radius: 3px;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .pg-lb-header {
+        padding: 12px 14px;
+        gap: 8px;
+    }
+
+    .pg-lb-title-group {
+        gap: 10px;
+        min-width: 0; /* Allow text truncation */
+    }
+
+    .pg-lb-title {
+        font-size: 0.88rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 50vw;
+    }
+
+    .pg-lb-counter {
+        font-size: 0.68rem;
+        padding: 3px 8px;
+        flex-shrink: 0;
+    }
+
+    .pg-lb-close-btn {
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+    }
+
+    /* Lightbox nav buttons: overlay on image edges, not pushed far outside */
+    .pg-lb-nav-btn {
+        width: 38px;
+        height: 38px;
+    }
+
+    .pg-lb-nav-prev {
+        left: 4px;
+    }
+
+    .pg-lb-nav-next {
+        right: 4px;
+    }
+
+    .pg-lb-footer {
+        padding: 8px 8px 14px;
+    }
+
+    .pg-lb-thumbs {
+        gap: 5px;
+        max-width: 100vw;
+        padding: 2px;
+        scrollbar-width: none;
+    }
+
+    .pg-lb-thumbs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .pg-lb-thumb {
+        height: 38px;
+        width: 42px;
+        border-radius: 4px;
+    }
+}
+
+/* ── Ultra-Narrow Mobile (≤ 360px) — Small iPhones, narrow Androids ── */
+@media (max-width: 360px) {
+    .pg-main-stage {
+        height: clamp(180px, 60vw, 260px);
+        border-radius: 8px;
+    }
+
+    .pg-nav-btn {
+        width: 32px;
+        height: 32px;
+    }
+
+    .pg-nav-prev {
+        left: 4px;
+    }
+
+    .pg-nav-next {
+        right: 4px;
+    }
+
+    .pg-nav-icon {
+        width: 14px;
+        height: 14px;
+    }
+
+    .pg-counter-pill {
+        font-size: 0.68rem;
+        padding: 3px 8px;
+        bottom: 6px;
+    }
+
+    .pg-thumb-btn {
+        height: 42px;
+        width: 46px;
+    }
+
+    /* Lightbox on ultra-narrow */
+    .pg-lb-header {
+        padding: 10px 10px;
+    }
+
+    .pg-lb-title {
+        font-size: 0.82rem;
+        max-width: 40vw;
+    }
+
+    .pg-lb-image {
+        max-height: 60vh;
+    }
+
+    .pg-lb-nav-btn {
+        width: 34px;
+        height: 34px;
+    }
+
+    .pg-lb-thumb {
+        height: 34px;
+        width: 38px;
+    }
+}
+
+/* ── Mobile Landscape Orientation ── */
+@media (max-height: 500px) and (orientation: landscape) {
+    .pg-main-stage {
+        height: clamp(160px, 50vh, 280px);
+    }
+
+    .pg-lb-image {
+        max-height: 55vh;
+    }
+
+    .pg-lb-header {
+        padding: 8px 16px;
+    }
+
+    .pg-lb-footer {
+        padding: 6px 12px 10px;
+    }
+
+    .pg-lb-thumb {
+        height: 32px;
+        width: 36px;
+    }
+}
+

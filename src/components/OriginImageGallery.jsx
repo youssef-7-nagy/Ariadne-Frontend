@@ -1,22 +1,20 @@
 import React from 'react';
-import { FilmstripGallery } from '@/components/ui/filmstrip-gallery';
+import { ProjectGallery } from '@/components/ui/ProjectGallery';
 
 /**
- * OriginImageGallery — Bridge to the new 35mm FilmstripGallery component
+ * OriginImageGallery — Bridge to the modern ProjectGallery component
  * with responsive portrait and landscape photo support.
  */
 const OriginImageGallery = ({
     images = [],
     title = '',
     className = '',
-    aspect = 'auto',
     ...rest
 }) => {
     return (
-        <FilmstripGallery
+        <ProjectGallery
             images={images}
             title={title}
-            aspect={aspect}
             className={className}
             {...rest}
         />
@@ -24,3 +22,4 @@ const OriginImageGallery = ({
 };
 
 export default OriginImageGallery;
+

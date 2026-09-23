@@ -4,7 +4,7 @@ import axios from 'axios';
 import { resolveMedia } from '../utils/mediaResolver';
 import { ImageFallback } from '../components/media/ImageFallback';
 import { VideoFallback } from '../components/media/VideoFallback';
-import { FilmstripGallery } from '@/components/ui/filmstrip-gallery';
+import { ProjectGallery } from '@/components/ui/ProjectGallery';
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 import './Portfolio.css';
 
@@ -410,10 +410,9 @@ const ProjectDetails = () => {
                                     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
                                     .map(m => resolveUrl(m.url));
                                 return galleryImages.length > 0 ? (
-                                    <FilmstripGallery
+                                    <ProjectGallery
                                         images={galleryImages}
                                         title={project.title}
-                                        aspect="auto"
                                     />
                                 ) : (
                                     <div className="pd-media-block" style={{ textAlign: 'center', padding: '4rem 2rem', background: '#0a0a0a', borderRadius: '12px' }}>

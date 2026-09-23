@@ -2091,6 +2091,13 @@ html.dark .pd-media-block {
         padding-right: 1rem;
         margin-bottom: 1.2rem;
         border-radius: 0.75rem;
+        max-width: calc(100vw - 1.5rem);
+    }
+
+    .pd-back-text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .pd-back-icon {
@@ -2147,7 +2154,128 @@ html.dark .pd-media-block {
     .pd-yt-modal-iframe-wrapper {
         border-radius: 8px;
     }
+
+    /* Ensure media column doesn't overflow on mobile */
+    .pd-media-column {
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    .pd-info-column {
+        max-width: 100%;
+        overflow: hidden;
+    }
 }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   Responsive — Ultra-Narrow Mobile (≤ 360px)
+   Small iPhones (SE, Mini), narrow Android phones
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 360px) {
+    .pd-wrapper {
+        padding: 4.5rem 0.5rem 1.5rem;
+    }
+
+    .pd-grid-layout {
+        gap: 1.2rem;
+    }
+
+    .pd-title {
+        font-size: clamp(1.4rem, 8vw, 2rem);
+        letter-spacing: -0.5px;
+    }
+
+    .pd-back {
+        height: 2.5rem;
+        font-size: 0.82rem;
+        padding-left: 2.6rem;
+        padding-right: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .pd-back-icon {
+        height: 2rem;
+        width: 2rem;
+    }
+
+    .pd-back-icon svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .pd-pill {
+        font-size: 0.75rem;
+        padding: 0.35rem 0.65rem;
+    }
+
+    .pd-pill-label {
+        font-size: 0.62rem;
+    }
+
+    .pd-description {
+        font-size: 0.88rem;
+        line-height: 1.55;
+    }
+
+    .pd-tag {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.5rem;
+    }
+
+    .pd-context {
+        margin-top: 1.2rem;
+        padding-top: 1rem;
+    }
+
+    .pd-media-block {
+        border-radius: 8px;
+    }
+
+    .pd-media-badge {
+        top: 8px;
+        right: 8px;
+        font-size: 0.6rem;
+        padding: 0.2rem 0.5rem;
+    }
+
+    .pd-yt-btn {
+        font-size: 0.78rem;
+        padding: 8px 14px;
+    }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   Responsive — Mobile Landscape Orientation
+   Handles phones rotated sideways (short viewport height)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .pd-wrapper {
+        padding-top: 3.5rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .pd-back {
+        margin-bottom: 1rem;
+    }
+
+    .pd-grid-layout {
+        gap: 1rem;
+    }
+
+    .pd-yt-modal-overlay {
+        padding: 0.5rem;
+    }
+
+    .pd-yt-modal-close {
+        top: -36px;
+    }
+}
+
 
 
 /* ═══════════════════════════════════════════════════════════════

@@ -46,7 +46,7 @@ const getAuthConfig = () => ({
 
 import { MediaPreview } from '../components/admin/MediaPreview';
 import { MediaUploader as UploadZone } from '../components/admin/MediaUploader';
-import { FilmstripGallery } from '@/components/ui/filmstrip-gallery';
+import { ProjectGallery } from '@/components/ui/ProjectGallery';
 
 // URL Validators
 const isValidYoutubeVimeo = (url) => {
@@ -782,7 +782,7 @@ const ProjectsTab = () => {
                         <label style={{ display: 'block', marginBottom: 8, fontSize: '0.88rem', color: '#cbd5e1', fontWeight: 600 }}>
                           ✨ Live Gallery Preview ({galleryPreviews.length} photos):
                         </label>
-                        <FilmstripGallery images={galleryPreviews} title={form.title || 'Project Preview'} aspect="auto" />
+                        <ProjectGallery images={galleryPreviews} title={form.title || 'Project Preview'} />
                       </div>
 
                       <label style={{ display: 'block', marginBottom: 8, fontSize: '0.8rem', color: '#94a3b8' }}>
