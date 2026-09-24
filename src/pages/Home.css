@@ -3364,13 +3364,14 @@ html.dark,
     }
 
     .video-bottom-features .curved-feat-col h5 {
-        font-size: clamp(0.32rem, 0.85vw, 0.44rem);
+        font-size: clamp(0.28rem, 0.75vw, 0.38rem);
         margin-bottom: 1px;
         line-height: 1.1;
+        white-space: nowrap;
     }
 
     .video-bottom-features .curved-feat-col p {
-        font-size: clamp(0.25rem, 0.65vw, 0.34rem);
+        font-size: clamp(0.22rem, 0.55vw, 0.30rem);
         line-height: 1.15;
         letter-spacing: -0.01em;
     }
@@ -3394,16 +3395,17 @@ html.dark,
     }
 
     .video-bottom-features .curved-feat-col h5 {
-        font-size: 0.30rem;
+        font-size: 0.26rem;
+        white-space: nowrap;
     }
 
     .video-bottom-features .curved-feat-col p {
-        font-size: 0.22rem;
+        font-size: 0.20rem;
         line-height: 1.1;
     }
 
     .video-bottom-features .curved-feat-divider {
-        height: 7px;
+        height: 6px;
     }
 }
 
