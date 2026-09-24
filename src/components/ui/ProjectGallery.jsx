@@ -49,6 +49,10 @@ export const ProjectGallery = ({
     const thumbnailsContainerRef = useRef(null);
     const thumbRefs = useRef([]);
 
+    // Lightbox thumbnails ref
+    const lbThumbsContainerRef = useRef(null);
+    const lbThumbRefs = useRef([]);
+
     // Touch gesture tracking for main stage
     const touchStartX = useRef(null);
     const touchStartY = useRef(null);
@@ -66,16 +70,41 @@ export const ProjectGallery = ({
         }
     }, [total, activeIndex]);
 
-    // Scroll active thumbnail smoothly into view
+    // Scroll active thumbnail smoothly into view strictly inside its container (never scroll window or body)
     useEffect(() => {
-        if (thumbRefs.current[activeIndex]) {
-            thumbRefs.current[activeIndex].scrollIntoView({
-                behavior: 'smooth',
-                block: 'nearest',
-                inline: 'center'
+        const container = thumbnailsContainerRef.current;
+        const activeThumb = thumbRefs.current[activeIndex];
+        if (container && activeThumb) {
+            const containerWidth = container.clientWidth;
+            const thumbLeft = activeThumb.offsetLeft;
+            const thumbWidth = activeThumb.offsetWidth;
+            const targetScrollLeft = thumbLeft - (containerWidth / 2) + (thumbWidth / 2);
+
+            container.scrollTo({
+                left: Math.max(0, targetScrollLeft),
+                behavior: 'smooth'
             });
         }
     }, [activeIndex]);
+
+    // Also smoothly center active thumbnail inside lightbox footer if open
+    useEffect(() => {
+        if (isLightboxOpen) {
+            const container = lbThumbsContainerRef.current;
+            const activeThumb = lbThumbRefs.current[activeIndex];
+            if (container && activeThumb) {
+                const containerWidth = container.clientWidth;
+                const thumbLeft = activeThumb.offsetLeft;
+                const thumbWidth = activeThumb.offsetWidth;
+                const targetScrollLeft = thumbLeft - (containerWidth / 2) + (thumbWidth / 2);
+
+                container.scrollTo({
+                    left: Math.max(0, targetScrollLeft),
+                    behavior: 'smooth'
+                });
+            }
+        }
+    }, [activeIndex, isLightboxOpen]);
 
     const goTo = useCallback((nextIndex) => {
         if (nextIndex < 0 || nextIndex >= total || nextIndex === activeIndex) return;
@@ -376,10 +405,11 @@ export const ProjectGallery = ({
                     {/* Footer / Mini Thumbnails */}
                     {total > 1 && (
                         <div className="pg-lb-footer" onClick={(e) => e.stopPropagation()}>
-                            <div className="pg-lb-thumbs">
+                            <div className="pg-lb-thumbs" ref={lbThumbsContainerRef}>
                                 {images.map((img, idx) => (
                                     <button
                                         key={idx}
+                                        ref={(el) => (lbThumbRefs.current[idx] = el)}
                                         type="button"
                                         className={`pg-lb-thumb ${idx === activeIndex ? 'pg-lb-thumb-active' : ''}`}
                                         onClick={() => goTo(idx)}

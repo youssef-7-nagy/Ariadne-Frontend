@@ -1075,7 +1075,10 @@ html.dark .portfolio-subtitle {
     background: #ffffff;
     color: #1a1f2c;
     position: relative;
-    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: clip;
     transition: background-color 0.4s ease, color 0.4s ease;
 }
 
@@ -1091,11 +1094,13 @@ html.dark .project-details-container {
     top: -200px;
     left: 50%;
     transform: translateX(-50%);
-    width: 800px;
+    width: min(800px, 100%);
+    max-width: 100%;
     height: 800px;
     background: radial-gradient(circle, rgba(189, 159, 103, 0.06) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
+    overflow: hidden;
 }
 
 /* Thin gold accent line at top */
@@ -1108,13 +1113,17 @@ html.dark .project-details-container {
     height: 2px;
     background: linear-gradient(90deg, transparent 5%, #bd9f67 30%, #d4b483 50%, #bd9f67 70%, transparent 95%);
     z-index: 100;
+    pointer-events: none;
+    max-width: 100%;
 }
 
 /* ─── Inner Wrapper ─── */
 .pd-wrapper {
     display: flex;
     flex-direction: column;
+    width: 100%;
     max-width: 1700px;
+    box-sizing: border-box;
     margin: 0 auto;
     padding: 6rem clamp(1rem, 3vw, 2.5rem) 3rem;
     position: relative;
@@ -1125,15 +1134,31 @@ html.dark .project-details-container {
 /* ─── Grid Layout for 2-Column View (Text on Left, Media on Right) ─── */
 .pd-grid-layout {
     display: grid;
-    grid-template-columns: 1fr 1.3fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
     gap: clamp(1.5rem, 3vw, 3rem);
     align-items: start;
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.pd-info-column {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.pd-media-column {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 @media (max-width: 992px) {
     .pd-grid-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
 }
 
@@ -2091,7 +2116,8 @@ html.dark .pd-media-block {
         padding-right: 1rem;
         margin-bottom: 1.2rem;
         border-radius: 0.75rem;
-        max-width: calc(100vw - 1.5rem);
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .pd-back-text {
@@ -2155,16 +2181,19 @@ html.dark .pd-media-block {
         border-radius: 8px;
     }
 
-    /* Ensure media column doesn't overflow on mobile */
+    /* Ensure media and info columns don't overflow on mobile */
     .pd-media-column {
         width: 100%;
         max-width: 100%;
-        overflow: hidden;
+        min-width: 0;
+        box-sizing: border-box;
     }
 
     .pd-info-column {
+        width: 100%;
         max-width: 100%;
-        overflow: hidden;
+        min-width: 0;
+        box-sizing: border-box;
     }
 }
 
@@ -2194,6 +2223,8 @@ html.dark .pd-media-block {
         padding-left: 2.6rem;
         padding-right: 0.75rem;
         margin-bottom: 1rem;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .pd-back-icon {
