@@ -3,16 +3,15 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 100%;
-  min-height: clamp(160px, 30vh, 220px);
-  padding: clamp(8px, 2vmin, 16px);
+  min-height: clamp(200px, 32vmin, 260px);
+  padding: clamp(1rem, 3vmin, 2rem);
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .loader-container {
-  --loader-size: clamp(130px, 38vmin, 190px);
-  --ring-border-width: clamp(5px, calc(var(--loader-size) * 0.0421), 8px);
+  --loader-size: clamp(135px, 35vmin, 190px);
+  --ring-border-width: clamp(5.5px, calc(var(--loader-size) * 0.0421), 8px);
 
   display: flex;
   justify-content: center;
@@ -22,6 +21,7 @@
   height: var(--loader-size);
   flex-shrink: 0;
   box-sizing: border-box;
+  overflow: visible;
 }
 
 .loader-text {
