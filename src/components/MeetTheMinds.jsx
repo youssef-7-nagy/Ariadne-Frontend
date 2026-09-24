@@ -168,14 +168,6 @@ function OwnerProfile({ member, index }) {
                         decoding="async"
                     />
                     <div className="mtm-viewfinder" />
-                    <div className="mtm-badge">
-                        <div 
-                            className="mtm-badge-ribbon"
-                            style={{ background: member.accentColor }}
-                        >
-                            <span className="mtm-badge-text">{member.badge}</span>
-                        </div>
-                    </div>
                 </div>
             </motion.div>
 
