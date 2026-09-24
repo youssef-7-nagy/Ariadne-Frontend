@@ -3350,8 +3350,8 @@ html.dark,
     }
 
     .video-bottom-features {
-        padding: clamp(6px, 1.8vw, 12px) clamp(4px, 1.2vw, 10px) clamp(4px, 1vw, 7px);
-        gap: clamp(3px, 1vw, 10px);
+        padding: clamp(4px, 1.2vw, 8px) clamp(3px, 1vw, 8px) clamp(3px, 0.8vw, 5px);
+        gap: clamp(2px, 0.8vw, 8px);
         background: linear-gradient(to top,
                 rgba(0, 0, 0, 0.94) 0%,
                 rgba(0, 0, 0, 0.72) 55%,
@@ -3364,20 +3364,20 @@ html.dark,
     }
 
     .video-bottom-features .curved-feat-col h5 {
-        font-size: clamp(0.42rem, 1.1vw, 0.54rem);
-        margin-bottom: 1.5px;
-        line-height: 1.15;
+        font-size: clamp(0.32rem, 0.85vw, 0.44rem);
+        margin-bottom: 1px;
+        line-height: 1.1;
     }
 
     .video-bottom-features .curved-feat-col p {
-        font-size: clamp(0.32rem, 0.8vw, 0.42rem);
-        line-height: 1.2;
+        font-size: clamp(0.25rem, 0.65vw, 0.34rem);
+        line-height: 1.15;
         letter-spacing: -0.01em;
     }
 
     .video-bottom-features .curved-feat-divider {
-        height: clamp(10px, 2vw, 15px);
-        margin-bottom: 1.5px;
+        height: clamp(7px, 1.5vw, 11px);
+        margin-bottom: 1px;
     }
 
     /* Completely hide Contact Us button on mobile phones */
@@ -3389,21 +3389,21 @@ html.dark,
 /* Extra small mobile screens (<= 360px) */
 @media (max-width: 360px) {
     .video-bottom-features {
-        padding: 5px 3px 3px;
-        gap: 2.5px;
+        padding: 3px 2px 2px;
+        gap: 2px;
     }
 
     .video-bottom-features .curved-feat-col h5 {
-        font-size: 0.38rem;
+        font-size: 0.30rem;
     }
 
     .video-bottom-features .curved-feat-col p {
-        font-size: 0.28rem;
-        line-height: 1.15;
+        font-size: 0.22rem;
+        line-height: 1.1;
     }
 
     .video-bottom-features .curved-feat-divider {
-        height: 9px;
+        height: 7px;
     }
 }
 
