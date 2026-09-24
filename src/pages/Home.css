@@ -3350,12 +3350,12 @@ html.dark,
     }
 
     .video-bottom-features {
-        padding: clamp(6px, 1.5vw, 10px) clamp(4px, 1.2vw, 10px) clamp(2px, 0.8vw, 5px);
-        gap: clamp(2px, 0.8vw, 6px);
+        padding: clamp(10px, 2.5vw, 16px) clamp(6px, 1.8vw, 14px) clamp(6px, 1.5vw, 10px);
+        gap: clamp(4px, 1.5vw, 12px);
         background: linear-gradient(to top,
-                rgba(0, 0, 0, 0.95) 0%,
-                rgba(0, 0, 0, 0.78) 55%,
-                rgba(0, 0, 0, 0.25) 85%,
+                rgba(0, 0, 0, 0.94) 0%,
+                rgba(0, 0, 0, 0.72) 55%,
+                rgba(0, 0, 0, 0.20) 85%,
                 transparent 100%);
     }
 
@@ -3364,57 +3364,46 @@ html.dark,
     }
 
     .video-bottom-features .curved-feat-col h5 {
-        font-size: clamp(0.38rem, 1vw, 0.50rem);
-        margin-bottom: 1px;
-        line-height: 1.1;
+        font-size: clamp(0.56rem, 1.6vw, 0.70rem);
+        margin-bottom: 2px;
+        line-height: 1.15;
     }
 
     .video-bottom-features .curved-feat-col p {
-        font-size: clamp(0.30rem, 0.75vw, 0.40rem);
-        line-height: 1.15;
+        font-size: clamp(0.44rem, 1.2vw, 0.54rem);
+        line-height: 1.2;
         letter-spacing: -0.01em;
     }
 
     .video-bottom-features .curved-feat-divider {
-        height: clamp(8px, 1.5vw, 12px);
-        margin-bottom: 1px;
+        height: clamp(14px, 3.2vw, 22px);
+        margin-bottom: 2px;
     }
 
+    /* Completely hide Contact Us button on mobile phones */
     .video-center-cta {
-        margin-bottom: clamp(1px, 0.4vw, 2.5px);
-    }
-
-    .video-center-cta .btn-book-session-curved {
-        padding: clamp(1.5px, 0.4vw, 2.5px) clamp(6px, 1.4vw, 9px);
-        font-size: clamp(0.38rem, 0.9vw, 0.48rem);
-        letter-spacing: 0.02em;
-        border-width: 0.8px;
+        display: none !important;
     }
 }
 
 /* Extra small mobile screens (<= 360px) */
 @media (max-width: 360px) {
     .video-bottom-features {
-        padding: 4px 2px 2px;
-        gap: 2px;
+        padding: 8px 4px 4px;
+        gap: 3px;
     }
 
     .video-bottom-features .curved-feat-col h5 {
-        font-size: 0.35rem;
+        font-size: 0.50rem;
     }
 
     .video-bottom-features .curved-feat-col p {
-        font-size: 0.28rem;
-        line-height: 1.1;
+        font-size: 0.38rem;
+        line-height: 1.15;
     }
 
-    .video-center-cta {
-        margin-bottom: 1px;
-    }
-
-    .video-center-cta .btn-book-session-curved {
-        padding: 1px 5px;
-        font-size: 0.35rem;
+    .video-bottom-features .curved-feat-divider {
+        height: 12px;
     }
 }
 
