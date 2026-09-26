@@ -30,8 +30,21 @@
     align-items: center;
     justify-content: center;
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.08);
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease, height 0.3s ease;
     touch-action: pan-y;
+}
+
+/* Orientation-adaptive stage heights */
+.pg-main-stage.is-portrait {
+    height: clamp(460px, 68vh, 650px);
+}
+
+.pg-main-stage.is-square {
+    height: clamp(380px, 54vh, 520px);
+}
+
+.pg-main-stage.is-landscape {
+    height: 480px;
 }
 
 .pg-main-stage:hover {
@@ -232,7 +245,8 @@
 .pg-thumb-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    background: #090d16;
     display: block;
     pointer-events: none;
 }
@@ -450,7 +464,8 @@
 .pg-lb-thumb img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    background: #090d16;
     display: block;
 }
 
@@ -461,6 +476,15 @@
 /* ── Tablet (≤ 1024px) ── */
 @media (max-width: 1024px) {
     .pg-main-stage {
+        height: 420px;
+    }
+    .pg-main-stage.is-portrait {
+        height: clamp(400px, 60vh, 560px);
+    }
+    .pg-main-stage.is-square {
+        height: clamp(340px, 50vh, 460px);
+    }
+    .pg-main-stage.is-landscape {
         height: 420px;
     }
 }
@@ -475,6 +499,15 @@
         /* Responsive height that scales with viewport width */
         height: clamp(240px, 56vw, 380px);
         border-radius: 12px;
+    }
+    .pg-main-stage.is-portrait {
+        height: clamp(340px, 75vw, 500px);
+    }
+    .pg-main-stage.is-square {
+        height: clamp(280px, 62vw, 420px);
+    }
+    .pg-main-stage.is-landscape {
+        height: clamp(220px, 52vw, 360px);
     }
 
     /* Nav buttons: comfortable touch targets (min 44px per WCAG) */
@@ -575,6 +608,15 @@
         /* Scale naturally: ~56vw on narrow phones, never below 200px */
         height: clamp(200px, 58vw, 300px);
         border-radius: 10px;
+    }
+    .pg-main-stage.is-portrait {
+        height: clamp(290px, 86vw, 440px);
+    }
+    .pg-main-stage.is-square {
+        height: clamp(240px, 70vw, 350px);
+    }
+    .pg-main-stage.is-landscape {
+        height: clamp(190px, 54vw, 290px);
     }
 
     /* Expand hint not needed on touch devices */
@@ -713,6 +755,15 @@
     .pg-main-stage {
         height: clamp(180px, 60vw, 260px);
         border-radius: 8px;
+    }
+    .pg-main-stage.is-portrait {
+        height: clamp(260px, 90vw, 380px);
+    }
+    .pg-main-stage.is-square {
+        height: clamp(210px, 74vw, 310px);
+    }
+    .pg-main-stage.is-landscape {
+        height: clamp(170px, 55vw, 250px);
     }
 
     .pg-nav-btn {

@@ -47,6 +47,7 @@ const getAuthConfig = () => ({
 import { MediaPreview } from '../components/admin/MediaPreview';
 import { MediaUploader as UploadZone } from '../components/admin/MediaUploader';
 import { ProjectGallery } from '@/components/ui/ProjectGallery';
+import { GalleryManager } from '../components/admin/GalleryManager';
 
 // URL Validators
 const isValidYoutubeVimeo = (url) => {
@@ -254,15 +255,15 @@ const CategoriesTab = () => {
               </div>
               <div className="cms-card-actions">
                 <div className="cms-reorder-btns">
-                  <button className="btn-icon" onClick={() => handleReorder(index, -1)} title="Move left"><FiArrowLeft /></button>
-                  <button className="btn-icon" onClick={() => handleReorder(index, 1)} title="Move right"><FiArrowRight /></button>
+                  <button className="btn-icon" disabled={index === 0} onClick={() => handleReorder(index, -1)} title="Move left"><FiArrowLeft /></button>
+                  <button className="btn-icon" disabled={index === categories.length - 1} onClick={() => handleReorder(index, 1)} title="Move right"><FiArrowRight /></button>
                 </div>
                 <div style={{ display: 'flex' }}>
                   <button 
                     className="btn-icon" 
                     onClick={() => handleToggleVisibility(cat)} 
                     title={cat.isActive !== false ? "Hide from website" : "Show on website"}
-                    style={{ color: cat.isActive !== false ? 'inherit' : '#f59e0b' }}
+                    style={{ color: cat.isActive !== false ? '#10b981' : '#f59e0b' }}
                   >
                     {cat.isActive !== false ? <FiEye /> : <FiEyeOff />}
                   </button>
@@ -301,8 +302,7 @@ const ProjectsTab = () => {
   const [coverPreview, setCoverPreview] = useState('');
   const [videoThumbnailFile, setVideoThumbnailFile] = useState(null);
   const [videoThumbnailPreview, setVideoThumbnailPreview] = useState('');
-  const [galleryFiles, setGalleryFiles] = useState([]);
-  const [galleryPreviews, setGalleryPreviews] = useState([]);
+  const [galleryItems, setGalleryItems] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState({
@@ -316,8 +316,19 @@ const ProjectsTab = () => {
   });
   const [showClientDropdown, setShowClientDropdown] = useState(false);
   const clientDropdownRef = useRef(null);
-  const galleryInputRef = useRef(null);
   const abortControllerRef = useRef(null);
+
+  const handleAddGalleryFiles = (files) => {
+    const newItems = files.map(file => ({
+      id: `new_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+      isExisting: false,
+      file: file,
+      previewUrl: URL.createObjectURL(file),
+      url: '',
+      rawMedia: null
+    }));
+    setGalleryItems(prev => [...prev, ...newItems]);
+  };
 
   const handleCancelUpload = () => {
     if (abortControllerRef.current) {
@@ -375,8 +386,7 @@ const ProjectsTab = () => {
     setCoverPreview('');
     setVideoThumbnailFile(null);
     setVideoThumbnailPreview('');
-    setGalleryFiles([]);
-    setGalleryPreviews([]);
+    setGalleryItems([]);
     setEditingId(null);
   };
 
@@ -435,7 +445,7 @@ const ProjectsTab = () => {
 
     let hasMedia;
     if (projectMediaLayout === 'gallery') {
-      hasMedia = galleryFiles.length > 0 || (editingId && galleryPreviews.length > 0);
+      hasMedia = galleryItems.length > 0;
       if (!hasMedia) return notify.error('Please upload at least one photo for the gallery.');
     } else {
       hasMedia = mediaFile || form.embedUrl || form.externalLink || coverFile || (editingId && mediaPreview);
@@ -455,6 +465,8 @@ const ProjectsTab = () => {
       estimatedTime: 'Calculating...',
       statusText: 'Preparing upload...'
     });
+
+    const newPhotosCount = galleryItems.filter(i => !i.isExisting).length;
 
     const uploadConfig = {
       ...getAuthConfig(),
@@ -494,7 +506,7 @@ const ProjectsTab = () => {
           estimatedTime: etaStr,
           statusText: percentage >= 100 
             ? 'Optimizing gallery & saving to database...' 
-            : (projectMediaLayout === 'gallery' ? `Uploading photo gallery (${galleryFiles.length} photos)...` : 'Uploading project media...')
+            : (projectMediaLayout === 'gallery' ? `Uploading photo gallery (${newPhotosCount} new photo${newPhotosCount !== 1 ? 's' : ''})...` : 'Uploading project media...')
         });
       }
     };
@@ -508,7 +520,26 @@ const ProjectsTab = () => {
       Object.entries(finalForm).forEach(([k, v]) => fd.append(k, v));
       fd.append('mediaType', projectMediaLayout);
       if (projectMediaLayout === 'gallery') {
-        galleryFiles.forEach(f => fd.append('media', f));
+        const newFilesList = [];
+        const galleryStructure = galleryItems.map(item => {
+          if (item.isExisting) {
+            return {
+              type: 'existing',
+              id: item.id,
+              url: item.url
+            };
+          } else {
+            const newFileIndex = newFilesList.length;
+            newFilesList.push(item.file);
+            return {
+              type: 'new',
+              newFileIndex
+            };
+          }
+        });
+
+        newFilesList.forEach(f => fd.append('media', f));
+        fd.append('galleryStructure', JSON.stringify(galleryStructure));
       } else {
         if (mediaFile) fd.append('media', mediaFile);
         if (videoThumbnailFile) fd.append('videoThumbnail', videoThumbnailFile);
@@ -557,15 +588,22 @@ const ProjectsTab = () => {
     const featured = p.media?.[0];
     setMediaFile(null);
     if (layout === 'gallery') {
-      // Load existing gallery previews (resolved URLs)
-      const existingPreviews = (p.media || []).map(m => resolveUrl(m.url));
-      setGalleryFiles([]);
-      setGalleryPreviews(existingPreviews);
+      const sortedMedia = [...(p.media || [])]
+        .filter(m => m.type === 'image' || !m.type)
+        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+      const existingItems = sortedMedia.map(m => ({
+        id: m._id ? m._id.toString() : m.url,
+        isExisting: true,
+        file: null,
+        previewUrl: resolveUrl(m.url),
+        url: m.url,
+        rawMedia: m
+      }));
+      setGalleryItems(existingItems);
       setMediaPreview('');
     } else {
       setMediaPreview(featured?.url || '');
-      setGalleryFiles([]);
-      setGalleryPreviews([]);
+      setGalleryItems([]);
     }
     setMediaType(featured?.type || 'image');
     setCoverFile(null);
@@ -755,7 +793,7 @@ const ProjectsTab = () => {
             <div className="cms-field" style={{ gridColumn: 'span 2' }}>
               {/* ── Media Layout Toggle ── */}
               <label style={{ marginBottom: 10, display: 'block' }}>Media Layout *</label>
-              <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
+              <div style={{ display: 'flex', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
                 <button
                   type="button"
                   onClick={() => setProjectMediaLayout('video')}
@@ -784,76 +822,15 @@ const ProjectsTab = () => {
                 </button>
               </div>
 
-              {/* ── Gallery Upload Zone ── */}
+              {/* ── Gallery Upload & Management Zone ── */}
               {projectMediaLayout === 'gallery' ? (
-                <div>
-                  <input
-                    ref={galleryInputRef}
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    style={{ display: 'none' }}
-                    onChange={e => {
-                      const files = Array.from(e.target.files);
-                      if (!files.length) return;
-                      setGalleryFiles(prev => [...prev, ...files]);
-                      setGalleryPreviews(prev => [...prev, ...files.map(f => URL.createObjectURL(f))]);
-                      e.target.value = '';
-                    }}
-                  />
-                  <div
-                    onClick={() => galleryInputRef.current?.click()}
-                    style={{
-                      border: '2px dashed #334155', borderRadius: 10, padding: '28px 20px',
-                      textAlign: 'center', cursor: 'pointer', color: '#94a3b8', marginBottom: 14,
-                      transition: 'border-color 0.2s'
-                    }}
-                    onMouseOver={e => e.currentTarget.style.borderColor = '#6366f1'}
-                    onMouseOut={e => e.currentTarget.style.borderColor = '#334155'}
-                  >
-                    <FiImage style={{ fontSize: 28, marginBottom: 8, display: 'block', margin: '0 auto 8px' }} />
-                    <strong>Click to add photos</strong>
-                    <span style={{ display: 'block', fontSize: '0.8rem', marginTop: 4 }}>You can add multiple photos — they will appear as a navigable gallery</span>
-                  </div>
-                  {galleryPreviews.length > 0 && (
-                    <div style={{ marginTop: 16 }}>
-                      <div style={{ marginBottom: 16 }}>
-                        <label style={{ display: 'block', marginBottom: 8, fontSize: '0.88rem', color: '#cbd5e1', fontWeight: 600 }}>
-                          ✨ Live Gallery Preview ({galleryPreviews.length} photos):
-                        </label>
-                        <ProjectGallery images={galleryPreviews} title={form.title || 'Project Preview'} />
-                      </div>
-
-                      <label style={{ display: 'block', marginBottom: 8, fontSize: '0.8rem', color: '#94a3b8' }}>
-                        Uploaded Photos ({galleryPreviews.length} items — click ✕ to remove):
-                      </label>
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(90px, 1fr))', gap: 8 }}>
-                        {galleryPreviews.map((src, i) => (
-                          <div key={i} style={{ position: 'relative', borderRadius: 6, overflow: 'hidden', aspectRatio: '1', background: '#0d1117' }}>
-                            <img src={src} alt={`Gallery ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setGalleryPreviews(p => p.filter((_, j) => j !== i));
-                                setGalleryFiles(p => p.filter((_, j) => j !== i));
-                              }}
-                              style={{
-                                position: 'absolute', top: 3, right: 3,
-                                background: 'rgba(0,0,0,0.7)', border: 'none', borderRadius: '50%',
-                                color: '#fff', width: 20, height: 20, display: 'flex', alignItems: 'center',
-                                justifyContent: 'center', cursor: 'pointer', padding: 0, fontSize: 11
-                              }}
-                              aria-label="Remove photo"
-                            >
-                              <FiX />
-                            </button>
-                            {i === 0 && <span style={{ position: 'absolute', bottom: 3, left: 3, background: '#6366f1', color: '#fff', fontSize: '0.6rem', padding: '1px 5px', borderRadius: 3 }}>Cover</span>}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
+                <GalleryManager
+                  items={galleryItems}
+                  onItemsChange={setGalleryItems}
+                  onAddFiles={handleAddGalleryFiles}
+                  projectTitle={form.title || 'Project Preview'}
+                  disabled={loading}
+                />
               ) : (
                 /* ── Video / Trailer zone (original) ── */
                 <div>
@@ -912,7 +889,7 @@ const ProjectsTab = () => {
               </div>
             )}
           </div>
-          <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
+          <div style={{ display: 'flex', gap: 10, marginTop: 4, flexWrap: 'wrap' }}>
             <button type="submit" className="btn btn-primary" disabled={loading}>
               {loading ? (uploadProgress.active ? `Uploading (${uploadProgress.percentage}%)...` : 'Saving...') : (editingId ? 'Update Project' : 'Create Project')}
             </button>

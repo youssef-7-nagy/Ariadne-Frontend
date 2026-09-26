@@ -136,6 +136,7 @@ input, select, textarea { font-size: 16px !important; }
 
 .btn-icon { width: 36px; height: 36px; border-radius: 10px; border: none; cursor: pointer; margin-right: 8px; color: white; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; font-size: 1rem; }
 .btn-icon:hover { transform: translateY(-3px); }
+.btn-icon:disabled { opacity: 0.4; cursor: not-allowed; transform: none; background: #e2e8f0; color: #94a3b8; }
 .btn-icon:last-child { margin-right: 0; }
 .btn-icon svg,
 .btn-action svg { width: 16px; height: 16px; pointer-events: none; }
@@ -701,6 +702,7 @@ textarea.form-control { height: auto; padding-top: 20px; resize: vertical; font-
   justify-content: space-between;
 }
 .cms-reorder-btns { display: flex; gap: 4px; }
+.cms-reorder-btns .btn-icon { margin-right: 0; }
 
 /* --- Project List --- */
 .cms-project-list { display: flex; flex-direction: column; gap: 14px; }
@@ -916,6 +918,15 @@ textarea.form-control { height: auto; padding-top: 20px; resize: vertical; font-
 }
 .dark .dropdown-info span {
   color: #9eb8ce;
+}
+
+@media (max-width: 640px) {
+  .cms-form-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .cms-form-grid .cms-field {
+    grid-column: span 1 !important;
+  }
 }
 
 @media (max-width: 430px) {

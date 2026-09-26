@@ -1,0 +1,557 @@
+/* ── GalleryManager.css ─────────────────────────────────────────────────── */
+
+.gm-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Header & Stats Bar */
+.gm-header-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: #1e293b;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-sizing: border-box;
+}
+
+.gm-stats-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.gm-stat-pill {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.gm-stat-total {
+  background: rgba(99, 102, 241, 0.2);
+  color: #a5b4fc;
+  border: 1px solid rgba(99, 102, 241, 0.35);
+}
+
+.gm-stat-existing {
+  background: rgba(59, 130, 246, 0.15);
+  color: #93c5fd;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.gm-stat-new {
+  background: rgba(16, 185, 129, 0.15);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+/* Filter View Tabs */
+.gm-tabs {
+  display: flex;
+  gap: 4px;
+  background: rgba(15, 23, 42, 0.6);
+  padding: 3px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.gm-tab-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.gm-tab-btn:hover {
+  color: #f1f5f9;
+}
+
+.gm-tab-btn.active {
+  background: #3b82f6;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.35);
+}
+
+/* Add Photos Dropzone */
+.gm-dropzone {
+  border: 2px dashed #475569;
+  border-radius: 12px;
+  padding: 20px 14px;
+  text-align: center;
+  background: rgba(15, 23, 42, 0.35);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.gm-dropzone:hover,
+.gm-dropzone.dragover {
+  border-color: #6366f1;
+  background: rgba(99, 102, 241, 0.08);
+}
+
+.gm-dropzone-icon {
+  font-size: 1.8rem;
+  color: #818cf8;
+  margin-bottom: 6px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.gm-dropzone-title {
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  display: block;
+}
+
+.gm-dropzone-subtitle {
+  color: #94a3b8;
+  font-size: 0.74rem;
+  margin-top: 3px;
+  display: block;
+}
+
+/* Section Title */
+.gm-section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+  margin-bottom: 8px;
+  color: #cbd5e1;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.gm-hint {
+  font-size: 0.72rem;
+  color: #818cf8;
+  font-weight: 500;
+}
+
+/* ── Responsive Photo Grid ─────────────────────────────────────────────── */
+.gm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+  gap: 12px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Tablet: 3 columns */
+@media (max-width: 860px) {
+  .gm-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+  }
+}
+
+/* Mobile: Clean 2 columns with ample touch room */
+@media (max-width: 640px) {
+  .gm-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .gm-header-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .gm-tabs {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .gm-tab-btn {
+    flex: 1;
+    text-align: center;
+    padding: 6px 4px;
+    font-size: 0.72rem;
+  }
+
+  /* Improved comfortable touch target controls on mobile */
+  .gm-delete-btn {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    min-height: 26px !important;
+    max-width: 26px !important;
+    max-height: 26px !important;
+    font-size: 13px !important;
+    top: 5px !important;
+    right: 5px !important;
+  }
+
+  .gm-nudge-btn {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    min-height: 26px !important;
+    max-width: 26px !important;
+    max-height: 26px !important;
+    font-size: 12px !important;
+  }
+
+  .gm-make-cover-btn {
+    height: 26px !important;
+    min-height: 26px !important;
+    font-size: 0.68rem !important;
+    padding: 2px 7px !important;
+  }
+
+  .gm-lead-label {
+    height: 26px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.68rem;
+    padding: 2px 7px;
+  }
+
+  .gm-card-top-left {
+    top: 5px;
+    left: 5px;
+    gap: 3px;
+    max-width: calc(100% - 36px);
+  }
+}
+
+/* Extra small mobile (< 360px) */
+@media (max-width: 360px) {
+  .gm-grid {
+    gap: 8px;
+  }
+}
+
+/* ── Card Item ──────────────────────────────────────────────────────────── */
+.gm-card {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #0f172a;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;
+  cursor: grab;
+  box-sizing: border-box;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, opacity 0.18s ease;
+}
+
+.gm-card:hover {
+  border-color: rgba(99, 102, 241, 0.6);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+}
+
+/* Dragging state */
+.gm-card.is-dragging {
+  opacity: 0.3 !important;
+  transform: scale(0.95);
+  border-color: #6366f1 !important;
+}
+
+/* Lifted state (touch hold active) */
+.gm-card.is-lifted {
+  transform: scale(1.04);
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.45);
+  border-color: #818cf8 !important;
+  z-index: 10;
+}
+
+/* Drop target indicator lines */
+.gm-card.drop-target {
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 0 2px #38bdf8, 0 6px 18px rgba(56, 189, 248, 0.35);
+}
+
+.gm-card.drop-target-before::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 5px;
+  background: #38bdf8;
+  box-shadow: 0 0 10px #38bdf8;
+  z-index: 20;
+  border-radius: 2px;
+}
+
+.gm-card.drop-target-after::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 5px;
+  background: #38bdf8;
+  box-shadow: 0 0 10px #38bdf8;
+  z-index: 20;
+  border-radius: 2px;
+}
+
+.gm-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+  background: #090d16;
+}
+
+/* ── Top Left: Clustered Badges ─────────────────────────────────────────── */
+.gm-card-top-left {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+  z-index: 4;
+  max-width: calc(100% - 36px);
+  flex-wrap: nowrap;
+}
+
+.gm-order-badge {
+  background: rgba(15, 23, 42, 0.88);
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.gm-cover-badge {
+  background: #6366f1;
+  color: #ffffff;
+  font-size: 0.64rem;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.4);
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.gm-type-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 5px;
+  border-radius: 5px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.gm-type-badge.existing {
+  background: rgba(30, 58, 138, 0.85);
+  color: #bfdbfe;
+  border: 1px solid rgba(147, 197, 253, 0.35);
+  backdrop-filter: blur(4px);
+}
+
+.gm-type-badge.new {
+  background: rgba(6, 78, 59, 0.9);
+  color: #a7f3d0;
+  border: 1px solid rgba(110, 231, 183, 0.35);
+  backdrop-filter: blur(4px);
+}
+
+/* ── Top Right: Compact Delete Button ──────────────────────────────────── */
+.gm-delete-btn {
+  position: absolute !important;
+  top: 6px !important;
+  right: 6px !important;
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px !important;
+  min-height: 22px !important;
+  max-width: 22px !important;
+  max-height: 22px !important;
+  border-radius: 50% !important;
+  background: rgba(15, 23, 42, 0.85) !important;
+  color: #f87171 !important;
+  border: 1px solid rgba(248, 113, 113, 0.4) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-size: 11px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(4px) !important;
+  transition: all 0.15s ease !important;
+  z-index: 5 !important;
+}
+
+.gm-delete-btn:hover {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+  border-color: #ef4444 !important;
+  transform: scale(1.12);
+}
+
+.gm-delete-btn:active {
+  transform: scale(0.95);
+}
+
+/* ── Bottom Bar: Sleek Action Strip ────────────────────────────────────── */
+.gm-card-bottom-bar {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  right: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  z-index: 4;
+  pointer-events: auto;
+}
+
+.gm-make-cover-btn {
+  background: rgba(15, 23, 42, 0.85) !important;
+  color: #cbd5e1 !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  font-size: 0.65rem !important;
+  font-weight: 600 !important;
+  padding: 2px 6px !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  backdrop-filter: blur(4px) !important;
+  transition: all 0.15s ease !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+}
+
+.gm-make-cover-btn:hover {
+  background: #4f46e5 !important;
+  color: #ffffff !important;
+  border-color: #4f46e5 !important;
+}
+
+.gm-lead-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #a5b4fc;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  padding: 2px 6px;
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+}
+
+.gm-nudge-group {
+  display: flex;
+  gap: 3px;
+  margin-left: auto;
+}
+
+.gm-nudge-btn {
+  background: rgba(15, 23, 42, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  color: #cbd5e1 !important;
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px !important;
+  min-height: 22px !important;
+  max-width: 22px !important;
+  max-height: 22px !important;
+  border-radius: 6px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 10px !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  backdrop-filter: blur(4px) !important;
+  transition: all 0.15s ease !important;
+}
+
+.gm-nudge-btn:hover:not(:disabled) {
+  background: #3b82f6 !important;
+  color: #ffffff !important;
+  border-color: #3b82f6 !important;
+}
+
+.gm-nudge-btn:disabled {
+  opacity: 0.25 !important;
+  cursor: not-allowed !important;
+}
+
+/* ── Floating Drag Ghost (Follows Finger / Mouse) ───────────────────────── */
+.gm-drag-ghost {
+  position: fixed;
+  pointer-events: none;
+  z-index: 10000;
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.7), 0 0 0 3px #6366f1;
+  opacity: 0.95;
+  transform: translate(-50%, -50%) scale(1.08);
+  transition: transform 0.05s linear;
+}
+
+.gm-drag-ghost img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #090d16;
+  display: block;
+  pointer-events: none;
+}
+
+/* Active touch drag state: lock body scrolling so Safari/Chrome doesn't cancel drag */
+body.gm-dragging-active {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  touch-action: none !important;
+  overflow: hidden !important;
+}
+
+body.gm-dragging-active .gm-card {
+  touch-action: none !important;
+}

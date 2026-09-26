@@ -43,6 +43,21 @@ export const ProjectGallery = ({
     const [activeIndex, setActiveIndex] = useState(0);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
+    const [currentOrientation, setCurrentOrientation] = useState('landscape'); // 'landscape' | 'portrait' | 'square'
+
+    const handleImageLoad = (e) => {
+        const { naturalWidth, naturalHeight } = e.target;
+        if (naturalWidth && naturalHeight) {
+            const ratio = naturalWidth / naturalHeight;
+            if (ratio < 0.88) {
+                setCurrentOrientation('portrait');
+            } else if (ratio > 1.15) {
+                setCurrentOrientation('landscape');
+            } else {
+                setCurrentOrientation('square');
+            }
+        }
+    };
 
     // Refs
     const stageRef = useRef(null);
@@ -205,7 +220,7 @@ export const ProjectGallery = ({
         <div className={`project-gallery ${className}`} style={style}>
             {/* ─── Main Image Stage Container ─── */}
             <div
-                className="pg-main-stage"
+                className={`pg-main-stage is-${currentOrientation}`}
                 ref={stageRef}
                 onClick={() => setIsLightboxOpen(true)}
                 onTouchStart={handleTouchStart}
@@ -221,6 +236,7 @@ export const ProjectGallery = ({
                     className={`pg-main-image ${isAnimating ? 'pg-animating' : ''}`}
                     loading="eager"
                     decoding="async"
+                    onLoad={handleImageLoad}
                 />
 
                 {/* Subtle Expand Fullscreen Hint in Top Right */}
