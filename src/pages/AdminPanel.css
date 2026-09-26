@@ -1078,3 +1078,91 @@ textarea.form-control { height: auto; padding-top: 20px; resize: vertical; font-
   border: 1px solid rgba(192, 132, 252, 0.4);
   box-shadow: 0 12px 30px rgba(124, 58, 237, 0.25);
 }
+
+/* --- Category Grouping & Project Visibility Styles --- */
+.cms-category-group {
+  margin-bottom: 32px;
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #f0f0f0;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
+}
+
+.cms-category-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #f1f5f9;
+}
+
+.cms-category-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cms-category-title-wrap h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1e293b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cms-cat-count-badge {
+  background: #e0e7ff;
+  color: #4361ee;
+  border-radius: 999px;
+  padding: 3px 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.cms-empty-category-notice {
+  padding: 24px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.88rem;
+  font-weight: 500;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px dashed #e2e8f0;
+}
+
+.cms-project-row.is-hidden-project {
+  background: #fffbeb;
+  border-color: #fef3c7;
+  opacity: 0.85;
+}
+
+.cms-project-row.is-hidden-project:hover {
+  opacity: 1;
+}
+
+.dark .cms-category-group {
+  background: rgba(11, 34, 56, 0.92);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark .cms-category-group-header {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark .cms-category-title-wrap h3 {
+  color: #eaf4ff;
+}
+
+.dark .cms-empty-category-notice {
+  background: rgba(4, 16, 29, 0.6);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: #9eb8ce;
+}
+
+.dark .cms-project-row.is-hidden-project {
+  background: rgba(120, 53, 15, 0.25);
+  border-color: rgba(245, 158, 11, 0.3);
+}

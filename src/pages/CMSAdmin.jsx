@@ -583,26 +583,65 @@ const ProjectsTab = () => {
     load();
   };
 
-  const handleReorder = async (index, direction) => {
-    const list = [...filtered];
+  const handleToggleProjectVisibility = async (proj) => {
+    try {
+      const isCurrentlyHidden = proj.isHidden === true || proj.isPublished === false;
+      const newHiddenState = !isCurrentlyHidden;
+
+      await axios.patch(
+        `${API}/projects/${proj._id}/visibility`,
+        { isHidden: newHiddenState },
+        getAuthConfig()
+      );
+
+      notify.success(`Project "${proj.title}" is now ${newHiddenState ? 'hidden from' : 'visible on'} the public website`);
+
+      setProjects(prev => prev.map(p => p._id === proj._id ? { ...p, isHidden: newHiddenState, isPublished: !newHiddenState } : p));
+    } catch (err) {
+      notify.error('Failed to update project visibility');
+    }
+  };
+
+  const handleReorderCategoryProjects = async (categoryProjectsList, index, direction) => {
     if (direction === -1 && index === 0) return;
-    if (direction === 1 && index === list.length - 1) return;
-    [list[index], list[index + direction]] = [list[index + direction], list[index]];
+    if (direction === 1 && index === categoryProjectsList.length - 1) return;
+
+    const list = [...categoryProjectsList];
+    const targetIndex = index + direction;
+    [list[index], list[targetIndex]] = [list[targetIndex], list[index]];
+
     list.forEach((item, i) => { item.order = i; });
+
     setProjects(prev => {
       const map = Object.fromEntries(list.map(p => [p._id, p]));
       return prev.map(p => map[p._id] || p);
     });
+
     try {
-      await axios.put(`${API}/projects/reorder`, { reorderedItems: list.map(p => ({ id: p._id, order: p.order })) }, getAuthConfig());
-    } catch { notify.error('Reorder failed'); load(); }
+      await axios.put(
+        `${API}/projects/reorder`,
+        { reorderedItems: list.map(p => ({ id: p._id, order: p.order })) },
+        getAuthConfig()
+      );
+    } catch {
+      notify.error('Reorder failed');
+      load();
+    }
   };
 
   const filtered = projects.filter(p => {
-    if (filterCat && p.category?._id !== filterCat) return false;
+    if (filterCat && (p.category?._id || p.category) !== filterCat) return false;
     if (search && !`${p.title} ${p.clientName}`.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
   });
+
+  const displayCategories = categories.filter(c => !filterCat || c._id === filterCat);
+  const unassignedProjects = projects.filter(p => {
+    if (filterCat) return false;
+    const catId = p.category?._id || p.category;
+    return !categories.some(c => c._id === catId);
+  }).filter(p => !search || `${p.title} ${p.clientName}`.toLowerCase().includes(search.toLowerCase()))
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
   return (
     <div>
@@ -927,57 +966,189 @@ const ProjectsTab = () => {
           <option value="">All Categories</option>
           {categories.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}
         </select>
-        <span style={{ color: '#64748b', fontSize: '0.85rem' }}>{filtered.length} project{filtered.length !== 1 ? 's' : ''}</span>
+        <span style={{ color: '#64748b', fontSize: '0.85rem' }}>{filtered.length} total project{filtered.length !== 1 ? 's' : ''}</span>
       </div>
 
-      {/* List */}
+      {/* Grouped Category Project Lists */}
       {filtered.length === 0 ? (
         <div className="admin-state-card"><h3>No projects found</h3><p>Create your first project above.</p></div>
       ) : (
-        <div className="cms-project-list">
-          {filtered.map((p, index) => {
-            const featured = p.media?.[0];
-            const thumbSrc = p.coverImage || featured?.thumbnailUrl || featured?.url;
-            const thumbType = (p.coverImage || featured?.thumbnailUrl) ? 'image' : featured?.type;
+        <div>
+          {displayCategories.map(cat => {
+            const catProjects = projects
+              .filter(p => (p.category?._id || p.category) === cat._id)
+              .filter(p => !search || `${p.title} ${p.clientName}`.toLowerCase().includes(search.toLowerCase()))
+              .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
             return (
-              <div key={p._id} className="cms-project-row">
-                <div className="cms-project-thumb">
-                  {thumbSrc ? (
-                    <MediaPreview src={thumbSrc} type={thumbType} />
-                  ) : (
-                    <div className="cms-thumb-empty"><FiImage size={20} /></div>
-                  )}
-                </div>
-                <div className="cms-project-info">
-                  <div className="cms-project-header">
-                    <h4>{p.title}</h4>
-                    {p.category?.name && <span className="cms-cat-badge">{p.category.name}</span>}
-                  </div>
-                  {p.clientName && <p className="cms-project-client">Client: <strong>{p.clientName}</strong></p>}
-                  <p className="cms-project-desc">{p.description}</p>
-                  <div className="cms-project-meta">
-                    {p.date && <span>📅 {new Date(p.date).toLocaleDateString()}</span>}
-                    {featured?.type === 'video' && <span className="cms-media-badge video">🎬 Video</span>}
-                    {featured?.type === 'image' && <span className="cms-media-badge image">🖼️ Image</span>}
-                    {p.externalLink && (
-                      <a href={p.externalLink} target="_blank" rel="noopener noreferrer" className="btn-quick success" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 12px' }}>
-                        <FiExternalLink size={14} /> Full Project on YouTube
-                      </a>
+              <div key={cat._id} className="cms-category-group">
+                <div className="cms-category-group-header">
+                  <div className="cms-category-title-wrap">
+                    <h3>{cat.name}</h3>
+                    <span className="cms-cat-count-badge">
+                      {catProjects.length} Project{catProjects.length !== 1 ? 's' : ''}
+                    </span>
+                    {cat.isActive === false && (
+                      <span className="cms-cat-badge" style={{ background: '#fef3c7', color: '#b45309' }}>Category Hidden</span>
                     )}
                   </div>
                 </div>
-                <div className="cms-project-actions">
-                  <div className="cms-reorder-btns">
-                    <button className="btn-icon" onClick={() => handleReorder(index, -1)} title="Move up"><FiArrowUp /></button>
-                    <button className="btn-icon" onClick={() => handleReorder(index, 1)} title="Move down"><FiArrowDown /></button>
+
+                {catProjects.length === 0 ? (
+                  <div className="cms-empty-category-notice">
+                    <span>No projects in {cat.name}</span>
                   </div>
-                  <button className="btn-icon" onClick={() => handleEdit(p)} title="Edit"><FiEdit2 /></button>
-                  <button className="btn-icon cross" onClick={() => handleDelete(p._id)} title="Delete"><FiTrash2 /></button>
-                </div>
+                ) : (
+                  <div className="cms-project-list">
+                    {catProjects.map((p, index) => {
+                      const isHidden = p.isHidden === true || p.isPublished === false;
+                      const featured = p.media?.[0];
+                      const thumbSrc = p.coverImage || featured?.thumbnailUrl || featured?.url;
+                      const thumbType = (p.coverImage || featured?.thumbnailUrl) ? 'image' : featured?.type;
+
+                      return (
+                        <div key={p._id} className={`cms-project-row ${isHidden ? 'is-hidden-project' : ''}`}>
+                          <div className="cms-project-thumb">
+                            {thumbSrc ? (
+                              <MediaPreview src={thumbSrc} type={thumbType} />
+                            ) : (
+                              <div className="cms-thumb-empty"><FiImage size={20} /></div>
+                            )}
+                          </div>
+                          <div className="cms-project-info">
+                            <div className="cms-project-header">
+                              <h4>{p.title}</h4>
+                              <span className="cms-cat-badge">{cat.name}</span>
+                              {isHidden && (
+                                <span className="cms-media-badge" style={{ background: '#fef3c7', color: '#b45309', border: '1px solid #fde68a' }}>
+                                  🙈 Hidden
+                                </span>
+                              )}
+                            </div>
+                            {p.clientName && <p className="cms-project-client">Client: <strong>{p.clientName}</strong></p>}
+                            <p className="cms-project-desc">{p.description}</p>
+                            <div className="cms-project-meta">
+                              {p.date && <span>📅 {new Date(p.date).toLocaleDateString()}</span>}
+                              {featured?.type === 'video' && <span className="cms-media-badge video">🎬 Video</span>}
+                              {featured?.type === 'image' && <span className="cms-media-badge image">🖼️ Image</span>}
+                              {p.externalLink && (
+                                <a href={p.externalLink} target="_blank" rel="noopener noreferrer" className="btn-quick success" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 12px' }}>
+                                  <FiExternalLink size={14} /> Full Project on YouTube
+                                </a>
+                              )}
+                            </div>
+                          </div>
+                          <div className="cms-project-actions">
+                            <div className="cms-reorder-btns">
+                              <button
+                                className="btn-icon"
+                                disabled={index === 0}
+                                onClick={() => handleReorderCategoryProjects(catProjects, index, -1)}
+                                title="Move up in category"
+                              >
+                                <FiArrowUp />
+                              </button>
+                              <button
+                                className="btn-icon"
+                                disabled={index === catProjects.length - 1}
+                                onClick={() => handleReorderCategoryProjects(catProjects, index, 1)}
+                                title="Move down in category"
+                              >
+                                <FiArrowDown />
+                              </button>
+                            </div>
+                            <button
+                              className="btn-icon"
+                              onClick={() => handleToggleProjectVisibility(p)}
+                              title={isHidden ? "Unhide project (Show on website)" : "Hide project (Hide from website)"}
+                              style={{ color: isHidden ? '#f59e0b' : '#10b981' }}
+                            >
+                              {isHidden ? <FiEyeOff /> : <FiEye />}
+                            </button>
+                            <button className="btn-icon" onClick={() => handleEdit(p)} title="Edit"><FiEdit2 /></button>
+                            <button className="btn-icon cross" onClick={() => handleDelete(p._id)} title="Delete"><FiTrash2 /></button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             );
           })}
+
+          {unassignedProjects.length > 0 && (
+            <div className="cms-category-group">
+              <div className="cms-category-group-header">
+                <div className="cms-category-title-wrap">
+                  <h3>Unassigned Projects</h3>
+                  <span className="cms-cat-count-badge">{unassignedProjects.length} Projects</span>
+                </div>
+              </div>
+              <div className="cms-project-list">
+                {unassignedProjects.map((p, index) => {
+                  const isHidden = p.isHidden === true || p.isPublished === false;
+                  const featured = p.media?.[0];
+                  const thumbSrc = p.coverImage || featured?.thumbnailUrl || featured?.url;
+                  const thumbType = (p.coverImage || featured?.thumbnailUrl) ? 'image' : featured?.type;
+
+                  return (
+                    <div key={p._id} className={`cms-project-row ${isHidden ? 'is-hidden-project' : ''}`}>
+                      <div className="cms-project-thumb">
+                        {thumbSrc ? (
+                          <MediaPreview src={thumbSrc} type={thumbType} />
+                        ) : (
+                          <div className="cms-thumb-empty"><FiImage size={20} /></div>
+                        )}
+                      </div>
+                      <div className="cms-project-info">
+                        <div className="cms-project-header">
+                          <h4>{p.title}</h4>
+                          {isHidden && (
+                            <span className="cms-media-badge" style={{ background: '#fef3c7', color: '#b45309' }}>
+                              🙈 Hidden
+                            </span>
+                          )}
+                        </div>
+                        {p.clientName && <p className="cms-project-client">Client: <strong>{p.clientName}</strong></p>}
+                        <p className="cms-project-desc">{p.description}</p>
+                      </div>
+                      <div className="cms-project-actions">
+                        <div className="cms-reorder-btns">
+                          <button
+                            className="btn-icon"
+                            disabled={index === 0}
+                            onClick={() => handleReorderCategoryProjects(unassignedProjects, index, -1)}
+                            title="Move up"
+                          >
+                            <FiArrowUp />
+                          </button>
+                          <button
+                            className="btn-icon"
+                            disabled={index === unassignedProjects.length - 1}
+                            onClick={() => handleReorderCategoryProjects(unassignedProjects, index, 1)}
+                            title="Move down"
+                          >
+                            <FiArrowDown />
+                          </button>
+                        </div>
+                        <button
+                          className="btn-icon"
+                          onClick={() => handleToggleProjectVisibility(p)}
+                          title={isHidden ? "Unhide project" : "Hide project"}
+                          style={{ color: isHidden ? '#f59e0b' : '#10b981' }}
+                        >
+                          {isHidden ? <FiEyeOff /> : <FiEye />}
+                        </button>
+                        <button className="btn-icon" onClick={() => handleEdit(p)} title="Edit"><FiEdit2 /></button>
+                        <button className="btn-icon cross" onClick={() => handleDelete(p._id)} title="Delete"><FiTrash2 /></button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
