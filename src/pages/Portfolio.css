@@ -1695,6 +1695,7 @@ html.dark .pd-media-block {
     height: auto;
     max-height: 90vh;
     object-fit: contain;
+    image-orientation: from-image;
     display: block;
     transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }

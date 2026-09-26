@@ -43,21 +43,44 @@ export const ProjectGallery = ({
     const [activeIndex, setActiveIndex] = useState(0);
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
-    const [currentOrientation, setCurrentOrientation] = useState('landscape'); // 'landscape' | 'portrait' | 'square'
+    const [orientations, setOrientations] = useState({});
+    const mainImgRef = useRef(null);
+
+    const updateOrientation = useCallback((src, naturalWidth, naturalHeight) => {
+        if (!src || !naturalWidth || !naturalHeight) return;
+        const ratio = naturalWidth / naturalHeight;
+        let orientation = 'landscape';
+        if (ratio < 0.88) {
+            orientation = 'portrait';
+        } else if (ratio > 1.15) {
+            orientation = 'landscape';
+        } else {
+            orientation = 'square';
+        }
+        setOrientations(prev => {
+            if (prev[src] === orientation) return prev;
+            return { ...prev, [src]: orientation };
+        });
+    }, []);
 
     const handleImageLoad = (e) => {
-        const { naturalWidth, naturalHeight } = e.target;
-        if (naturalWidth && naturalHeight) {
-            const ratio = naturalWidth / naturalHeight;
-            if (ratio < 0.88) {
-                setCurrentOrientation('portrait');
-            } else if (ratio > 1.15) {
-                setCurrentOrientation('landscape');
-            } else {
-                setCurrentOrientation('square');
-            }
-        }
+        const { naturalWidth, naturalHeight, currentSrc, src } = e.target;
+        const targetSrc = currentSrc || src || images[activeIndex]?.src;
+        updateOrientation(targetSrc, naturalWidth, naturalHeight);
     };
+
+    // Fast resolution for cached or already loaded images
+    useEffect(() => {
+        const img = mainImgRef.current;
+        const curSrc = images[activeIndex]?.src;
+        if (img && img.complete && img.naturalWidth && img.naturalHeight) {
+            const targetSrc = img.currentSrc || img.src || curSrc;
+            updateOrientation(targetSrc, img.naturalWidth, img.naturalHeight);
+        }
+    }, [activeIndex, images, updateOrientation]);
+
+    const currentImage = images[activeIndex];
+    const currentOrientation = (currentImage?.src && orientations[currentImage.src]) || 'landscape';
 
     // Refs
     const stageRef = useRef(null);
@@ -214,8 +237,6 @@ export const ProjectGallery = ({
         );
     }
 
-    const currentImage = images[activeIndex];
-
     return (
         <div className={`project-gallery ${className}`} style={style}>
             {/* ─── Main Image Stage Container ─── */}
@@ -231,6 +252,7 @@ export const ProjectGallery = ({
             >
                 {/* Main Image strictly with object-fit: contain */}
                 <img
+                    ref={mainImgRef}
                     src={currentImage.src}
                     alt={currentImage.alt}
                     className={`pg-main-image ${isAnimating ? 'pg-animating' : ''}`}
