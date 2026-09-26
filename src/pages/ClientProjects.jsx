@@ -4,6 +4,7 @@ import axios from 'axios';
 import './Portfolio.css';
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 
+import { ImageFallback } from '../components/media/ImageFallback';
 import { API_URL } from '../utils/apiUrl';
 
 const resolveUrl = (src) => {
@@ -20,17 +21,6 @@ const ProjectCard = ({ project, index }) => {
     const fallbackUrl = resolveUrl(coverMedia?.thumbnailUrl || coverMedia?.url);
     const coverUrl = project.coverImage ? resolveUrl(project.coverImage) : fallbackUrl;
 
-    useEffect(() => {
-        if (!coverUrl) return;
-        const img = new Image();
-        img.onload = () => setImgLoaded(true);
-        img.onerror = () => setImgLoaded(true);
-        img.src = coverUrl;
-        if (img.complete) {
-            setImgLoaded(true);
-        }
-    }, [coverUrl]);
-
     return (
         <Link
             to={`/portfolio/project/${project.slug}`}
@@ -39,10 +29,14 @@ const ProjectCard = ({ project, index }) => {
             aria-label={`View ${project.title}`}
         >
             <article className="pf-card" role="article">
-                {/* Background Image with lazy loading transition */}
-                <div
+                {/* Background Image with responsive multi-resolution srcset */}
+                <ImageFallback
+                    src={coverUrl}
+                    alt={project.title}
                     className={`pf-card-bg ${imgLoaded ? 'loaded' : ''}`}
-                    style={{ backgroundImage: coverUrl ? `url("${coverUrl}")` : 'none' }}
+                    layout="card"
+                    loading="lazy"
+                    onLoad={() => setImgLoaded(true)}
                 />
 
                 {/* Cinematic gradient overlay */}

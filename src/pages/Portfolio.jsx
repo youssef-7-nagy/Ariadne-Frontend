@@ -16,6 +16,7 @@ import imgMusicVideos from '../assets/categories/music-videos.png';
 import imgPhotography from '../assets/categories/photography.png';
 import imgBTS from '../assets/categories/behind-the-scenes.png';
 
+import { ImageFallback } from '../components/media/ImageFallback';
 import { API_URL } from '../utils/apiUrl';
 
 /* ─── Fallback data used when categories haven't been created in the DB yet ─── */
@@ -82,10 +83,14 @@ const CategoryCard = ({ category, index }) => {
             aria-label={`View ${category.name} projects`}
         >
             <article className="pf-card" role="article">
-                {/* Background Image with lazy loading */}
-                <div
+                {/* Background Image with responsive multi-resolution srcset */}
+                <ImageFallback
+                    src={coverSrc}
+                    alt={category.name}
                     className={`pf-card-bg ${imgLoaded ? 'loaded' : ''}`}
-                    style={{ backgroundImage: coverSrc ? `url("${coverSrc}")` : 'none' }}
+                    layout="card"
+                    loading="lazy"
+                    onLoad={() => setImgLoaded(true)}
                 />
 
                 {/* Cinematic gradient overlay */}

@@ -1,6 +1,15 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
+import { getResponsiveSrcSet } from '../../utils/responsiveImage';
 import './ProjectGallery.css';
+
+const getThumbnailUrl = (src) => {
+    if (!src || typeof src !== 'string') return src;
+    const match = src.match(/^(.*\/uploads\/opt_[^.]+)(\.webp)$/i);
+    if (!match) return src;
+    if (match[1].endsWith('_600w') || match[1].endsWith('_1200w')) return src;
+    return `${match[1]}_600w${match[2]}`;
+};
 
 /**
  * Modern Thumbnail-Carousel / Gallery inspired by high-end photography portfolio branding.
@@ -254,6 +263,8 @@ export const ProjectGallery = ({
                 <img
                     ref={mainImgRef}
                     src={currentImage.src}
+                    srcSet={getResponsiveSrcSet(currentImage.src) || undefined}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 65vw"
                     alt={currentImage.alt}
                     className={`pg-main-image ${isAnimating ? 'pg-animating' : ''}`}
                     loading="eager"
@@ -331,7 +342,7 @@ export const ProjectGallery = ({
                                 aria-label={`View photo ${idx + 1}`}
                             >
                                 <img
-                                    src={img.src}
+                                    src={getThumbnailUrl(img.src)}
                                     alt={`Thumbnail ${idx + 1}`}
                                     className="pg-thumb-image"
                                     loading="lazy"
@@ -420,6 +431,8 @@ export const ProjectGallery = ({
 
                         <img
                             src={currentImage.src}
+                            srcSet={getResponsiveSrcSet(currentImage.src) || undefined}
+                            sizes="100vw"
                             alt={currentImage.alt}
                             className="pg-lb-image"
                             onClick={(e) => e.stopPropagation()}
@@ -453,7 +466,7 @@ export const ProjectGallery = ({
                                         onClick={() => goTo(idx)}
                                         aria-label={`Go to image ${idx + 1}`}
                                     >
-                                        <img src={img.src} alt="" />
+                                        <img src={getThumbnailUrl(img.src)} alt="" loading="lazy" />
                                     </button>
                                 ))}
                             </div>

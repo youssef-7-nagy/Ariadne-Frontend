@@ -41,18 +41,19 @@ const resolveUrl = (src) => {
 // MY PROJECTS TAB
 // ==========================================
 
-const MyProjectsTab = ({ userName }) => {
+const MyProjectsTab = ({ userName, userId }) => {
     const [projects, setProjects] = useState([]);
-    const [isLoading, setIsLoading] = useState(() => !!userName);
+    const clientParam = userId || userName;
+    const [isLoading, setIsLoading] = useState(() => !!clientParam);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        if (!userName) return;
+        if (!clientParam) return;
 
         const fetchProjects = async () => {
             try {
                 const response = await axios.get(
-                    `${API_BASE_URL}/api/portfolio/client/${encodeURIComponent(userName.trim())}`
+                    `${API_BASE_URL}/api/portfolio/client/${encodeURIComponent(String(clientParam).trim())}`
                 );
                 if (response.data.success) {
                     setProjects(response.data.data || []);
@@ -563,7 +564,7 @@ const Profile = () => {
     );
 
     const renderMyProjects = () => (
-        <MyProjectsTab userName={userData?.name} />
+        <MyProjectsTab userName={userData?.name} userId={userData?._id || userData?.id} />
     );
 
     const renderBilling = () => (

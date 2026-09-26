@@ -463,10 +463,11 @@ const ProjectDetails = () => {
                                     ) : (
                                         <>
                                             <span className="pd-media-badge">🖼️ Photo</span>
-                                            <img
+                                            <ImageFallback
                                                 src={resolveUrl(item.url)}
                                                 alt={item.altText || project.title}
                                                 className="pd-image"
+                                                layout="gallery"
                                                 loading="lazy"
                                                 decoding="async"
                                             />

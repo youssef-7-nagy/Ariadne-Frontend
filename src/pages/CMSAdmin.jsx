@@ -292,7 +292,7 @@ const ProjectsTab = () => {
 
   const [form, setForm] = useState({
     title: '', slug: '', categoryId: '', description: '',
-    date: '', clientName: '', tags: '', externalLink: '', youtubeUrl: '', embedUrl: '', isPortrait: false
+    date: '', clientName: '', clientId: '', tags: '', externalLink: '', youtubeUrl: '', embedUrl: '', isPortrait: false
   });
   const [projectMediaLayout, setProjectMediaLayout] = useState('video'); // 'video' | 'gallery'
   const [mediaFile, setMediaFile] = useState(null);
@@ -377,7 +377,7 @@ const ProjectsTab = () => {
   useEffect(() => { load(); }, []);
 
   const resetForm = () => {
-    setForm({ title: '', slug: '', categoryId: '', description: '', date: '', clientName: '', tags: '', externalLink: '', youtubeUrl: '', embedUrl: '', isPortrait: false });
+    setForm({ title: '', slug: '', categoryId: '', description: '', date: '', clientName: '', clientId: '', tags: '', externalLink: '', youtubeUrl: '', embedUrl: '', isPortrait: false });
     setProjectMediaLayout('video');
     setMediaFile(null);
     setMediaPreview('');
@@ -579,6 +579,7 @@ const ProjectsTab = () => {
       description: p.description,
       date: p.date ? new Date(p.date).toISOString().split('T')[0] : '',
       clientName: p.clientName || '',
+      clientId: p.clientId?._id || p.clientId || '',
       tags: p.tags?.join(', ') || '',
       externalLink: p.externalLink || p.youtubeUrl || '',
       youtubeUrl: p.externalLink || p.youtubeUrl || '',
@@ -710,7 +711,7 @@ const ProjectsTab = () => {
                 autoComplete="off"
                 required
                 onChange={e => {
-                  setForm(f => ({ ...f, clientName: e.target.value }));
+                  setForm(f => ({ ...f, clientName: e.target.value, clientId: '' }));
                   setShowClientDropdown(true);
                 }}
                 onFocus={() => setShowClientDropdown(true)}
@@ -725,7 +726,7 @@ const ProjectsTab = () => {
                         className="custom-dropdown-item"
                         onMouseDown={e => {
                           e.preventDefault();
-                          setForm(f => ({ ...f, clientName: u.name }));
+                          setForm(f => ({ ...f, clientName: u.name, clientId: u._id }));
                           setShowClientDropdown(false);
                         }}
                       >
@@ -744,6 +745,7 @@ const ProjectsTab = () => {
                       className="custom-dropdown-item"
                       onMouseDown={e => {
                         e.preventDefault();
+                        setForm(f => ({ ...f, clientId: '' }));
                         setShowClientDropdown(false);
                       }}
                     >
