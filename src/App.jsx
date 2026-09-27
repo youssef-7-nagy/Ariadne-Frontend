@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import SmoothScroll from './components/SmoothScroll';
 import AppToaster from './components/AppToaster';
 import SplashScreen from './components/SplashScreen';
 
@@ -139,6 +140,7 @@ const App = () => {
                 />
             )}
             <ScrollToTop />
+            <SmoothScroll />
             <AppToaster />
             <div className="d-flex flex-column min-vh-100">
                 <Navbar

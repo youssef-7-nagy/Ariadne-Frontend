@@ -14,7 +14,7 @@ import imgMusicVideos from '../assets/categories/music-videos.png';
 import imgPhotography from '../assets/categories/photography.png';
 import imgBTS from '../assets/categories/behind-the-scenes.png';
 import imgAboutStory from '../assets/about-story.jpg';
-
+import homeHeroVideo from '../assets/home/Test.mp4';
 
 
 const LOCAL_IMAGE_MAP = {
@@ -261,8 +261,39 @@ const Home = () => {
 
     return (
         <div className="home-container">
+            {/* Section 0: Full-Screen Cinematic Video Hero */}
+            <section className="home-hero-video-first">
+                <video 
+                    className="hero-video-first-bg"
+                    src={homeHeroVideo}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                />
+                <div className="hero-video-first-overlay">
+                    <h1 className="hero-video-first-title">ARIADNE</h1>
+                    <p className="hero-video-first-subtitle">Cinematic Photography & Visual Arts</p>
+                    <div 
+                        className="hero-video-first-scroll"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                            if (window.lenis) {
+                                window.lenis.scrollTo('#hero-intro', { duration: 1.2 });
+                            } else {
+                                const target = document.getElementById('hero-intro');
+                                if (target) target.scrollIntoView({ behavior: 'smooth' });
+                            }
+                        }}
+                    >
+                        <div className="hero-video-first-scroll-line"></div>
+                        <span>SCROLL TO EXPLORE</span>
+                    </div>
+                </div>
+            </section>
+
             {/* Section 1: Hero Cinematic Intro */}
-            <section className="home-hero-cinematic">
+            <section className="home-hero-cinematic" id="hero-intro">
 
                 {/* === Section 2 Background Glows & Texture === */}
                 <div className="curved-bg-glows">
@@ -334,17 +365,19 @@ const Home = () => {
                                 className="hero-btn-cool-contact"
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    const footer = document.getElementById('footer');
-                                    if (footer) {
-                                        footer.scrollIntoView({ behavior: 'smooth' });
-                                        setTimeout(() => {
-                                            const magicMenu = document.querySelector('.magic-menu');
-                                            if (magicMenu) {
-                                                magicMenu.classList.add('force-open');
-                                                setTimeout(() => magicMenu.classList.remove('force-open'), 3000);
-                                            }
-                                        }, 800);
+                                    if (window.lenis) {
+                                        window.lenis.scrollTo('#footer', { duration: 1.5 });
+                                    } else {
+                                        const footer = document.getElementById('footer');
+                                        if (footer) footer.scrollIntoView({ behavior: 'smooth' });
                                     }
+                                    setTimeout(() => {
+                                        const magicMenu = document.querySelector('.magic-menu');
+                                        if (magicMenu) {
+                                            magicMenu.classList.add('force-open');
+                                            setTimeout(() => magicMenu.classList.remove('force-open'), 3000);
+                                        }
+                                    }, 800);
                                 }}
                             >
                                 Contact Us
@@ -422,17 +455,19 @@ const Home = () => {
                                 className="btn-book-session-curved"
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    const footer = document.getElementById('footer');
-                                    if (footer) {
-                                        footer.scrollIntoView({ behavior: 'smooth' });
-                                        setTimeout(() => {
-                                            const magicMenu = document.querySelector('.magic-menu');
-                                            if (magicMenu) {
-                                                magicMenu.classList.add('force-open');
-                                                setTimeout(() => magicMenu.classList.remove('force-open'), 3000);
-                                            }
-                                        }, 800);
+                                    if (window.lenis) {
+                                        window.lenis.scrollTo('#footer', { duration: 1.5 });
+                                    } else {
+                                        const footer = document.getElementById('footer');
+                                        if (footer) footer.scrollIntoView({ behavior: 'smooth' });
                                     }
+                                    setTimeout(() => {
+                                        const magicMenu = document.querySelector('.magic-menu');
+                                        if (magicMenu) {
+                                            magicMenu.classList.add('force-open');
+                                            setTimeout(() => magicMenu.classList.remove('force-open'), 3000);
+                                        }
+                                    }, 800);
                                 }}
                             >
                                 Contact Us
