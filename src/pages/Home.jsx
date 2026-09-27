@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Home.css';
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
+import testVideo from '../assets/home/Test.mp4';
 import imgShortFilms from '../assets/categories/short-films.png';
 import imgDocumentaries from '../assets/categories/documentaries.png';
 import imgCommercials from '../assets/categories/commercials.png';
@@ -47,9 +48,13 @@ const Home = () => {
     const [categories, setCategories] = useState([]);
     const [activeIndex, setActiveIndex] = useState(0);
     const [carouselHeight, setCarouselHeight] = useState(600);
-    const storySectionRef = useRef(null);
-    const iframeRef = useRef(null);
-    const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+    const videoTrackRef = useRef(null);
+    const scrollVideoRef = useRef(null);
+    const targetProgressRef = useRef(0);
+    const currentRenderedTimeRef = useRef(0);
+    const durationRef = useRef(0);
+    const isSeekingRef = useRef(false);
+    const pendingTimeRef = useRef(null);
 
     const handlePrev = useCallback(() => {
         setActiveIndex(prev => prev - 1);
@@ -203,58 +208,109 @@ const Home = () => {
         fetchCategories();
     }, []);
 
-    // Background video playback controller: start when arriving to section, pause when leaving
-    useEffect(() => {
-        const section = storySectionRef.current;
-        if (!section) return;
+    const updateScrollProgress = useCallback(() => {
+        if (!videoTrackRef.current) return;
+        const rect = videoTrackRef.current.getBoundingClientRect();
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        const scrollableDistance = rect.height - vh;
+        if (scrollableDistance <= 0) return;
 
-        const sendCommand = (method, value) => {
+        // 0% when top of section aligns with viewport top, 100% when pinned scroll finishes
+        const rawProgress = -rect.top / scrollableDistance;
+        const progress = Math.max(0, Math.min(1, rawProgress));
+        targetProgressRef.current = progress;
+    }, []);
+
+    const handleVideoMetadata = () => {
+        const video = scrollVideoRef.current;
+        if (video) {
+            durationRef.current = video.duration || 0;
+            video.pause();
             try {
-                if (iframeRef.current && iframeRef.current.contentWindow) {
-                    iframeRef.current.contentWindow.postMessage(
-                        JSON.stringify({
-                            context: 'player.js',
-                            version: '0.0.11',
-                            method: method,
-                            value: value
-                        }),
-                        '*'
-                    );
+                video.currentTime = 0.001;
+            } catch {
+                video.currentTime = 0;
+            }
+            updateScrollProgress();
+        }
+    };
+
+    useEffect(() => {
+        const video = scrollVideoRef.current;
+        let animationFrameId;
+
+        const handleSeeked = () => {
+            isSeekingRef.current = false;
+            if (pendingTimeRef.current !== null && scrollVideoRef.current) {
+                const next = pendingTimeRef.current;
+                pendingTimeRef.current = null;
+                isSeekingRef.current = true;
+                try {
+                    scrollVideoRef.current.currentTime = next;
+                } catch {
+                    isSeekingRef.current = false;
                 }
-            } catch (err) { }
+            }
         };
 
-        // 1. Proximity observer: Load video stream as user approaches (~300px before arrival)
-        const proximityObserver = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setShouldLoadVideo(true);
-                    proximityObserver.disconnect();
-                }
-            },
-            { rootMargin: '300px 0px' }
-        );
-        proximityObserver.observe(section);
+        const handleSeeking = () => {
+            isSeekingRef.current = true;
+        };
 
-        // 2. Playback observer: Plays when in viewport, pauses when scrolled out
-        const playbackObserver = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    sendCommand('mute');
-                    sendCommand('play');
-                } else {
-                    sendCommand('pause');
+        if (video) {
+            video.addEventListener('seeked', handleSeeked);
+            video.addEventListener('seeking', handleSeeking);
+        }
+
+        const updateVideoFrame = () => {
+            const duration = durationRef.current || (video && video.duration) || 0;
+
+            if (video && duration > 0) {
+                const targetTime = targetProgressRef.current * duration;
+                const diff = targetTime - currentRenderedTimeRef.current;
+
+                // Fluid lerp smoothing for cinematic playback
+                if (Math.abs(diff) > 0.001) {
+                    currentRenderedTimeRef.current += diff * 0.20;
+
+                    if (video.readyState >= 1) {
+                        if (!isSeekingRef.current) {
+                            isSeekingRef.current = true;
+                            try {
+                                video.currentTime = currentRenderedTimeRef.current;
+                            } catch {
+                                isSeekingRef.current = false;
+                            }
+                        } else {
+                            pendingTimeRef.current = currentRenderedTimeRef.current;
+                        }
+                    }
                 }
-            },
-            { threshold: 0.15 }
-        );
-        playbackObserver.observe(section);
+            }
+
+            animationFrameId = requestAnimationFrame(updateVideoFrame);
+        };
+
+        animationFrameId = requestAnimationFrame(updateVideoFrame);
+
+        const onScroll = () => {
+            updateScrollProgress();
+        };
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+        updateScrollProgress();
 
         return () => {
-            proximityObserver.disconnect();
-            playbackObserver.disconnect();
+            cancelAnimationFrame(animationFrameId);
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onScroll);
+            if (video) {
+                video.removeEventListener('seeked', handleSeeked);
+                video.removeEventListener('seeking', handleSeeking);
+            }
         };
-    }, []);
+    }, [updateScrollProgress]);
 
 
 
@@ -390,21 +446,22 @@ const Home = () => {
 
 
 
-            {/* Section 3: Video Showcase Section */}
-            <section className="home-white-section" ref={storySectionRef} aria-label="Cinematic Teaser">
-                <div className="home-video-bg-wrapper">
-                    {shouldLoadVideo && (
-                        <iframe
-                            ref={iframeRef}
-                            src="https://player.mediadelivery.net/embed/757833/c8ff08a7-dfe6-4d08-8bfb-84690d45c31e?autoplay=true&loop=true&muted=true&preload=true&responsive=true"
-                            loading="eager"
-                            className="home-video-bg-iframe"
-                            allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;"
-                            tabIndex="-1"
-                            title="Cinematic Background Video"
+            {/* Section 2: Scroll-Driven Cinematic Video Showcase Section */}
+            <div ref={videoTrackRef} className="home-video-scroll-track">
+                <section className="home-white-section pinned-scroll-section" aria-label="Cinematic Teaser">
+                    <div className="home-video-bg-wrapper">
+                        <video
+                            ref={scrollVideoRef}
+                            src={testVideo}
+                            className="home-video-scrub-element"
+                            muted
+                            playsInline
+                            preload="auto"
+                            onLoadedMetadata={handleVideoMetadata}
+                            aria-hidden="true"
                         />
-                    )}
-                </div>
+                        <div className="home-video-overlay-vignette" />
+                    </div>
 
                 {/* Bottom features bar */}
                 <div className="video-bottom-features">
@@ -447,6 +504,7 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+        </div>
 
 
             {/* Section 5: Expanding Categories Gallery */}

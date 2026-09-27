@@ -23,7 +23,7 @@ html.dark,
 }
 
 .home-container {
-    overflow-x: hidden;
+    overflow-x: clip;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
@@ -3286,8 +3286,18 @@ html.dark,
 }
 
 /* ==========================================================================
-   VIDEO SHOWCASE SECTION (RESPONSIVE & CINEMATIC BACKGROUND)
+   VIDEO SHOWCASE SECTION (SCROLL-DRIVEN PINNED CINEMATIC BACKGROUND)
    ========================================================================== */
+.home-video-scroll-track {
+    position: relative;
+    width: 100%;
+    /* 250vh provides a comfortable, responsive scrubbing distance */
+    height: 250vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 .home-white-section {
     position: relative;
     width: 100vw;
@@ -3303,8 +3313,64 @@ html.dark,
     box-sizing: border-box;
 }
 
+.home-white-section.pinned-scroll-section {
+    position: sticky;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    max-height: none;
+    z-index: 5;
+}
+
+.home-white-section.pinned-scroll-section .home-video-bg-wrapper {
+    position: absolute;
+    inset: 0;
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000000;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.home-video-scrub-element {
+    width: 100%;
+    height: 100%;
+    max-width: 100vw;
+    max-height: 100vh;
+    max-height: 100dvh;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.home-video-overlay-vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.65);
+    z-index: 2;
+}
+
 /* Tablet (iPad, landscape tablets, iPad Pro) */
 @media (max-width: 1024px) {
+    .home-video-scroll-track {
+        height: 220vh;
+    }
+
     .home-white-section {
         height: 72vh;
         height: 72svh;
@@ -3312,10 +3378,32 @@ html.dark,
         min-height: 480px;
         max-height: 760px;
     }
+
+    .home-white-section.pinned-scroll-section {
+        height: 100vh;
+        height: 100dvh;
+        min-height: 0;
+        max-height: none;
+    }
 }
 
 /* Mobile Devices & Small Screens — Responsive 16:9 Landscape Aspect Ratio */
 @media (max-width: 768px) {
+    .home-video-scroll-track {
+        height: 190vh;
+    }
+
+    .home-white-section.pinned-scroll-section {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        height: 100vh;
+        height: 100dvh;
+        min-height: 0;
+        max-height: none;
+        aspect-ratio: auto;
+    }
+
     .home-white-section {
         width: 100%;
         margin-left: 0;
