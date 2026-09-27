@@ -14,7 +14,6 @@ import imgMusicVideos from '../assets/categories/music-videos.png';
 import imgPhotography from '../assets/categories/photography.png';
 import imgBTS from '../assets/categories/behind-the-scenes.png';
 import imgAboutStory from '../assets/about-story.jpg';
-import homeHeroVideo from '../assets/home/Test.mp4';
 
 
 const LOCAL_IMAGE_MAP = {
@@ -49,7 +48,6 @@ const Home = () => {
     const [carouselHeight, setCarouselHeight] = useState(600);
     const storySectionRef = useRef(null);
     const iframeRef = useRef(null);
-    const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
 
     const handlePrev = useCallback(() => {
         setActiveIndex(prev => prev - 1);
@@ -203,11 +201,8 @@ const Home = () => {
         fetchCategories();
     }, []);
 
-    // Background video playback controller: start when arriving to section, pause when leaving
+    // Background video playback controller: ensure it is playing and muted
     useEffect(() => {
-        const section = storySectionRef.current;
-        if (!section) return;
-
         const sendCommand = (method, value) => {
             try {
                 if (iframeRef.current && iframeRef.current.contentWindow) {
@@ -224,36 +219,12 @@ const Home = () => {
             } catch (err) { }
         };
 
-        // 1. Proximity observer: Load video stream as user approaches (~300px before arrival)
-        const proximityObserver = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setShouldLoadVideo(true);
-                    proximityObserver.disconnect();
-                }
-            },
-            { rootMargin: '300px 0px' }
-        );
-        proximityObserver.observe(section);
+        const timer = setTimeout(() => {
+            sendCommand('mute');
+            sendCommand('play');
+        }, 300);
 
-        // 2. Playback observer: Plays when in viewport, pauses when scrolled out
-        const playbackObserver = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    sendCommand('mute');
-                    sendCommand('play');
-                } else {
-                    sendCommand('pause');
-                }
-            },
-            { threshold: 0.15 }
-        );
-        playbackObserver.observe(section);
-
-        return () => {
-            proximityObserver.disconnect();
-            playbackObserver.disconnect();
-        };
+        return () => clearTimeout(timer);
     }, []);
 
 
@@ -261,37 +232,6 @@ const Home = () => {
 
     return (
         <div className="home-container">
-            {/* Section 0: Full-Screen Cinematic Video Hero */}
-            <section className="home-hero-video-first">
-                <video 
-                    className="hero-video-first-bg"
-                    src={homeHeroVideo}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                />
-                <div className="hero-video-first-overlay">
-                    <h1 className="hero-video-first-title">ARIADNE</h1>
-                    <p className="hero-video-first-subtitle">Cinematic Photography & Visual Arts</p>
-                    <div 
-                        className="hero-video-first-scroll"
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => {
-                            if (window.lenis) {
-                                window.lenis.scrollTo('#hero-intro', { duration: 1.2 });
-                            } else {
-                                const target = document.getElementById('hero-intro');
-                                if (target) target.scrollIntoView({ behavior: 'smooth' });
-                            }
-                        }}
-                    >
-                        <div className="hero-video-first-scroll-line"></div>
-                        <span>SCROLL TO EXPLORE</span>
-                    </div>
-                </div>
-            </section>
-
             {/* Section 1: Hero Cinematic Intro */}
             <section className="home-hero-cinematic" id="hero-intro">
 
@@ -426,18 +366,16 @@ const Home = () => {
             {/* Section 3: Video Showcase Section */}
             <section className="home-white-section" ref={storySectionRef} aria-label="Cinematic Teaser">
                 <div className="home-video-bg-wrapper">
-                    {shouldLoadVideo && (
-                        <iframe
-                            ref={iframeRef}
-                            src="https://player.mediadelivery.net/embed/763964/9bb34416-21bc-41f3-80b7-2b1225696c5f?autoplay=true&loop=false&muted=true&preload=true&responsive=true"
-                            loading="lazy"
-                            className="home-video-bg-iframe"
-                            allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen;"
-                            allowFullScreen={true}
-                            tabIndex="-1"
-                            title="Cinematic Background Video"
-                        />
-                    )}
+                    <iframe
+                        ref={iframeRef}
+                        src="https://player.mediadelivery.net/embed/763964/9bb34416-21bc-41f3-80b7-2b1225696c5f?autoplay=true&loop=true&muted=true&preload=true&responsive=true"
+                        loading="eager"
+                        className="home-video-bg-iframe"
+                        allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen;"
+                        allowFullScreen={true}
+                        tabIndex="-1"
+                        title="Cinematic Background Video"
+                    />
                 </div>
 
                 {/* Bottom features bar */}
