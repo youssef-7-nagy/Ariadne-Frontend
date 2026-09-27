@@ -2823,10 +2823,9 @@ html.dark,
    ========================================= */
 .curved-gallery-section {
     position: relative;
-    width: 100%;
-    max-width: 100%;
-    margin-left: 0;
-    margin-right: 0;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
     height: 850px;
     background-color: #0e0d0c;
     overflow: hidden;
@@ -3246,10 +3245,9 @@ html.dark,
    ========================================= */
 .camera-blank-section {
     position: relative;
-    width: 100%;
-    max-width: 100%;
-    margin-left: 0;
-    margin-right: 0;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
     min-height: 750px;
     background-color: #0e0d0c;
     overflow: hidden;
@@ -3292,10 +3290,9 @@ html.dark,
    ========================================================================== */
 .home-white-section {
     position: relative;
-    width: 100%;
-    max-width: 100%;
-    margin-left: 0;
-    margin-right: 0;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
     height: 85vh;
     height: 85svh;
     height: 85dvh;
@@ -3536,32 +3533,4 @@ html.dark,
     padding: clamp(9px, 1.8vw, 14px) clamp(18px, 3.5vw, 36px);
     font-size: clamp(0.75rem, 1.5vw, 0.88rem);
     letter-spacing: 0.06em;
-}
-
-@media (max-width: 640px) {
-    .video-bottom-features {
-        flex-direction: column;
-        align-items: center;
-        gap: 16px;
-        padding: 30px 16px 20px;
-    }
-
-    .video-bottom-features .curved-feat-col {
-        max-width: 100%;
-        width: 100%;
-    }
-
-    .video-bottom-features .curved-feat-divider {
-        width: 60px;
-        height: 1px;
-        margin: 4px 0;
-    }
-
-    .video-center-cta {
-        position: relative;
-        bottom: auto;
-        left: auto;
-        transform: none;
-        margin-bottom: 16px;
-    }
 }
