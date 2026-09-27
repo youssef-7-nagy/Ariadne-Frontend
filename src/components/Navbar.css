@@ -731,20 +731,17 @@
 
     .nav-links {
         position: absolute;
-        top: 100%;
+        top: 70px;
         left: 0;
         width: 100%;
         flex-direction: column;
-        padding: 24px 20px;
-        background: rgba(8, 24, 43, 0.98);
-        backdrop-filter: blur(24px);
-        -webkit-backdrop-filter: blur(24px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        padding: 20px 0;
+        background: var(--bg-primary);
+        border-radius: 0 0 20px 20px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         transform: translateY(-150%);
         opacity: 0;
         visibility: hidden;
-        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, visibility 0.35s ease;
         z-index: 999;
     }
 
@@ -757,24 +754,18 @@
     .nav-links li {
         text-align: center;
         width: 100%;
-        margin: 4px 0;
     }
 
     .nav-links a {
-        padding: 14px 20px;
-        font-size: 17px;
-        font-weight: 600;
-        letter-spacing: 0.02em;
-        color: #ffffff !important;
-        display: block;
-        border-radius: 10px;
-        transition: background 0.2s ease, color 0.2s ease;
+        padding: 15px;
+        font-size: 18px;
+        border-radius: 0;
+        color: var(--text-primary);
     }
 
-    .nav-links a:hover,
     .nav-links a.active {
-        background: rgba(255, 255, 255, 0.1);
-        color: #1bbaeb !important;
+        color: var(--accent-color);
+        font-weight: 700;
     }
 
     .nav-buttons {
@@ -925,13 +916,13 @@
     .nav-links {
         top: 56px;
         border-radius: 0 0 16px 16px;
-        background: var(--nav-bg);
+        background: var(--bg-primary);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
         transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
             opacity 0.25s ease;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
     }
 
     /* Each nav link: 48px minimum touch target */
