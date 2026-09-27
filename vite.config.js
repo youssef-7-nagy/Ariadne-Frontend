@@ -13,11 +13,6 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  server: {
-    watch: {
-      ignored: ['**/src/assets/**/*.mp4', '**/src/assets/**/*.mov', '**/src/assets/**/*.webm'],
-    }
-  },
   build: {
     target: 'es2020',
     cssCodeSplit: true,

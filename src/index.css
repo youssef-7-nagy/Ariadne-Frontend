@@ -58,7 +58,7 @@
 
 html {
   max-width: 100%;
-  overflow-x: clip;
+  overflow-x: hidden;
   box-sizing: border-box;
 }
 
@@ -71,7 +71,7 @@ body {
   padding: 0;
   width: 100%;
   max-width: 100%;
-  overflow-x: clip;
+  overflow-x: hidden;
   position: relative;
   font-family: 'Plus Jakarta Sans', sans-serif;
   background-color: var(--bg-primary);
@@ -82,7 +82,7 @@ body {
 #root {
   width: 100%;
   max-width: 100%;
-  overflow-x: clip;
+  overflow-x: hidden;
 }
 
 img {
@@ -402,7 +402,7 @@ html {
 }
 
 body {
-  overflow-x: clip;
+  overflow-x: hidden;
   max-width: 100vw;
   min-height: 100vh;
   min-height: 100dvh;
