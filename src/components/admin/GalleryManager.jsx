@@ -108,7 +108,7 @@ export const GalleryManager = ({
     document.body.classList.add('gm-dragging-active');
 
     if (navigator.vibrate) {
-      try { navigator.vibrate(35); } catch (_) {}
+      try { navigator.vibrate(35); } catch (_) { }
     }
   };
 
@@ -241,7 +241,7 @@ export const GalleryManager = ({
     e.dataTransfer.effectAllowed = 'move';
     try {
       e.dataTransfer.setData('text/plain', String(originalIndex));
-    } catch (_) {}
+    } catch (_) { }
   };
 
   const handleHtml5DragOver = (e, originalIndex) => {
@@ -372,8 +372,8 @@ export const GalleryManager = ({
               {activeTab === 'all'
                 ? 'Unified Gallery Order (Drag to reorder):'
                 : activeTab === 'existing'
-                ? 'Existing Photos:'
-                : 'New Photos to Upload:'}
+                  ? 'Existing Photos:'
+                  : 'New Photos to Upload:'}
             </span>
             <span className="gm-hint">Touch & hold on mobile or mouse drag</span>
           </div>

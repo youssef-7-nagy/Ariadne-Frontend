@@ -162,10 +162,10 @@ const CategoriesTab = () => {
     const targetIndex = index + direction;
     const [moved] = list.splice(index, 1);
     list.splice(targetIndex, 0, moved);
-    
+
     // Fix: actually update the order property before saving
     list.forEach((item, i) => { item.order = i; });
-    
+
     setCategories(list);
     try {
       await axios.put(`${API}/categories/reorder`, { reorderedItems: list.map(c => ({ id: c._id, order: c.order })) }, getAuthConfig());
@@ -259,9 +259,9 @@ const CategoriesTab = () => {
                   <button className="btn-icon" disabled={index === categories.length - 1} onClick={() => handleReorder(index, 1)} title="Move right"><FiArrowRight /></button>
                 </div>
                 <div style={{ display: 'flex' }}>
-                  <button 
-                    className="btn-icon" 
-                    onClick={() => handleToggleVisibility(cat)} 
+                  <button
+                    className="btn-icon"
+                    onClick={() => handleToggleVisibility(cat)}
                     title={cat.isActive !== false ? "Hide from website" : "Show on website"}
                     style={{ color: cat.isActive !== false ? '#10b981' : '#f59e0b' }}
                   >
@@ -504,8 +504,8 @@ const ProjectsTab = () => {
           totalMB: totalFormatted,
           speedMB: speedFormatted,
           estimatedTime: etaStr,
-          statusText: percentage >= 100 
-            ? 'Optimizing gallery & saving to database...' 
+          statusText: percentage >= 100
+            ? 'Optimizing gallery & saving to database...'
             : (projectMediaLayout === 'gallery' ? `Uploading photo gallery (${newPhotosCount} new photo${newPhotosCount !== 1 ? 's' : ''})...` : 'Uploading project media...')
         });
       }
@@ -739,9 +739,9 @@ const ProjectsTab = () => {
                         </div>
                       </div>
                     ))}
-                  
+
                   {form.clientName?.trim() && !users.some(u => u.name.toLowerCase() === form.clientName.trim().toLowerCase()) && (
-                    <div 
+                    <div
                       className="custom-dropdown-item"
                       onMouseDown={e => {
                         e.preventDefault();
@@ -857,12 +857,12 @@ const ProjectsTab = () => {
                         if (e.target.value) setMediaType('video');
                       }} />
                     <div style={{ marginTop: '10px', display: 'flex', alignItems: 'center' }}>
-                      <input 
-                        type="checkbox" 
-                        id="isPortrait" 
-                        checked={form.isPortrait || false} 
-                        onChange={e => setForm(f => ({ ...f, isPortrait: e.target.checked }))} 
-                        style={{ marginRight: '8px', cursor: 'pointer' }} 
+                      <input
+                        type="checkbox"
+                        id="isPortrait"
+                        checked={form.isPortrait || false}
+                        onChange={e => setForm(f => ({ ...f, isPortrait: e.target.checked }))}
+                        style={{ marginRight: '8px', cursor: 'pointer' }}
                       />
                       <label htmlFor="isPortrait" style={{ marginBottom: 0, fontWeight: '500', cursor: 'pointer' }}>
                         Display as Portrait Video (9:16 aspect ratio)
@@ -921,8 +921,8 @@ const ProjectsTab = () => {
               </div>
 
               <div className="upload-progress-bar-bg">
-                <div 
-                  className="upload-progress-bar-fill" 
+                <div
+                  className="upload-progress-bar-fill"
                   style={{ width: `${uploadProgress.percentage}%` }}
                 />
               </div>
