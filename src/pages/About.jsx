@@ -62,8 +62,7 @@ const About = () => {
                     <div className="about-story-text">
                         <h2>Turning Vision Into <span>Visual Truth</span></h2>
                         <p>
-                            Founded with a single obsession…To make every idea and story counts<br />
-                            Ariadne has grown into full-service cinematography, documentation and storytelling powerhouse
+                            Founded with a single obsession…To make every idea and story count. Ariadne has grown into a full-service cinematography, documentation, and storytelling powerhouse.
                         </p>
                         <p>
                             From intimate product shoots to large-scale corporate campaigns, we bring the same relentless

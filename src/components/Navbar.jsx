@@ -41,6 +41,8 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
         setIsDropdownOpen(false);
     }, [location.pathname]);
 
+    const [isScrolled, setIsScrolled] = useState(false);
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -51,8 +53,21 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 50) {
+                setIsScrolled(true);
+            } else {
+                setIsScrolled(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     return (
-        <div className="nav-sticky-wrapper">
+        <div className={`nav-sticky-wrapper ${isScrolled ? 'scrolled' : ''}`}>
             <nav className="navbar">
                 <div
                     className="logo"

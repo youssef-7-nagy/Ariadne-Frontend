@@ -80,20 +80,22 @@
 .about-story {
     padding: 100px 20px;
     background: var(--bg-primary, #fff);
+    overflow: hidden;
 }
 
 .about-story-inner {
     max-width: 1300px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr 1.35fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
     gap: 50px;
     align-items: center;
+    width: 100%;
 }
 
 .about-story-text h2 {
     font-family: 'Montserrat', sans-serif;
-    font-size: 2.2rem;
+    font-size: clamp(1.8rem, 2.5vw, 2.5rem);
     font-weight: 800;
     color: var(--text-primary, #111);
     margin-bottom: 20px;
@@ -105,7 +107,7 @@
 }
 
 .about-story-text p {
-    font-size: 1rem;
+    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
     color: var(--text-secondary, #6b7280);
     line-height: 1.85;
     margin-bottom: 16px;
@@ -340,9 +342,29 @@ html.dark .partner-card {
 
 /* ---- Responsive ---- */
 @media (max-width: 900px) {
+    .about-story {
+        padding: 60px 20px;
+    }
+
     .about-story-inner {
-        grid-template-columns: 1fr;
-        gap: 40px;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+        gap: 24px;
+    }
+
+    .about-story-text h2 {
+        font-size: clamp(1.3rem, 2.8vw, 1.7rem);
+        margin-bottom: 12px;
+        line-height: 1.25;
+    }
+
+    .about-story-text p {
+        font-size: clamp(0.8rem, 1.6vw, 0.92rem);
+        line-height: 1.55;
+        margin-bottom: 10px;
+    }
+
+    .about-story-text br {
+        display: none;
     }
 
     .about-values-grid {
@@ -363,6 +385,38 @@ html.dark .partner-card {
 }
 
 @media (max-width: 600px) {
+    .about-story {
+        padding: 32px 14px;
+    }
+
+    .about-story-inner {
+        grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+        gap: 12px;
+        align-items: center;
+    }
+
+    .about-story-text h2 {
+        font-size: clamp(0.95rem, 3.8vw, 1.25rem);
+        margin-bottom: 8px;
+        line-height: 1.2;
+    }
+
+    .about-story-text p {
+        font-size: clamp(0.68rem, 2.5vw, 0.78rem);
+        line-height: 1.45;
+        margin-bottom: 6px;
+    }
+
+    .about-story-img-wrap img {
+        border-radius: 12px;
+    }
+
+    .about-story-img-wrap::before {
+        inset: -4px;
+        border-radius: 14px;
+        border-width: 1px;
+    }
+
     .about-values-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
@@ -382,20 +436,59 @@ html.dark .partner-card {
         font-size: 2.2rem;
     }
 
-    .about-story-text h2 {
-        font-size: 1.8rem;
-    }
-
     .about-stat-num {
         font-size: 1.8rem;
     }
 
     .about-hero,
-    .about-story,
     .about-values,
     .about-partners {
         padding-left: 15px;
         padding-right: 15px;
+    }
+}
+
+@media (max-width: 420px) {
+    .about-story {
+        padding: 24px 10px;
+    }
+
+    .about-story-inner {
+        grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+        gap: 10px;
+    }
+
+    .about-story-text h2 {
+        font-size: 0.92rem;
+        margin-bottom: 6px;
+    }
+
+    .about-story-text p {
+        font-size: 0.66rem;
+        line-height: 1.4;
+        margin-bottom: 5px;
+    }
+}
+
+@media (max-width: 360px) {
+    .about-story {
+        padding: 20px 8px;
+    }
+
+    .about-story-inner {
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+        gap: 8px;
+    }
+
+    .about-story-text h2 {
+        font-size: 0.84rem;
+        margin-bottom: 4px;
+    }
+
+    .about-story-text p {
+        font-size: 0.58rem;
+        line-height: 1.32;
+        margin-bottom: 4px;
     }
 }
 
@@ -546,12 +639,8 @@ html.dark .partner-card {
 }
 
 @media (max-width: 480px) {
-    .about-story, .about-values, .about-partners, .about-team {
+    .about-values, .about-partners, .about-team {
         padding: 60px 12px;
-    }
-    
-    .about-story-text h2 {
-        font-size: 1.6rem;
     }
     
     .about-stat-num {
@@ -649,10 +738,6 @@ html.dark .partner-card {
     
     .about-hero-sub {
         font-size: 0.95rem;
-    }
-    
-    .about-story-text h2 {
-        font-size: 1.4rem;
     }
     
     .team-card-info h3 {
