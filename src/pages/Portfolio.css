@@ -1612,21 +1612,37 @@ html.dark .pd-media-block {
     position: absolute;
     top: 14px;
     right: 14px;
-    background: rgba(0, 0, 0, 0.65);
+    background: rgba(18, 20, 26, 0.88);
     color: #ffffff;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    padding: 0.3rem 0.75rem;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(8px);
+    padding: 0.35rem 0.75rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
     pointer-events: none;
     z-index: 10;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
+    font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.pd-media-badge-video {
+    background: rgba(15, 17, 23, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.55);
+}
+
+.pd-badge-clapper-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
 }
 
 /* ─── YouTube "Watch Full Video" Button (Centered Directly Above Video) ─── */
