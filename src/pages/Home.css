@@ -4081,7 +4081,7 @@ html.dark,
         right: 0 !important;
         width: 100% !important;
         display: flex !important;
-        align-items: flex-end !important;
+        align-items: flex-start !important;
         justify-content: space-between !important;
         padding: clamp(14px, 3.5vw, 22px) clamp(8px, 2.5vw, 16px) clamp(8px, 2vw, 12px) !important;
         gap: clamp(4px, 1.5vw, 10px) !important;
@@ -4101,6 +4101,10 @@ html.dark,
         min-width: 0 !important;
         padding: 0 2px !important;
         text-align: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
     }
 
     .video-bottom-features .curved-feat-col h5 {
@@ -4124,8 +4128,9 @@ html.dark,
 
     .video-bottom-features .curved-feat-divider {
         width: 1px !important;
-        height: clamp(16px, 3.5vw, 22px) !important;
-        margin-bottom: 2px !important;
+        height: clamp(18px, 4vw, 24px) !important;
+        margin-top: 2px !important;
+        margin-bottom: 0 !important;
         background: rgba(255, 255, 255, 0.25) !important;
         flex-shrink: 0 !important;
     }
