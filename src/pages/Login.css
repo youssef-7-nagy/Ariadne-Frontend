@@ -31,6 +31,8 @@
   max-width: 100%;
   min-height: 520px;
   box-sizing: border-box;
+  z-index: 1;
+  isolation: isolate;
 }
 
 .login-container form h1 {
@@ -278,7 +280,7 @@
   transition: all 0.6s ease-in-out;
   border-radius: 150px 0 0 150px;
   /* Rounder curve on the edge */
-  z-index: 1000;
+  z-index: 10;
 }
 
 .login-container.active .toggle-container {

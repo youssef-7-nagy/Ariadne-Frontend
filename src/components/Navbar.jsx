@@ -316,6 +316,11 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
     // ─────────────────────────────────────────────────────────────
     return (
         <div className={`nav-sticky-wrapper is-default ${isScrolled ? 'scrolled' : ''}`}>
+            {/* Backdrop overlay for mobile menu on default navbar */}
+            <div
+                className={`default-nav-overlay ${isMobileMenuOpen ? 'active' : ''}`}
+                onClick={() => setIsMobileMenuOpen(false)}
+            />
             <nav className="navbar navbar--default">
                 {/* ARIA Logo on left */}
                 <div

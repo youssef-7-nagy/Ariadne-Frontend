@@ -14,7 +14,7 @@
     left: 0;
     right: 0;
     width: 100%;
-    z-index: 1000;
+    z-index: 9999;
     padding-top: env(safe-area-inset-top);
     transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
                 backdrop-filter 0.4s cubic-bezier(0.16, 1, 0.3, 1),
@@ -714,7 +714,31 @@ html.dark .nav-sticky-wrapper.is-default .hamburger:hover {
 }
 
 /* Default Navbar Mobile Breakpoints */
+.default-nav-overlay {
+    display: none;
+}
+
 @media (max-width: 900px) {
+    .default-nav-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        z-index: 9998;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        pointer-events: none;
+    }
+
+    .default-nav-overlay.active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
     .nav-sticky-wrapper.is-default .hamburger {
         display: flex;
     }
@@ -728,7 +752,7 @@ html.dark .nav-sticky-wrapper.is-default .hamburger:hover {
         padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
         background: #ffffff;
         border-radius: 0 0 16px 16px;
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
         border: none;
         border-bottom: 1px solid rgba(0, 0, 0, 0.08);
         transform: translateY(-120%);
@@ -737,7 +761,7 @@ html.dark .nav-sticky-wrapper.is-default .hamburger:hover {
         transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
                     opacity 0.25s ease,
                     visibility 0.25s ease;
-        z-index: 999;
+        z-index: 10000;
         gap: 6px;
     }
 
