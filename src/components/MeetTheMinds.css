@@ -230,7 +230,7 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    
+
     /* Subtle shadow */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
@@ -426,22 +426,45 @@
         gap: 40px;
     }
 
-    .mtm-row.row-right .mtm-img-col { order: 2; }
-    .mtm-row.row-right .mtm-content-col { order: 1; }
+    .mtm-row.row-right .mtm-img-col {
+        order: 2;
+    }
 
-    .mtm-img { height: 400px; }
-    .mtm-content-inner { max-width: 100%; }
-    .mtm-name { font-size: clamp(1.6rem, 3vw, 2.4rem); }
+    .mtm-row.row-right .mtm-content-col {
+        order: 1;
+    }
+
+    .mtm-img {
+        height: 400px;
+    }
+
+    .mtm-content-inner {
+        max-width: 100%;
+    }
+
+    .mtm-name {
+        font-size: clamp(1.6rem, 3vw, 2.4rem);
+    }
 }
 
 /* ── Mobile (≤ 768px): flexbox for precise photo/text proportions ── */
 @media (max-width: 768px) {
 
-    .mtm-section { padding: 70px 0 90px; }
-    .mtm-container { padding: 0 16px; }
-    .mtm-header { margin: 0 auto 55px auto; }
+    .mtm-section {
+        padding: 70px 0 90px;
+    }
 
-    .mtm-rows { gap: 48px; }
+    .mtm-container {
+        padding: 0 16px;
+    }
+
+    .mtm-header {
+        margin: 0 auto 55px auto;
+    }
+
+    .mtm-rows {
+        gap: 48px;
+    }
 
     /* Override grid → use flex for fine-grained column control */
     .mtm-row,
@@ -469,8 +492,13 @@
     }
 
     /* Alternating: row-right moves image to right */
-    .mtm-row.row-right .mtm-img-col { order: 2; }
-    .mtm-row.row-right .mtm-content-col { order: 1; }
+    .mtm-row.row-right .mtm-img-col {
+        order: 2;
+    }
+
+    .mtm-row.row-right .mtm-content-col {
+        order: 1;
+    }
 
     /* Photo fills the full height of its container */
     .mtm-img-card {
@@ -490,7 +518,10 @@
         display: block;
     }
 
-    .mtm-content-inner { max-width: 100%; width: 100%; }
+    .mtm-content-inner {
+        max-width: 100%;
+        width: 100%;
+    }
 
     .mtm-name {
         font-size: clamp(1.05rem, 3.8vw, 1.5rem);
@@ -504,7 +535,9 @@
         margin-bottom: 16px;
     }
 
-    .mtm-divider { margin-bottom: 14px; }
+    .mtm-divider {
+        margin-bottom: 14px;
+    }
 
     .mtm-bio {
         font-size: 0.8rem;
@@ -565,11 +598,21 @@
 /* ── Small Mobile (≤ 480px — iPhone SE, iPhone 14) ── */
 @media (max-width: 480px) {
 
-    .mtm-section { padding: 50px 0 70px; }
-    .mtm-container { padding: 0 12px; }
-    .mtm-header { margin: 0 auto 40px auto; }
+    .mtm-section {
+        padding: 50px 0 70px;
+    }
 
-    .mtm-rows { gap: 36px; }
+    .mtm-container {
+        padding: 0 12px;
+    }
+
+    .mtm-header {
+        margin: 0 auto 40px auto;
+    }
+
+    .mtm-rows {
+        gap: 36px;
+    }
 
     .mtm-row,
     .mtm-row.row-right {
@@ -594,8 +637,13 @@
         align-items: flex-start;
     }
 
-    .mtm-row.row-right .mtm-img-col { order: 2; }
-    .mtm-row.row-right .mtm-content-col { order: 1; }
+    .mtm-row.row-right .mtm-img-col {
+        order: 2;
+    }
+
+    .mtm-row.row-right .mtm-content-col {
+        order: 1;
+    }
 
     .mtm-img-card {
         max-width: 100%;
@@ -614,7 +662,10 @@
         display: block;
     }
 
-    .mtm-content-inner { max-width: 100%; width: 100%; }
+    .mtm-content-inner {
+        max-width: 100%;
+        width: 100%;
+    }
 
     .mtm-name {
         font-size: clamp(0.88rem, 3.5vw, 1.15rem);

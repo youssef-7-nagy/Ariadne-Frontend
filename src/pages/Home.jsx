@@ -14,6 +14,7 @@ import imgMusicVideos from '../assets/categories/music-videos.png';
 import imgPhotography from '../assets/categories/photography.png';
 import imgBTS from '../assets/categories/behind-the-scenes.png';
 import imgAboutStory from '../assets/about-story.jpg';
+import imgHeroStory from '../assets/home/first.png';
 
 
 const LOCAL_IMAGE_MAP = {
@@ -232,77 +233,36 @@ const Home = () => {
 
     return (
         <div className="home-container">
-            {/* Section 1: Hero Cinematic Intro */}
-            <section className="home-hero-cinematic" id="hero-intro">
+            {/* Section 1: Hero Visual Stories */}
+            <section className="home-hero-visual-story" id="hero-intro">
+                <div
+                    className="visual-hero-bg"
+                    style={{ backgroundImage: `url(${imgHeroStory})` }}
+                ></div>
+                <div className="visual-hero-overlay-vignette"></div>
+                <div className="visual-hero-overlay-top"></div>
+                <div className="visual-hero-overlay-bottom"></div>
 
-                {/* === Section 2 Background Glows & Texture === */}
-                <div className="curved-bg-glows">
-                    <div className="curved-glow-left-amber"></div>
-                    <div className="curved-glow-right-amber"></div>
-                    <div className="curved-rainbow-leak"></div>
-                    <div className="curved-noise-overlay"></div>
-                </div>
-
-                {/* === Film grain + ambient lighting === */}
-                <div className="hero-grain"></div>
-                <div className="hero-ambient-glow"></div>
-
-                {/* === Letterbox bars === */}
-                <div className="hero-bar hero-bar-top"></div>
-                <div className="hero-bar hero-bar-bottom"></div>
-
-                {/* === HUD — top bar === */}
-                <div className="hero-hud">
-                    <div className="hero-hud-l">
-                        <span className="hero-rec-dot"></span>
-                        <span>REC</span>
-                    </div>
-                    <div className="hero-hud-c">
-                        <span>ARIADNE CREATIVE STUDIO</span>
-                        <span className="hero-hud-gem">◆</span>
-                        <span>EST. 2026</span>
-                    </div>
-                    <div className="hero-hud-r">F/1.8 · 85mm · ISO 400</div>
-                </div>
-
-                {/* === MAIN CONTAINER: Split Grid === */}
-                <div className="hero-main-container">
-
-                    {/* === LEFT: Text content === */}
-                    <div className="hero-text-panel">
-
-                        {/* Studio badge */}
-                        <div className="hero-badge">
-                            <span className="hero-badge-bar"></span>
-                            <span>Photography Studio</span>
-                        </div>
-
-                        {/* Main headline */}
-                        <h1 className="hero-headline">
-                            <span className="hero-hl-top">We Create</span>
-                            <span className="hero-hl-serif">Timeless</span>
-                            <span className="hero-hl-bottom">Imagery</span>
+                <div className="visual-hero-container">
+                    <div className="visual-hero-content">
+                        <span className="visual-hero-eyebrow">CINEMATIC • PHOTOGRAPHY • STORYTELLING</span>
+                        <h1 className="visual-hero-title">
+                            <span className="visual-hero-title-main">We Create</span>
+                            <span className="visual-hero-title-italic">Visual Stories</span>
                         </h1>
-
-                        {/* Thin divider */}
-                        <div className="hero-rule"></div>
-
-                        {/* Subtext */}
-                        <p className="hero-subtext">
-                            A premium photography studio crafting luxurious visual stories — portraits, events, and commercial imagery for distinguished brands.
+                        <p className="visual-hero-desc">
+                            A creative studio focused on cinematic photography and visual storytelling, turning real moments into lasting impressions.
                         </p>
-
-                        {/* CTAs */}
-                        <div className="hero-cta-row">
-                            <Link to="/portfolio" className="hero-btn-primary">
+                        <div className="visual-hero-cta-row">
+                            <Link to="/portfolio" className="btn-visual-primary">
                                 <span>View Projects</span>
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M5 12H19M19 12L12 5M19 12L12 19" />
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
                                 </svg>
                             </Link>
                             <a
                                 href="#footer"
-                                className="hero-btn-cool-contact"
+                                className="btn-visual-secondary"
                                 onClick={(e) => {
                                     e.preventDefault();
                                     if (window.lenis) {
@@ -324,46 +284,18 @@ const Home = () => {
                             </a>
                         </div>
                     </div>
+                </div>
 
-                    {/* === RIGHT: Framed Photo Showcase === */}
-                    <div className="hero-right-showcase">
-                        <div className="hero-frame-wrapper">
-                            {/* Camera Viewfinder Corners */}
-                            <span className="vf-corner vf-tl"></span>
-                            <span className="vf-corner vf-tr"></span>
-                            <span className="vf-corner vf-bl"></span>
-                            <span className="vf-corner vf-br"></span>
-
-                            <img
-                                src={imgAboutStory}
-                                alt="Ariadne Photographer"
-                                className="hero-framed-photo"
-                                loading="eager"
-                                fetchPriority="high"
-                                decoding="async"
-                            />
-
-
-                        </div>
+                <div className="visual-hero-pagination">
+                    <span className="pagination-num active">01</span>
+                    <div className="pagination-line">
+                        <div className="pagination-indicator"></div>
                     </div>
-
+                    <span className="pagination-num">04</span>
                 </div>
-
-
-
-                {/* === Scroll indicator === */}
-                <div className="hero-scroll">
-                    <div className="hero-scroll-line"></div>
-                    <span>SCROLL</span>
-                </div>
-
             </section>
 
-
-
-
-
-            {/* Section 3: Video Showcase Section */}
+            {/* Section 2: Video Showcase Section */}
             <section className="home-white-section" ref={storySectionRef} aria-label="Cinematic Teaser">
                 <div className="home-video-bg-wrapper">
                     <iframe
@@ -377,6 +309,10 @@ const Home = () => {
                         title="Cinematic Background Video"
                     />
                 </div>
+
+                {/* Video Overlays */}
+                <div className="video-vignette-top"></div>
+                <div className="video-vignette-bottom"></div>
 
                 {/* Bottom features bar */}
                 <div className="video-bottom-features">

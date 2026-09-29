@@ -178,29 +178,6 @@ const Portfolio = () => {
                     <div className="pf-title-accent" />
                 </header>
 
-                {/* Stats Bar */}
-                <div className="pf-stats-bar">
-                    <div className="pf-stat">
-                        <span className="pf-stat-number">{isLoading ? '—' : categories.length}</span>
-                        <span className="pf-stat-label">Categories</span>
-                    </div>
-                    <div className="pf-stat-divider" />
-                    <div className="pf-stat">
-                        <span className="pf-stat-number">50+</span>
-                        <span className="pf-stat-label">Projects</span>
-                    </div>
-                    <div className="pf-stat-divider" />
-                    <div className="pf-stat">
-                        <span className="pf-stat-number">7K</span>
-                        <span className="pf-stat-label">Resolution</span>
-                    </div>
-                    <div className="pf-stat-divider" />
-                    <div className="pf-stat">
-                        <span className="pf-stat-number">RAW</span>
-                        <span className="pf-stat-label">Color Grade</span>
-                    </div>
-                </div>
-
                 {/* Category Grid */}
                 {isLoading ? (
                     <div className="pf-empty" style={{ minHeight: '50vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

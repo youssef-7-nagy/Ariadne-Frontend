@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'VALORANT';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/Valorant-Font.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/37505/Valorant Font.woff') format('woff');
+}
+
 :root {
   /* Global Background and Text */
   --bg-primary: #ffffff;
@@ -58,12 +67,13 @@
 
 html {
   max-width: 100%;
-  overflow-x: clip;
+  overflow-x: hidden;
   box-sizing: border-box;
   scroll-behavior: smooth;
 }
 
-html.lenis, html.lenis body {
+html.lenis,
+html.lenis body {
   height: auto;
 }
 
@@ -83,7 +93,9 @@ html.lenis, html.lenis body {
   pointer-events: none;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
@@ -92,7 +104,7 @@ body {
   padding: 0;
   width: 100%;
   max-width: 100%;
-  overflow-x: clip;
+  overflow-x: hidden;
   position: relative;
   font-family: 'Plus Jakarta Sans', sans-serif;
   background-color: var(--bg-primary);
@@ -103,7 +115,7 @@ body {
 #root {
   width: 100%;
   max-width: 100%;
-  overflow-x: clip;
+  overflow-x: hidden;
 }
 
 img {

@@ -80,22 +80,20 @@
 .about-story {
     padding: 100px 20px;
     background: var(--bg-primary, #fff);
-    overflow: hidden;
 }
 
 .about-story-inner {
     max-width: 1300px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    grid-template-columns: 1fr 1.35fr;
     gap: 50px;
     align-items: center;
-    width: 100%;
 }
 
 .about-story-text h2 {
     font-family: 'Montserrat', sans-serif;
-    font-size: clamp(1.8rem, 2.5vw, 2.5rem);
+    font-size: 2.2rem;
     font-weight: 800;
     color: var(--text-primary, #111);
     margin-bottom: 20px;
@@ -107,7 +105,7 @@
 }
 
 .about-story-text p {
-    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+    font-size: 1rem;
     color: var(--text-secondary, #6b7280);
     line-height: 1.85;
     margin-bottom: 16px;
@@ -232,10 +230,10 @@
     overflow: hidden;
     inset: 0;
     transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(var(--translateZ));
-    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), 
-                border-color 0.5s ease, 
-                box-shadow 0.5s ease,
-                backdrop-filter 0.5s ease;
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1),
+        border-color 0.5s ease,
+        box-shadow 0.5s ease,
+        backdrop-filter 0.5s ease;
     cursor: pointer;
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(8px);
@@ -251,8 +249,8 @@ html.dark .partner-card {
 
 .partner-card:hover {
     border-color: rgba(var(--color-card), 0.8);
-    box-shadow: 0 0 40px rgba(var(--color-card), 0.5), 
-                inset 0 0 20px rgba(var(--color-card), 0.2);
+    box-shadow: 0 0 40px rgba(var(--color-card), 0.5),
+        inset 0 0 20px rgba(var(--color-card), 0.2);
     transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(calc(var(--translateZ) + 35px)) scale(1.05);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -293,13 +291,13 @@ html.dark .partner-card {
     opacity: 0.85;
     transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.6s ease;
     z-index: 1;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
 .partner-card:hover .partner-img img {
     opacity: 1;
     transform: scale(1.15) translateY(-5px);
-    filter: drop-shadow(0 8px 16px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));
 }
 
 /* Fallback text logo styling */
@@ -309,7 +307,7 @@ html.dark .partner-card {
     color: rgba(var(--color-card), 0.9);
     z-index: 1;
     transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
-    text-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .partner-card:hover .text-logo {
@@ -342,29 +340,9 @@ html.dark .partner-card {
 
 /* ---- Responsive ---- */
 @media (max-width: 900px) {
-    .about-story {
-        padding: 60px 20px;
-    }
-
     .about-story-inner {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-        gap: 24px;
-    }
-
-    .about-story-text h2 {
-        font-size: clamp(1.3rem, 2.8vw, 1.7rem);
-        margin-bottom: 12px;
-        line-height: 1.25;
-    }
-
-    .about-story-text p {
-        font-size: clamp(0.8rem, 1.6vw, 0.92rem);
-        line-height: 1.55;
-        margin-bottom: 10px;
-    }
-
-    .about-story-text br {
-        display: none;
+        grid-template-columns: 1fr;
+        gap: 40px;
     }
 
     .about-values-grid {
@@ -385,38 +363,6 @@ html.dark .partner-card {
 }
 
 @media (max-width: 600px) {
-    .about-story {
-        padding: 32px 14px;
-    }
-
-    .about-story-inner {
-        grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-        gap: 12px;
-        align-items: center;
-    }
-
-    .about-story-text h2 {
-        font-size: clamp(0.95rem, 3.8vw, 1.25rem);
-        margin-bottom: 8px;
-        line-height: 1.2;
-    }
-
-    .about-story-text p {
-        font-size: clamp(0.68rem, 2.5vw, 0.78rem);
-        line-height: 1.45;
-        margin-bottom: 6px;
-    }
-
-    .about-story-img-wrap img {
-        border-radius: 12px;
-    }
-
-    .about-story-img-wrap::before {
-        inset: -4px;
-        border-radius: 14px;
-        border-width: 1px;
-    }
-
     .about-values-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
@@ -436,59 +382,20 @@ html.dark .partner-card {
         font-size: 2.2rem;
     }
 
+    .about-story-text h2 {
+        font-size: 1.8rem;
+    }
+
     .about-stat-num {
         font-size: 1.8rem;
     }
 
     .about-hero,
+    .about-story,
     .about-values,
     .about-partners {
         padding-left: 15px;
         padding-right: 15px;
-    }
-}
-
-@media (max-width: 420px) {
-    .about-story {
-        padding: 24px 10px;
-    }
-
-    .about-story-inner {
-        grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-        gap: 10px;
-    }
-
-    .about-story-text h2 {
-        font-size: 0.92rem;
-        margin-bottom: 6px;
-    }
-
-    .about-story-text p {
-        font-size: 0.66rem;
-        line-height: 1.4;
-        margin-bottom: 5px;
-    }
-}
-
-@media (max-width: 360px) {
-    .about-story {
-        padding: 20px 8px;
-    }
-
-    .about-story-inner {
-        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-        gap: 8px;
-    }
-
-    .about-story-text h2 {
-        font-size: 0.84rem;
-        margin-bottom: 4px;
-    }
-
-    .about-story-text p {
-        font-size: 0.58rem;
-        line-height: 1.32;
-        margin-bottom: 4px;
     }
 }
 
@@ -639,19 +546,27 @@ html.dark .partner-card {
 }
 
 @media (max-width: 480px) {
-    .about-values, .about-partners, .about-team {
+
+    .about-story,
+    .about-values,
+    .about-partners,
+    .about-team {
         padding: 60px 12px;
     }
-    
+
+    .about-story-text h2 {
+        font-size: 1.6rem;
+    }
+
     .about-stat-num {
         font-size: 1.6rem;
     }
-    
+
     .about-stat-row {
         flex-wrap: wrap;
         gap: 15px;
     }
-    
+
     .about-values-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
@@ -676,13 +591,13 @@ html.dark .partner-card {
         font-size: 0.73rem;
         line-height: 1.5;
     }
-    
+
     .partners-inner {
         --w: 70px;
         --h: 100px;
         --translateZ: 110px;
     }
-    
+
     .partners-carousel-wrap {
         height: 240px;
     }
@@ -731,15 +646,19 @@ html.dark .partner-card {
     .about-hero {
         padding: 80px 15px 40px;
     }
-    
+
     .about-hero h1 {
         font-size: 1.8rem;
     }
-    
+
     .about-hero-sub {
         font-size: 0.95rem;
     }
-    
+
+    .about-story-text h2 {
+        font-size: 1.4rem;
+    }
+
     .team-card-info h3 {
         font-size: 1.2rem;
     }
@@ -854,4 +773,3 @@ html.dark .partner-card {
         margin-top: 20px;
     }
 }
-
