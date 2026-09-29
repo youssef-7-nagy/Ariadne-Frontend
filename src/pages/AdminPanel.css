@@ -75,13 +75,17 @@ textarea {
   border-radius: 14px;
   color: #6c757d;
   font-weight: 600;
-  transition: all 0.3s;
+  transition: background 0.2s ease, color 0.2s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.admin-nav button:hover {
-  background: #f8f9fa;
-  color: #4361ee;
-  transform: translateX(5px);
+@media (hover: hover) and (pointer: fine) {
+  .admin-nav button:hover {
+    background: #f8f9fa;
+    color: #4361ee;
+    transform: translateX(5px);
+  }
 }
 
 .admin-nav button.active {
@@ -123,7 +127,7 @@ textarea {
   border-radius: 20px;
   text-align: center;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-  transition: all 0.3s ease;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   border: 2px solid transparent;
   cursor: pointer;
   display: flex;
@@ -133,11 +137,15 @@ textarea {
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.stat-box:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+@media (hover: hover) and (pointer: fine) {
+  .stat-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+  }
 }
 
 .stat-box.active-metric {
@@ -1593,9 +1601,11 @@ textarea.form-control {
   color: #aac2d7;
 }
 
-.dark .admin-nav button:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #8cdcff;
+@media (hover: hover) and (pointer: fine) {
+  .dark .admin-nav button:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #8cdcff;
+  }
 }
 
 .dark .admin-nav button.active {

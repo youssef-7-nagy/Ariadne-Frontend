@@ -136,17 +136,21 @@
   font-weight: 500;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.2s ease, color 0.2s ease;
   display: flex;
   align-items: center;
   gap: 10px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.side-nav button:hover {
-  background: white;
-  color: var(--dash-primary);
-  transform: translateX(8px) scale(1.02);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+@media (hover: hover) and (pointer: fine) {
+  .side-nav button:hover {
+    background: white;
+    color: var(--dash-primary);
+    transform: translateX(8px) scale(1.02);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  }
 }
 
 .side-nav button.active {
@@ -2065,14 +2069,11 @@
     justify-content: center !important;
     text-align: center !important;
     transform: none !important;
-    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
-  }
-
-  .admin-sidebar .admin-nav button:hover,
-  .admin-nav button:hover {
-    background: #e2e8f0 !important;
-    color: #334155 !important;
-    transform: none !important;
+    transition: none !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent !important;
+    user-select: none !important;
+    cursor: pointer !important;
   }
 
   .admin-sidebar .admin-nav button.active,
@@ -2088,12 +2089,6 @@
     background: rgba(255, 255, 255, 0.08) !important;
     color: #94a3b8 !important;
     border-color: rgba(255, 255, 255, 0.06) !important;
-  }
-
-  .dark .admin-sidebar .admin-nav button:hover,
-  .dark .admin-nav button:hover {
-    background: rgba(255, 255, 255, 0.14) !important;
-    color: #f1f5f9 !important;
     transform: none !important;
   }
 
@@ -2714,5 +2709,35 @@
     .dark .profile-hamburger .ham-line {
         background-color: #ffffff;
     }
+}
+
+/* ==========================================================================
+   # TOUCH & TABLET OPTIMIZATION (Prevent Double-Tap / Hover Sticky Issues)
+   ========================================================================== */
+@media (hover: none), (pointer: coarse), (max-width: 1024px) {
+  .admin-nav button,
+  .admin-sidebar .admin-nav button,
+  .side-nav button,
+  .dashboard-sidebar .side-nav button,
+  .stat-box,
+  .stat-card,
+  .btn-export,
+  .container-btn-file,
+  .digital-card-container {
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent !important;
+    user-select: none !important;
+  }
+
+  .admin-nav button:hover,
+  .admin-sidebar .admin-nav button:hover,
+  .side-nav button:hover,
+  .dashboard-sidebar .side-nav button:hover,
+  .stat-box:hover,
+  .stat-card:hover,
+  .hover-lift:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
 }
 
