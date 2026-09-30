@@ -295,6 +295,25 @@ const Home = () => {
                 </div>
             </section>
 
+            {/* Section 1.5: New Featured Video Showcase Section */}
+            <section className="home-white-section" aria-label="Featured Cinematic Video">
+                <div className="home-video-bg-wrapper">
+                    <iframe
+                        src="https://player.cloudinary.com/embed/?cloud_name=dqvclzcod&public_id=GR_Final_jy5ycc&player%5Bautoplay%5D=true&player%5Bloop%5D=true&player%5Bmuted%5D=true&player%5Bcontrols%5D=false&player%5BshowLogo%5D=false&autoplay=true&loop=true&muted=true"
+                        loading="eager"
+                        className="home-video-bg-iframe"
+                        allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen;"
+                        allowFullScreen={true}
+                        tabIndex="-1"
+                        title="Featured Cinematic Video"
+                    />
+                </div>
+
+                {/* Video Overlays */}
+                <div className="video-vignette-top"></div>
+                <div className="video-vignette-bottom"></div>
+            </section>
+
             {/* Section 2: Video Showcase Section */}
             <section className="home-white-section" ref={storySectionRef} aria-label="Cinematic Teaser">
                 <div className="home-video-bg-wrapper">
