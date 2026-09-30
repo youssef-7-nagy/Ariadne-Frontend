@@ -50,6 +50,13 @@ const Home = () => {
     const storySectionRef = useRef(null);
     const iframeRef = useRef(null);
 
+    // Section 2 (Cloudinary) — cinematic ARIA title state
+    const cloudinaryIframeRef = useRef(null);
+    const cloudinarySectionRef = useRef(null);
+    const [ariaVisible, setAriaVisible] = useState(false);
+    const [ariaKey, setAriaKey] = useState(0);
+    const ariaTimerRef = useRef(null);
+
     const handlePrev = useCallback(() => {
         setActiveIndex(prev => prev - 1);
     }, []);
@@ -228,6 +235,71 @@ const Home = () => {
         return () => clearTimeout(timer);
     }, []);
 
+    // ── Cinematic ARIA title: trigger at 0.6 s after Cloudinary video starts ──
+    // Since the Cloudinary player is cross-origin we cannot access currentTime.
+    // Strategy:
+    //   1. onLoad on the iframe fires when the player has initialised → start 600 ms timer.
+    //   2. IntersectionObserver resets & re-arms the timer whenever the section
+    //      leaves and re-enters the viewport (covers back-navigation).
+    //   3. postMessage events from the Cloudinary SDK detect loop-ends → reset.
+    const ariaTimerStart = useCallback(() => {
+        clearTimeout(ariaTimerRef.current);
+        setAriaVisible(false);
+        ariaTimerRef.current = setTimeout(() => {
+            setAriaVisible(true);
+        }, 600);
+    }, []);
+
+    const ariaReset = useCallback(() => {
+        clearTimeout(ariaTimerRef.current);
+        setAriaVisible(false);
+        setAriaKey(k => k + 1); // bump key so CSS animation reruns
+        ariaTimerRef.current = setTimeout(() => {
+            setAriaVisible(true);
+        }, 600);
+    }, []);
+
+    useEffect(() => {
+        // IntersectionObserver: re-arm timer each time section enters viewport
+        const section = cloudinarySectionRef.current;
+        if (!section) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        ariaReset();
+                    } else {
+                        clearTimeout(ariaTimerRef.current);
+                        setAriaVisible(false);
+                    }
+                });
+            },
+            { threshold: 0.25 }
+        );
+        observer.observe(section);
+
+        // postMessage listener: Cloudinary player emits events in JSON
+        const handleMessage = (event) => {
+            try {
+                const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+                // Cloudinary SDK fires `ended` before a loop restart
+                if (data && (data.event === 'ended' || data.type === 'ended' ||
+                    (data.info && data.info.player && data.info.event === 'ended'))) {
+                    ariaReset();
+                }
+            } catch (_) {}
+        };
+        window.addEventListener('message', handleMessage);
+
+        return () => {
+            observer.disconnect();
+            window.removeEventListener('message', handleMessage);
+            clearTimeout(ariaTimerRef.current);
+        };
+    }, [ariaReset]);
+    // ── End ARIA title logic ──────────────────────────────────────────────────
+
 
 
 
@@ -296,9 +368,14 @@ const Home = () => {
             </section>
 
             {/* Section 1.5: New Featured Video Showcase Section */}
-            <section className="home-white-section" aria-label="Featured Cinematic Video">
+            <section
+                className="home-white-section cloudinary-feat-section"
+                aria-label="Featured Cinematic Video"
+                ref={cloudinarySectionRef}
+            >
                 <div className="home-video-bg-wrapper">
                     <iframe
+                        ref={cloudinaryIframeRef}
                         src="https://player.cloudinary.com/embed/?cloud_name=dqvclzcod&public_id=GR_Final_jy5ycc&player%5Bautoplay%5D=true&player%5Bloop%5D=true&player%5Bmuted%5D=true&player%5Bcontrols%5D=false&player%5BshowLogo%5D=false&autoplay=true&loop=true&muted=true"
                         loading="eager"
                         className="home-video-bg-iframe"
@@ -306,12 +383,22 @@ const Home = () => {
                         allowFullScreen={true}
                         tabIndex="-1"
                         title="Featured Cinematic Video"
+                        onLoad={ariaTimerStart}
                     />
                 </div>
 
                 {/* Video Overlays */}
                 <div className="video-vignette-top"></div>
                 <div className="video-vignette-bottom"></div>
+
+                {/* Cinematic ARIA title — appears at 0.6 s after video starts */}
+                <div
+                    key={ariaKey}
+                    className={`cloudinary-aria-title${ariaVisible ? ' cloudinary-aria-title--visible' : ''}`}
+                    aria-hidden="true"
+                >
+                    <span className="cloudinary-aria-word">ARIA</span>
+                </div>
             </section>
 
             {/* Section 2: Video Showcase Section */}

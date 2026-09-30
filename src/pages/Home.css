@@ -4657,3 +4657,113 @@ html.dark,
     font-size: clamp(0.75rem, 1.5vw, 0.88rem);
     letter-spacing: 0.06em;
 }
+
+/* ==========================================================================
+   CLOUDINARY SECTION — CINEMATIC "ARIA" TITLE OVERLAY
+   Strictly scoped to .cloudinary-feat-section
+   ========================================================================== */
+
+/* Keyframe: starts invisible, fades + scales up elegantly */
+@keyframes aria-title-reveal {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.88);
+        letter-spacing: 0.32em;
+    }
+    60% {
+        opacity: 0.85;
+        transform: translate(-50%, -50%) scale(1.015);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+        letter-spacing: 0.22em;
+    }
+}
+
+/* Container: always present for layout stability, invisible until --visible */
+.cloudinary-aria-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 8;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Hidden by default — no opacity/animation yet */
+    opacity: 0;
+    /* Prevent any layout shift */
+    will-change: opacity, transform;
+    white-space: nowrap;
+}
+
+/* Reveal state: triggered by JS adding --visible class */
+.cloudinary-aria-title--visible {
+    animation: aria-title-reveal 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* The word itself */
+.cloudinary-aria-word {
+    font-family: 'VALORANT', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    /* Fluid type: from 3.5rem on small phones up to 9rem on wide desktop */
+    font-size: clamp(3.2rem, 9.5vw, 9rem);
+    letter-spacing: 0.22em;
+    color: #ffffff;
+    /* Subtle text shadow for depth against varying video frames */
+    text-shadow:
+        0 2px 40px rgba(0, 0, 0, 0.55),
+        0 0 120px rgba(255, 255, 255, 0.08);
+    /* Crisp rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1;
+    display: block;
+}
+
+/* ── Responsive overrides ── */
+
+/* Tablet portrait */
+@media (max-width: 1024px) and (orientation: portrait) {
+    .cloudinary-aria-word {
+        font-size: clamp(2.8rem, 10vw, 6rem);
+        letter-spacing: 0.20em;
+    }
+}
+
+/* Mobile (<= 768px) */
+@media (max-width: 768px) {
+    .cloudinary-aria-word {
+        font-size: clamp(2.4rem, 12vw, 4.8rem);
+        letter-spacing: 0.18em;
+    }
+}
+
+/* Small phones (<= 400px) */
+@media (max-width: 400px) {
+    .cloudinary-aria-word {
+        font-size: clamp(2rem, 13vw, 3.4rem);
+        letter-spacing: 0.14em;
+    }
+}
+
+/* Landscape short screens */
+@media (orientation: landscape) and (max-height: 520px) {
+    .cloudinary-aria-word {
+        font-size: clamp(2.2rem, 8vh, 4rem);
+        letter-spacing: 0.16em;
+    }
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .cloudinary-aria-title--visible {
+        animation: none;
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+        transition: opacity 0.4s ease;
+    }
+}
