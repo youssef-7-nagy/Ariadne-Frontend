@@ -1611,7 +1611,8 @@ html.dark .pd-media-block {
 .pd-media-badge {
     position: absolute;
     top: 14px;
-    right: 14px;
+    left: 14px;
+    right: auto;
     background: rgba(18, 20, 26, 0.88);
     color: #ffffff;
     font-size: 0.72rem;
@@ -2186,10 +2187,11 @@ html.dark .pd-media-block {
     }
 
     .pd-media-badge {
-        top: 8px;
-        right: 8px;
-        font-size: 0.6rem;
-        padding: 0.2rem 0.5rem;
+        top: 10px;
+        left: 10px;
+        right: auto;
+        font-size: 0.62rem;
+        padding: 0.25rem 0.55rem;
     }
 
     .pd-yt-btn {
