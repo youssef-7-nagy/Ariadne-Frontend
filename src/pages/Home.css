@@ -4771,4 +4771,5 @@ html.dark,
 .reversed-a {
     display: inline-block;
     transform: scaleX(-1);
+    margin-left: -0.28em; /* Pull it slightly to the left to match the logo kerning */
 }
