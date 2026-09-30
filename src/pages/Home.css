@@ -4767,3 +4767,8 @@ html.dark,
         transition: opacity 0.4s ease;
     }
 }
+
+.reversed-a {
+    display: inline-block;
+    transform: scaleX(-1);
+}

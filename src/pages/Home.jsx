@@ -397,7 +397,7 @@ const Home = () => {
                     className={`cloudinary-aria-title${ariaVisible ? ' cloudinary-aria-title--visible' : ''}`}
                     aria-hidden="true"
                 >
-                    <span className="cloudinary-aria-word">ARIA</span>
+                    <span className="cloudinary-aria-word">ARI<span className="reversed-a">A</span></span>
                 </div>
             </section>
 
