@@ -34,11 +34,11 @@ const TEAM_MEMBERS = [
         badge: 'CREATIVE DIRECTOR',
         bio: 'Léonardo brings a sharp vision and precision to set direction. He leads Ariadne\'s cinematic productions, bridging raw human emotion and powerful storylines into high-end films that resonate with audiences.',
         img: imgLeo,
-        accentColor: '#7c3aed',
-        ribbonFold: '#5b21b6',
+        accentColor: '#1e3a8a',
+        ribbonFold: '#0f1f4b',
         icon: LuClapperboard,
         cameraSpecs: ['ISO 100  |  85mm  |  f/1.2', '1/250s  |  5.6K RAW'],
-        gradientColors: ['#7c3aed', '#a78bfa'],
+        gradientColors: ['#1e3a8a', '#7dd3fc'],
     },
     {
         id: 'ramsis',
@@ -47,11 +47,11 @@ const TEAM_MEMBERS = [
         badge: 'SENIOR PRODUCER',
         bio: 'Ramsis leads Ariadne\'s senior production and visual strategy, overseeing project development, creative direction, and cinematic execution from inception to final delivery.',
         img: imgRamsis,
-        accentColor: '#ff6b35',
-        ribbonFold: '#cc4a1a',
+        accentColor: '#d4b483',
+        ribbonFold: '#b8945f',
         icon: FaBriefcase,
         cameraSpecs: ['ARRI Alexa Mini  |  RED V-Raptor', 'PRODUCTION DEPT  |  SET-01'],
-        gradientColors: ['#ff6b35', '#f97316'],
+        gradientColors: ['#d4b483', '#1e3a8a'],
     },
     {
         id: 'samah',
@@ -60,11 +60,11 @@ const TEAM_MEMBERS = [
         badge: 'PRODUCTION',
         bio: 'Samah coordinates set logistics, scheduling, and production operations for Ariadne\'s projects, ensuring seamless execution across departments and keeping every shoot running flawlessly.',
         img: imgSamah,
-        accentColor: '#ec4899',
-        ribbonFold: '#be185d',
+        accentColor: '#A8B3A0',
+        ribbonFold: '#8c9883',
         icon: FaClipboardList,
         cameraSpecs: ['MOOD BOARD 03  |  PALETTE A', 'ART DIRECTION & STYLING'],
-        gradientColors: ['#ec4899', '#f472b6'],
+        gradientColors: ['#A8B3A0', '#1e3a8a'],
     },
     {
         id: 'maria',
@@ -73,11 +73,11 @@ const TEAM_MEMBERS = [
         badge: 'BRAND & PR',
         bio: 'Bringing together PR, communications, client relations, and account management to turn ideas into impactful work. She works closely with clients and production teams, keeping communication clear, relationships strong, and every project moving smoothly from concept to execution.',
         img: imgMaria,
-        accentColor: '#8b5cf6',
-        ribbonFold: '#6d28d9',
+        accentColor: '#7dd3fc',
+        ribbonFold: '#38bdf8',
         icon: FaBullhorn,
         cameraSpecs: ['PROD SCHEDULE  |  CALL SHEET 02', 'CLIENT COLLABORATION'],
-        gradientColors: ['#8b5cf6', '#c084fc'],
+        gradientColors: ['#7dd3fc', '#1e3a8a'],
     },
     {
         id: 'fady',
@@ -86,11 +86,11 @@ const TEAM_MEMBERS = [
         badge: 'CINEMATOGRAPHY',
         bio: 'He leads Ariadne\'s camera and lighting department, bringing technical precision and visual expertise to every production. He oversees cinematography and on-set workflow across commercials, brand films, and digital content, ensuring every frame is polished, cinematic, and aligned with the client\'s vision.',
         img: imgFady,
-        accentColor: '#10b981',
-        ribbonFold: '#047857',
+        accentColor: '#d4b483',
+        ribbonFold: '#b8945f',
         icon: FaCamera,
         cameraSpecs: ['REC.709  |  DCI-P3  |  12-BIT', 'DAVINCI RESOLVE Studio'],
-        gradientColors: ['#10b981', '#34d399'],
+        gradientColors: ['#d4b483', '#A8B3A0'],
     },
     {
         id: 'pierre',
@@ -99,11 +99,11 @@ const TEAM_MEMBERS = [
         badge: 'SOUND DEPT',
         bio: 'He leads Ariadne\'s audio engineering department, shaping sound across every stage of post-production. His expertise in sound design, mixing, and mastering ensures clear, immersive soundscapes and balanced final mixes that complement the visual story and elevate the overall cinematic experience.',
         img: imgPierre,
-        accentColor: '#1392d6',
-        ribbonFold: '#0c6da0',
+        accentColor: '#1e3a8a',
+        ribbonFold: '#0f1f4b',
         icon: GiSoundWaves,
         cameraSpecs: ['ISO 800  |  35mm  |  T/1.5', '1/50s  |  24fps  |  8K'],
-        gradientColors: ['#1392d6', '#60a5fa'],
+        gradientColors: ['#1e3a8a', '#7dd3fc'],
     },
     {
         id: 'john',
@@ -112,11 +112,11 @@ const TEAM_MEMBERS = [
         badge: 'COMPOSITION',
         bio: 'He brings ideas to life through original music, crafting scores that strengthen the story and create memorable sonic experiences. From the first creative concept to the final mix, every composition is shaped with purpose, emotion, and a clear understanding of the brand\'s identity and visual narrative.',
         img: imgJohn,
-        accentColor: '#e0a96d',
-        ribbonFold: '#b8844a',
+        accentColor: '#A8B3A0',
+        ribbonFold: '#8c9883',
         icon: FaMusic,
         cameraSpecs: ['M18 HMI  |  Skypanel S60-C', 'FREEFLY Alta X  |  DJI Inspire 3'],
-        gradientColors: ['#e0a96d', '#f5d0a9'],
+        gradientColors: ['#A8B3A0', '#d4b483'],
     }
 ];
 
@@ -194,12 +194,11 @@ function OwnerProfile({ member, index }) {
                     <h3 className="mtm-name">
                         {firstName}{' '}
                         <span
+                            className="mtm-name-accent"
                             style={{
-                                background: `linear-gradient(135deg, ${member.gradientColors[0]}, ${member.gradientColors[1]})`,
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent',
-                                backgroundClip: 'text',
-                                display: 'inline-block'
+                                '--member-accent': member.accentColor,
+                                '--grad-start': member.gradientColors[0],
+                                '--grad-end': member.gradientColors[1],
                             }}
                         >
                             {lastName}

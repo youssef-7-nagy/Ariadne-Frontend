@@ -4,6 +4,7 @@ import axios from 'axios';
 import { resolveMedia } from '../utils/mediaResolver';
 import { ImageFallback } from '../components/media/ImageFallback';
 import { VideoFallback } from '../components/media/VideoFallback';
+import { SmartphoneFrame } from '../components/media/SmartphoneFrame';
 import { ProjectGallery } from '@/components/ui/ProjectGallery';
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
 import './Portfolio.css';
@@ -257,29 +258,55 @@ const ProjectDetails = () => {
 
         if (videoMedia) {
             const posterToUse = videoMedia.thumbnailUrl ? resolveUrl(videoMedia.thumbnailUrl) : (mainImagePoster || coverPoster);
+            const player = (
+                <CustomVideoPlayer
+                    src={resolveUrl(videoMedia.url)}
+                    poster={posterToUse}
+                    fallbackPosters={fallbacks}
+                    isPortrait={isPortraitVideo}
+                />
+            );
+
+            if (isPortraitVideo) {
+                return (
+                    <div className="pd-portrait-frame-wrapper">
+                        <SmartphoneFrame>
+                            {player}
+                        </SmartphoneFrame>
+                    </div>
+                );
+            }
+
             return (
-                <div className={`pd-media-block ${isPortraitVideo ? 'pd-media-block-portrait' : ''}`}>
-                    <VideoBadge />
-                    <CustomVideoPlayer
-                        src={resolveUrl(videoMedia.url)}
-                        poster={posterToUse}
-                        fallbackPosters={fallbacks}
-                        isPortrait={isPortraitVideo}
-                    />
+                <div className="pd-media-block">
+                    {player}
                 </div>
             );
         }
         if (embedMedia) {
             const posterToUse = embedMedia.thumbnailUrl ? resolveUrl(embedMedia.thumbnailUrl) : (mainImagePoster || coverPoster);
+            const player = (
+                <CustomVideoPlayer
+                    src={resolveUrl(embedMedia.url)}
+                    poster={posterToUse}
+                    fallbackPosters={fallbacks}
+                    isPortrait={isPortraitVideo}
+                />
+            );
+
+            if (isPortraitVideo) {
+                return (
+                    <div className="pd-portrait-frame-wrapper">
+                        <SmartphoneFrame>
+                            {player}
+                        </SmartphoneFrame>
+                    </div>
+                );
+            }
+
             return (
-                <div className={`pd-media-block ${isPortraitVideo ? 'pd-media-block-portrait' : ''}`}>
-                    <VideoBadge />
-                    <CustomVideoPlayer
-                        src={resolveUrl(embedMedia.url)}
-                        poster={posterToUse}
-                        fallbackPosters={fallbacks}
-                        isPortrait={isPortraitVideo}
-                    />
+                <div className="pd-media-block">
+                    {player}
                 </div>
             );
         }
@@ -288,15 +315,28 @@ const ProjectDetails = () => {
             const isEmbeddableVideo = resolved.isIframe || ['youtube', 'vimeo', 'bunny', 'cloudinary_video', 'local_video', 'external_video'].includes(resolved.type);
 
             if (isEmbeddableVideo) {
+                const player = (
+                    <CustomVideoPlayer
+                        src={project.externalLink}
+                        poster={mainImagePoster || coverPoster}
+                        fallbackPosters={fallbacks}
+                        isPortrait={isPortraitVideo}
+                    />
+                );
+
+                if (isPortraitVideo) {
+                    return (
+                        <div className="pd-portrait-frame-wrapper">
+                            <SmartphoneFrame>
+                                {player}
+                            </SmartphoneFrame>
+                        </div>
+                    );
+                }
+
                 return (
-                    <div className={`pd-media-block ${isPortraitVideo ? 'pd-media-block-portrait' : ''}`}>
-                        <VideoBadge />
-                        <CustomVideoPlayer
-                            src={project.externalLink}
-                            poster={mainImagePoster || coverPoster}
-                            fallbackPosters={fallbacks}
-                            isPortrait={isPortraitVideo}
-                        />
+                    <div className="pd-media-block">
+                        {player}
                     </div>
                 );
             }
@@ -482,32 +522,45 @@ const ProjectDetails = () => {
                     <>
                         <hr className="pd-divider" />
                         <div className="pd-gallery">
-                            {remainingMedia.map((item, index) => (
-                                <div key={index} className="pd-media-block">
-                                    {item.type === 'video' ? (
-                                        <>
-                                            <VideoBadge />
-                                            <CustomVideoPlayer
-                                                src={resolveUrl(item.url)}
-                                                poster={item.thumbnailUrl ? resolveUrl(item.thumbnailUrl) : undefined}
-                                                isPortrait={project.isPortrait}
-                                            />
-                                        </>
-                                    ) : (
-                                        <>
-                                            <span className="pd-media-badge">🖼️ Photo</span>
-                                            <ImageFallback
-                                                src={resolveUrl(item.url)}
-                                                alt={item.altText || project.title}
-                                                className="pd-image"
-                                                layout="gallery"
-                                                loading="lazy"
-                                                decoding="async"
-                                            />
-                                        </>
-                                    )}
-                                </div>
-                            ))}
+                            {remainingMedia.map((item, index) => {
+                                const isItemPortrait = item.isPortrait || project.isPortrait;
+                                if (item.type === 'video') {
+                                    const player = (
+                                        <CustomVideoPlayer
+                                            src={resolveUrl(item.url)}
+                                            poster={item.thumbnailUrl ? resolveUrl(item.thumbnailUrl) : undefined}
+                                            isPortrait={isItemPortrait}
+                                        />
+                                    );
+                                    if (isItemPortrait) {
+                                        return (
+                                            <div key={index} className="pd-portrait-frame-wrapper">
+                                                <SmartphoneFrame>
+                                                    {player}
+                                                </SmartphoneFrame>
+                                            </div>
+                                        );
+                                    }
+                                    return (
+                                        <div key={index} className="pd-media-block">
+                                            {player}
+                                        </div>
+                                    );
+                                }
+                                return (
+                                    <div key={index} className="pd-media-block">
+                                        <span className="pd-media-badge">🖼️ Photo</span>
+                                        <ImageFallback
+                                            src={resolveUrl(item.url)}
+                                            alt={item.altText || project.title}
+                                            className="pd-image"
+                                            layout="gallery"
+                                            loading="lazy"
+                                            decoding="async"
+                                        />
+                                    </div>
+                                );
+                            })}
                         </div>
                     </>
                 )}

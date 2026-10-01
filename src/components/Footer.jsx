@@ -11,6 +11,7 @@ import {
 } from 'react-icons/fa';
 import './Footer.css';
 import { notify } from '../utils/notify';
+import contactInfo from '../config/contactInfo';
 
 const Footer = () => {
     const [newsletterEmail, setNewsletterEmail] = useState('');
@@ -71,10 +72,10 @@ const Footer = () => {
                                         <FaPhoneAlt />
                                     </div>
                                     <li style={{ '--i': 1 }}>
-                                        <a href="https://instagram.com/ariadneprd" className="instagram" target="_blank" rel="noreferrer" aria-label="Instagram"><FaInstagram /></a>
+                                        <a href={contactInfo.instagram.url} className="instagram" target="_blank" rel="noreferrer" aria-label="Instagram"><FaInstagram /></a>
                                     </li>
                                     <li style={{ '--i': 2 }}>
-                                        <a href="mailto:Leonardo.hanna@ariadneg.com" className="gmail" target="_blank" rel="noreferrer" aria-label="Gmail"><FaEnvelope /></a>
+                                        <a href={`mailto:${contactInfo.email}`} className="gmail" target="_blank" rel="noreferrer" aria-label="Gmail"><FaEnvelope /></a>
                                     </li>
                                 </ul>
                             </div>
@@ -98,15 +99,15 @@ const Footer = () => {
                             <ul className="footer-contact-info">
                                 <li>
                                     <FaMapMarkerAlt className="contact-icon" />
-                                    <span>Zamalek, Cairo, Egypt</span>
+                                    <span>{contactInfo.location}</span>
                                 </li>
                                 <li className="contact-item-copyable">
                                     <FaPhoneAlt className="contact-icon" />
-                                    <span>+20 109 609 6498</span>
+                                    <span>{contactInfo.phone}</span>
                                     <button
                                         type="button"
                                         className={`copy-contact-btn ${copiedField === 'phone' ? 'copied' : ''}`}
-                                        onClick={() => handleCopy('+20 109 609 6498', 'phone')}
+                                        onClick={() => handleCopy(contactInfo.phone, 'phone')}
                                         title="Copy phone number"
                                         aria-label="Copy phone number"
                                     >
@@ -115,11 +116,11 @@ const Footer = () => {
                                 </li>
                                 <li className="contact-item-copyable">
                                     <FaEnvelope className="contact-icon" />
-                                    <span>Leonardo.hanna@ariadneg.com</span>
+                                    <span>{contactInfo.email}</span>
                                     <button
                                         type="button"
                                         className={`copy-contact-btn ${copiedField === 'email' ? 'copied' : ''}`}
-                                        onClick={() => handleCopy('Leonardo.hanna@ariadneg.com', 'email')}
+                                        onClick={() => handleCopy(contactInfo.email, 'email')}
                                         title="Copy email address"
                                         aria-label="Copy email address"
                                     >

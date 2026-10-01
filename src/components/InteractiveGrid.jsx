@@ -12,8 +12,8 @@ const DEFAULTS = {
   shadow: true,
   cardShadow: "rgba(0, 0, 0, 0.04)",
   glow: true,
-  glowStart: "rgba(124, 58, 237, 0.25)",
-  glowEnd: "#7c3aed",
+  glowStart: "rgba(30, 58, 138, 0.25)",
+  glowEnd: "#1e3a8a",
   glowIntensity: 40,
   perspective: 1600,
   rotateX: 0,
@@ -62,7 +62,7 @@ const CSS = `
 
 .${NS}-big {
   transform: scale(1.15) translate(-15px, -15px) translateZ(15px);
-  box-shadow: 0 16px 36px rgba(124, 58, 237, 0.16), 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 16px 36px rgba(30, 58, 138, 0.16), 0 4px 12px rgba(0, 0, 0, 0.05) !important;
 }
 
 @media (max-width: 1024px) {

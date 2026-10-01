@@ -6,6 +6,7 @@ import ScrollToTop from './components/ScrollToTop';
 import SmoothScroll from './components/SmoothScroll';
 import AppToaster from './components/AppToaster';
 import SplashScreen from './components/SplashScreen';
+import ContactWidget from './components/ContactWidget';
 
 import Home from './pages/Home';
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner';
@@ -191,6 +192,7 @@ const App = () => {
                         </Routes>
                     </React.Suspense>
                 </main>
+                <ContactWidget />
                 <Footer />
             </div>
         </Router>

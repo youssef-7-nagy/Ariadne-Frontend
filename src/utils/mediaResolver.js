@@ -1,5 +1,48 @@
 import { API_URL } from './apiUrl';
 
+export const optimizeCloudinaryVideoUrl = (url) => {
+    if (!url || typeof url !== 'string' || !url.includes('res.cloudinary.com')) return url;
+    // Don't duplicate transformations if already present
+    if (url.includes('/f_auto') || url.includes(',f_auto') || url.includes('/q_auto') || url.includes(',q_auto')) {
+        return url;
+    }
+    // Inject /f_auto,q_auto/ after /upload/
+    if (url.includes('/video/upload/')) {
+        return url.replace('/video/upload/', '/video/upload/f_auto,q_auto/');
+    }
+    if (url.includes('/upload/')) {
+        return url.replace('/upload/', '/upload/f_auto,q_auto/');
+    }
+    return url;
+};
+
+export const getCloudinaryVideoPoster = (url) => {
+    if (!url || typeof url !== 'string') return '';
+    if (url.includes('res.cloudinary.com')) {
+        let posterUrl = url.replace(/\.(mp4|mov|avi|webm|mkv|m4v|hevc)($|\?)/i, '.jpg$2');
+        if (!posterUrl.includes('.jpg')) {
+            posterUrl = `${posterUrl}.jpg`;
+        }
+        if (posterUrl.includes('/video/upload/')) {
+            if (!posterUrl.includes('so_0')) {
+                posterUrl = posterUrl.replace('/video/upload/', '/video/upload/f_auto,q_auto,so_0/');
+            }
+        }
+        return posterUrl;
+    }
+    if (url.includes('player.cloudinary.com/embed/')) {
+        try {
+            const urlObj = new URL(url);
+            const cloudName = urlObj.searchParams.get('cloud_name');
+            const publicId = urlObj.searchParams.get('public_id');
+            if (cloudName && publicId) {
+                return `https://res.cloudinary.com/${cloudName}/video/upload/f_auto,q_auto,so_0/${publicId}.jpg`;
+            }
+        } catch (_) {}
+    }
+    return '';
+};
+
 export const resolveMedia = (rawUrl) => {
     if (!rawUrl) return { type: 'unknown', src: '', isIframe: false, thumbnail: '' };
 
@@ -25,20 +68,23 @@ export const resolveMedia = (rawUrl) => {
     // 2. Cloudinary Direct Media
     if (url.includes('res.cloudinary.com')) {
         if (url.match(/\.(mp4|mov|avi|webm|mkv|m4v|hevc)$/i) || url.includes('/video/upload/')) {
-            return { type: 'cloudinary_video', src: url, isIframe: false };
+            const optimizedSrc = optimizeCloudinaryVideoUrl(url);
+            const poster = getCloudinaryVideoPoster(url);
+            return { type: 'cloudinary_video', src: optimizedSrc, thumbnail: poster, isIframe: false };
         }
         return { type: 'cloudinary_image', src: url, isIframe: false };
     }
 
-    // 3. Cloudinary Embeds (Transform to Direct MP4 to avoid Tracking Prevention)
+    // 3. Cloudinary Embeds (Transform to Direct MP4 with f_auto,q_auto to avoid Tracking Prevention and optimize delivery)
     if (url.includes('player.cloudinary.com/embed/')) {
         try {
             const urlObj = new URL(url);
             const cloudName = urlObj.searchParams.get('cloud_name');
             const publicId = urlObj.searchParams.get('public_id');
             if (cloudName && publicId) {
-                const directUrl = `https://res.cloudinary.com/${cloudName}/video/upload/${publicId}.mp4`;
-                return { type: 'cloudinary_video', src: directUrl, isIframe: false };
+                const directUrl = `https://res.cloudinary.com/${cloudName}/video/upload/f_auto,q_auto/${publicId}.mp4`;
+                const poster = `https://res.cloudinary.com/${cloudName}/video/upload/f_auto,q_auto,so_0/${publicId}.jpg`;
+                return { type: 'cloudinary_video', src: directUrl, thumbnail: poster, isIframe: false };
             }
         } catch (e) {
             console.error('Failed to parse Cloudinary Embed URL:', e);

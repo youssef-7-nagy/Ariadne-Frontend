@@ -74,11 +74,16 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
     }, []);
 
     // ─────────────────────────────────────────────────────────────
-    // 1. HOME NAVBAR VARIANT (Unchanged transparent/dark hero navbar)
+    // 1. HOME NAVBAR VARIANT
     // ─────────────────────────────────────────────────────────────
     if (isHome) {
         return (
-            <div className={`nav-sticky-wrapper is-home ${isScrolled ? 'scrolled' : ''}`}>
+            <div className={`nav-sticky-wrapper is-home ${isScrolled ? 'scrolled' : ''} ${isMobileMenuOpen ? 'menu-open' : ''}`}>
+                {/* Backdrop overlay for mobile menu */}
+                <div
+                    className={`default-nav-overlay ${isMobileMenuOpen ? 'active' : ''}`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                />
                 <nav className="navbar navbar--home">
                     {/* Logo */}
                     <div
@@ -90,7 +95,7 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
                     </div>
 
                     {/* Desktop Nav Links */}
-                    <ul className="nav-links">
+                    <ul className="nav-links home-desktop-nav-links">
                         <li>
                             <NavLink to="/" end className={({ isActive }) => (isActive ? 'active' : '')}>
                                 Home
@@ -111,6 +116,70 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
                                 Profile
                             </NavLink>
                         </li>
+                    </ul>
+
+                    {/* Unified Mobile Dropdown Nav Links */}
+                    <ul className={`nav-links default-nav-links ${isMobileMenuOpen ? 'mobile-active' : ''}`}>
+                        <li>
+                            <NavLink to="/" end className={({ isActive }) => (isActive ? 'active' : '')} onClick={() => setIsMobileMenuOpen(false)}>
+                                Home
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/about"
+                                className={({ isActive }) => (isActive || location.pathname.startsWith('/about') ? 'active' : '')}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                About
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/portfolio"
+                                className={({ isActive }) => (
+                                    isActive ||
+                                        location.pathname.startsWith('/portfolio') ||
+                                        location.pathname.startsWith('/projects') ||
+                                        location.pathname.startsWith('/packages')
+                                        ? 'active'
+                                        : ''
+                                )}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                Projects
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/profile"
+                                className={({ isActive }) => (isActive || location.pathname.startsWith('/profile') ? 'active' : '')}
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                Profile
+                            </NavLink>
+                        </li>
+                        {isLoggedIn && isAdmin && (
+                            <li className="nav-link-mobile-only">
+                                <NavLink to="/admin" onClick={() => setIsMobileMenuOpen(false)}>
+                                    Admin Panel
+                                </NavLink>
+                            </li>
+                        )}
+                        {isLoggedIn && (
+                            <li className="nav-link-mobile-only">
+                                <button className="mobile-logout-btn" onClick={handleLogout}>
+                                    Logout
+                                </button>
+                            </li>
+                        )}
+                        {!isLoggedIn && (
+                            <li className="nav-link-mobile-only">
+                                <NavLink to="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                                    Login
+                                </NavLink>
+                            </li>
+                        )}
                     </ul>
 
                     {/* Right side: Theme Toggle & Profile Dropdown (Desktop) & Hamburger (Mobile) */}
@@ -203,110 +272,14 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
                         </div>
 
                         <button
-                            className={`navbar-hamburger-btn mobile-only-hamburger ${isMobileMenuOpen ? 'open' : ''}`}
+                            className={`hamburger ${isMobileMenuOpen ? 'active' : ''}`}
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            aria-label="Toggle menu"
+                            aria-label="Toggle navigation"
                         >
                             {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
                         </button>
                     </div>
                 </nav>
-
-                {/* Slide-out Menu Drawer */}
-                <div
-                    className={`nav-drawer-overlay ${isMobileMenuOpen ? 'active' : ''}`}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                />
-                <div className={`nav-drawer ${isMobileMenuOpen ? 'open' : ''}`} ref={drawerRef}>
-                    <div className="nav-drawer-header">
-                        <div className="drawer-brand">
-                            <img src="/mylogo.png" alt="ARIA" className="drawer-logo-img" />
-                        </div>
-                        <button
-                            className="nav-drawer-close"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            aria-label="Close menu"
-                        >
-                            <FaTimes />
-                        </button>
-                    </div>
-
-                    <div className="nav-drawer-content">
-                        <ul className="drawer-links">
-                            <li>
-                                <NavLink to="/" end onClick={() => setIsMobileMenuOpen(false)}>
-                                    Home
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/about" onClick={() => setIsMobileMenuOpen(false)}>
-                                    About
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/portfolio" onClick={() => setIsMobileMenuOpen(false)}>
-                                    Projects
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/profile" onClick={() => setIsMobileMenuOpen(false)}>
-                                    Profile
-                                </NavLink>
-                            </li>
-                            {isLoggedIn && isAdmin && (
-                                <li>
-                                    <NavLink to="/admin" onClick={() => setIsMobileMenuOpen(false)}>
-                                        Admin Dashboard
-                                    </NavLink>
-                                </li>
-                            )}
-                        </ul>
-
-                        <div className="drawer-divider"></div>
-
-                        {/* User actions */}
-                        <div className="drawer-actions">
-                            {isLoggedIn ? (
-                                <div className="drawer-user-card">
-                                    <div className="drawer-user-info">
-                                        <img
-                                            src={getAvatarUrl(userData?.gender)}
-                                            alt="Avatar"
-                                            className="drawer-avatar"
-                                        />
-                                        <div>
-                                            <div className="drawer-user-name">{userData?.name || 'Account'}</div>
-                                            <div className="drawer-user-email">{userData?.email || ''}</div>
-                                        </div>
-                                    </div>
-                                    <button className="drawer-logout-btn" onClick={handleLogout}>
-                                        <FaSignOutAlt />
-                                        <span>Sign Out</span>
-                                    </button>
-                                </div>
-                            ) : (
-                                <NavLink to="/login" className="drawer-login-btn" onClick={() => setIsMobileMenuOpen(false)}>
-                                    Sign In / Register
-                                </NavLink>
-                            )}
-                        </div>
-
-                        <div className="drawer-footer">
-                            <p className="drawer-contact-line">Cinematic Photography & Visual Arts</p>
-                            <div className="drawer-socials">
-                                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                                    <FaInstagram />
-                                </a>
-                                <a href="mailto:info@ariadneg.com" aria-label="Email">
-                                    <FaEnvelope />
-                                </a>
-                                <a href="tel:+201000000000" aria-label="Phone">
-                                    <FaPhoneAlt />
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         );
     }
@@ -315,7 +288,7 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
     // 2. ALL OTHER PAGES (Original clean white navbar with rounded pill navigation)
     // ─────────────────────────────────────────────────────────────
     return (
-        <div className={`nav-sticky-wrapper is-default ${isScrolled ? 'scrolled' : ''}`}>
+        <div className={`nav-sticky-wrapper is-default ${isScrolled ? 'scrolled' : ''} ${isMobileMenuOpen ? 'menu-open' : ''}`}>
             {/* Backdrop overlay for mobile menu on default navbar */}
             <div
                 className={`default-nav-overlay ${isMobileMenuOpen ? 'active' : ''}`}
@@ -352,9 +325,9 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
                             to="/portfolio"
                             className={({ isActive }) => (
                                 isActive ||
-                                location.pathname.startsWith('/portfolio') ||
-                                location.pathname.startsWith('/projects') ||
-                                location.pathname.startsWith('/packages')
+                                    location.pathname.startsWith('/portfolio') ||
+                                    location.pathname.startsWith('/projects') ||
+                                    location.pathname.startsWith('/packages')
                                     ? 'active'
                                     : ''
                             )}

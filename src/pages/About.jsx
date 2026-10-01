@@ -106,8 +106,8 @@ const About = () => {
                             shadow={true}
                             cardShadow="rgba(0, 0, 0, 0.04)"
                             glow={true}
-                            glowStart="rgba(124, 58, 237, 0.25)"
-                            glowEnd="#7c3aed"
+                            glowStart="rgba(30, 58, 138, 0.25)"
+                            glowEnd="#1e3a8a"
                             glowIntensity={40}
                         />
                     </div>

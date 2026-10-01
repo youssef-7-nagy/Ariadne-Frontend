@@ -6,7 +6,7 @@
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
     background: var(--bg-primary, #fff);
-    color: var(--text-primary, #111);
+    color: var(--text-primary, #000000);
 }
 
 /* ---- Hero ---- */
@@ -18,7 +18,7 @@
     justify-content: center;
     text-align: center;
     padding: 100px 20px 60px;
-    background: linear-gradient(135deg, #0a0e1a 0%, #111827 50%, #0f172a 100%);
+    background: linear-gradient(135deg, #000000 0%, #061026 50%, #1e3a8a 100%);
     position: relative;
     overflow: hidden;
 }
@@ -28,8 +28,8 @@
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(circle at 20% 50%, rgba(124, 58, 237, 0.25) 0%, transparent 50%),
-        radial-gradient(circle at 80% 30%, rgba(19, 146, 214, 0.2) 0%, transparent 50%);
+        radial-gradient(circle at 20% 50%, rgba(30, 58, 138, 0.35) 0%, transparent 50%),
+        radial-gradient(circle at 80% 30%, rgba(125, 211, 252, 0.18) 0%, transparent 50%);
     pointer-events: none;
 }
 
@@ -44,9 +44,9 @@
     font-weight: 700;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: #7c3aed;
-    background: rgba(124, 58, 237, 0.12);
-    border: 1px solid rgba(124, 58, 237, 0.3);
+    color: #d4b483;
+    background: rgba(212, 180, 131, 0.12);
+    border: 1px solid rgba(212, 180, 131, 0.35);
     padding: 6px 16px;
     border-radius: 999px;
     margin-bottom: 24px;
@@ -56,13 +56,13 @@
     font-family: 'Montserrat', sans-serif;
     font-size: clamp(2.8rem, 6vw, 5rem);
     font-weight: 900;
-    color: #fff;
+    color: #ffffff;
     line-height: 1.1;
     margin-bottom: 20px;
 }
 
 .about-hero h1 span {
-    background: linear-gradient(135deg, #7c3aed, #1392d6);
+    background: linear-gradient(135deg, #7dd3fc, #d4b483);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -70,7 +70,7 @@
 
 .about-hero-sub {
     font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.65);
+    color: rgba(255, 255, 255, 0.75);
     max-width: 550px;
     margin: 0 auto;
     line-height: 1.8;
@@ -95,18 +95,18 @@
     font-family: 'Montserrat', sans-serif;
     font-size: 2.2rem;
     font-weight: 800;
-    color: var(--text-primary, #111);
+    color: var(--text-primary, #000000);
     margin-bottom: 20px;
     line-height: 1.2;
 }
 
 .about-story-text h2 span {
-    color: #7c3aed;
+    color: #1e3a8a;
 }
 
 .about-story-text p {
     font-size: 1rem;
-    color: var(--text-secondary, #6b7280);
+    color: var(--text-secondary, #4b5563);
     line-height: 1.85;
     margin-bottom: 16px;
 }
@@ -126,7 +126,7 @@
     font-family: 'Montserrat', sans-serif;
     font-size: 2.4rem;
     font-weight: 900;
-    color: #7c3aed;
+    color: #1e3a8a;
     line-height: 1;
 }
 
@@ -161,7 +161,7 @@
     content: '';
     position: absolute;
     inset: -12px -12px 12px 12px;
-    border: 2px solid rgba(124, 58, 237, 0.25);
+    border: 2px solid rgba(212, 180, 131, 0.4);
     border-radius: 28px;
     z-index: -1;
 }
@@ -622,7 +622,7 @@ html.dark .partner-card {
     transform: translate(-50%, -50%);
     width: 1000px;
     height: 520px;
-    background: radial-gradient(ellipse, rgba(124, 58, 237, 0.07) 0%, rgba(19, 146, 214, 0.03) 45%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(30, 58, 138, 0.06) 0%, rgba(125, 211, 252, 0.04) 45%, transparent 70%);
     pointer-events: none;
     z-index: 0;
     filter: blur(50px);
@@ -665,19 +665,18 @@ html.dark .partner-card {
 }
 
 /* =============================================
-   Leaders Coverflow Section
+   Leaders Coverflow Section (Legacy Support)
    ============================================= */
 .about-leaders-coverflow {
     padding: 100px 0 120px;
     background: #ffffff;
-    background: radial-gradient(circle at 50% 40%, #fff7f2 0%, #ffffff 75%);
+    background: radial-gradient(circle at 50% 40%, rgba(212, 180, 131, 0.08) 0%, #ffffff 75%);
     position: relative;
     overflow: hidden;
     border-top: 1px solid rgba(0, 0, 0, 0.05);
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-/* Ambient warm spotlight glow background */
 .about-leaders-coverflow::before {
     content: '';
     position: absolute;
@@ -686,7 +685,7 @@ html.dark .partner-card {
     transform: translate(-50%, -50%);
     width: 900px;
     height: 550px;
-    background: radial-gradient(ellipse, rgba(255, 78, 0, 0.08) 0%, transparent 65%);
+    background: radial-gradient(ellipse, rgba(30, 58, 138, 0.06) 0%, transparent 65%);
     pointer-events: none;
     z-index: 0;
 }
@@ -699,38 +698,34 @@ html.dark .partner-card {
     z-index: 1;
 }
 
-/* Section header for light bg */
 .about-leaders-coverflow .about-section-header {
-    color: #0f172a;
+    color: #000000;
 }
 
 .about-leaders-coverflow .about-section-header h2 {
-    color: #0f172a;
+    color: #000000;
     font-weight: 800;
     letter-spacing: -0.02em;
 }
 
 .about-leaders-coverflow .about-section-header p {
-    color: #64748b;
+    color: #4b5563;
     font-size: 1.05rem;
 }
 
 .about-leaders-coverflow .about-section-header span {
-    background: linear-gradient(135deg, #ff4e00 0%, #e63900 100%);
+    background: linear-gradient(135deg, #1e3a8a 0%, #7dd3fc 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-/* Stage that holds the coverflow */
 .about-coverflow-stage {
     width: 100%;
-    /* Height adapts: tall enough for card + dots */
     height: 600px;
     margin-top: 48px;
     position: relative;
 }
 
-/* ── Tablet ── */
 @media (max-width: 900px) {
     .about-coverflow-stage {
         height: 520px;
@@ -738,7 +733,6 @@ html.dark .partner-card {
     }
 }
 
-/* ── Mobile ── */
 @media (max-width: 768px) {
     .about-leaders-coverflow {
         padding: 70px 0 80px;
@@ -750,7 +744,6 @@ html.dark .partner-card {
     }
 }
 
-/* ── Small mobile ── */
 @media (max-width: 600px) {
     .about-leaders-coverflow {
         padding: 60px 0 70px;
@@ -762,7 +755,6 @@ html.dark .partner-card {
     }
 }
 
-/* ── Very small (≤ 400px) ── */
 @media (max-width: 400px) {
     .about-leaders-coverflow {
         padding: 50px 0 60px;
@@ -772,4 +764,49 @@ html.dark .partner-card {
         height: 330px;
         margin-top: 20px;
     }
+}
+
+/* =============================================
+   DARK MODE OVERRIDES — ABOUT PAGE
+   ============================================= */
+.dark .about-page {
+    background: #000000;
+    color: #ffffff;
+}
+
+.dark .about-story {
+    background: #000000;
+}
+
+.dark .about-story-text h2 {
+    color: #ffffff;
+}
+
+.dark .about-story-text h2 span {
+    color: #7dd3fc;
+}
+
+.dark .about-story-text p {
+    color: #94a3b8;
+}
+
+.dark .about-stat-num {
+    color: #d4b483;
+}
+
+.dark .about-stat-label {
+    color: #94a3b8;
+}
+
+.dark .about-story-img-wrap::before {
+    border-color: rgba(212, 180, 131, 0.3);
+}
+
+.dark .about-partners {
+    background: #000000;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dark .about-partners::before {
+    background: radial-gradient(ellipse, rgba(30, 58, 138, 0.2) 0%, rgba(125, 211, 252, 0.08) 45%, transparent 70%);
 }
