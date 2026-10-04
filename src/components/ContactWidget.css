@@ -18,8 +18,36 @@
   user-select: none;
 }
 
+/* ── Mobile Backdrop Overlay (Tap outside to close) ── */
+.cw-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: rgba(4, 9, 20, 0.35);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.28s ease, visibility 0.28s ease;
+}
+
+@media (min-width: 601px) {
+  .cw-backdrop {
+    display: none;
+  }
+}
+
+.contact-widget--open .cw-backdrop {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
 /* ── Floating Trigger Button (Camera Itself) ── */
 .cw-trigger {
+  position: relative;
+  z-index: 2;
   border: none;
   cursor: pointer;
   display: flex;
@@ -201,9 +229,10 @@
    ========================================================= */
 .cw-panel {
   position: absolute;
+  z-index: 3;
   bottom: calc(100% + 14px);
   right: 0;
-  width: 320px;
+  width: 330px;
   max-width: calc(100vw - 32px);
   max-height: calc(100vh - 100px);
   overflow-y: auto;
@@ -523,9 +552,9 @@
 }
 
 /* =========================================================
-   RESPONSIVE – Tablet
+   RESPONSIVE – Tablet (601px - 768px)
    ========================================================= */
-@media (max-width: 768px) {
+@media (max-width: 768px) and (min-width: 581px) {
   .contact-widget {
     bottom: 22px;
     right: 22px;
@@ -537,15 +566,15 @@
   }
 
   .cw-panel {
-    width: 300px;
+    width: 330px;
     max-width: calc(100vw - 36px);
   }
 }
 
 /* =========================================================
-   RESPONSIVE – Mobile
+   RESPONSIVE – Mobile (<= 580px)
    ========================================================= */
-@media (max-width: 480px) {
+@media (max-width: 580px) {
   .contact-widget {
     bottom: 16px;
     right: 16px;
@@ -557,16 +586,94 @@
   }
 
   .cw-panel {
-    position: absolute;
-    bottom: calc(100% + 12px);
-    right: 0;
-    width: calc(100vw - 32px);
-    max-width: 310px;
-    transform-origin: calc(100% - 28px) calc(100% + 15px);
+    position: fixed;
+    bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+    left: 16px;
+    right: 16px;
+    width: auto;
+    max-width: 360px;
+    margin: 0 auto;
+    max-height: calc(100dvh - 96px);
+    max-height: calc(100vh - 96px);
+    border-radius: 16px;
+    transform-origin: calc(100% - 24px) bottom;
+    box-shadow:
+      0 20px 50px rgba(0, 0, 0, 0.72),
+      0 4px 20px rgba(30, 58, 138, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  /* Closed state on mobile */
+  .cw-panel {
+    transform: scale(0.88) translateY(12px);
+  }
+
+  /* Open state on mobile */
+  .contact-widget--open .cw-panel {
+    transform: scale(1) translateY(0);
+  }
+
+  .cw-header {
+    padding: 15px 16px 13px;
+  }
+
+  .cw-header-badge {
+    font-size: 10px;
+    margin-bottom: 2px;
+  }
+
+  .cw-header-title {
+    font-size: 16px;
+  }
+
+  .cw-close-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+
+  .cw-body {
+    padding: 12px 14px 14px;
+    gap: 8px;
+  }
+
+  .cw-link {
+    padding: 11px 12px;
+    gap: 11px;
+    border-radius: 11px;
+  }
+
+  .cw-link-icon {
+    width: 35px;
+    height: 35px;
+    font-size: 15px;
+  }
+
+  .cw-link-label {
+    font-size: 12px;
+    margin-bottom: 1px;
+  }
+
+  .cw-link-value {
+    font-size: clamp(10.5px, 2.9vw, 11.5px);
+    letter-spacing: -0.01em;
+  }
+
+  .cw-footer {
+    padding: 9px 14px 11px;
+  }
+
+  .cw-footer-loc {
+    font-size: 10px;
+    margin-bottom: 2px;
+  }
+
+  .cw-footer-text {
+    font-size: 9px;
   }
 }
 
-/* Small screens (iPhone SE, compact devices) */
+/* Compact screens (iPhone SE, 375px) */
 @media (max-width: 375px) {
   .contact-widget {
     bottom: 12px;
@@ -579,11 +686,41 @@
   }
 
   .cw-panel {
-    width: calc(100vw - 24px);
-    max-width: 295px;
+    bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+    left: 10px;
+    right: 10px;
+    max-width: 340px;
+    max-height: calc(100dvh - 84px);
+    max-height: calc(100vh - 84px);
+    border-radius: 15px;
+  }
+
+  .cw-header {
+    padding: 12px 14px 11px;
+  }
+
+  .cw-body {
+    padding: 10px 11px 12px;
+    gap: 7px;
+  }
+
+  .cw-link {
+    padding: 9px 10px;
+    gap: 9px;
+  }
+
+  .cw-link-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .cw-link-value {
+    font-size: 10.5px;
   }
 }
 
+/* Ultra-compact screens (330px and below) */
 @media (max-width: 330px) {
   .contact-widget {
     bottom: 8px;
@@ -593,6 +730,63 @@
   .cw-camera-frame {
     width: 52px;
     height: 44px;
+  }
+
+  .cw-panel {
+    bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+    left: 6px;
+    right: 6px;
+    max-width: calc(100vw - 12px);
+    border-radius: 13px;
+  }
+
+  .cw-header {
+    padding: 10px 11px 8px;
+  }
+
+  .cw-header::before {
+    top: 6px;
+    left: 6px;
+    width: 8px;
+    height: 8px;
+  }
+
+  .cw-header::after {
+    bottom: 6px;
+    right: 6px;
+    width: 8px;
+    height: 8px;
+  }
+
+  .cw-header-title {
+    font-size: 15px;
+  }
+
+  .cw-close-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+
+  .cw-body {
+    padding: 8px 9px 10px;
+    gap: 6px;
+  }
+
+  .cw-link {
+    padding: 8px 9px;
+    gap: 8px;
+  }
+
+  .cw-link-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+  }
+
+  .cw-link-value {
+    font-size: 9.5px;
+    letter-spacing: -0.02em;
   }
 }
 
@@ -604,9 +798,21 @@
     bottom: calc(28px + env(safe-area-inset-bottom, 0px));
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 580px) {
     .contact-widget {
       bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    }
+  }
+
+  @media (max-width: 375px) {
+    .contact-widget {
+      bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    }
+  }
+
+  @media (max-width: 330px) {
+    .contact-widget {
+      bottom: calc(8px + env(safe-area-inset-bottom, 0px));
     }
   }
 }

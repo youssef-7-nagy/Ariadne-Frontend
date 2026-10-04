@@ -61,6 +61,13 @@ const ContactWidget = () => {
       role="region"
       aria-label="Contact Us"
     >
+      {/* Mobile backdrop tap-to-dismiss catcher */}
+      <div
+        className="cw-backdrop"
+        onClick={close}
+        aria-hidden="true"
+      />
+
       {/* Trigger button – Realistic Cinema Camera */}
       <button
         ref={triggerRef}
