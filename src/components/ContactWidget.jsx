@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { FaEnvelope, FaInstagram } from 'react-icons/fa';
-import { FiX } from 'react-icons/fi';
+import { X } from 'lucide-react';
 import contactInfo from '../config/contactInfo';
 import cameraImg from '../assets/contact-camera.webp';
 import './ContactWidget.css';
@@ -61,13 +61,6 @@ const ContactWidget = () => {
       role="region"
       aria-label="Contact Us"
     >
-      {/* Mobile backdrop tap-to-dismiss catcher */}
-      <div
-        className="cw-backdrop"
-        onClick={close}
-        aria-hidden="true"
-      />
-
       {/* Trigger button – Realistic Cinema Camera */}
       <button
         ref={triggerRef}
@@ -120,7 +113,7 @@ const ContactWidget = () => {
             type="button"
             tabIndex={isOpen ? 0 : -1}
           >
-            <FiX aria-hidden="true" />
+            <X size={14} strokeWidth={2.2} aria-hidden="true" />
           </button>
         </div>
 
