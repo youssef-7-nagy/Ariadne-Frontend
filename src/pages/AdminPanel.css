@@ -426,6 +426,26 @@ textarea {
   color: #92400e;
 }
 
+.badge.method-cash {
+  background: #ecfdf5;
+  color: #10b981;
+}
+
+.badge.method-instapay {
+  background: #f5f3ff;
+  color: #8b5cf6;
+}
+
+.badge.method-bank-transfer {
+  background: #eff6ff;
+  color: #3b82f6;
+}
+
+.badge.method-visa {
+  background: #fffbeb;
+  color: #f59e0b;
+}
+
 .admin-badge {
   background: #e0e7ff;
   color: #4361ee;
@@ -773,7 +793,7 @@ textarea.form-control {
 }
 
 .btn-save:hover {
-  background: #4361ee;
+  filter: brightness(1.15);
   transform: translateY(-2px);
   box-shadow: 0 15px 30px rgba(67, 97, 238, 0.3);
   color: #fff;
@@ -1468,6 +1488,34 @@ textarea.form-control {
 
   .chart-wrapper {
     height: 260px;
+  }
+
+  .chart-wrapper .recharts-default-legend {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start !important;
+    padding-bottom: 5px;
+    gap: 8px;
+  }
+  
+  @supports (justify-content: safe center) {
+    .chart-wrapper .recharts-default-legend {
+      justify-content: safe center !important;
+    }
+  }
+
+  .chart-wrapper .recharts-default-legend::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chart-wrapper .recharts-default-legend .recharts-legend-item {
+    margin-right: 0 !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    font-size: 0.75rem !important;
   }
 }
 

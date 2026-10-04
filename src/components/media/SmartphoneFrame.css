@@ -1,5 +1,6 @@
 /* ==========================================================================
    SMARTPHONE FRAME MOCKUP (Ariadne Portfolio Visual System)
+   Proportional Responsive Scaling System
    ========================================================================== */
 
 .sp-frame-container {
@@ -11,6 +12,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    container-type: inline-size;
+    container-name: phone;
 }
 
 /* Outer phone chassis */
@@ -19,12 +22,12 @@
     width: 100%;
     aspect-ratio: 9 / 19;
     background: #090a0f;
-    border-radius: 46px;
-    padding: 10px;
+    border-radius: clamp(32px, 13.5cqi, 46px);
+    padding: clamp(7px, 2.94cqi, 10px);
     box-sizing: border-box;
     box-shadow:
-        0 25px 60px -12px rgba(0, 0, 0, 0.55),
-        0 12px 24px -8px rgba(0, 0, 0, 0.4),
+        0 clamp(16px, 6cqi, 25px) clamp(35px, 15cqi, 60px) -12px rgba(0, 0, 0, 0.55),
+        0 clamp(8px, 3.5cqi, 12px) clamp(16px, 7cqi, 24px) -8px rgba(0, 0, 0, 0.4),
         0 0 0 1px rgba(255, 255, 255, 0.12),
         inset 0 0 0 2px rgba(0, 0, 0, 0.8),
         inset 0 1px 1px 1px rgba(255, 255, 255, 0.2);
@@ -34,8 +37,8 @@
 .sp-phone-body:hover {
     transform: translateY(-4px);
     box-shadow:
-        0 35px 80px -15px rgba(0, 0, 0, 0.65),
-        0 16px 32px -8px rgba(0, 0, 0, 0.45),
+        0 clamp(20px, 8cqi, 35px) clamp(45px, 20cqi, 80px) -15px rgba(0, 0, 0, 0.65),
+        0 clamp(10px, 4cqi, 16px) clamp(20px, 8cqi, 32px) -8px rgba(0, 0, 0, 0.45),
         0 0 0 1px rgba(189, 159, 103, 0.3),
         0 0 30px rgba(189, 159, 103, 0.1),
         inset 0 0 0 2px rgba(0, 0, 0, 0.8),
@@ -51,30 +54,30 @@
     z-index: 1;
 }
 
-/* Power / Lock Button (Right edge) */
+/* Power / Lock Button (Right edge - exactly 15.3% from top, 7.2% height) */
 .sp-side-button--power {
-    right: -4px;
-    top: 110px;
-    width: 4px;
-    height: 52px;
+    right: calc(-1 * clamp(3px, 1.2cqi, 4px));
+    top: 15.3%;
+    width: clamp(3px, 1.2cqi, 4px);
+    height: 7.2%;
     border-radius: 0 3px 3px 0;
 }
 
-/* Volume Up (Left edge) */
+/* Volume Up (Left edge - exactly 13.9% from top, 6.1% height) */
 .sp-side-button--vol-up {
-    left: -4px;
-    top: 100px;
-    width: 4px;
-    height: 44px;
+    left: calc(-1 * clamp(3px, 1.2cqi, 4px));
+    top: 13.9%;
+    width: clamp(3px, 1.2cqi, 4px);
+    height: 6.1%;
     border-radius: 3px 0 0 3px;
 }
 
-/* Volume Down (Left edge) */
+/* Volume Down (Left edge - exactly 21.7% from top, 6.1% height) */
 .sp-side-button--vol-down {
-    left: -4px;
-    top: 156px;
-    width: 4px;
-    height: 44px;
+    left: calc(-1 * clamp(3px, 1.2cqi, 4px));
+    top: 21.7%;
+    width: clamp(3px, 1.2cqi, 4px);
+    height: 6.1%;
     border-radius: 3px 0 0 3px;
 }
 
@@ -84,7 +87,7 @@
     width: 100%;
     height: 100%;
     background: #000000;
-    border-radius: 38px;
+    border-radius: clamp(26px, 11.2cqi, 38px);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -99,31 +102,31 @@
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 38%;
-    height: 20px;
+    width: clamp(96px, 38%, 130px);
+    height: clamp(14px, 5.9cqi, 20px);
     background: #090a0f;
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: clamp(8px, 3.5cqi, 12px);
+    border-bottom-right-radius: clamp(8px, 3.5cqi, 12px);
     z-index: 25;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: clamp(5px, 2.35cqi, 8px);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
     pointer-events: none;
 }
 
 .sp-notch-speaker {
-    width: 36px;
-    height: 3px;
+    width: clamp(24px, 10.6cqi, 36px);
+    height: clamp(2px, 0.9cqi, 3px);
     background: #1c1d24;
     border-radius: 3px;
     border: 0.5px solid rgba(255, 255, 255, 0.08);
 }
 
 .sp-notch-camera {
-    width: 7px;
-    height: 7px;
+    width: clamp(5px, 2cqi, 7px);
+    height: clamp(5px, 2cqi, 7px);
     border-radius: 50%;
     background: radial-gradient(circle, #0d1b2a 35%, #050a12 85%);
     border: 1px solid #1f293d;
@@ -133,8 +136,8 @@
 /* ─── Screen Content Slot ─── */
 .sp-screen-content {
     position: absolute;
-    top: 22px;
-    bottom: 16px;
+    top: clamp(15px, 6.5cqi, 22px);
+    bottom: clamp(11px, 4.7cqi, 16px);
     left: 0;
     right: 0;
     overflow: hidden;
@@ -186,23 +189,37 @@
     object-fit: cover;
 }
 
+/* ─── Custom Play Button Overlay inside phone ─── */
+.sp-screen-content .pd-play-overlay-btn {
+    width: clamp(44px, 20cqi, 68px);
+    height: clamp(30px, 13.5cqi, 46px);
+    border-radius: clamp(9px, 4.1cqi, 14px);
+    background-color: #e50914;
+    box-shadow: 0 4px 20px rgba(229, 9, 20, 0.45);
+}
+
+.sp-screen-content .pd-play-overlay-btn svg {
+    width: clamp(16px, 7cqi, 24px);
+    height: clamp(16px, 7cqi, 24px);
+}
+
 /* ─── Bottom Home Indicator ─── */
 .sp-home-indicator {
     position: absolute;
-    bottom: 8px;
+    bottom: clamp(5px, 2.35cqi, 8px);
     left: 50%;
     transform: translateX(-50%);
     width: 36%;
-    height: 4.5px;
+    height: clamp(3px, 1.3cqi, 4.5px);
     background: rgba(255, 255, 255, 0.45);
-    border-radius: 10px;
+    border-radius: 999px;
     z-index: 20;
     pointer-events: none;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   RESPONSIVE SCALING
+   RESPONSIVE PHONE SIZING (Preserves user's preferred smaller mobile phone)
    ══════════════════════════════════════════════════════════════════════════ */
 
 @media (max-width: 1200px) {
@@ -213,44 +230,28 @@
 
 @media (max-width: 992px) {
     .sp-frame-container {
-        max-width: 330px;
+        max-width: 310px;
         margin: 1.5rem auto;
     }
 }
 
 @media (max-width: 640px) {
     .sp-frame-container {
-        max-width: 290px;
+        /* Fluid scaling between 240px and 280px on mobile screens, preserving the user's favored smaller size */
+        max-width: clamp(240px, 68vw, 280px);
         margin: 1rem auto;
-    }
-
-    .sp-phone-body {
-        border-radius: 40px;
-        padding: 8px;
-    }
-
-    .sp-phone-screen {
-        border-radius: 34px;
-    }
-
-    .sp-phone-notch {
-        height: 18px;
-        width: 44%;
-    }
-
-    .sp-notch-speaker {
-        width: 34px;
-        height: 3px;
-    }
-
-    .sp-notch-camera {
-        width: 7px;
-        height: 7px;
     }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 360px) {
     .sp-frame-container {
-        max-width: 260px;
+        max-width: clamp(225px, 72vw, 245px);
+    }
+}
+
+/* Touch device optimizations (prevent sticky hover transform) */
+@media (hover: none) {
+    .sp-phone-body:hover {
+        transform: none;
     }
 }

@@ -494,3 +494,79 @@ body {
     font-size: 11px;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   Touch Device Hover Behavior Fix
+   Ensures buttons, links, and interactive elements trigger
+   immediately on first tap on touch devices (iPhones, iPads, Android)
+   without sticky :hover states or required double-taps.
+   Preserves 100% normal hover effects for desktop mouse/trackpads.
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (hover: none), (pointer: coarse) {
+  /* Prevent tap highlight box on mobile WebKit */
+  a,
+  button,
+  input,
+  select,
+  textarea,
+  [role="button"],
+  [tabindex] {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Neutralize sticky CSS :hover transforms, elevations, and pseudo-element transitions on touch devices */
+  button:hover,
+  a:hover,
+  input[type="button"]:hover,
+  input[type="submit"]:hover,
+  input[type="reset"]:hover,
+  [role="button"]:hover,
+  .btn:hover,
+  .btn-primary:hover,
+  .btn-secondary:hover,
+  .btn-logout:hover,
+  .btn-add-car:hover,
+  .btn-delete-car:hover,
+  .btn-redeem:hover,
+  .nav-link:hover,
+  .nav-item:hover,
+  .navbar-hamburger-btn:hover,
+  .profile-dropdown-trigger:hover,
+  .dropdown-item:hover,
+  .drawer-links a:hover,
+  .drawer-login-btn:hover,
+  .drawer-logout-btn:hover,
+  .contact-widget-btn:hover,
+  .cw-trigger:hover,
+  .cw-link:hover,
+  .cw-close-btn:hover,
+  .fsg-control-btn:hover,
+  .pg-nav-btn:hover,
+  .pg-lb-nav-btn:hover,
+  .pg-lb-close-btn:hover,
+  .origingallery-nav-btn:hover,
+  .origingallery-lightbox-close:hover,
+  .carousel-btn:hover,
+  .stat-card:hover,
+  .car-card:hover,
+  .cp-card:hover,
+  .hover-lift:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    animation: none !important;
+  }
+
+  /* Reset pseudo-elements that animate on hover on touch devices */
+  button:hover::before,
+  button:hover::after,
+  a:hover::before,
+  a:hover::after,
+  .btn:hover::before,
+  .btn:hover::after,
+  .slide-bg-btn:hover::before,
+  .btn-redeem:hover::after {
+    transform: none !important;
+    opacity: 0 !important;
+  }
+}

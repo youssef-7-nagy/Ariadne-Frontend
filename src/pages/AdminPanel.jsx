@@ -197,7 +197,7 @@ const AdminPanel = () => {
 
     const config = { headers: { Authorization: `Bearer ${token}` } };
     const loadingMap = {
-      overview: ["users", "bookings", "orders", "packages", "cars", "categories"],
+      overview: ["users", "bookings", "orders", "packages", "cars", "categories", "transactions"],
       users: ["users"],
       cars: ["cars"],
       bookings: ["bookings"],
@@ -227,8 +227,8 @@ const AdminPanel = () => {
       } else if (tabName === "transactions") {
         const [transactionsRes, categoriesRes, projectsRes] = await Promise.all([
           axios.get(`${API_URL}/transactions`, config),
-          axios.get(`${API_URL}/api/admin/categories`, config),
-          axios.get(`${API_URL}/api/admin/projects?limit=500`, config),
+          axios.get(`${API_URL}/api/admin/categories`, config).catch(() => ({ data: { data: [] }})),
+          axios.get(`${API_URL}/api/admin/projects?limit=500`, config).catch(() => ({ data: { data: [] }})),
         ]);
         setTransactions(transactionsRes.data.data || []);
         setCategories(categoriesRes.data.data || []);
@@ -851,7 +851,7 @@ const AdminPanel = () => {
                     <p>{fetchError}</p>
                     <button className="btn-save" style={{width: 'auto', marginTop: 15, padding: '10px 20px'}} onClick={() => fetchData("overview")}>Retry</button>
                   </div>
-                ) : (loading.users || loading.bookings || loading.orders || loading.products) ? (
+                ) : (loading.users || loading.bookings || loading.orders || loading.packages || loading.categories || loading.transactions) ? (
                   <>
                     <div className="stats-grid">
                       {Array.from({ length: 4 }).map((_, idx) => (
@@ -1806,7 +1806,13 @@ const AdminPanel = () => {
                 </div>
               </form>
 
-              {loading.transactions ? (
+              {fetchError ? (
+                <div className="admin-state-card error">
+                  <h3>Failed to load transactions</h3>
+                  <p>{fetchError}</p>
+                  <button className="btn-save" style={{width: 'auto', marginTop: 15, padding: '10px 20px'}} onClick={() => fetchData("transactions")}>Retry</button>
+                </div>
+              ) : loading.transactions ? (
                 <div className="admin-skeleton-table">
                   {Array.from({ length: 4 }).map((_, idx) => <div key={idx} className="admin-skeleton-row"></div>)}
                 </div>
@@ -1854,7 +1860,7 @@ const AdminPanel = () => {
                                 <td><strong>{t.amount} EGP</strong></td>
                                 <td>
                                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                    <span className={`badge ${t.paymentMethod === 'visa' || t.paymentMethod === 'instapay' || t.paymentMethod === 'bank transfer' ? 'completed' : 'pending'}`}>
+                                    <span className={`badge method-${(t.paymentMethod || 'cash').toLowerCase().replace(' ', '-')}`}>
                                       {t.paymentMethod ? t.paymentMethod.toUpperCase() : 'CASH'}
                                     </span>
                                     {t.paymentMethod === 'visa' ? (

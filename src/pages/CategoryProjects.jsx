@@ -74,9 +74,9 @@ const CategoryProjects = () => {
                             const isActive = activePanelId === project._id;
 
                             return (
-                                <Link 
-                                    to={`/portfolio/project/${project.slug}`} 
-                                    key={project._id} 
+                                <Link
+                                    to={`/portfolio/project/${project.slug}`}
+                                    key={project._id}
                                     className={`gallery-panel ${isActive ? 'active' : ''}`}
                                     onClick={(e) => {
                                         if (window.innerWidth <= 768 && activePanelId !== project._id) {

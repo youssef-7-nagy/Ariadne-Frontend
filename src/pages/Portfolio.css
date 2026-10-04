@@ -1589,6 +1589,20 @@ html.dark .pd-media-block {
     margin-left: 3px;
 }
 
+/* Portrait Smartphone Mockup Play Button Scaling */
+.pd-portrait-frame-wrapper .pd-play-overlay-btn {
+    background-color: #e50914;
+    box-shadow: 0 4px 20px rgba(229, 9, 20, 0.45);
+    width: clamp(44px, 20cqi, 68px);
+    height: clamp(30px, 13.5cqi, 46px);
+    border-radius: clamp(9px, 4.1cqi, 14px);
+}
+
+.pd-portrait-frame-wrapper .pd-play-overlay-btn svg {
+    width: clamp(16px, 7cqi, 24px);
+    height: clamp(16px, 7cqi, 24px);
+}
+
 .pd-video-link-wrapper {
     position: relative;
     width: 100%;

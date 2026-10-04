@@ -244,7 +244,7 @@ const BillingTab = ({ userName }) => {
                             {transactions.map(t => (
                                 <tr key={t._id}>
                                     <td>
-                                        {new Date(t.date || t.createdAt).toLocaleDateString()} 
+                                        {new Date(t.date || t.createdAt).toLocaleDateString()}
                                         <div style={{ fontSize: '0.75rem', color: 'var(--dash-text-light)' }}>
                                             {new Date(t.date || t.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                         </div>

@@ -120,6 +120,23 @@ const App = () => {
         validateToken();
     }, []);
 
+    useEffect(() => {
+        // Clear sticky hover/focus state on touch devices after tap
+        const handleTouchEnd = (e) => {
+            const target = e.target.closest('button, a, [role="button"], input[type="submit"], input[type="button"]');
+            if (target) {
+                setTimeout(() => {
+                    if (document.activeElement === target || target.contains(document.activeElement)) {
+                        target.blur();
+                    }
+                }, 100);
+            }
+        };
+
+        window.addEventListener('touchend', handleTouchEnd, { passive: true });
+        return () => window.removeEventListener('touchend', handleTouchEnd);
+    }, []);
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');

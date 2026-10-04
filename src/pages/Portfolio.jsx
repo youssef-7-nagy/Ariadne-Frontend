@@ -21,16 +21,16 @@ import { API_URL } from '../utils/apiUrl';
 
 /* ─── Fallback data used when categories haven't been created in the DB yet ─── */
 const FALLBACK_CATEGORIES = [
-    { _id: 'fb-1',  slug: 'short-films',       name: 'Short Films',       description: 'Narrative-driven artistic short films.',                      localImg: imgShortFilms },
-    { _id: 'fb-2',  slug: 'documentaries',      name: 'Documentaries',     description: 'Long-form cinematic narratives uncovering the truth.',         localImg: imgDocumentaries },
-    { _id: 'fb-3',  slug: 'commercials',        name: 'Commercials',       description: 'High-impact advertising campaigns for premium brands.',       localImg: imgCommercials },
-    { _id: 'fb-4',  slug: 'events',             name: 'Events',            description: 'Capturing conferences, ceremonies, and luxury events.',       localImg: imgEvents },
-    { _id: 'fb-5',  slug: 'podcasts',           name: 'Podcasts',          description: 'Professional podcast recording and production.',              localImg: imgPodcasts },
-    { _id: 'fb-6',  slug: 'live-streaming',     name: 'Live Streaming',    description: 'Multi-camera professional streaming solutions.',              localImg: imgStreaming },
-    { _id: 'fb-7',  slug: 'corporate-videos',   name: 'Corporate Videos',  description: 'Business presentations, company profiles, and branding.',     localImg: imgCorporate },
-    { _id: 'fb-8',  slug: 'music-videos',       name: 'Music Videos',      description: 'Creative visual storytelling for artists and bands.',         localImg: imgMusicVideos },
-    { _id: 'fb-9',  slug: 'photography',        name: 'Photography',       description: 'Professional photography for brands and individuals.',        localImg: imgPhotography },
-    { _id: 'fb-10', slug: 'behind-the-scenes',  name: 'Behind The Scenes', description: 'Exclusive production process coverage.',                      localImg: imgBTS },
+    { _id: 'fb-1', slug: 'short-films', name: 'Short Films', description: 'Narrative-driven artistic short films.', localImg: imgShortFilms },
+    { _id: 'fb-2', slug: 'documentaries', name: 'Documentaries', description: 'Long-form cinematic narratives uncovering the truth.', localImg: imgDocumentaries },
+    { _id: 'fb-3', slug: 'commercials', name: 'Commercials', description: 'High-impact advertising campaigns for premium brands.', localImg: imgCommercials },
+    { _id: 'fb-4', slug: 'events', name: 'Events', description: 'Capturing conferences, ceremonies, and luxury events.', localImg: imgEvents },
+    { _id: 'fb-5', slug: 'podcasts', name: 'Podcasts', description: 'Professional podcast recording and production.', localImg: imgPodcasts },
+    { _id: 'fb-6', slug: 'live-streaming', name: 'Live Streaming', description: 'Multi-camera professional streaming solutions.', localImg: imgStreaming },
+    { _id: 'fb-7', slug: 'corporate-videos', name: 'Corporate Videos', description: 'Business presentations, company profiles, and branding.', localImg: imgCorporate },
+    { _id: 'fb-8', slug: 'music-videos', name: 'Music Videos', description: 'Creative visual storytelling for artists and bands.', localImg: imgMusicVideos },
+    { _id: 'fb-9', slug: 'photography', name: 'Photography', description: 'Professional photography for brands and individuals.', localImg: imgPhotography },
+    { _id: 'fb-10', slug: 'behind-the-scenes', name: 'Behind The Scenes', description: 'Exclusive production process coverage.', localImg: imgBTS },
 ];
 
 /* Map slugs to local images for fallback when DB coverImage is missing */

@@ -527,6 +527,9 @@ const Home = () => {
 
     return (
         <div className="home-container">
+            {/* Section 1.5: Featured Cinematic Video Showcase */}
+            <CinematicFeaturedSection />
+
             {/* Section 1: Hero Visual Stories */}
             <section className="home-hero-visual-story" id="hero-intro">
                 <div
@@ -588,9 +591,6 @@ const Home = () => {
                     <span className="pagination-num">04</span>
                 </div>
             </section>
-
-            {/* Section 1.5: Featured Cinematic Video Showcase */}
-            <CinematicFeaturedSection />
 
             {/* Section 2: Video Showcase Section */}
             <BunnyShowcaseSection />
