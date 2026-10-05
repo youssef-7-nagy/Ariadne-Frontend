@@ -15,6 +15,7 @@ import imgPhotography from '../assets/categories/photography.png';
 import imgBTS from '../assets/categories/behind-the-scenes.png';
 import imgAboutStory from '../assets/about-story.jpg';
 import imgHeroStory from '../assets/home/first.png';
+import HighlightsSection from '../components/HighlightsSection';
 
 
 const LOCAL_IMAGE_MAP = {
@@ -198,14 +199,15 @@ const CinematicFeaturedSection = React.memo(() => {
 });
 CinematicFeaturedSection.displayName = 'CinematicFeaturedSection';
 
-// Section 2: Bunny.net Video Showcase Section with lazy viewport loading
-const BunnyShowcaseSection = React.memo(() => {
+// Section 2: Video Showcase Section with Cloudinary video
+const VideoShowcaseSection = React.memo(() => {
     const sectionRef = useRef(null);
-    const iframeRef = useRef(null);
+    const videoRef = useRef(null);
     const [shouldLoad, setShouldLoad] = useState(false);
-    const [isIframeLoaded, setIsIframeLoaded] = useState(false);
+    const [isReady, setIsReady] = useState(false);
+    const [hasError, setHasError] = useState(false);
 
-    // 1. Proximity observer: start preparing iframe when user approaches (~400px before arrival)
+    // 1. Proximity observer: start preparing video when user approaches (~400px before arrival)
     useEffect(() => {
         const section = sectionRef.current;
         if (!section || typeof IntersectionObserver === 'undefined') {
@@ -227,34 +229,27 @@ const BunnyShowcaseSection = React.memo(() => {
         return () => proximityObserver.disconnect();
     }, []);
 
-    // 2. Playback controller: send play/pause commands based on viewport visibility
+    // 2. Playback controller: play/pause based on viewport visibility
     useEffect(() => {
         const section = sectionRef.current;
         if (!section || !shouldLoad || typeof IntersectionObserver === 'undefined') return;
 
-        const sendCommand = (method, value) => {
-            try {
-                if (iframeRef.current && iframeRef.current.contentWindow) {
-                    iframeRef.current.contentWindow.postMessage(
-                        JSON.stringify({
-                            context: 'player.js',
-                            version: '0.0.11',
-                            method: method,
-                            value: value
-                        }),
-                        '*'
-                    );
-                }
-            } catch (_) {}
-        };
-
         const playbackObserver = new IntersectionObserver(
             ([entry]) => {
+                const video = videoRef.current;
+                if (!video) return;
+
                 if (entry.isIntersecting) {
-                    sendCommand('mute', '');
-                    sendCommand('play', '');
+                    const playPromise = video.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch((e) => {
+                            if (e.name !== 'AbortError') {
+                                console.warn('[VideoShowcaseSection] play notice:', e.message);
+                            }
+                        });
+                    }
                 } else {
-                    sendCommand('pause', '');
+                    video.pause();
                 }
             },
             { threshold: 0.15 }
@@ -264,50 +259,47 @@ const BunnyShowcaseSection = React.memo(() => {
         return () => playbackObserver.disconnect();
     }, [shouldLoad]);
 
-    const handleIframeLoad = useCallback(() => {
-        setIsIframeLoaded(true);
-        try {
-            if (iframeRef.current && iframeRef.current.contentWindow) {
-                iframeRef.current.contentWindow.postMessage(
-                    JSON.stringify({
-                        context: 'player.js',
-                        version: '0.0.11',
-                        method: 'mute',
-                        value: ''
-                    }),
-                    '*'
-                );
-                iframeRef.current.contentWindow.postMessage(
-                    JSON.stringify({
-                        context: 'player.js',
-                        version: '0.0.11',
-                        method: 'play',
-                        value: ''
-                    }),
-                    '*'
-                );
-            }
-        } catch (_) {}
+    const handleVideoPlaying = useCallback(() => {
+        setIsReady(true);
     }, []);
+
+    const handleVideoError = useCallback(() => {
+        setHasError(true);
+    }, []);
+
+    const posterUrl = "https://res.cloudinary.com/dqvclzcod/video/upload/f_auto,q_auto,so_0/Basha_E3temed_Teaser_rnogeb.jpg";
+    const videoUrl = "https://res.cloudinary.com/dqvclzcod/video/upload/f_auto,q_auto/Basha_E3temed_Teaser_rnogeb.mp4";
 
     return (
         <section className="home-white-section" ref={sectionRef} aria-label="Cinematic Teaser">
             <div className="home-video-bg-wrapper">
-                {shouldLoad && (
-                    <iframe
-                        ref={iframeRef}
-                        src="https://player.mediadelivery.net/embed/763964/9bb34416-21bc-41f3-80b7-2b1225696c5f?autoplay=true&loop=true&muted=true&preload=false&responsive=true"
-                        loading="lazy"
-                        className="home-video-bg-iframe"
-                        allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;fullscreen;"
-                        allowFullScreen={true}
-                        tabIndex="-1"
-                        title="Cinematic Background Video"
-                        onLoad={handleIframeLoad}
-                        style={{
-                            opacity: isIframeLoaded ? 1 : 0,
-                            transition: 'opacity 0.6s ease'
-                        }}
+                <img
+                    src={posterUrl}
+                    alt="Cinematic Video Preview"
+                    className="home-video-bg-poster"
+                    style={{
+                        opacity: isReady && !hasError ? 0 : 1,
+                        pointerEvents: 'none'
+                    }}
+                    loading="eager"
+                    decoding="async"
+                />
+
+                {!hasError && (
+                    <video
+                        ref={videoRef}
+                        src={shouldLoad ? videoUrl : undefined}
+                        poster={posterUrl}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        webkit-playsinline="true"
+                        className="home-video-bg-video"
+                        preload={shouldLoad ? "auto" : "none"}
+                        onPlaying={handleVideoPlaying}
+                        onCanPlayThrough={handleVideoPlaying}
+                        onError={handleVideoError}
                     />
                 )}
             </div>
@@ -361,7 +353,7 @@ const BunnyShowcaseSection = React.memo(() => {
         </section>
     );
 });
-BunnyShowcaseSection.displayName = 'BunnyShowcaseSection';
+VideoShowcaseSection.displayName = 'VideoShowcaseSection';
 
 const Home = () => {
     const [categories, setCategories] = useState([]);
@@ -530,70 +522,13 @@ const Home = () => {
             {/* Section 1.5: Featured Cinematic Video Showcase */}
             <CinematicFeaturedSection />
 
-            {/* Section 1: Hero Visual Stories */}
-            <section className="home-hero-visual-story" id="hero-intro">
-                <div
-                    className="visual-hero-bg"
-                    style={{ backgroundImage: `url(${imgHeroStory})` }}
-                ></div>
-                <div className="visual-hero-overlay-vignette"></div>
-                <div className="visual-hero-overlay-top"></div>
-                <div className="visual-hero-overlay-bottom"></div>
+            {/* New Section: Highlights (3 image cards with brand logo) */}
+            <HighlightsSection />
 
-                <div className="visual-hero-container">
-                    <div className="visual-hero-content">
-                        <span className="visual-hero-eyebrow">CINEMATIC • PHOTOGRAPHY • STORYTELLING</span>
-                        <h1 className="visual-hero-title">
-                            <span className="visual-hero-title-main">We Create</span>
-                            <span className="visual-hero-title-italic">Visual Stories</span>
-                        </h1>
-                        <p className="visual-hero-desc">
-                            A creative studio focused on cinematic photography and visual storytelling, turning real moments into lasting impressions.
-                        </p>
-                        <div className="visual-hero-cta-row">
-                            <Link to="/portfolio" className="btn-visual-primary">
-                                <span>View Projects</span>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M5 12h14M12 5l7 7-7 7" />
-                                </svg>
-                            </Link>
-                            <a
-                                href="#footer"
-                                className="btn-visual-secondary"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    if (window.lenis) {
-                                        window.lenis.scrollTo('#footer', { duration: 1.5 });
-                                    } else {
-                                        const footer = document.getElementById('footer');
-                                        if (footer) footer.scrollIntoView({ behavior: 'smooth' });
-                                    }
-                                    setTimeout(() => {
-                                        const magicMenu = document.querySelector('.magic-menu');
-                                        if (magicMenu) {
-                                            magicMenu.classList.add('force-open');
-                                            setTimeout(() => magicMenu.classList.remove('force-open'), 3000);
-                                        }
-                                    }, 800);
-                                }}
-                            >
-                                Contact Us
-                            </a>
-                        </div>
-                    </div>
-                </div>
 
-                <div className="visual-hero-pagination">
-                    <span className="pagination-num active">01</span>
-                    <div className="pagination-line">
-                        <div className="pagination-indicator"></div>
-                    </div>
-                    <span className="pagination-num">04</span>
-                </div>
-            </section>
 
             {/* Section 2: Video Showcase Section */}
-            <BunnyShowcaseSection />
+            <VideoShowcaseSection />
 
 
             {/* Section 5: Expanding Categories Gallery */}
