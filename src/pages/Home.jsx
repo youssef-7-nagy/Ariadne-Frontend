@@ -360,7 +360,7 @@ const Home = () => {
     const [canHover, setCanHover] = useState(false);
 
     useEffect(() => {
-        // Initial detection: only enable hover if device supports hover and is NOT a touch-primary screen
+        // Desktop mouse vs touch screen detection
         const hasCoarse = window.matchMedia('(pointer: coarse)').matches;
         const hasTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
         const hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -369,17 +369,14 @@ const Home = () => {
             setCanHover(true);
         }
 
-        // Dynamic pointer tracking: enable hover ONLY when a mouse is used, disable on touch
         const onPointerMove = (e) => {
             if (e.pointerType === 'mouse') {
-                setCanHover(true);
-            } else if (e.pointerType === 'touch' || e.pointerType === 'pen') {
-                setCanHover(false);
+                setCanHover(prev => prev ? prev : true);
             }
         };
 
         const onTouchStart = () => {
-            setCanHover(false);
+            setCanHover(prev => prev ? false : prev);
         };
 
         window.addEventListener('pointermove', onPointerMove, { passive: true });
@@ -419,106 +416,92 @@ const Home = () => {
         setActiveIndex(prev => prev + 1);
     }, []);
 
-    // Clean swipe-only pointer gesture lifecycle for 3D Category Carousel:
-    // 1. Touch start -> store startX, startY internally (cards stay completely STATIC)
-    // 2. Touch move -> track deltaX, deltaY internally (NO DOM/transform/state change)
-    // 3. Touch release -> determine swipe direction -> trigger exactly ONE switch -> 0.6s animation lock
-    const pointerGestureRef = useRef({
-        isDown: false,
-        pointerId: null,
+    // Dedicated Touch Gesture Lifecycle for 3D Categories Carousel:
+    // 1. Touch start -> record coordinates (cards remain 100% STATIC, NO live drag, NO transform change)
+    // 2. Touch move -> monitor trajectory (if vertical > horizontal, allow page scroll; if horizontal, track delta)
+    // 3. Touch release -> determine swipe direction -> switch ONE category -> 0.6s animation lock
+    const touchGestureRef = useRef({
         startX: 0,
         startY: 0,
         currentX: 0,
         currentY: 0,
         startTime: 0,
-        hasCommitted: false,
+        isSwiping: false,
+        isScrolling: false,
     });
 
-    const handlePointerDown = (e) => {
-        if (!e.isPrimary) return;
-        if (e.pointerType === 'touch' || e.pointerType === 'pen') {
-            setCanHover(false);
-        } else if (e.pointerType === 'mouse') {
-            setCanHover(true);
-            if (e.button !== 0) return;
-        }
+    const handleTouchStart = (e) => {
+        if (e.touches.length !== 1) return;
         if (e.target.closest('.carousel-btn')) return;
 
-        pointerGestureRef.current = {
-            isDown: true,
-            pointerId: e.pointerId,
-            startX: e.clientX,
-            startY: e.clientY,
-            currentX: e.clientX,
-            currentY: e.clientY,
+        const touch = e.touches[0];
+        touchGestureRef.current = {
+            startX: touch.clientX,
+            startY: touch.clientY,
+            currentX: touch.clientX,
+            currentY: touch.clientY,
             startTime: Date.now(),
-            hasCommitted: false,
+            isSwiping: false,
+            isScrolling: false,
         };
-
-        const onWindowPointerMove = (moveEvt) => {
-            if (moveEvt.pointerId !== e.pointerId) return;
-            // Record coordinates internally ONLY - NO state change, NO transform change.
-            pointerGestureRef.current.currentX = moveEvt.clientX;
-            pointerGestureRef.current.currentY = moveEvt.clientY;
-        };
-
-        const cleanupListeners = () => {
-            window.removeEventListener('pointermove', onWindowPointerMove);
-            window.removeEventListener('pointerup', onWindowPointerUp);
-            window.removeEventListener('pointercancel', onWindowPointerCancel);
-        };
-
-        const onWindowPointerUp = (upEvt) => {
-            if (upEvt.pointerId !== e.pointerId) return;
-            cleanupListeners();
-            handlePointerEnd(upEvt);
-        };
-
-        const onWindowPointerCancel = (cancelEvt) => {
-            if (cancelEvt.pointerId !== e.pointerId) return;
-            cleanupListeners();
-            handlePointerCancel(cancelEvt);
-        };
-
-        window.addEventListener('pointermove', onWindowPointerMove, { passive: true });
-        window.addEventListener('pointerup', onWindowPointerUp, { passive: true });
-        window.addEventListener('pointercancel', onWindowPointerCancel, { passive: true });
     };
 
-    const handlePointerEnd = (e) => {
-        const g = pointerGestureRef.current;
-        if (!g.isDown || g.pointerId !== e.pointerId) return;
+    const handleTouchMove = (e) => {
+        const g = touchGestureRef.current;
+        if (!g.startTime || e.touches.length !== 1) return;
 
-        g.isDown = false;
+        const touch = e.touches[0];
+        g.currentX = touch.clientX;
+        g.currentY = touch.clientY;
 
-        const deltaX = e.clientX - g.startX;
-        const deltaY = e.clientY - g.startY;
+        const deltaX = g.currentX - g.startX;
+        const deltaY = g.currentY - g.startY;
+        const absX = Math.abs(deltaX);
+        const absY = Math.abs(deltaY);
+
+        if (!g.isSwiping && !g.isScrolling) {
+            if (absY > absX && absY > 7) {
+                // Vertical motion dominates -> preserve native browser page scroll
+                g.isScrolling = true;
+                return;
+            }
+            if (absX > absY && absX > 7) {
+                // Horizontal motion dominates -> carousel swipe
+                g.isSwiping = true;
+            }
+        }
+        // Note: No live dragging of cards! The cards stay completely static while the finger is moving.
+    };
+
+    const handleTouchEnd = () => {
+        const g = touchGestureRef.current;
+        if (!g.startTime) return;
+
+        const deltaX = g.currentX - g.startX;
+        const deltaY = g.currentY - g.startY;
         const absX = Math.abs(deltaX);
         const absY = Math.abs(deltaY);
         const deltaTime = Date.now() - g.startTime;
+        const wasScrolling = g.isScrolling;
 
-        // Swipe evaluation:
-        // Deliberate swipe: >= 40px horizontal movement
-        // Quick flick: < 300ms with >= 25px horizontal movement
-        // In all cases, horizontal movement must exceed vertical movement (preserves page scrolling)
-        const isFlick = deltaTime < 300 && absX >= 25;
-        const isDeliberateSwipe = absX >= 40;
+        g.startTime = 0; // reset active touch
+
+        if (wasScrolling) return;
+
+        // Evaluation: Deliberate swipe >= 35px or quick flick < 300ms with >= 20px
+        const isFlick = deltaTime < 300 && absX >= 20;
+        const isDeliberateSwipe = absX >= 35;
         const isValidHorizontalSwipe = (isFlick || isDeliberateSwipe) && absX > absY;
 
-        if (isValidHorizontalSwipe && !g.hasCommitted) {
-            g.hasCommitted = true;
-
-            // Suppress synthetic clicks from this swipe gesture
+        if (isValidHorizontalSwipe) {
             hasSwipedRef.current = true;
             if (clickSuppressTimerRef.current) clearTimeout(clickSuppressTimerRef.current);
             clickSuppressTimerRef.current = setTimeout(() => {
                 hasSwipedRef.current = false;
-            }, 500);
+            }, 450);
 
-            // Execute ONE switch ONLY if not currently animating (animation lock)
+            // Trigger ONE switch ONLY upon release
             if (!isAnimatingRef.current) {
-                // Swipe LEFT (deltaX < 0) -> Carousel switches ONE position LEFT / shows next card
-                // Swipe RIGHT (deltaX > 0) -> Carousel switches ONE position RIGHT / shows previous card
                 if (deltaX < 0) {
                     handleNext();
                 } else {
@@ -526,8 +509,7 @@ const Home = () => {
                 }
             }
         } else if (absX > 10 || absY > 10) {
-            // Dragged slightly (>10px) but didn't meet swipe threshold:
-            // Suppress accidental click navigation without moving carousel
+            // Dragged slightly but didn't meet threshold -> suppress accidental click navigation
             hasSwipedRef.current = true;
             if (clickSuppressTimerRef.current) clearTimeout(clickSuppressTimerRef.current);
             clickSuppressTimerRef.current = setTimeout(() => {
@@ -536,12 +518,56 @@ const Home = () => {
         }
     };
 
-    const handlePointerCancel = (e) => {
-        const g = pointerGestureRef.current;
-        if (g.isDown && g.pointerId === e.pointerId) {
+    const handleTouchCancel = () => {
+        touchGestureRef.current.startTime = 0;
+    };
+
+    // Desktop mouse pointer gesture (for desktop mouse drag support)
+    const mouseGestureRef = useRef({
+        isDown: false,
+        startX: 0,
+        startY: 0,
+    });
+
+    const handlePointerDown = (e) => {
+        if (e.pointerType !== 'mouse' || e.button !== 0) return;
+        if (e.target.closest('.carousel-btn')) return;
+
+        mouseGestureRef.current = {
+            isDown: true,
+            startX: e.clientX,
+            startY: e.clientY,
+        };
+
+        const onWindowPointerUp = (upEvt) => {
+            window.removeEventListener('pointerup', onWindowPointerUp);
+            const g = mouseGestureRef.current;
+            if (!g.isDown) return;
             g.isDown = false;
-            g.hasCommitted = false;
-        }
+
+            const deltaX = upEvt.clientX - g.startX;
+            const deltaY = upEvt.clientY - g.startY;
+            const absX = Math.abs(deltaX);
+            const absY = Math.abs(deltaY);
+
+            if (absX >= 40 && absX > absY) {
+                hasSwipedRef.current = true;
+                if (clickSuppressTimerRef.current) clearTimeout(clickSuppressTimerRef.current);
+                clickSuppressTimerRef.current = setTimeout(() => {
+                    hasSwipedRef.current = false;
+                }, 400);
+
+                if (!isAnimatingRef.current) {
+                    if (deltaX < 0) {
+                        handleNext();
+                    } else {
+                        handlePrev();
+                    }
+                }
+            }
+        };
+
+        window.addEventListener('pointerup', onWindowPointerUp, { once: true });
     };
 
     useEffect(() => {
@@ -624,6 +650,10 @@ const Home = () => {
                     <div
                         className={`wrapper ${canHover ? 'can-hover' : ''}`}
                         style={{ height: `${carouselHeight}px`, marginTop: '20px' }}
+                        onTouchStart={handleTouchStart}
+                        onTouchMove={handleTouchMove}
+                        onTouchEnd={handleTouchEnd}
+                        onTouchCancel={handleTouchCancel}
                         onPointerDown={handlePointerDown}
                         onClickCapture={(e) => {
                             if (hasSwipedRef.current) {
