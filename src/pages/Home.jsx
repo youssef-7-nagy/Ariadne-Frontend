@@ -360,113 +360,176 @@ const Home = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [carouselHeight, setCarouselHeight] = useState(600);
 
+    // Animation locking to prevent gesture collision and transform corruption
+    const isAnimatingRef = useRef(false);
+    const animTimerRef = useRef(null);
+    const hasSwipedRef = useRef(false);
+    const clickSuppressTimerRef = useRef(null);
+
     const handlePrev = useCallback(() => {
+        if (isAnimatingRef.current) return;
+        isAnimatingRef.current = true;
+        if (animTimerRef.current) clearTimeout(animTimerRef.current);
+        animTimerRef.current = setTimeout(() => {
+            isAnimatingRef.current = false;
+        }, 600);
+
         setActiveIndex(prev => prev - 1);
     }, []);
 
     const handleNext = useCallback(() => {
+        if (isAnimatingRef.current) return;
+        isAnimatingRef.current = true;
+        if (animTimerRef.current) clearTimeout(animTimerRef.current);
+        animTimerRef.current = setTimeout(() => {
+            isAnimatingRef.current = false;
+        }, 600);
+
         setActiveIndex(prev => prev + 1);
     }, []);
 
-    // Touch & Swipe gesture interaction for 3D Category Carousel
-    const touchStartRef = useRef({ x: 0, y: 0, time: 0 });
-    const hasSwipedRef = useRef(false);
-    const isSwipingActiveRef = useRef(false);
-    const isVerticalScrollRef = useRef(false);
-    const lastSwipeTimeRef = useRef(0);
-    const SWIPE_THRESHOLD = 40;
+    // Clean pointer gesture lifecycle for 3D Category Carousel:
+    // pointerdown -> track movement -> determine direction -> pointerup -> commit exactly ONE transition
+    const pointerGestureRef = useRef({
+        isDown: false,
+        pointerId: null,
+        startX: 0,
+        startY: 0,
+        currentX: 0,
+        currentY: 0,
+        startTime: 0,
+        isSwiping: false,
+        isScrolling: false,
+        hasCommitted: false,
+    });
 
     const handlePointerDown = (e) => {
         if (!e.isPrimary) return;
         if (e.pointerType === 'mouse' && e.button !== 0) return;
         if (e.target.closest('.carousel-btn')) return;
 
-        touchStartRef.current = {
-            x: e.clientX,
-            y: e.clientY,
-            time: Date.now()
+        pointerGestureRef.current = {
+            isDown: true,
+            pointerId: e.pointerId,
+            startX: e.clientX,
+            startY: e.clientY,
+            currentX: e.clientX,
+            currentY: e.clientY,
+            startTime: Date.now(),
+            isSwiping: false,
+            isScrolling: false,
+            hasCommitted: false,
         };
-        hasSwipedRef.current = false;
-        isSwipingActiveRef.current = true;
-        isVerticalScrollRef.current = false;
     };
 
     const handlePointerMove = (e) => {
-        if (!isSwipingActiveRef.current || hasSwipedRef.current) return;
+        const g = pointerGestureRef.current;
+        if (!g.isDown || g.pointerId !== e.pointerId) return;
 
-        const deltaX = e.clientX - touchStartRef.current.x;
-        const deltaY = e.clientY - touchStartRef.current.y;
+        g.currentX = e.clientX;
+        g.currentY = e.clientY;
+
+        const deltaX = g.currentX - g.startX;
+        const deltaY = g.currentY - g.startY;
         const absX = Math.abs(deltaX);
         const absY = Math.abs(deltaY);
 
-        // If vertical movement is dominant early, allow native page scroll
-        if (!isVerticalScrollRef.current && absY > absX && absY > 10) {
-            isVerticalScrollRef.current = true;
-            return;
-        }
+        // If the gesture is vertical scrolling, let the browser scroll the page naturally
+        if (g.isScrolling) return;
 
-        if (isVerticalScrollRef.current) return;
-
-        // Check horizontal swipe threshold
-        if (absX >= SWIPE_THRESHOLD && absX > absY) {
-            const now = Date.now();
-            if (now - lastSwipeTimeRef.current < 250) return;
-            lastSwipeTimeRef.current = now;
-
-            hasSwipedRef.current = true;
-            isSwipingActiveRef.current = false;
-
-            // Direction mapping: SWIPE RIGHT -> PREV (moves carousel RIGHT), SWIPE LEFT -> NEXT (moves carousel LEFT)
-            if (deltaX > 0) {
-                handlePrev();
-            } else {
-                handleNext();
+        // Disambiguate vertical page scrolling vs horizontal carousel swiping early (~8px)
+        if (!g.isSwiping && !g.isScrolling) {
+            if (absY > absX && absY > 8) {
+                g.isScrolling = true;
+                return;
+            }
+            if (absX > absY && absX > 8) {
+                g.isSwiping = true;
+                try {
+                    e.currentTarget.setPointerCapture(e.pointerId);
+                } catch (_) {}
             }
         }
     };
 
     const handlePointerUp = (e) => {
-        if (!isSwipingActiveRef.current) {
-            setTimeout(() => {
+        const g = pointerGestureRef.current;
+        if (!g.isDown || g.pointerId !== e.pointerId) return;
+
+        g.isDown = false;
+        try {
+            if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+                e.currentTarget.releasePointerCapture(e.pointerId);
+            }
+        } catch (_) {}
+
+        if (g.isScrolling) return;
+
+        const deltaX = e.clientX - g.startX;
+        const deltaY = e.clientY - g.startY;
+        const absX = Math.abs(deltaX);
+        const absY = Math.abs(deltaY);
+        const deltaTime = Date.now() - g.startTime;
+
+        // Threshold check:
+        // Flick: fast swipe under 300ms with >= 25px movement
+        // Deliberate swipe: >= 40px movement
+        // In all valid swipes, horizontal distance must exceed vertical distance
+        const isFlick = deltaTime < 300 && absX >= 25;
+        const isDeliberateSwipe = absX >= 40;
+        const isValidSwipe = (isFlick || isDeliberateSwipe) && absX > absY;
+
+        if (isValidSwipe && !g.hasCommitted) {
+            g.hasCommitted = true;
+
+            // Suppress synthetic clicks from this swipe gesture
+            hasSwipedRef.current = true;
+            if (clickSuppressTimerRef.current) clearTimeout(clickSuppressTimerRef.current);
+            clickSuppressTimerRef.current = setTimeout(() => {
                 hasSwipedRef.current = false;
-            }, 150);
-            return;
-        }
+            }, 450);
 
-        // Support quick flick if pointermove did not cross threshold yet
-        if (!hasSwipedRef.current && !isVerticalScrollRef.current) {
-            const deltaX = e.clientX - touchStartRef.current.x;
-            const deltaY = e.clientY - touchStartRef.current.y;
-            const absX = Math.abs(deltaX);
-            const absY = Math.abs(deltaY);
-
-            if (absX >= SWIPE_THRESHOLD && absX > absY) {
-                const now = Date.now();
-                if (now - lastSwipeTimeRef.current >= 250) {
-                    lastSwipeTimeRef.current = now;
-                    hasSwipedRef.current = true;
-                    if (deltaX > 0) {
-                        handlePrev();
-                    } else {
-                        handleNext();
-                    }
+            // Execute exactly ONE card movement if not already animating
+            if (!isAnimatingRef.current) {
+                // Direction mapping:
+                // Swipe LEFT (deltaX < 0) -> Carousel moves LEFT to next card (handleNext)
+                // Swipe RIGHT (deltaX > 0) -> Carousel moves RIGHT to previous card (handlePrev)
+                if (deltaX < 0) {
+                    handleNext();
+                } else {
+                    handlePrev();
                 }
             }
+        } else if (absX > 10 || absY > 10) {
+            // Small unintentional drag: suppress click without moving carousel
+            hasSwipedRef.current = true;
+            if (clickSuppressTimerRef.current) clearTimeout(clickSuppressTimerRef.current);
+            clickSuppressTimerRef.current = setTimeout(() => {
+                hasSwipedRef.current = false;
+            }, 300);
         }
-
-        isSwipingActiveRef.current = false;
-        setTimeout(() => {
-            hasSwipedRef.current = false;
-        }, 150);
     };
 
-    const handlePointerCancel = () => {
-        isSwipingActiveRef.current = false;
-        isVerticalScrollRef.current = false;
-        setTimeout(() => {
-            hasSwipedRef.current = false;
-        }, 150);
+    const handlePointerCancel = (e) => {
+        const g = pointerGestureRef.current;
+        if (g.isDown && g.pointerId === e.pointerId) {
+            g.isDown = false;
+            g.isSwiping = false;
+            g.isScrolling = false;
+            try {
+                if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+                    e.currentTarget.releasePointerCapture(e.pointerId);
+                }
+            } catch (_) {}
+        }
     };
+
+    useEffect(() => {
+        return () => {
+            if (animTimerRef.current) clearTimeout(animTimerRef.current);
+            if (clickSuppressTimerRef.current) clearTimeout(clickSuppressTimerRef.current);
+        };
+    }, []);
 
     const updateCarouselHeight = useCallback(() => {
         const w = window.innerWidth;
@@ -576,8 +639,20 @@ const Home = () => {
                                         key={category._id}
                                         style={{ '--index': index }}
                                         onClick={(e) => {
+                                            if (hasSwipedRef.current) {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                return;
+                                            }
                                             if (normalizedActiveIndex !== index) {
                                                 e.preventDefault();
+                                                if (isAnimatingRef.current) return;
+                                                isAnimatingRef.current = true;
+                                                if (animTimerRef.current) clearTimeout(animTimerRef.current);
+                                                animTimerRef.current = setTimeout(() => {
+                                                    isAnimatingRef.current = false;
+                                                }, 600);
+
                                                 // Calculate shortest path rotation
                                                 let diff = index - normalizedActiveIndex;
                                                 const half = categories.length / 2;

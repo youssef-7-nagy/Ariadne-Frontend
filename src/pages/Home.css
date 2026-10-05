@@ -2990,8 +2990,11 @@ html.dark,
     left: calc(50% - (var(--w) / 2));
     z-index: 2;
     transform-style: preserve-3d;
-    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-    /* Smoother, no bounce */
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    /* Smoother, synchronized with card scaling */
 }
 
 .card {
@@ -3001,14 +3004,18 @@ html.dark,
     overflow: hidden;
     inset: 0;
     transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(var(--translateZ));
-    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-    /* Smoother, no bounce */
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, box-shadow 0.4s ease;
     cursor: pointer;
     background: #111;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     -webkit-font-smoothing: antialiased;
     transform-style: preserve-3d;
     will-change: transform;
+    touch-action: pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
     /* Safari 3D transform border-radius clip fix */
     -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
@@ -3055,6 +3062,10 @@ html.dark,
     background-repeat: no-repeat;
     position: relative;
     transition: transform 0.4s ease;
+    -webkit-user-drag: none;
+    user-select: none;
+    -webkit-user-select: none;
+    pointer-events: none;
 }
 
 .card:hover .img {
