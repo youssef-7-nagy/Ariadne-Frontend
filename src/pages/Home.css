@@ -3989,11 +3989,11 @@ html.dark,
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);
-    height: 85vh;
-    height: 85svh;
-    height: 85dvh;
+    height: 100vh;
+    height: 100svh;
+    height: 100dvh;
     min-height: 560px;
-    max-height: 880px;
+    max-height: none;
     background-color: #000000;
     overflow: hidden;
     box-sizing: border-box;
