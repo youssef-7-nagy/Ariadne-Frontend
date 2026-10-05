@@ -3037,20 +3037,24 @@ html.dark,
     pointer-events: none;
 }
 
-@media (hover: hover) {
-    .card:hover {
+@media (hover: hover) and (pointer: fine) {
+    .card:not(.active-front):hover {
         transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(calc(var(--translateZ) + 40px)) scale(1.05);
         z-index: 10;
         border-color: rgba(189, 159, 103, 0.5);
         box-shadow: 0 0 20px rgba(189, 159, 103, 0.3);
     }
 
-    .card:hover .img::before {
+    .card:not(.active-front):hover .img::before {
         opacity: 0.5;
     }
 
     .card:hover .img {
         transform: scale(1.1);
+    }
+
+    .card:hover .img::after {
+        opacity: 1;
     }
 }
 
@@ -3068,10 +3072,6 @@ html.dark,
     pointer-events: none;
 }
 
-.card:hover .img {
-    transform: scale(1.1);
-}
-
 .img::after {
     content: '';
     position: absolute;
@@ -3081,7 +3081,6 @@ html.dark,
     transition: opacity 0.4s ease;
 }
 
-.card:hover .img::after,
 .card.active-front .img::after {
     opacity: 1;
 }
