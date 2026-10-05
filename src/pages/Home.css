@@ -3016,6 +3016,7 @@ html.dark,
     -webkit-user-select: none;
     -webkit-user-drag: none;
     -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
     /* Safari 3D transform border-radius clip fix */
     -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
@@ -3037,15 +3038,16 @@ html.dark,
     pointer-events: none;
 }
 
+/* Desktop hover effects - ONLY applied with a fine pointer (mouse/trackpad), never on touch/tablets/phones */
 @media (hover: hover) and (pointer: fine) {
-    .card:not(.active-front):hover {
+    .card:hover {
         transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(calc(var(--translateZ) + 40px)) scale(1.05);
         z-index: 10;
         border-color: rgba(189, 159, 103, 0.5);
         box-shadow: 0 0 20px rgba(189, 159, 103, 0.3);
     }
 
-    .card:not(.active-front):hover .img::before {
+    .card:hover .img::before {
         opacity: 0.5;
     }
 
@@ -3055,6 +3057,21 @@ html.dark,
 
     .card:hover .img::after {
         opacity: 1;
+    }
+
+    .card:hover .card-title-overlay {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .card:hover .card-title-overlay h3 {
+        color: #bd9f67;
+        text-shadow: 0 0 10px rgba(189, 159, 103, 0.5), 0 2px 4px rgba(0, 0, 0, 0.8);
+        letter-spacing: 1.4px;
+    }
+
+    .card:hover .card-title-overlay h3::after {
+        width: 36px;
     }
 }
 
@@ -3102,7 +3119,6 @@ html.dark,
     backface-visibility: hidden;
 }
 
-.card:hover .card-title-overlay,
 .card.active-front .card-title-overlay {
     opacity: 1;
     transform: translateY(0);
@@ -3128,7 +3144,6 @@ html.dark,
     transition: color 0.4s ease, text-shadow 0.4s ease, letter-spacing 0.4s ease, font-size 0.4s ease;
 }
 
-.card:hover .card-title-overlay h3,
 .card.active-front .card-title-overlay h3 {
     color: #bd9f67;
     text-shadow: 0 0 10px rgba(189, 159, 103, 0.5), 0 2px 4px rgba(0, 0, 0, 0.8);
@@ -3149,7 +3164,6 @@ html.dark,
     box-shadow: 0 0 8px rgba(189, 159, 103, 0.8);
 }
 
-.card:hover .card-title-overlay h3::after,
 .card.active-front .card-title-overlay h3::after {
     width: 36px;
 }
@@ -3165,13 +3179,11 @@ html.dark,
         letter-spacing: 0.5px;
     }
 
-    .card:hover .card-title-overlay h3,
     .card.active-front .card-title-overlay h3 {
         font-size: clamp(0.45rem, 2.2vw, 0.60rem);
         letter-spacing: 0.8px;
     }
 
-    .card:hover .card-title-overlay h3::after,
     .card.active-front .card-title-overlay h3::after {
         width: 28px;
     }
@@ -3187,13 +3199,11 @@ html.dark,
         letter-spacing: 0.3px;
     }
 
-    .card:hover .card-title-overlay h3,
     .card.active-front .card-title-overlay h3 {
         font-size: clamp(0.38rem, 2.0vw, 0.50rem);
         letter-spacing: 0.5px;
     }
 
-    .card:hover .card-title-overlay h3::after,
     .card.active-front .card-title-overlay h3::after {
         width: 24px;
     }
@@ -3209,7 +3219,6 @@ html.dark,
         letter-spacing: 0.1px;
     }
 
-    .card:hover .card-title-overlay h3,
     .card.active-front .card-title-overlay h3 {
         font-size: clamp(0.34rem, 1.8vw, 0.44rem);
         letter-spacing: 0.3px;

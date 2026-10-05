@@ -388,8 +388,10 @@ const Home = () => {
         setActiveIndex(prev => prev + 1);
     }, []);
 
-    // Clean pointer gesture lifecycle for 3D Category Carousel:
-    // pointerdown -> track movement -> determine direction -> pointerup -> commit exactly ONE transition
+    // Clean swipe-only pointer gesture lifecycle for 3D Category Carousel:
+    // 1. Touch start -> store startX, startY internally (cards stay completely STATIC)
+    // 2. Touch move -> track deltaX, deltaY internally (NO DOM/transform/state change)
+    // 3. Touch release -> determine swipe direction -> trigger exactly ONE switch -> 0.6s animation lock
     const pointerGestureRef = useRef({
         isDown: false,
         pointerId: null,
@@ -398,8 +400,6 @@ const Home = () => {
         currentX: 0,
         currentY: 0,
         startTime: 0,
-        isSwiping: false,
-        isScrolling: false,
         hasCommitted: false,
     });
 
@@ -416,54 +416,44 @@ const Home = () => {
             currentX: e.clientX,
             currentY: e.clientY,
             startTime: Date.now(),
-            isSwiping: false,
-            isScrolling: false,
             hasCommitted: false,
         };
+
+        const onWindowPointerMove = (moveEvt) => {
+            if (moveEvt.pointerId !== e.pointerId) return;
+            // Record coordinates internally ONLY - NO state change, NO transform change.
+            pointerGestureRef.current.currentX = moveEvt.clientX;
+            pointerGestureRef.current.currentY = moveEvt.clientY;
+        };
+
+        const cleanupListeners = () => {
+            window.removeEventListener('pointermove', onWindowPointerMove);
+            window.removeEventListener('pointerup', onWindowPointerUp);
+            window.removeEventListener('pointercancel', onWindowPointerCancel);
+        };
+
+        const onWindowPointerUp = (upEvt) => {
+            if (upEvt.pointerId !== e.pointerId) return;
+            cleanupListeners();
+            handlePointerEnd(upEvt);
+        };
+
+        const onWindowPointerCancel = (cancelEvt) => {
+            if (cancelEvt.pointerId !== e.pointerId) return;
+            cleanupListeners();
+            handlePointerCancel(cancelEvt);
+        };
+
+        window.addEventListener('pointermove', onWindowPointerMove, { passive: true });
+        window.addEventListener('pointerup', onWindowPointerUp, { passive: true });
+        window.addEventListener('pointercancel', onWindowPointerCancel, { passive: true });
     };
 
-    const handlePointerMove = (e) => {
-        const g = pointerGestureRef.current;
-        if (!g.isDown || g.pointerId !== e.pointerId) return;
-
-        g.currentX = e.clientX;
-        g.currentY = e.clientY;
-
-        const deltaX = g.currentX - g.startX;
-        const deltaY = g.currentY - g.startY;
-        const absX = Math.abs(deltaX);
-        const absY = Math.abs(deltaY);
-
-        // If the gesture is vertical scrolling, let the browser scroll the page naturally
-        if (g.isScrolling) return;
-
-        // Disambiguate vertical page scrolling vs horizontal carousel swiping early (~8px)
-        if (!g.isSwiping && !g.isScrolling) {
-            if (absY > absX && absY > 8) {
-                g.isScrolling = true;
-                return;
-            }
-            if (absX > absY && absX > 8) {
-                g.isSwiping = true;
-                try {
-                    e.currentTarget.setPointerCapture(e.pointerId);
-                } catch (_) {}
-            }
-        }
-    };
-
-    const handlePointerUp = (e) => {
+    const handlePointerEnd = (e) => {
         const g = pointerGestureRef.current;
         if (!g.isDown || g.pointerId !== e.pointerId) return;
 
         g.isDown = false;
-        try {
-            if (e.currentTarget.hasPointerCapture(e.pointerId)) {
-                e.currentTarget.releasePointerCapture(e.pointerId);
-            }
-        } catch (_) {}
-
-        if (g.isScrolling) return;
 
         const deltaX = e.clientX - g.startX;
         const deltaY = e.clientY - g.startY;
@@ -471,15 +461,15 @@ const Home = () => {
         const absY = Math.abs(deltaY);
         const deltaTime = Date.now() - g.startTime;
 
-        // Threshold check:
-        // Flick: fast swipe under 300ms with >= 25px movement
-        // Deliberate swipe: >= 40px movement
-        // In all valid swipes, horizontal distance must exceed vertical distance
+        // Swipe evaluation:
+        // Deliberate swipe: >= 40px horizontal movement
+        // Quick flick: < 300ms with >= 25px horizontal movement
+        // In all cases, horizontal movement must exceed vertical movement (preserves page scrolling)
         const isFlick = deltaTime < 300 && absX >= 25;
         const isDeliberateSwipe = absX >= 40;
-        const isValidSwipe = (isFlick || isDeliberateSwipe) && absX > absY;
+        const isValidHorizontalSwipe = (isFlick || isDeliberateSwipe) && absX > absY;
 
-        if (isValidSwipe && !g.hasCommitted) {
+        if (isValidHorizontalSwipe && !g.hasCommitted) {
             g.hasCommitted = true;
 
             // Suppress synthetic clicks from this swipe gesture
@@ -487,13 +477,12 @@ const Home = () => {
             if (clickSuppressTimerRef.current) clearTimeout(clickSuppressTimerRef.current);
             clickSuppressTimerRef.current = setTimeout(() => {
                 hasSwipedRef.current = false;
-            }, 450);
+            }, 500);
 
-            // Execute exactly ONE card movement if not already animating
+            // Execute ONE switch ONLY if not currently animating (animation lock)
             if (!isAnimatingRef.current) {
-                // Direction mapping:
-                // Swipe LEFT (deltaX < 0) -> Carousel moves LEFT to next card (handleNext)
-                // Swipe RIGHT (deltaX > 0) -> Carousel moves RIGHT to previous card (handlePrev)
+                // Swipe LEFT (deltaX < 0) -> Carousel switches ONE position LEFT / shows next card
+                // Swipe RIGHT (deltaX > 0) -> Carousel switches ONE position RIGHT / shows previous card
                 if (deltaX < 0) {
                     handleNext();
                 } else {
@@ -501,7 +490,8 @@ const Home = () => {
                 }
             }
         } else if (absX > 10 || absY > 10) {
-            // Small unintentional drag: suppress click without moving carousel
+            // Dragged slightly (>10px) but didn't meet swipe threshold:
+            // Suppress accidental click navigation without moving carousel
             hasSwipedRef.current = true;
             if (clickSuppressTimerRef.current) clearTimeout(clickSuppressTimerRef.current);
             clickSuppressTimerRef.current = setTimeout(() => {
@@ -514,13 +504,7 @@ const Home = () => {
         const g = pointerGestureRef.current;
         if (g.isDown && g.pointerId === e.pointerId) {
             g.isDown = false;
-            g.isSwiping = false;
-            g.isScrolling = false;
-            try {
-                if (e.currentTarget.hasPointerCapture(e.pointerId)) {
-                    e.currentTarget.releasePointerCapture(e.pointerId);
-                }
-            } catch (_) {}
+            g.hasCommitted = false;
         }
     };
 
@@ -605,9 +589,6 @@ const Home = () => {
                         className="wrapper"
                         style={{ height: `${carouselHeight}px`, marginTop: '20px' }}
                         onPointerDown={handlePointerDown}
-                        onPointerMove={handlePointerMove}
-                        onPointerUp={handlePointerUp}
-                        onPointerCancel={handlePointerCancel}
                         onClickCapture={(e) => {
                             if (hasSwipedRef.current) {
                                 e.preventDefault();
@@ -638,6 +619,8 @@ const Home = () => {
                                         className={`card ${isActive ? 'active-front' : ''}`}
                                         key={category._id}
                                         style={{ '--index': index }}
+                                        draggable={false}
+                                        onDragStart={(e) => e.preventDefault()}
                                         onClick={(e) => {
                                             if (hasSwipedRef.current) {
                                                 e.preventDefault();
@@ -663,7 +646,7 @@ const Home = () => {
                                             }
                                         }}
                                     >
-                                        <div className="img" style={{ backgroundImage: `url("${bgImage}")` }}></div>
+                                        <div className="img" draggable={false} style={{ backgroundImage: `url("${bgImage}")` }}></div>
                                         <div className="card-title-overlay">
                                             <h3>{category.name}</h3>
                                         </div>
