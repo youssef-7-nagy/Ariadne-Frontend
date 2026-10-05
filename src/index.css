@@ -516,12 +516,12 @@ body {
   }
 
   /* Neutralize sticky CSS :hover transforms, elevations, and pseudo-element transitions on touch devices */
-  button:hover,
-  a:hover,
+  button:not(.carousel-btn):hover,
+  a:not(.card):hover,
   input[type="button"]:hover,
   input[type="submit"]:hover,
   input[type="reset"]:hover,
-  [role="button"]:hover,
+  [role="button"]:not(.card):hover,
   .btn:hover,
   .btn-primary:hover,
   .btn-secondary:hover,
@@ -547,7 +547,6 @@ body {
   .pg-lb-close-btn:hover,
   .origingallery-nav-btn:hover,
   .origingallery-lightbox-close:hover,
-  .carousel-btn:hover,
   .stat-card:hover,
   .car-card:hover,
   .cp-card:hover,
@@ -558,10 +557,10 @@ body {
   }
 
   /* Reset pseudo-elements that animate on hover on touch devices */
-  button:hover::before,
-  button:hover::after,
-  a:hover::before,
-  a:hover::after,
+  button:not(.carousel-btn):hover::before,
+  button:not(.carousel-btn):hover::after,
+  a:not(.card):hover::before,
+  a:not(.card):hover::after,
   .btn:hover::before,
   .btn:hover::after,
   .slide-bg-btn:hover::before,

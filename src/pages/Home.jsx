@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Home.css';
 import LoadingSpinner from '../components/LoadingSpinner/LoadingSpinner';
@@ -350,9 +350,11 @@ const VideoShowcaseSection = React.memo(() => {
 VideoShowcaseSection.displayName = 'VideoShowcaseSection';
 
 const Home = () => {
+    const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
     const [activeIndex, setActiveIndex] = useState(0);
     const [carouselHeight, setCarouselHeight] = useState(600);
+    const wrapperRef = useRef(null);
 
     // Touch-device vs desktop detection:
     // On phones & tablets (iPhone, iPad, Android), all hover behavior is completely disabled.
@@ -418,7 +420,7 @@ const Home = () => {
 
     // Dedicated Touch Gesture Lifecycle for 3D Categories Carousel:
     // 1. Touch start -> record coordinates (cards remain 100% STATIC, NO live drag, NO transform change)
-    // 2. Touch move -> monitor trajectory (if vertical > horizontal, allow page scroll; if horizontal, track delta)
+    // 2. Touch move -> monitor trajectory (if vertical > horizontal, allow page scroll; if horizontal, track delta & prevent browser gesture interference)
     // 3. Touch release -> determine swipe direction -> switch ONE category -> 0.6s animation lock
     const touchGestureRef = useRef({
         startX: 0,
@@ -430,97 +432,119 @@ const Home = () => {
         isScrolling: false,
     });
 
-    const handleTouchStart = (e) => {
-        if (e.touches.length !== 1) return;
-        if (e.target.closest('.carousel-btn')) return;
+    useEffect(() => {
+        const el = wrapperRef.current;
+        if (!el) return;
 
-        const touch = e.touches[0];
-        touchGestureRef.current = {
-            startX: touch.clientX,
-            startY: touch.clientY,
-            currentX: touch.clientX,
-            currentY: touch.clientY,
-            startTime: Date.now(),
-            isSwiping: false,
-            isScrolling: false,
+        const onTouchStart = (e) => {
+            if (e.touches.length !== 1) return;
+            if (e.target.closest('.carousel-btn')) return;
+
+            const touch = e.touches[0];
+            touchGestureRef.current = {
+                startX: touch.clientX,
+                startY: touch.clientY,
+                currentX: touch.clientX,
+                currentY: touch.clientY,
+                startTime: Date.now(),
+                isSwiping: false,
+                isScrolling: false,
+            };
         };
-    };
 
-    const handleTouchMove = (e) => {
-        const g = touchGestureRef.current;
-        if (!g.startTime || e.touches.length !== 1) return;
+        const onTouchMove = (e) => {
+            const g = touchGestureRef.current;
+            if (!g.startTime || e.touches.length !== 1) return;
 
-        const touch = e.touches[0];
-        g.currentX = touch.clientX;
-        g.currentY = touch.clientY;
+            const touch = e.touches[0];
+            g.currentX = touch.clientX;
+            g.currentY = touch.clientY;
 
-        const deltaX = g.currentX - g.startX;
-        const deltaY = g.currentY - g.startY;
-        const absX = Math.abs(deltaX);
-        const absY = Math.abs(deltaY);
+            const deltaX = g.currentX - g.startX;
+            const deltaY = g.currentY - g.startY;
+            const absX = Math.abs(deltaX);
+            const absY = Math.abs(deltaY);
 
-        if (!g.isSwiping && !g.isScrolling) {
-            if (absY > absX && absY > 7) {
-                // Vertical motion dominates -> preserve native browser page scroll
-                g.isScrolling = true;
-                return;
-            }
-            if (absX > absY && absX > 7) {
-                // Horizontal motion dominates -> carousel swipe
-                g.isSwiping = true;
-            }
-        }
-        // Note: No live dragging of cards! The cards stay completely static while the finger is moving.
-    };
-
-    const handleTouchEnd = () => {
-        const g = touchGestureRef.current;
-        if (!g.startTime) return;
-
-        const deltaX = g.currentX - g.startX;
-        const deltaY = g.currentY - g.startY;
-        const absX = Math.abs(deltaX);
-        const absY = Math.abs(deltaY);
-        const deltaTime = Date.now() - g.startTime;
-        const wasScrolling = g.isScrolling;
-
-        g.startTime = 0; // reset active touch
-
-        if (wasScrolling) return;
-
-        // Evaluation: Deliberate swipe >= 35px or quick flick < 300ms with >= 20px
-        const isFlick = deltaTime < 300 && absX >= 20;
-        const isDeliberateSwipe = absX >= 35;
-        const isValidHorizontalSwipe = (isFlick || isDeliberateSwipe) && absX > absY;
-
-        if (isValidHorizontalSwipe) {
-            hasSwipedRef.current = true;
-            if (clickSuppressTimerRef.current) clearTimeout(clickSuppressTimerRef.current);
-            clickSuppressTimerRef.current = setTimeout(() => {
-                hasSwipedRef.current = false;
-            }, 450);
-
-            // Trigger ONE switch ONLY upon release
-            if (!isAnimatingRef.current) {
-                if (deltaX < 0) {
-                    handleNext();
-                } else {
-                    handlePrev();
+            if (!g.isSwiping && !g.isScrolling) {
+                if (absY > absX && absY > 7) {
+                    // Vertical motion dominates -> preserve native browser page scroll
+                    g.isScrolling = true;
+                    return;
+                }
+                if (absX > absY && absX > 7) {
+                    // Horizontal motion dominates -> carousel swipe
+                    g.isSwiping = true;
                 }
             }
-        } else if (absX > 10 || absY > 10) {
-            // Dragged slightly but didn't meet threshold -> suppress accidental click navigation
-            hasSwipedRef.current = true;
-            if (clickSuppressTimerRef.current) clearTimeout(clickSuppressTimerRef.current);
-            clickSuppressTimerRef.current = setTimeout(() => {
-                hasSwipedRef.current = false;
-            }, 300);
-        }
-    };
 
-    const handleTouchCancel = () => {
-        touchGestureRef.current.startTime = 0;
-    };
+            if (g.isSwiping && e.cancelable) {
+                // Prevent browser navigation gestures (e.g. iOS back/forward swipe) and prevent touchcancel
+                e.preventDefault();
+            }
+            // Cards remain 100% static in 3D during touch - no live dragging!
+        };
+
+        const onTouchEnd = () => {
+            const g = touchGestureRef.current;
+            if (!g.startTime) return;
+
+            const deltaX = g.currentX - g.startX;
+            const deltaY = g.currentY - g.startY;
+            const absX = Math.abs(deltaX);
+            const absY = Math.abs(deltaY);
+            const deltaTime = Date.now() - g.startTime;
+            const wasScrolling = g.isScrolling;
+
+            g.startTime = 0; // reset active touch
+
+            if (wasScrolling) return;
+
+            // Evaluation: Deliberate swipe >= 30px or quick flick < 300ms with >= 18px
+            const isFlick = deltaTime < 300 && absX >= 18;
+            const isDeliberateSwipe = absX >= 30;
+            const isValidHorizontalSwipe = (isFlick || isDeliberateSwipe) && absX > absY;
+
+            if (isValidHorizontalSwipe) {
+                hasSwipedRef.current = true;
+                if (clickSuppressTimerRef.current) clearTimeout(clickSuppressTimerRef.current);
+                clickSuppressTimerRef.current = setTimeout(() => {
+                    hasSwipedRef.current = false;
+                }, 450);
+
+                // Trigger ONE switch ONLY upon release
+                if (!isAnimatingRef.current) {
+                    if (deltaX < 0) {
+                        handleNext();
+                    } else {
+                        handlePrev();
+                    }
+                }
+            } else if (absX > 8 || absY > 8) {
+                // Dragged slightly but didn't meet threshold -> suppress accidental click navigation
+                hasSwipedRef.current = true;
+                if (clickSuppressTimerRef.current) clearTimeout(clickSuppressTimerRef.current);
+                clickSuppressTimerRef.current = setTimeout(() => {
+                    hasSwipedRef.current = false;
+                }, 300);
+            }
+        };
+
+        const onTouchCancel = () => {
+            touchGestureRef.current.startTime = 0;
+        };
+
+        el.addEventListener('touchstart', onTouchStart, { passive: true });
+        el.addEventListener('touchmove', onTouchMove, { passive: false });
+        el.addEventListener('touchend', onTouchEnd, { passive: true });
+        el.addEventListener('touchcancel', onTouchCancel, { passive: true });
+
+        return () => {
+            el.removeEventListener('touchstart', onTouchStart);
+            el.removeEventListener('touchmove', onTouchMove);
+            el.removeEventListener('touchend', onTouchEnd);
+            el.removeEventListener('touchcancel', onTouchCancel);
+        };
+    }, [handleNext, handlePrev]);
 
     // Desktop mouse pointer gesture (for desktop mouse drag support)
     const mouseGestureRef = useRef({
@@ -648,12 +672,10 @@ const Home = () => {
                     <p className="section-subtitle">Explore the diverse range of visual storytelling categories we offer.</p>
 
                     <div
+                        ref={wrapperRef}
                         className={`wrapper ${canHover ? 'can-hover' : ''}`}
                         style={{ height: `${carouselHeight}px`, marginTop: '20px' }}
-                        onTouchStart={handleTouchStart}
-                        onTouchMove={handleTouchMove}
-                        onTouchEnd={handleTouchEnd}
-                        onTouchCancel={handleTouchCancel}
+                        data-lenis-prevent
                         onPointerDown={handlePointerDown}
                         onClickCapture={(e) => {
                             if (hasSwipedRef.current) {
@@ -680,8 +702,10 @@ const Home = () => {
                                 const isActive = normalizedActiveIndex === index;
 
                                 return (
-                                    <Link
-                                        to={`/portfolio/${category.slug}`}
+                                    <div
+                                        role="link"
+                                        tabIndex={isActive ? 0 : -1}
+                                        aria-label={category.name}
                                         className={`card ${isActive ? 'active-front' : ''}`}
                                         key={category._id}
                                         style={{ '--index': index }}
@@ -693,11 +717,16 @@ const Home = () => {
                                                 e.stopPropagation();
                                                 return;
                                             }
-                                            // Only the active front card is clickable (to open its category portfolio).
-                                            // Non-active cards in the 3D model do NOT rotate or jump when clicked.
-                                            if (!isActive) {
+                                            // Only the active front card navigates to its category portfolio.
+                                            // Non-active cards in the 3D model do NOT rotate or navigate.
+                                            if (isActive) {
+                                                navigate(`/portfolio/${category.slug}`);
+                                            }
+                                        }}
+                                        onKeyDown={(e) => {
+                                            if (isActive && (e.key === 'Enter' || e.key === ' ')) {
                                                 e.preventDefault();
-                                                return;
+                                                navigate(`/portfolio/${category.slug}`);
                                             }
                                         }}
                                     >
@@ -705,7 +734,7 @@ const Home = () => {
                                         <div className="card-title-overlay">
                                             <h3>{category.name}</h3>
                                         </div>
-                                    </Link>
+                                    </div>
                                 );
                             }) : (
                                 <div style={{ color: '#fff', width: '100%', padding: '2rem', display: 'flex', justifyContent: 'center' }}>

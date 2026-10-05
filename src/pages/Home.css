@@ -2958,17 +2958,17 @@ html.dark,
     align-items: center;
     justify-content: center;
     overflow: visible;
-    touch-action: pan-y;
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
+    touch-action: pan-y !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -webkit-touch-callout: none !important;
 }
 
 .wrapper,
 .wrapper * {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
 }
 
 .inner {
@@ -2989,14 +2989,19 @@ html.dark,
     transform-style: preserve-3d;
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
     will-change: transform;
-    touch-action: pan-y;
-    user-select: none;
-    -webkit-user-select: none;
+    touch-action: pan-y !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
     /* Smoother, synchronized with card scaling */
 }
 
+/* Category 3D Carousel Card - fully insulated from Bootstrap and global link styles */
+.categories-section .card,
 .card {
-    position: absolute;
+    position: absolute !important;
+    display: block !important;
+    min-width: unset !important;
+    word-wrap: normal !important;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
     overflow: hidden;
@@ -3007,19 +3012,27 @@ html.dark,
     background: #111;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     -webkit-font-smoothing: antialiased;
-    touch-action: pan-y;
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-user-drag: none;
-    -webkit-touch-callout: none;
-    -webkit-tap-highlight-color: transparent;
+    touch-action: pan-y !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -webkit-user-drag: none !important;
+    -webkit-touch-callout: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    outline: none !important;
 }
 
+.categories-section .card.active-front,
 .card.active-front {
     cursor: pointer;
     border-color: #bd9f67;
     transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(calc(var(--translateZ) + var(--active-pop, 120px))) scale(var(--active-scale, 1.25));
     box-shadow: 0 0 40px rgba(189, 159, 103, 0.8), 0 0 80px rgba(189, 159, 103, 0.4);
+}
+
+/* Guarantee touch tap/press never triggers unexpected transforms on cards */
+.categories-section .card:focus,
+.categories-section .card:active {
+    outline: none !important;
 }
 
 .card:not(.active-front) .img::before {
