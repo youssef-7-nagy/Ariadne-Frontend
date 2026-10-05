@@ -627,22 +627,11 @@ const Home = () => {
                                                 e.stopPropagation();
                                                 return;
                                             }
-                                            if (normalizedActiveIndex !== index) {
+                                            // Only the active front card is clickable (to open its category portfolio).
+                                            // Non-active cards in the 3D model do NOT rotate or jump when clicked.
+                                            if (!isActive) {
                                                 e.preventDefault();
-                                                if (isAnimatingRef.current) return;
-                                                isAnimatingRef.current = true;
-                                                if (animTimerRef.current) clearTimeout(animTimerRef.current);
-                                                animTimerRef.current = setTimeout(() => {
-                                                    isAnimatingRef.current = false;
-                                                }, 600);
-
-                                                // Calculate shortest path rotation
-                                                let diff = index - normalizedActiveIndex;
-                                                const half = categories.length / 2;
-                                                if (diff > half) diff -= categories.length;
-                                                if (diff < -half) diff += categories.length;
-
-                                                setActiveIndex(prev => prev + diff);
+                                                return;
                                             }
                                         }}
                                     >

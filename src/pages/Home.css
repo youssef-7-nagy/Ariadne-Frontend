@@ -3005,7 +3005,7 @@ html.dark,
     inset: 0;
     transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(var(--translateZ));
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, box-shadow 0.4s ease;
-    cursor: pointer;
+    cursor: default;
     background: #111;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     -webkit-font-smoothing: antialiased;
@@ -3022,6 +3022,7 @@ html.dark,
 }
 
 .card.active-front {
+    cursor: pointer;
     border-color: #bd9f67;
     transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(calc(var(--translateZ) + var(--active-pop, 120px))) scale(var(--active-scale, 1.25));
     z-index: 10;
@@ -3038,40 +3039,16 @@ html.dark,
     pointer-events: none;
 }
 
-/* Desktop hover effects - ONLY applied with a fine pointer (mouse/trackpad), never on touch/tablets/phones */
+/* Desktop hover effects - ONLY applied to the active front card with a fine pointer (mouse/trackpad) */
 @media (hover: hover) and (pointer: fine) {
-    .card:hover {
-        transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(calc(var(--translateZ) + 40px)) scale(1.05);
-        z-index: 10;
-        border-color: rgba(189, 159, 103, 0.5);
-        box-shadow: 0 0 20px rgba(189, 159, 103, 0.3);
+    .card.active-front:hover {
+        transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(calc(var(--translateZ) + var(--active-pop, 120px) + 15px)) scale(calc(var(--active-scale, 1.25) * 1.03));
+        border-color: #d4b483;
+        box-shadow: 0 0 50px rgba(189, 159, 103, 0.95), 0 0 90px rgba(189, 159, 103, 0.5);
     }
 
-    .card:hover .img::before {
-        opacity: 0.5;
-    }
-
-    .card:hover .img {
-        transform: scale(1.1);
-    }
-
-    .card:hover .img::after {
-        opacity: 1;
-    }
-
-    .card:hover .card-title-overlay {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .card:hover .card-title-overlay h3 {
-        color: #bd9f67;
-        text-shadow: 0 0 10px rgba(189, 159, 103, 0.5), 0 2px 4px rgba(0, 0, 0, 0.8);
-        letter-spacing: 1.4px;
-    }
-
-    .card:hover .card-title-overlay h3::after {
-        width: 36px;
+    .card.active-front:hover .img {
+        transform: scale(1.08);
     }
 }
 
