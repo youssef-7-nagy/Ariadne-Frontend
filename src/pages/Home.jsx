@@ -13,8 +13,6 @@ import imgCorporate from '../assets/categories/corporate.png';
 import imgMusicVideos from '../assets/categories/music-videos.png';
 import imgPhotography from '../assets/categories/photography.png';
 import imgBTS from '../assets/categories/behind-the-scenes.png';
-import imgAboutStory from '../assets/about-story.jpg';
-import imgHeroStory from '../assets/home/first.png';
 import HighlightsSection from '../components/HighlightsSection';
 
 
@@ -50,7 +48,6 @@ const CinematicFeaturedSection = React.memo(() => {
     const videoRef = useRef(null);
     const [isReady, setIsReady] = useState(false);
     const [ariaVisible, setAriaVisible] = useState(false);
-    const [ariaKey, setAriaKey] = useState(0);
     const [shouldLoad, setShouldLoad] = useState(false);
     const [hasError, setHasError] = useState(false);
 
@@ -117,7 +114,6 @@ const CinematicFeaturedSection = React.memo(() => {
         } else {
             // Video wrapped around / restarted loop
             setAriaVisible(false);
-            setAriaKey(k => k + 1);
         }
     }, []);
 
@@ -126,7 +122,6 @@ const CinematicFeaturedSection = React.memo(() => {
         if (!video) return;
         if (video.currentTime < 0.6) {
             setAriaVisible(false);
-            setAriaKey(k => k + 1);
         }
     }, []);
 
@@ -188,7 +183,6 @@ const CinematicFeaturedSection = React.memo(() => {
 
             {/* Cinematic ARIA title — appears at exactly 0.6 s after video starts */}
             <div
-                key={ariaKey}
                 className={`cloudinary-aria-title${ariaVisible ? ' cloudinary-aria-title--visible' : ''}`}
                 aria-hidden="true"
             >

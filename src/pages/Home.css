@@ -3993,45 +3993,76 @@ html.dark,
     box-sizing: border-box;
 }
 
-/* Tablet (iPad, landscape tablets, iPad Pro) */
-@media (max-width: 1024px) {
-    .home-white-section {
-        height: 72vh;
-        height: 72svh;
-        height: 72dvh;
-        min-height: 480px;
-        max-height: 760px;
-    }
+/* Base Video Background Wrapper - fills container cleanly with native object-fit */
+.home-video-bg-wrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
 }
 
-/* Tablet Portrait */
-@media (max-width: 1024px) and (orientation: portrait) {
-    .home-white-section:not(.teaser-video-section) {
+.home-video-bg-iframe,
+.home-video-bg-video,
+.home-video-bg-poster {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border: 0;
+    pointer-events: none;
+}
+
+.home-video-bg-poster {
+    z-index: 2;
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Tablet (iPad, landscape tablets, iPad Pro - <= 1024px) */
+@media (max-width: 1024px) {
+    .home-white-section {
         width: 100%;
         margin-left: 0;
         margin-right: 0;
-        height: auto;
-        aspect-ratio: 16 / 10;
-        min-height: 420px;
-        max-height: 560px;
-    }
-
-    .home-white-section:not(.teaser-video-section) .home-video-bg-wrapper {
-        min-width: 115%;
-        height: 100%;
+        max-width: 100%;
+        height: 68vh;
+        height: 68svh;
+        height: 68dvh;
+        min-height: 440px;
+        max-height: 680px;
     }
 }
 
-/* Mobile Devices (<= 768px): 16:9 cinematic full-width video section with text overlay */
+/* Tablet Portrait (iPad 768px, iPad Air 820px, iPad Pro 834px) */
+@media (max-width: 1024px) and (orientation: portrait) {
+    .home-white-section {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        max-width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 10;
+        min-height: 380px;
+        max-height: 540px;
+    }
+}
+
+/* Mobile Devices (<= 768px): Fluid cinematic framing with balanced height */
 @media (max-width: 768px) {
     .home-white-section {
         width: 100% !important;
         margin: 0 !important;
         padding: 0 !important;
-        aspect-ratio: 16 / 9 !important;
+        max-width: 100% !important;
+        aspect-ratio: 16 / 10 !important;
         height: auto !important;
-        min-height: 0 !important;
-        max-height: none !important;
+        min-height: 270px !important;
+        max-height: 420px !important;
         overflow: hidden !important;
         position: relative !important;
         background-color: #000000 !important;
@@ -4039,14 +4070,10 @@ html.dark,
 
     .home-white-section .home-video-bg-wrapper {
         position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        transform: none !important;
+        inset: 0 !important;
         width: 100% !important;
         height: 100% !important;
-        aspect-ratio: 16 / 9 !important;
-        min-height: 100% !important;
-        min-width: 100% !important;
+        transform: none !important;
         overflow: hidden !important;
         pointer-events: none !important;
         z-index: 1 !important;
@@ -4061,6 +4088,7 @@ html.dark,
         width: 100% !important;
         height: 100% !important;
         object-fit: cover !important;
+        object-position: center !important;
         border: 0 !important;
         pointer-events: none !important;
     }
@@ -4141,8 +4169,12 @@ html.dark,
     }
 }
 
-/* Extra small mobile screens (<= 400px) */
-@media (max-width: 400px) {
+/* Extra small mobile screens (<= 380px) */
+@media (max-width: 380px) {
+    .home-white-section {
+        min-height: 240px !important;
+    }
+
     .video-bottom-features {
         padding: 10px 5px 5px !important;
         gap: 2px !important;
@@ -4165,11 +4197,14 @@ html.dark,
 /* Mobile Landscape (short height, wide aspect ratio) */
 @media (orientation: landscape) and (max-height: 520px) {
     .home-white-section {
-        height: 100vh;
-        height: 100svh;
-        height: 100dvh;
-        min-height: 320px;
-        max-height: 520px;
+        width: 100% !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        height: 100vh !important;
+        height: 100svh !important;
+        height: 100dvh !important;
+        min-height: 280px !important;
+        max-height: 520px !important;
     }
 
     .video-bottom-features {
@@ -4180,46 +4215,6 @@ html.dark,
     .video-center-cta {
         margin-bottom: 8px !important;
     }
-}
-
-/* 16:9 Object-fit: cover implementation for iframe background player */
-.home-video-bg-wrapper {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100vw;
-    height: 56.25vw;
-    min-height: 100%;
-    min-width: 177.78vh;
-    min-width: 177.78dvh;
-    pointer-events: none;
-    z-index: 1;
-    overflow: hidden;
-}
-
-.home-video-bg-iframe,
-.home-video-bg-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border: 0;
-    pointer-events: none;
-}
-
-.home-video-bg-poster {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    pointer-events: none;
-    z-index: 2;
-    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ==========================================================================

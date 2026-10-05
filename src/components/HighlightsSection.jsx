@@ -34,7 +34,7 @@ const HIGHLIGHT_CARDS = [
     },
 ];
 
-const SectionHeader = ({ eyebrowBrand = 'ARIADNE FILMS', eyebrowType = 'AUDIOVISUAL COMMUNICATION AGENCY', title = 'Our strengths' }) => (
+const SectionHeader = React.memo(({ eyebrowBrand = 'ARIADNE FILMS', eyebrowType = 'AUDIOVISUAL COMMUNICATION AGENCY', title = 'Our strengths' }) => (
     <header className="hl-header">
         <div className="hl-eyebrow">
             <span>{eyebrowBrand}</span>
@@ -43,12 +43,13 @@ const SectionHeader = ({ eyebrowBrand = 'ARIADNE FILMS', eyebrowType = 'AUDIOVIS
         </div>
         <h2 className="hl-title">{title}</h2>
     </header>
-);
+));
+SectionHeader.displayName = 'SectionHeader';
 
-const HighlightCard = ({ card }) => (
+const HighlightCard = React.memo(({ card }) => (
     <article className="hl-card">
         <div className="hl-card-bg">
-            <img src={card.image} alt={card.alt} loading="lazy" decoding="async" />
+            <img src={card.image} alt={card.alt} loading="lazy" decoding="async" width="1600" height="1067" />
             <div className="hl-card-overlay" />
         </div>
         <div className="hl-card-content">
@@ -59,13 +60,14 @@ const HighlightCard = ({ card }) => (
             <h4 className="hl-card-subtitle">{card.subtitle}</h4>
             <p className="hl-card-desc">{card.description}</p>
             <div className="hl-card-logo">
-                <img src="/mylogo.png" alt="ARIA Logo" loading="lazy" decoding="async" />
+                <img src="/mylogo.png" alt="ARIA Logo" loading="lazy" decoding="async" width="48" height="48" />
             </div>
         </div>
     </article>
-);
+));
+HighlightCard.displayName = 'HighlightCard';
 
-const HighlightsSection = ({
+const HighlightsSection = React.memo(({
     cards = HIGHLIGHT_CARDS,
 }) => (
     <section className="hl-section" aria-label="Our strengths">
@@ -78,6 +80,7 @@ const HighlightsSection = ({
             </div>
         </div>
     </section>
-);
+));
+HighlightsSection.displayName = 'HighlightsSection';
 
 export default HighlightsSection;

@@ -57,11 +57,15 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
     }, []);
 
     useEffect(() => {
+        let ticking = false;
         const handleScroll = () => {
-            if (window.scrollY > 40) {
-                setIsScrolled(true);
-            } else {
-                setIsScrolled(false);
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const nextScrolled = window.scrollY > 40;
+                    setIsScrolled(prev => (prev !== nextScrolled ? nextScrolled : prev));
+                    ticking = false;
+                });
+                ticking = true;
             }
         };
 
