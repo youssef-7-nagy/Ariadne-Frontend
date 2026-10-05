@@ -3039,15 +3039,15 @@ html.dark,
     pointer-events: none;
 }
 
-/* Desktop hover effects - ONLY applied to the active front card with a fine pointer (mouse/trackpad) */
+/* Desktop hover effects - ONLY applied when .can-hover is present on wrapper with a fine pointer (mouse/trackpad) */
 @media (hover: hover) and (pointer: fine) {
-    .card.active-front:hover {
+    .wrapper.can-hover .card.active-front:hover {
         transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(calc(var(--translateZ) + var(--active-pop, 120px) + 15px)) scale(calc(var(--active-scale, 1.25) * 1.03));
         border-color: #d4b483;
         box-shadow: 0 0 50px rgba(189, 159, 103, 0.95), 0 0 90px rgba(189, 159, 103, 0.5);
     }
 
-    .card.active-front:hover .img {
+    .wrapper.can-hover .card.active-front:hover .img {
         transform: scale(1.08);
     }
 }

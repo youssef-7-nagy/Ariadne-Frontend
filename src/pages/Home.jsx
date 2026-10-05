@@ -360,6 +360,43 @@ const Home = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [carouselHeight, setCarouselHeight] = useState(600);
 
+    // Touch-device vs desktop detection:
+    // On phones & tablets (iPhone, iPad, Android), all hover behavior is completely disabled.
+    // Desktop mouse keeps existing hover interactions.
+    const [canHover, setCanHover] = useState(false);
+
+    useEffect(() => {
+        // Initial detection: only enable hover if device supports hover and is NOT a touch-primary screen
+        const hasCoarse = window.matchMedia('(pointer: coarse)').matches;
+        const hasTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+        const hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+        if (!hasTouch && !hasCoarse && hasHover) {
+            setCanHover(true);
+        }
+
+        // Dynamic pointer tracking: enable hover ONLY when a mouse is used, disable on touch
+        const onPointerMove = (e) => {
+            if (e.pointerType === 'mouse') {
+                setCanHover(true);
+            } else if (e.pointerType === 'touch' || e.pointerType === 'pen') {
+                setCanHover(false);
+            }
+        };
+
+        const onTouchStart = () => {
+            setCanHover(false);
+        };
+
+        window.addEventListener('pointermove', onPointerMove, { passive: true });
+        window.addEventListener('touchstart', onTouchStart, { passive: true });
+
+        return () => {
+            window.removeEventListener('pointermove', onPointerMove);
+            window.removeEventListener('touchstart', onTouchStart);
+        };
+    }, []);
+
     // Animation locking to prevent gesture collision and transform corruption
     const isAnimatingRef = useRef(false);
     const animTimerRef = useRef(null);
@@ -405,7 +442,12 @@ const Home = () => {
 
     const handlePointerDown = (e) => {
         if (!e.isPrimary) return;
-        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        if (e.pointerType === 'touch' || e.pointerType === 'pen') {
+            setCanHover(false);
+        } else if (e.pointerType === 'mouse') {
+            setCanHover(true);
+            if (e.button !== 0) return;
+        }
         if (e.target.closest('.carousel-btn')) return;
 
         pointerGestureRef.current = {
@@ -586,7 +628,7 @@ const Home = () => {
                     <p className="section-subtitle">Explore the diverse range of visual storytelling categories we offer.</p>
 
                     <div
-                        className="wrapper"
+                        className={`wrapper ${canHover ? 'can-hover' : ''}`}
                         style={{ height: `${carouselHeight}px`, marginTop: '20px' }}
                         onPointerDown={handlePointerDown}
                         onClickCapture={(e) => {
