@@ -1008,8 +1008,7 @@
   flex-shrink: 0;
 }
 
-/* Reveal badge on hover or when widget is open */
-.contact-widget:hover .cw-remove-btn,
+/* Close control badge – visible and interactive ONLY when widget is open */
 .contact-widget--open .cw-remove-btn,
 .cw-remove-btn:focus-visible {
   opacity: 1;
@@ -1031,19 +1030,6 @@
 
 .contact-widget--dragging .cw-remove-btn {
   opacity: 0;
-  pointer-events: none;
-}
-
-/* Fade/shrink out when removed */
-.contact-widget--leaving .cw-trigger {
-  opacity: 0;
-  transform: scale(0.7) !important;
-  transition: opacity 0.22s ease, transform 0.22s ease !important;
-  pointer-events: none;
-}
-
-.contact-widget--leaving .cw-remove-btn {
-  opacity: 0 !important;
   pointer-events: none;
 }
 
