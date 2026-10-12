@@ -55,7 +55,7 @@ const Footer = () => {
                             <div className="footer-logo">
                                 <Link to="/" className="logo" style={{ textDecoration: 'none', justifyContent: 'flex-start' }}>
                                     <img
-                                        src="/mylogo.png"
+                                        src="/mylogo-white.png"
                                         alt="Ariadne Logo"
                                         className="logo-img"
                                     />
