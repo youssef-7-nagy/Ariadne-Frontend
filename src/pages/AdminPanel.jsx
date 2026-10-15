@@ -876,7 +876,7 @@ const AdminPanel = () => {
                         )}
                     </div>
 
-                    <div className="digital-card-container hover-lift" style={{ marginTop: '20px', maxWidth: '400px' }}>
+                    <div className="digital-card-container hover-lift">
                         <div className={`digital-id-card shimmer-card ${userRole === 'superadmin' ? 'superadmin-theme' : (userRole === 'admin' ? 'admin-theme' : 'user-theme')}`}>
                             <div className="card-top-row">
                                 <div className="card-logo">Administrative Identity</div>

@@ -233,6 +233,42 @@ textarea {
   border-bottom: 5px solid #f59e0b;
 }
 
+/* Administrative Identity Card */
+.admin-main .digital-card-container {
+  width: 100% !important;
+  max-width: 400px !important;
+  margin: 24px auto 0 !important;
+  align-self: center !important;
+  perspective: 1000px;
+}
+
+.admin-main .digital-id-card {
+  aspect-ratio: 1.6 / 1 !important;
+  min-height: 200px !important;
+  height: auto !important;
+  border-radius: 20px !important;
+  padding: 24px !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 480px) {
+  .admin-main .digital-card-container {
+    max-width: 340px !important;
+    width: 92% !important;
+    margin: 20px auto 0 !important;
+  }
+
+  .admin-main .digital-id-card {
+    min-height: 180px !important;
+    padding: 18px !important;
+    border-radius: 18px !important;
+  }
+}
+
 /* Dark Chart Layout */
 .sleek-dark-chart {
   background: #1e1e24 !important;
