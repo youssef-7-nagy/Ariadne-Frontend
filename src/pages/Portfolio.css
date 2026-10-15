@@ -305,7 +305,8 @@ html.dark .pf-card:hover {
         opacity 0.6s ease;
     z-index: 0;
     opacity: 0;
-    -webkit-transform: translateZ(0); /* Force GPU composite for iOS Safari */
+    -webkit-transform: translateZ(0);
+    /* Force GPU composite for iOS Safari */
 }
 
 .pf-card-bg.loaded {
@@ -1481,7 +1482,8 @@ html.dark .pd-media-block {
 .pd-video-wrapper {
     position: relative;
     width: 100%;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    padding-bottom: 56.25%;
+    /* 16:9 aspect ratio */
     height: 0;
     background: #000000;
     overflow: hidden;
@@ -1489,7 +1491,8 @@ html.dark .pd-media-block {
 }
 
 .pd-video-portrait {
-    padding-bottom: 177.78%; /* 9:16 aspect ratio */
+    padding-bottom: 177.78%;
+    /* 9:16 aspect ratio */
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
@@ -1850,6 +1853,7 @@ html.dark .pd-media-block {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -1867,6 +1871,7 @@ html.dark .pd-media-block {
         opacity: 0;
         transform: scale(0.92) translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: scale(1) translateY(0);
@@ -1901,7 +1906,8 @@ html.dark .pd-media-block {
 .pd-yt-modal-iframe-wrapper {
     position: relative;
     width: 100%;
-    padding-bottom: 56.25%; /* 16:9 */
+    padding-bottom: 56.25%;
+    /* 16:9 */
     height: 0;
     border-radius: 16px;
     overflow: hidden;

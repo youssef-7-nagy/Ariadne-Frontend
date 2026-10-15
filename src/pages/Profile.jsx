@@ -297,17 +297,31 @@ const Profile = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [notice, setNotice] = useState('');
     const [userData, setUserData] = useState(() => readStoredUser());
-    const [editForm, setEditForm] = useState({ name: '', phone: '', email: '' });
+    const [editForm, setEditForm] = useState({ name: '', phone: '', email: '', companyName: '' });
+    const [logoFile, setLogoFile] = useState(null);
+    const [logoPreview, setLogoPreview] = useState('');
+    const [removeLogo, setRemoveLogo] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
 
     const userRole = (userData?.role || 'customer').toLowerCase();
     const firstName = (userData?.name || 'Client').trim().split(/\s+/)[0];
+    const resolvedAvatar = resolveUrl(userData?.companyLogo || userData?.logo || userData?.avatar || userData?.photo || userData?.profilePicture);
 
     useEffect(() => {
         setEditForm({
             name: userData?.name || '',
             phone: userData?.phone || '',
             email: userData?.email || '',
+            companyName: userData?.companyName || '',
         });
+        const currentLogo = userData?.companyLogo || userData?.logo || userData?.avatar;
+        if (currentLogo) {
+            setLogoPreview(resolveUrl(currentLogo));
+        } else {
+            setLogoPreview('');
+        }
+        setLogoFile(null);
+        setRemoveLogo(false);
     }, [userData]);
 
     useEffect(() => {
@@ -390,30 +404,111 @@ const Profile = () => {
         navigate('/login', { replace: true });
     };
 
-    const handleUpdateProfile = (event) => {
+    const handleLogoChange = (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        if (file.size > 5 * 1024 * 1024) {
+            setNotice('Logo file must be smaller than 5MB.');
+            return;
+        }
+        setLogoFile(file);
+        setRemoveLogo(false);
+        const reader = new FileReader();
+        reader.onload = () => {
+            setLogoPreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const handleRemoveLogo = () => {
+        setLogoFile(null);
+        setLogoPreview('');
+        setRemoveLogo(true);
+    };
+
+    const handleUpdateProfile = async (event) => {
         event.preventDefault();
         const nextName = editForm.name.trim();
         const nextPhone = editForm.phone.trim();
+        const nextCompany = (editForm.companyName || '').trim();
 
         if (!nextName) {
             setNotice('Please enter your name before saving.');
             return;
         }
 
-        const changedNothing =
-            (userData?.name || '').trim() === nextName &&
-            (userData?.phone || '').trim() === nextPhone;
+        setIsSaving(true);
+        setNotice('');
 
-        if (changedNothing) {
-            setNotice('No new changes detected.');
-            return;
+        try {
+            const token = localStorage.getItem('token');
+            let updatedUser = {
+                ...(userData || {}),
+                name: nextName,
+                phone: nextPhone,
+                companyName: nextCompany,
+            };
+
+            if (token) {
+                const formData = new FormData();
+                formData.append('name', nextName);
+                formData.append('phone', nextPhone);
+                formData.append('companyName', nextCompany);
+
+                if (logoFile) {
+                    formData.append('companyLogo', logoFile);
+                } else if (removeLogo) {
+                    formData.append('removeLogo', 'true');
+                }
+
+                const res = await axios.put(`${API_BASE_URL}/api/auth/me`, formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+
+                if (res.data?.data?.user) {
+                    updatedUser = { ...updatedUser, ...res.data.data.user };
+                }
+            } else {
+                if (logoPreview && !removeLogo) {
+                    updatedUser.companyLogo = logoPreview;
+                    updatedUser.avatar = logoPreview;
+                } else if (removeLogo) {
+                    updatedUser.companyLogo = '';
+                    updatedUser.avatar = '';
+                }
+            }
+
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+            window.dispatchEvent(new Event('auth-changed'));
+            setUserData(updatedUser);
+            setLogoFile(null);
+            setRemoveLogo(false);
+            setNotice('Profile and company details updated successfully!');
+        } catch (err) {
+            console.error('Update profile error:', err);
+            let fallbackUser = {
+                ...(userData || {}),
+                name: nextName,
+                phone: nextPhone,
+                companyName: nextCompany,
+            };
+            if (logoPreview && !removeLogo) {
+                fallbackUser.companyLogo = logoPreview;
+                fallbackUser.avatar = logoPreview;
+            } else if (removeLogo) {
+                fallbackUser.companyLogo = '';
+                fallbackUser.avatar = '';
+            }
+            localStorage.setItem('user', JSON.stringify(fallbackUser));
+            window.dispatchEvent(new Event('auth-changed'));
+            setUserData(fallbackUser);
+            setNotice(err?.response?.data?.message || 'Updated profile locally.');
+        } finally {
+            setIsSaving(false);
         }
-
-        const updatedUser = { ...(userData || {}), name: nextName, phone: nextPhone };
-        localStorage.setItem('user', JSON.stringify(updatedUser));
-        window.dispatchEvent(new Event('auth-changed'));
-        setUserData(updatedUser);
-        setNotice('Profile updated successfully.');
     };
 
     if (isLoading) {
@@ -452,7 +547,12 @@ const Profile = () => {
                 <div className="digital-card-container hover-lift">
                     <div className={`digital-id-card shimmer-card ${userRole === 'admin' ? 'admin-theme' : 'user-theme'}`}>
                         <div className="card-top-row">
-                            <div className="card-logo">Ariadne Client</div>
+                            <div className="card-logo">
+                                {resolvedAvatar ? (
+                                    <img src={resolvedAvatar} alt="Company Logo" className="card-company-logo-img" />
+                                ) : null}
+                                <span>{userData?.companyName || 'Ariadne Client'}</span>
+                            </div>
                             <div className="card-chip" />
                         </div>
                         <div className="card-middle-row">
@@ -574,10 +674,61 @@ const Profile = () => {
     const renderSettings = () => (
         <div className="dashboard-card">
             <div className="card-header">
-                <h3>Account Settings</h3>
-                <p>Keep your profile information up to date.</p>
+                <h3>Account & Company Settings</h3>
+                <p>Manage your personal details and company brand identity.</p>
             </div>
             <form onSubmit={handleUpdateProfile} className="settings-form">
+                {/* --- COMPANY BRANDING / LOGO UPLOAD --- */}
+                <div className="form-group company-logo-upload-group">
+                    <label>Company / Brand Logo</label>
+                    <div className="company-logo-preview-row">
+                        <div className="company-logo-preview-box">
+                            {logoPreview ? (
+                                <img src={logoPreview} alt="Company Logo Preview" className="company-logo-preview-img" />
+                            ) : (
+                                <div className="company-logo-initial-fallback">
+                                    {(editForm.companyName || editForm.name || 'Y').charAt(0).toUpperCase()}
+                                </div>
+                            )}
+                        </div>
+                        <div className="company-logo-actions">
+                            <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+                                <label className="btn-upload-logo-label hover-lift">
+                                    <input
+                                        type="file"
+                                        accept="image/png,image/jpeg,image/webp,image/svg+xml"
+                                        onChange={handleLogoChange}
+                                        style={{ display: 'none' }}
+                                    />
+                                    📁 {logoPreview ? 'Change Logo' : 'Upload Logo'}
+                                </label>
+                                {logoPreview && (
+                                    <button
+                                        type="button"
+                                        className="btn-remove-logo hover-lift"
+                                        onClick={handleRemoveLogo}
+                                    >
+                                        ✕ Remove
+                                    </button>
+                                )}
+                            </div>
+                            <span className="logo-upload-hint">
+                                Upload your company logo (PNG, JPG, SVG, or WEBP up to 5MB). Displays on your navigation avatar and digital client card.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="form-group">
+                    <label>Company / Studio Name</label>
+                    <input
+                        type="text"
+                        placeholder="e.g. Acme Productions or Brand Name"
+                        value={editForm.companyName}
+                        onChange={(e) => setEditForm((prev) => ({ ...prev, companyName: e.target.value }))}
+                    />
+                </div>
+
                 <div className="form-group">
                     <label>Full Name</label>
                     <input
@@ -601,8 +752,8 @@ const Profile = () => {
                 <p className="empty-text" style={{ textAlign: 'left', padding: 0 }}>
                     Password change is handled via the forgot-password flow.
                 </p>
-                <button type="submit" className="btn-save pulse-btn">
-                    Save Changes
+                <button type="submit" className="btn-save pulse-btn" disabled={isSaving}>
+                    {isSaving ? 'Saving Changes...' : 'Save Changes'}
                 </button>
             </form>
         </div>
@@ -627,20 +778,33 @@ const Profile = () => {
                             className="profile-avatar"
                             role="img"
                             aria-label="Profile avatar"
+                            onClick={() => setActiveTab('settings')}
+                            title="Click to manage company logo in Settings"
                         >
-                            <img
-                                src={userData?.avatar || userData?.photo || userData?.profilePicture || getAvatarUrl(userData?.gender)}
-                                alt="Profile avatar"
-                                onError={(e) => {
-                                    e.currentTarget.onerror = null;
-                                    e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23eef2ff'/%3E%3Ccircle cx='50' cy='38' r='20' fill='%234361ee'/%3E%3Cpath d='M18 84 c0 -18 14 -30 32 -30 s32 12 32 30' fill='%234361ee'/%3E%3C/svg%3E";
-                                }}
-                            />
+                            {resolvedAvatar ? (
+                                <img
+                                    src={resolvedAvatar}
+                                    alt="Profile avatar"
+                                    onError={(e) => {
+                                        e.currentTarget.onerror = null;
+                                        e.currentTarget.src = getAvatarUrl(userData?.gender);
+                                    }}
+                                />
+                            ) : (
+                                <div className="profile-avatar-letter">
+                                    {(userData?.companyName || userData?.name || 'Y').charAt(0).toUpperCase()}
+                                </div>
+                            )}
                         </div>
-                        <h4>{userData?.name || 'Client'}</h4>
+                        <h4>{userData?.companyName || userData?.name || 'Client'}</h4>
                         <span className={`sidebar-role-badge ${userRole === 'admin' ? 'admin' : 'user'}`}>
                             {userRole === 'admin' ? 'Admin' : 'Client'}
                         </span>
+                        {userData?.companyName && (
+                            <p style={{ fontSize: '0.85rem', color: '#8b5cf6', fontWeight: 600, margin: '4px 0 0' }}>
+                                🏢 {userData.companyName}
+                            </p>
+                        )}
                         <p>{userData?.email || '-'}</p>
                     </div>
 

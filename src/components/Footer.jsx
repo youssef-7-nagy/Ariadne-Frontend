@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
     FaPhoneAlt,
     FaEnvelope,
@@ -14,8 +14,30 @@ import { notify } from '../utils/notify';
 import contactInfo from '../config/contactInfo';
 
 const Footer = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
     const [newsletterEmail, setNewsletterEmail] = useState('');
     const [copiedField, setCopiedField] = useState(null);
+
+    const handleLogoClick = (e) => {
+        e.preventDefault();
+        if (location.pathname === '/') {
+            if (window.lenis) {
+                window.lenis.scrollTo(0, { duration: 1.2 });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        } else {
+            navigate('/');
+            setTimeout(() => {
+                if (window.lenis) {
+                    window.lenis.scrollTo(0, { immediate: true });
+                } else {
+                    window.scrollTo(0, 0);
+                }
+            }, 50);
+        }
+    };
 
     const handleCopy = (text, fieldName) => {
         if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -53,7 +75,13 @@ const Footer = () => {
                         {/* --- Brand Column --- */}
                         <div className="footer-col brand-col">
                             <div className="footer-logo">
-                                <Link to="/" className="logo" style={{ textDecoration: 'none', justifyContent: 'flex-start' }}>
+                                <Link
+                                    to="/"
+                                    onClick={handleLogoClick}
+                                    className="logo"
+                                    style={{ textDecoration: 'none', justifyContent: 'flex-start', cursor: 'pointer' }}
+                                    aria-label="Ariadne Home and Scroll to Top"
+                                >
                                     <img
                                         src="/mylogo-white.png"
                                         alt="Ariadne Logo"
@@ -85,7 +113,7 @@ const Footer = () => {
                         <div className="footer-col links-col">
                             <h3 className="footer-heading">Quick Links</h3>
                             <ul className="footer-list">
-                                <li><Link to="/">Home</Link></li>
+                                <li><Link to="/" onClick={handleLogoClick}>Home</Link></li>
                                 <li><Link to="/about">About Us</Link></li>
                                 <li><Link to="/portfolio">Our Portfolio</Link></li>
                                 <li><Link to="/profile">My Account</Link></li>

@@ -29,6 +29,13 @@ const getAvatarUrl = (gender) => {
     return 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
 };
 
+const resolveAvatar = (user) => {
+    const src = user?.companyLogo || user?.logo || user?.avatar || user?.photo || user?.profilePicture;
+    if (!src) return getAvatarUrl(user?.gender);
+    if (src.startsWith('http') || src.startsWith('blob:') || src.startsWith('data:')) return src;
+    return `${API_URL}${src}`;
+};
+
 const AdminPanel = () => {
   // Use local storage instead of Redux
   const [userData] = useState(() => {
@@ -783,7 +790,7 @@ const AdminPanel = () => {
           <div className="user-profile-snap">
             <div className="profile-avatar" role="img" aria-label="Profile avatar">
                 <img
-                  src={userData?.avatar || userData?.photo || userData?.profilePicture || getAvatarUrl(userData?.gender)}
+                  src={resolveAvatar(userData)}
                   alt="Profile"
                   onError={(e) => {
                     e.currentTarget.onerror = null;
@@ -1216,7 +1223,25 @@ const AdminPanel = () => {
                         <tbody>
                             {filteredUsers.map(u => (
                                 <tr key={u._id}>
-                                  <td>{u.name}</td>
+                                  <td>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                      {u.companyLogo ? (
+                                        <img
+                                          src={u.companyLogo.startsWith('http') ? u.companyLogo : `${API_URL}${u.companyLogo}`}
+                                          alt="Company Logo"
+                                          style={{ width: '28px', height: '28px', borderRadius: '50%', objectFit: 'cover', border: '1.5px solid #8b5cf6' }}
+                                        />
+                                      ) : null}
+                                      <div>
+                                        <div style={{ fontWeight: 600 }}>{u.name}</div>
+                                        {u.companyName && (
+                                          <div style={{ fontSize: '0.75rem', color: '#8b5cf6', fontWeight: 600 }}>
+                                            🏢 {u.companyName}
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </td>
                                   <td>{u.email}</td>
                                   <td>
                                     <span className={`badge role ${u.role === 'superadmin' ? 'superadmin-badge' : (u.role === 'admin' ? 'admin-badge' : 'user-badge')}`}>

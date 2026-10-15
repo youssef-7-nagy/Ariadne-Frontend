@@ -12,11 +12,19 @@ import {
     FaPhoneAlt
 } from "react-icons/fa";
 import "./Navbar.css";
+import { API_URL } from "../utils/apiUrl";
 
 const getAvatarUrl = (gender) => {
     const normalized = (gender || '').toLowerCase();
     if (normalized === 'female') return 'https://cdn-icons-png.flaticon.com/512/3135/3135768.png';
     return 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
+};
+
+const resolveAvatar = (user) => {
+    const src = user?.companyLogo || user?.logo || user?.avatar || user?.photo || user?.profilePicture;
+    if (!src) return '';
+    if (src.startsWith('http') || src.startsWith('blob:') || src.startsWith('data:')) return src;
+    return `${API_URL}${src}`;
 };
 
 export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, toggleTheme }) => {
@@ -76,6 +84,30 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
 
 
 
+    const handleLogoClick = (e) => {
+        e.preventDefault();
+        setIsMobileMenuOpen(false);
+        setIsDropdownOpen(false);
+
+        if (location.pathname === '/') {
+            if (window.lenis) {
+                window.lenis.scrollTo(0, { duration: 1.2 });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        } else {
+            navigate('/');
+            // Ensure landing on home starts from the top
+            setTimeout(() => {
+                if (window.lenis) {
+                    window.lenis.scrollTo(0, { immediate: true });
+                } else {
+                    window.scrollTo(0, 0);
+                }
+            }, 50);
+        }
+    };
+
     // ─────────────────────────────────────────────────────────────
     // 2. ALL OTHER PAGES (Original clean white navbar with rounded pill navigation)
     // ─────────────────────────────────────────────────────────────
@@ -90,8 +122,12 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
                 {/* ARIA Logo on left */}
                 <div
                     className="logo"
-                    onClick={() => navigate('/')}
+                    onClick={handleLogoClick}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleLogoClick(e); }}
                     style={{ cursor: 'pointer' }}
+                    aria-label="Ariadne Home and Scroll to Top"
                 >
                     <img src="/mylogo.png" alt="ARIA Artistic Production" className="logo-img" />
                 </div>
@@ -99,7 +135,22 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
                 {/* Centered Rounded Pill Nav Links */}
                 <ul className={`nav-links default-nav-links ${isMobileMenuOpen ? 'mobile-active' : ''}`}>
                     <li>
-                        <NavLink to="/" end className={({ isActive }) => (isActive ? 'active' : '')} onClick={() => setIsMobileMenuOpen(false)}>
+                        <NavLink
+                            to="/"
+                            end
+                            className={({ isActive }) => (isActive ? 'active' : '')}
+                            onClick={(e) => {
+                                setIsMobileMenuOpen(false);
+                                if (location.pathname === '/') {
+                                    e.preventDefault();
+                                    if (window.lenis) {
+                                        window.lenis.scrollTo(0, { duration: 1.2 });
+                                    } else {
+                                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                                    }
+                                }
+                            }}
+                        >
                             Home
                         </NavLink>
                     </li>
@@ -192,15 +243,25 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
                         <div className="profile-dropdown-wrapper" ref={dropdownRef}>
                             <div className="profile-dropdown-trigger" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                                 <div className="avatar-container">
-                                    <img
-                                        src={getAvatarUrl(userData?.gender)}
-                                        alt="User Avatar"
-                                        className="navbar-avatar"
-                                    />
+                                    {resolveAvatar(userData) ? (
+                                        <img
+                                            src={resolveAvatar(userData)}
+                                            alt={userData?.companyName || userData?.name || "Company Logo"}
+                                            className="navbar-avatar"
+                                            onError={(e) => {
+                                                e.currentTarget.onerror = null;
+                                                e.currentTarget.src = getAvatarUrl(userData?.gender);
+                                            }}
+                                        />
+                                    ) : (
+                                        <div className="navbar-avatar navbar-avatar-initial" aria-label="Avatar Initials">
+                                            {(userData?.companyName || userData?.name || 'Y').charAt(0).toUpperCase()}
+                                        </div>
+                                    )}
                                     <span className="avatar-status-dot"></span>
                                 </div>
                                 <span className="profile-trigger-name">
-                                    {userData?.name ? userData.name.split(' ')[0] : 'Account'}
+                                    {userData?.companyName || (userData?.name ? userData.name.split(' ')[0] : 'Account')}
                                 </span>
                                 <FaChevronDown className={`chevron-icon ${isDropdownOpen ? 'open' : ''}`} />
                             </div>
@@ -209,6 +270,11 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
                                 <div className="profile-dropdown-menu">
                                     <div className="dropdown-user-info">
                                         <div className="dropdown-user-name">{userData?.name || 'User'}</div>
+                                        {userData?.companyName && (
+                                            <div className="dropdown-user-company">
+                                                🏢 {userData.companyName}
+                                            </div>
+                                        )}
                                         <div className="dropdown-user-email">{userData?.email || ''}</div>
                                         <span className={`dropdown-role-badge ${isAdmin ? 'admin' : 'client'}`}>
                                             {isAdmin ? 'System Admin' : 'Creative Partner'}

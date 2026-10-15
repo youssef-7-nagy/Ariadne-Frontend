@@ -955,6 +955,16 @@
   cursor: grabbing;
 }
 
+.contact-widget--dragging {
+  transition: none !important;
+}
+
+/* Apple-style smooth, polished snapping transition */
+.contact-widget--snapping {
+  transition: transform 0.45s cubic-bezier(0.25, 1, 0.35, 1) !important;
+  will-change: transform;
+}
+
 .contact-widget--dragging .cw-trigger {
   transition: none;
   transform: scale(1.06);

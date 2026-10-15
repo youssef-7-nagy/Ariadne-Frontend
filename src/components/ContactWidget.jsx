@@ -38,6 +38,8 @@ const ContactWidget = () => {
   });
   const didDragRef = useRef(false);
 
+  const snapTimerRef = useRef(null);
+
   const applyOffset = useCallback((x, y) => {
     offsetRef.current = { x, y };
     if (widgetRef.current) {
@@ -96,6 +98,57 @@ const ContactWidget = () => {
     setPlacement({ below, left, shiftX });
   }, []);
 
+  /* Apple-style edge snapping: snap horizontally to nearest edge, clamp vertically */
+  const snapToEdge = useCallback((animated = true) => {
+    const trigger = triggerRef.current;
+    const widget = widgetRef.current;
+    if (!trigger || !widget) return;
+
+    const rect = trigger.getBoundingClientRect();
+    const vv = window.visualViewport;
+    const vw = vv ? vv.width : (window.innerWidth || document.documentElement.clientWidth);
+    const vh = vv ? vv.height : (window.innerHeight || document.documentElement.clientHeight);
+    const isMobile = vw <= 768;
+    const edgeMarginX = isMobile ? 12 : 18;
+    const edgeMarginY = isMobile ? 16 : 20;
+
+    // Base position without current transform offset
+    const currentOX = offsetRef.current.x;
+    const currentOY = offsetRef.current.y;
+    const baseLeft = rect.left - currentOX;
+    const baseTop = rect.top - currentOY;
+
+    // Left and right target offsets relative to unshifted base
+    const snapLeftOffset = edgeMarginX - baseLeft;
+    const snapRightOffset = (vw - edgeMarginX - rect.width) - baseLeft;
+
+    // Determine nearest horizontal edge using center of the camera
+    const centerX = rect.left + rect.width / 2;
+    const targetX = centerX < vw / 2 ? snapLeftOffset : snapRightOffset;
+
+    // Vertically clamp within viewport bounds
+    const minYOffset = edgeMarginY - baseTop;
+    const maxYOffset = (vh - edgeMarginY - rect.height) - baseTop;
+    const targetY = Math.min(maxYOffset, Math.max(minYOffset, currentOY));
+
+    if (snapTimerRef.current) {
+      clearTimeout(snapTimerRef.current);
+      snapTimerRef.current = null;
+    }
+
+    if (animated) {
+      widget.classList.add('contact-widget--snapping');
+      applyOffset(targetX, targetY);
+      snapTimerRef.current = setTimeout(() => {
+        widget.classList.remove('contact-widget--snapping');
+        snapTimerRef.current = null;
+      }, 480);
+    } else {
+      widget.classList.remove('contact-widget--snapping');
+      applyOffset(targetX, targetY);
+    }
+  }, [applyOffset]);
+
   const close = useCallback((e) => {
     if (e) {
       e.preventDefault();
@@ -131,7 +184,16 @@ const ContactWidget = () => {
   const handlePointerDown = useCallback((e) => {
     if (e.pointerType === 'mouse' && e.button !== 0) return;
     const trigger = triggerRef.current;
-    if (!trigger) return;
+    const widget = widgetRef.current;
+    if (!trigger || !widget) return;
+
+    // If an edge snap animation is currently playing, immediately cancel and pin position
+    if (snapTimerRef.current) {
+      clearTimeout(snapTimerRef.current);
+      snapTimerRef.current = null;
+    }
+    widget.classList.remove('contact-widget--snapping');
+
     const rect = trigger.getBoundingClientRect();
     const vv = window.visualViewport;
     const vw = vv ? vv.width : (window.innerWidth || document.documentElement.clientWidth);
@@ -170,6 +232,7 @@ const ContactWidget = () => {
       s.hasDragged = true;
       didDragRef.current = true;
       widgetRef.current?.classList.add('contact-widget--dragging');
+      widgetRef.current?.classList.remove('contact-widget--snapping');
       setIsOpen(false);
       try {
         triggerRef.current?.setPointerCapture(e.pointerId);
@@ -194,13 +257,15 @@ const ContactWidget = () => {
     widgetRef.current?.classList.remove('contact-widget--dragging');
     if (s.hasDragged) {
       didDragRef.current = true;
+      // Apple-style: smoothly snap to the nearest horizontal edge
+      snapToEdge(true);
       setTimeout(() => {
         didDragRef.current = false;
-      }, 180);
+      }, 220);
     } else {
       didDragRef.current = false;
     }
-  }, []);
+  }, [snapToEdge]);
 
   /* Attach window pointer listeners while keeping events strictly matched to pointerId */
   useEffect(() => {
@@ -216,7 +281,7 @@ const ContactWidget = () => {
     };
   }, [handlePointerMove, endDrag]);
 
-  /* Keep the camera inside the viewport on resize, screen rotation, or orientation change */
+  /* Keep the camera snapped and inside viewport on resize, screen rotation, or orientation change */
   useEffect(() => {
     const onResize = () => {
       const trigger = triggerRef.current;
@@ -224,21 +289,8 @@ const ContactWidget = () => {
       if (isOpen) {
         computePlacement();
       }
-      const { x, y } = offsetRef.current;
-      const rect = trigger.getBoundingClientRect();
-      const vv = window.visualViewport;
-      const vw = vv ? vv.width : (window.innerWidth || document.documentElement.clientWidth);
-      const vh = vv ? vv.height : (window.innerHeight || document.documentElement.clientHeight);
-      const isMobile = vw <= 768;
-      const edgeX = isMobile ? 10 : 16;
-      const edgeY = isMobile ? 14 : 16;
-      let nx = x;
-      let ny = y;
-      if (rect.left < edgeX) nx += edgeX - rect.left;
-      else if (rect.right > vw - edgeX) nx -= rect.right - (vw - edgeX);
-      if (rect.top < edgeY) ny += edgeY - rect.top;
-      else if (rect.bottom > vh - edgeY) ny -= rect.bottom - (vh - edgeY);
-      if (nx !== x || ny !== y) applyOffset(nx, ny);
+      // Re-snap to nearest edge without abrupt jumps when viewport changes
+      snapToEdge(false);
     };
 
     window.addEventListener('resize', onResize, { passive: true });
@@ -254,10 +306,11 @@ const ContactWidget = () => {
         window.visualViewport.removeEventListener('resize', onResize);
       }
     };
-  }, [applyOffset, isOpen, computePlacement]);
+  }, [isOpen, computePlacement, snapToEdge]);
 
   useEffect(() => () => {
     if (shutterTimerRef.current) clearTimeout(shutterTimerRef.current);
+    if (snapTimerRef.current) clearTimeout(snapTimerRef.current);
   }, []);
 
   /* Close on Escape key */

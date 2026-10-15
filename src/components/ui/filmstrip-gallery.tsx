@@ -32,6 +32,8 @@ export interface FilmstripGalleryProps extends Omit<React.ComponentProps<"sectio
   showCaption?: boolean
   /** Previous / next buttons. */
   showControls?: boolean
+  /** Play a "develop" flash animation when opening a print in the lightbox. */
+  develop?: boolean
   /** Open the print (a native dialog) when the frame in the gate is clicked. */
   lightbox?: boolean
   /** Title for fallback alts/captions */
