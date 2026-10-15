@@ -550,74 +550,21 @@ html.dark .nav-sticky-wrapper.is-default.scrolled {
         align-items: center;
         list-style: none;
         margin: 0;
-        padding: 4px 6px;
-        background-color: rgba(243, 244, 246, 0.9);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(0, 0, 0, 0.07);
+        padding: 5px 6px;
+        background-color: rgba(243, 244, 246, 0.92);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(0, 0, 0, 0.08);
         border-radius: 50px;
         gap: 4px;
-        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03), 0 2px 8px rgba(0, 0, 0, 0.03);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.04);
         transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     html.dark .nav-sticky-wrapper.is-default .default-nav-links {
-        background-color: rgba(255, 255, 255, 0.07);
+        background-color: rgba(18, 24, 38, 0.85);
         border-color: rgba(255, 255, 255, 0.12);
-        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05), 0 4px 16px rgba(0, 0, 0, 0.25);
-    }
-
-    /* ─── Animated Sliding Active Pill (Glides across items on page change & click) ─── */
-    .nav-pill-active-slider {
-        position: absolute;
-        top: 4px;
-        bottom: 4px;
-        left: 0;
-        border-radius: 50px;
-        background-color: #ffffff;
-        border: 1.5px solid #0f172a;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        transition: transform 0.36s cubic-bezier(0.16, 1, 0.3, 1),
-                    width 0.36s cubic-bezier(0.16, 1, 0.3, 1),
-                    opacity 0.25s ease,
-                    box-shadow 0.2s ease;
-        pointer-events: none;
-        z-index: 1;
-        will-change: transform, width;
-    }
-
-    .nav-pill-active-slider.is-clicking {
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.14);
-    }
-
-    html.dark .nav-pill-active-slider {
-        background-color: #1e293b;
-        border-color: rgba(255, 255, 255, 0.95);
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
-    }
-
-    /* ─── Animated Sliding Hover Pill (Follows cursor smoothly between links) ─── */
-    .nav-pill-hover-slider {
-        position: absolute;
-        top: 4px;
-        bottom: 4px;
-        left: 0;
-        border-radius: 50px;
-        background-color: #ffffff;
-        border: 1.5px solid rgba(0, 0, 0, 0.1);
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.03);
-        transition: transform 0.26s cubic-bezier(0.16, 1, 0.3, 1),
-                    width 0.26s cubic-bezier(0.16, 1, 0.3, 1),
-                    opacity 0.2s ease;
-        pointer-events: none;
-        z-index: 0;
-        will-change: transform, width;
-    }
-
-    html.dark .nav-pill-hover-slider {
-        background-color: rgba(255, 255, 255, 0.14);
-        border-color: rgba(255, 255, 255, 0.22);
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), 0 0 12px rgba(217, 194, 131, 0.1);
+        box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.06), 0 8px 24px rgba(0, 0, 0, 0.4);
     }
 
     .nav-sticky-wrapper.is-default .default-nav-links li {
@@ -633,28 +580,72 @@ html.dark .nav-sticky-wrapper.is-default.scrolled {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         font-weight: 500;
         font-size: 13.5px;
-        letter-spacing: 0.2px;
+        letter-spacing: 0.25px;
         color: #525f7f;
-        padding: 6.5px 18px;
+        padding: 7px 20px;
         border-radius: 50px;
         border: 1.5px solid transparent;
         background: transparent;
-        transition: color 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                    background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                    border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                    box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         cursor: pointer;
         white-space: nowrap;
         position: relative;
+        overflow: hidden;
         user-select: none;
+        z-index: 1;
     }
 
-    /* Hover Text Refinement */
+    /* ─── Angled Gold Shimmer Light-Beam on Hover ─── */
+    .nav-sticky-wrapper.is-default .default-nav-links a::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -130%;
+        width: 65%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(217, 194, 131, 0.35),
+            rgba(255, 255, 255, 0.8),
+            rgba(217, 194, 131, 0.35),
+            transparent
+        );
+        transform: skewX(-20deg);
+        pointer-events: none;
+        opacity: 0;
+    }
+
+    .nav-sticky-wrapper.is-default .default-nav-links a:hover::after {
+        opacity: 1;
+        animation: navShimmerSweep 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes navShimmerSweep {
+        0% {
+            left: -130%;
+        }
+        100% {
+            left: 190%;
+        }
+    }
+
+    /* ─── Hover State: Elevated Floating Capsule with Ambient Gold Aura ─── */
     .nav-sticky-wrapper.is-default .default-nav-links a:hover {
         color: #0f172a;
+        background-color: #ffffff;
+        border-color: rgba(217, 194, 131, 0.7);
+        box-shadow: 0 4px 16px rgba(34, 50, 84, 0.08), 0 0 12px rgba(217, 194, 131, 0.25);
+        transform: translateY(-2px) scale(1.02);
     }
 
-    /* Cool Click Press Feedback */
+    /* Tactile Press Spring Bounce */
     .nav-sticky-wrapper.is-default .default-nav-links a:active {
-        transform: scale(0.93);
+        transform: scale(0.92) translateY(0);
         transition-duration: 0.08s;
     }
 
@@ -665,31 +656,91 @@ html.dark .nav-sticky-wrapper.is-default.scrolled {
 
     html.dark .nav-sticky-wrapper.is-default .default-nav-links a:hover {
         color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.12);
+        border-color: rgba(217, 194, 131, 0.85);
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), 0 0 16px rgba(217, 194, 131, 0.35);
+        transform: translateY(-2px) scale(1.02);
     }
 
-    /* Active Link State (Pill background is handled by the animated slider) */
+    /* ─── Active Link State with Breathing Gold Indicator ─── */
     .nav-sticky-wrapper.is-default .default-nav-links a.active {
+        background-color: #ffffff;
         color: #0f172a;
         font-weight: 600;
-        background: transparent !important;
-        border-color: transparent !important;
-        box-shadow: none !important;
+        border: 1.5px solid #0f172a;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 0 12px rgba(217, 194, 131, 0.22);
+    }
+
+    .nav-sticky-wrapper.is-default .default-nav-links a.active:hover {
+        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.12), 0 0 14px rgba(217, 194, 131, 0.35);
+        transform: translateY(-2px) scale(1.02);
+    }
+
+    .nav-sticky-wrapper.is-default .default-nav-links a.active::before {
+        content: '';
+        position: absolute;
+        bottom: 3px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 14px;
+        height: 2.2px;
+        border-radius: 4px;
+        background: #D9C283;
+        box-shadow: 0 0 8px rgba(217, 194, 131, 0.95);
+        animation: navGoldBreathe 2.4s ease-in-out infinite;
+    }
+
+    @keyframes navGoldBreathe {
+        0%, 100% {
+            opacity: 0.65;
+            width: 12px;
+            box-shadow: 0 0 4px rgba(217, 194, 131, 0.4);
+        }
+        50% {
+            opacity: 1;
+            width: 18px;
+            box-shadow: 0 0 10px rgba(217, 194, 131, 0.95);
+        }
     }
 
     html.dark .nav-sticky-wrapper.is-default .default-nav-links a.active {
+        background-color: #1e293b;
         color: #ffffff;
         font-weight: 600;
-        background: transparent !important;
-        border-color: transparent !important;
-        box-shadow: none !important;
+        border: 1.5px solid rgba(255, 255, 255, 0.95);
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.45), 0 0 14px rgba(217, 194, 131, 0.28);
+    }
+
+    html.dark .nav-sticky-wrapper.is-default .default-nav-links a.active:hover {
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.65), 0 0 18px rgba(217, 194, 131, 0.45);
+        transform: translateY(-2px) scale(1.02);
+    }
+
+    html.dark .nav-sticky-wrapper.is-default .default-nav-links a.active::before {
+        background: #D9C283;
+        box-shadow: 0 0 10px rgba(217, 194, 131, 0.95);
     }
 }
 
-/* Hide sliders in mobile vertical menu */
-@media (max-width: 900px) {
-    .nav-pill-active-slider,
-    .nav-pill-hover-slider {
-        display: none !important;
+/* ─── Interactive Click Ripple Shockwave ─── */
+.nav-click-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(217, 194, 131, 0.5) 0%, rgba(217, 194, 131, 0.15) 50%, transparent 70%);
+    pointer-events: none;
+    transform: scale(0);
+    animation: navRippleShockwave 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    z-index: 10;
+}
+
+@keyframes navRippleShockwave {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
     }
 }
 

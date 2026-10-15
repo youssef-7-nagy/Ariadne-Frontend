@@ -35,59 +35,27 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const dropdownRef = useRef(null);
-    const navListRef = useRef(null);
-    const [activeIndicator, setActiveIndicator] = useState({ left: 0, width: 0, opacity: 0 });
-    const [hoverIndicator, setHoverIndicator] = useState({ left: 0, width: 0, opacity: 0 });
-    const [isClicking, setIsClicking] = useState(false);
 
-    const updateActiveIndicator = () => {
-        if (!navListRef.current) return;
-        const activeLink = navListRef.current.querySelector('a.active');
-        if (activeLink) {
-            const parentRect = navListRef.current.getBoundingClientRect();
-            const linkRect = activeLink.getBoundingClientRect();
-            setActiveIndicator({
-                left: Math.round(linkRect.left - parentRect.left),
-                width: Math.round(linkRect.width),
-                opacity: 1
-            });
-        } else {
-            setActiveIndicator(prev => ({ ...prev, opacity: 0 }));
-        }
-    };
+    const handleNavClick = (e) => {
+        const link = e.currentTarget;
+        const rect = link.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        const size = Math.max(rect.width, rect.height) * 2;
+        const x = e.clientX ? e.clientX - rect.left - size / 2 : rect.width / 2 - size / 2;
+        const y = e.clientY ? e.clientY - rect.top - size / 2 : rect.height / 2 - size / 2;
 
-    useEffect(() => {
-        const timer = setTimeout(updateActiveIndicator, 30);
-        window.addEventListener('resize', updateActiveIndicator);
-        return () => {
-            clearTimeout(timer);
-            window.removeEventListener('resize', updateActiveIndicator);
-        };
-    }, [location.pathname]);
+        ripple.className = 'nav-click-ripple';
+        ripple.style.width = `${size}px`;
+        ripple.style.height = `${size}px`;
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
 
-    const handleLinkMouseEnter = (e) => {
-        if (!navListRef.current) return;
-        const link = e.currentTarget.querySelector('a') || e.currentTarget;
-        if (link.classList && link.classList.contains('active')) {
-            setHoverIndicator(prev => ({ ...prev, opacity: 0 }));
-            return;
-        }
-        const parentRect = navListRef.current.getBoundingClientRect();
-        const linkRect = link.getBoundingClientRect();
-        setHoverIndicator({
-            left: Math.round(linkRect.left - parentRect.left),
-            width: Math.round(linkRect.width),
-            opacity: 1
-        });
-    };
-
-    const handleNavMouseLeave = () => {
-        setHoverIndicator(prev => ({ ...prev, opacity: 0 }));
-    };
-
-    const handleLinkClick = () => {
-        setIsClicking(true);
-        setTimeout(() => setIsClicking(false), 240);
+        link.appendChild(ripple);
+        setTimeout(() => {
+            if (ripple && ripple.parentNode) {
+                ripple.parentNode.removeChild(ripple);
+            }
+        }, 600);
     };
 
     const handleLogout = () => {
@@ -187,39 +155,14 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
                 </div>
 
                 {/* Centered Rounded Pill Nav Links */}
-                <ul
-                    ref={navListRef}
-                    className={`nav-links default-nav-links ${isMobileMenuOpen ? 'mobile-active' : ''}`}
-                    onMouseLeave={handleNavMouseLeave}
-                >
-                    {/* Animated Gliding Active Pill */}
-                    <span
-                        className={`nav-pill-active-slider ${isClicking ? 'is-clicking' : ''}`}
-                        style={{
-                            transform: `translate3d(${activeIndicator.left}px, 0, 0)`,
-                            width: `${activeIndicator.width}px`,
-                            opacity: activeIndicator.opacity
-                        }}
-                        aria-hidden="true"
-                    />
-
-                    {/* Animated Gliding Hover Pill */}
-                    <span
-                        className="nav-pill-hover-slider"
-                        style={{
-                            transform: `translate3d(${hoverIndicator.left}px, 0, 0)`,
-                            width: `${hoverIndicator.width}px`,
-                            opacity: hoverIndicator.opacity
-                        }}
-                        aria-hidden="true"
-                    />
-
-                    <li onMouseEnter={handleLinkMouseEnter} onClick={handleLinkClick}>
+                <ul className={`nav-links default-nav-links ${isMobileMenuOpen ? 'mobile-active' : ''}`}>
+                    <li>
                         <NavLink
                             to="/"
                             end
                             className={({ isActive }) => (isActive ? 'active' : '')}
                             onClick={(e) => {
+                                handleNavClick(e);
                                 setIsMobileMenuOpen(false);
                                 if (location.pathname === '/') {
                                     e.preventDefault();
@@ -231,19 +174,22 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
                                 }
                             }}
                         >
-                            Home
+                            <span>Home</span>
                         </NavLink>
                     </li>
-                    <li onMouseEnter={handleLinkMouseEnter} onClick={handleLinkClick}>
+                    <li>
                         <NavLink
                             to="/about"
                             className={({ isActive }) => (isActive || location.pathname.startsWith('/about') ? 'active' : '')}
-                            onClick={() => setIsMobileMenuOpen(false)}
+                            onClick={(e) => {
+                                handleNavClick(e);
+                                setIsMobileMenuOpen(false);
+                            }}
                         >
-                            About
+                            <span>About</span>
                         </NavLink>
                     </li>
-                    <li onMouseEnter={handleLinkMouseEnter} onClick={handleLinkClick}>
+                    <li>
                         <NavLink
                             to="/portfolio"
                             className={({ isActive }) => (
@@ -254,18 +200,24 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
                                     ? 'active'
                                     : ''
                             )}
-                            onClick={() => setIsMobileMenuOpen(false)}
+                            onClick={(e) => {
+                                handleNavClick(e);
+                                setIsMobileMenuOpen(false);
+                            }}
                         >
-                            Projects
+                            <span>Projects</span>
                         </NavLink>
                     </li>
-                    <li onMouseEnter={handleLinkMouseEnter} onClick={handleLinkClick}>
+                    <li>
                         <NavLink
                             to="/profile"
                             className={({ isActive }) => (isActive || location.pathname.startsWith('/profile') ? 'active' : '')}
-                            onClick={() => setIsMobileMenuOpen(false)}
+                            onClick={(e) => {
+                                handleNavClick(e);
+                                setIsMobileMenuOpen(false);
+                            }}
                         >
-                            Profile
+                            <span>Profile</span>
                         </NavLink>
                     </li>
                     {isLoggedIn && isAdmin && (
