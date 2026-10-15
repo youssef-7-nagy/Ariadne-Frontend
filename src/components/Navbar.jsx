@@ -35,6 +35,60 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const dropdownRef = useRef(null);
+    const navListRef = useRef(null);
+    const [activeIndicator, setActiveIndicator] = useState({ left: 0, width: 0, opacity: 0 });
+    const [hoverIndicator, setHoverIndicator] = useState({ left: 0, width: 0, opacity: 0 });
+    const [isClicking, setIsClicking] = useState(false);
+
+    const updateActiveIndicator = () => {
+        if (!navListRef.current) return;
+        const activeLink = navListRef.current.querySelector('a.active');
+        if (activeLink) {
+            const parentRect = navListRef.current.getBoundingClientRect();
+            const linkRect = activeLink.getBoundingClientRect();
+            setActiveIndicator({
+                left: Math.round(linkRect.left - parentRect.left),
+                width: Math.round(linkRect.width),
+                opacity: 1
+            });
+        } else {
+            setActiveIndicator(prev => ({ ...prev, opacity: 0 }));
+        }
+    };
+
+    useEffect(() => {
+        const timer = setTimeout(updateActiveIndicator, 30);
+        window.addEventListener('resize', updateActiveIndicator);
+        return () => {
+            clearTimeout(timer);
+            window.removeEventListener('resize', updateActiveIndicator);
+        };
+    }, [location.pathname]);
+
+    const handleLinkMouseEnter = (e) => {
+        if (!navListRef.current) return;
+        const link = e.currentTarget.querySelector('a') || e.currentTarget;
+        if (link.classList && link.classList.contains('active')) {
+            setHoverIndicator(prev => ({ ...prev, opacity: 0 }));
+            return;
+        }
+        const parentRect = navListRef.current.getBoundingClientRect();
+        const linkRect = link.getBoundingClientRect();
+        setHoverIndicator({
+            left: Math.round(linkRect.left - parentRect.left),
+            width: Math.round(linkRect.width),
+            opacity: 1
+        });
+    };
+
+    const handleNavMouseLeave = () => {
+        setHoverIndicator(prev => ({ ...prev, opacity: 0 }));
+    };
+
+    const handleLinkClick = () => {
+        setIsClicking(true);
+        setTimeout(() => setIsClicking(false), 240);
+    };
 
     const handleLogout = () => {
         setIsDropdownOpen(false);
@@ -133,8 +187,34 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
                 </div>
 
                 {/* Centered Rounded Pill Nav Links */}
-                <ul className={`nav-links default-nav-links ${isMobileMenuOpen ? 'mobile-active' : ''}`}>
-                    <li>
+                <ul
+                    ref={navListRef}
+                    className={`nav-links default-nav-links ${isMobileMenuOpen ? 'mobile-active' : ''}`}
+                    onMouseLeave={handleNavMouseLeave}
+                >
+                    {/* Animated Gliding Active Pill */}
+                    <span
+                        className={`nav-pill-active-slider ${isClicking ? 'is-clicking' : ''}`}
+                        style={{
+                            transform: `translate3d(${activeIndicator.left}px, 0, 0)`,
+                            width: `${activeIndicator.width}px`,
+                            opacity: activeIndicator.opacity
+                        }}
+                        aria-hidden="true"
+                    />
+
+                    {/* Animated Gliding Hover Pill */}
+                    <span
+                        className="nav-pill-hover-slider"
+                        style={{
+                            transform: `translate3d(${hoverIndicator.left}px, 0, 0)`,
+                            width: `${hoverIndicator.width}px`,
+                            opacity: hoverIndicator.opacity
+                        }}
+                        aria-hidden="true"
+                    />
+
+                    <li onMouseEnter={handleLinkMouseEnter} onClick={handleLinkClick}>
                         <NavLink
                             to="/"
                             end
@@ -154,7 +234,7 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
                             Home
                         </NavLink>
                     </li>
-                    <li>
+                    <li onMouseEnter={handleLinkMouseEnter} onClick={handleLinkClick}>
                         <NavLink
                             to="/about"
                             className={({ isActive }) => (isActive || location.pathname.startsWith('/about') ? 'active' : '')}
@@ -163,7 +243,7 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
                             About
                         </NavLink>
                     </li>
-                    <li>
+                    <li onMouseEnter={handleLinkMouseEnter} onClick={handleLinkClick}>
                         <NavLink
                             to="/portfolio"
                             className={({ isActive }) => (
@@ -179,7 +259,7 @@ export const Navbar = ({ isLoggedIn = false, userData = null, onLogout, theme, t
                             Projects
                         </NavLink>
                     </li>
-                    <li>
+                    <li onMouseEnter={handleLinkMouseEnter} onClick={handleLinkClick}>
                         <NavLink
                             to="/profile"
                             className={({ isActive }) => (isActive || location.pathname.startsWith('/profile') ? 'active' : '')}
